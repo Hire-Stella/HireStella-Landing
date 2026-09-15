@@ -1,0 +1,531 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   HireStella · header, navigation, footer
+   The header is a command surface, so it is one of the two places
+   backdrop-filter is permitted (§30.3).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.skip-link {
+  position: fixed;
+  top: -80px;
+  left: 24px;
+  z-index: 90;
+  padding: 12px 18px;
+  border-radius: var(--r-btn);
+  background: var(--orange);
+  color: #141b45;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 180ms var(--e-std);
+}
+.skip-link:focus-visible {
+  top: 18px;
+}
+
+/* ── header ─────────────────────────────────────────────────────────── */
+.hdr {
+  background: linear-gradient(168deg, var(--hdr-a), var(--hdr-b)) padding-box,
+    linear-gradient(142deg, var(--edge-1), var(--edge-2) 40%, var(--edge-3)) border-box;
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  width: min(var(--measure), calc(100% - var(--gutter) * 2));
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
+  padding: 9px 9px 9px 22px;
+  border-radius: 22px;
+}
+.hdr-logo {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+}
+.hdr-logo img {
+  height: 26px;
+  width: auto;
+}
+/* Auto on both sides: the nav sits centred in the space the logo and the
+   actions leave, rather than piling up against the actions and opening a hole
+   after the logo as the header gets wider. */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-inline: auto;
+}
+.nav-group {
+  position: relative;
+}
+.nav-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 13px;
+  border-radius: 10px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--t2);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 160ms var(--e-std), background 160ms var(--e-std);
+}
+.nav-trigger:hover,
+.nav-trigger[aria-expanded='true'] {
+  color: var(--t1);
+  background: rgba(199, 201, 232, 0.08);
+}
+.nav-trigger svg {
+  transition: transform 180ms var(--e-std);
+}
+.nav-trigger[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+/* ── six items ──────────────────────────────────────────────────────────
+   Stella Sales Coach joined Meet Stella, and the row went from 566px of
+   labels to 719. A nav label that breaks to a second line reads as a broken
+   header — at 1090px the old five-item row was already wrapping 'About
+   HireStella' — so labels never wrap. Instead the row tightens its own
+   padding through the band where the full-padding row will not fit, and
+   below 1280 it is the burger menu, which is a finished design rather than a
+   squeezed one. Above 1360 nothing changes. */
+.nav-trigger {
+  white-space: nowrap;
+}
+@media (min-width: 1281px) and (max-width: 1360px) {
+  .nav {
+    gap: 0;
+  }
+  .nav-trigger {
+    padding: 0 7px;
+  }
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  z-index: 70;
+  min-width: 268px;
+  padding: var(--s4);
+  border-radius: 18px;
+  display: grid;
+  gap: 2px;
+  animation: menu-in 200ms var(--e-in) both;
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+.menu .micro {
+  padding: var(--s2) var(--s3) var(--s3);
+}
+.menu a {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 44px;
+  padding: 0 var(--s3);
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--t2);
+  text-decoration: none;
+  transition: color 150ms var(--e-std), background 150ms var(--e-std);
+}
+.menu a:hover {
+  color: var(--t1);
+  background: rgba(199, 201, 232, 0.08);
+}
+.menu a .tri {
+  margin-left: auto;
+  color: var(--sig-ink);
+  opacity: 0;
+  transition: opacity 150ms var(--e-std);
+}
+.menu a:hover .tri {
+  opacity: 1;
+}
+/* ── the industries menu ────────────────────────────────────────────────
+   Eight rows, one per industry. It was two panes carrying every segment and
+   a count under each name; at eight industries that is a wall of links, and
+   the counts told nobody anything. The segments live on the industry pages,
+   which is where there is room to explain them. */
+/* Ten sectors in one column is a ladder you have to read to the bottom of.
+   Five and five scans in one look. */
+.menu--ind {
+  min-width: 604px;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px var(--s4);
+  padding: var(--s4);
+}
+.menu--ind > .micro {
+  grid-column: 1 / -1;
+  padding: var(--s2) var(--s3) var(--s3);
+}
+.mm-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 48px;
+  padding: 0 var(--s3);
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--t2);
+  text-decoration: none;
+  transition: color 150ms var(--e-std), background 150ms var(--e-std);
+}
+.mm-row b {
+  font-weight: 500;
+  white-space: nowrap;
+}
+.mm-ico {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  color: var(--t2);
+  transition: border-color 180ms var(--e-std), color 180ms var(--e-std),
+    background 180ms var(--e-std);
+}
+.mm-row .tri {
+  margin-left: auto;
+  color: var(--sig-ink);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 160ms var(--e-std), transform 160ms var(--e-std);
+}
+.mm-row:hover,
+.mm-row:focus-visible {
+  color: var(--t1);
+  background: rgba(199, 201, 232, 0.08);
+}
+.mm-row:hover .mm-ico,
+.mm-row:focus-visible .mm-ico {
+  border-color: color-mix(in srgb, var(--sig) 45%, transparent);
+  background: color-mix(in srgb, var(--sig) 10%, transparent);
+  color: var(--sig-ink);
+}
+.mm-row:hover .tri,
+.mm-row:focus-visible .tri {
+  opacity: 1;
+  transform: translateX(0);
+}
+.mm-foot {
+  display: grid;
+  gap: var(--s3);
+  margin-top: var(--s3);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line);
+}
+.mm-foot .note {
+  margin: 0;
+}
+
+.hdr-act {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+.hdr .btn {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+.ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 0;
+  background: none;
+  color: var(--t2);
+  cursor: pointer;
+  transition: background 160ms var(--e-std), color 160ms var(--e-std);
+}
+.ico:hover {
+  background: rgba(199, 201, 232, 0.08);
+  color: var(--t1);
+}
+.burger {
+  display: none;
+}
+
+/* ── mobile navigation ──────────────────────────────────────────────── */
+@media (max-width: 1280px) {
+  .hdr {
+    padding-left: 16px;
+    flex-wrap: wrap;
+  }
+  .burger {
+    display: flex;
+  }
+  .nav {
+    order: 3;
+    width: 100%;
+    margin-inline: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: var(--s3) 0 var(--s2);
+    margin-top: var(--s3);
+    border-top: 1px solid var(--line);
+  }
+  .nav.is-open {
+    display: flex;
+  }
+  .nav-trigger {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 var(--s3);
+    font-size: 15px;
+  }
+  .menu,
+  .menu--ind {
+    position: static;
+    grid-template-columns: 1fr;
+    min-width: 0;
+    width: 100%;
+    grid-template-columns: 1fr;
+    padding: var(--s2) 0 var(--s3) var(--s4);
+    border-radius: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    animation: none;
+  }
+  .menu::after,
+  .menu--ind::after {
+    display: none;
+  }
+  .mm-foot {
+    border-top: 0;
+    margin-top: 0;
+    padding-top: var(--s2);
+  }
+  .hdr-act {
+    margin-left: auto;
+  }
+  .hdr-act .btn-2 {
+    display: none;
+  }
+}
+@media (max-width: 560px) {
+  .hdr {
+    gap: var(--s3);
+    padding: 8px 8px 8px 14px;
+  }
+  .hdr-logo img {
+    height: 22px;
+  }
+  .hdr-act {
+    gap: 2px;
+  }
+  .hdr .btn-1 {
+    padding: 0 14px;
+    font-size: 13px;
+  }
+  .ico {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media (max-width: 400px) {
+  /* the label shortens before anything gets dropped */
+  .hdr .btn-1 .btn-long {
+    display: none;
+  }
+}
+
+/* ── footer ─────────────────────────────────────────────────────────── */
+.foot {
+  position: relative;
+  z-index: 2;
+  margin-top: var(--s16);
+  background: linear-gradient(180deg, transparent, rgba(30, 39, 97, 0.24) 24%, rgba(8, 12, 26, 0.78) 72%, rgba(7, 11, 24, 0.92));
+}
+:root[data-theme='light'] .foot {
+  background: linear-gradient(180deg, transparent, rgba(199, 201, 232, 0.2) 26%, rgba(255, 255, 255, 0.78) 72%, rgba(255, 255, 255, 0.94));
+}
+.foot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 26%;
+  right: 26%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  opacity: 0.4;
+}
+.foot-top {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: var(--s12) var(--s8);
+  padding-block: var(--s20) var(--s12);
+}
+.foot-brand {
+  display: grid;
+  gap: var(--s5);
+  align-content: start;
+  max-width: 36ch;
+}
+.foot-brand img {
+  height: 32px;
+  width: auto;
+}
+.foot-brand > p {
+  font-size: 15px;
+  line-height: 1.7;
+}
+.foot-contact {
+  display: grid;
+  gap: var(--s3);
+}
+.foot-contact a,
+.foot-contact span {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 32px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--t2);
+  text-decoration: none;
+}
+.foot-contact svg {
+  flex: 0 0 auto;
+  margin-top: 4px;
+  color: var(--t3);
+}
+.foot-contact a:hover {
+  color: var(--t1);
+}
+.foot-col h5 {
+  margin: 0 0 var(--s4);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--t3);
+  font-family: 'Montserrat', sans-serif;
+}
+.foot-col a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  color: var(--t2);
+  text-decoration: none;
+  transition: color 160ms var(--e-std);
+}
+.foot-col a:hover {
+  color: var(--t1);
+}
+/* Ten sectors in one column ran taller than the brand block beside it. The
+   column takes two tracks of the footer grid and splits its links five and
+   five, so the whole row ends level. */
+.foot-col--wide {
+  grid-column: span 2;
+}
+.foot-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 var(--s8);
+}
+.foot-split > div {
+  display: grid;
+  align-content: start;
+}
+/* The Talk to Stella trigger is fixed at bottom right, 48px tall on a 20px
+   inset. At the very bottom of the page it sat on top of the last two links
+   in this bar and made them unclickable, so the bar keeps that much clearance
+   below it. */
+.foot-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4) var(--s8);
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--s6) var(--s20);
+  border-top: 1px solid var(--line);
+}
+.foot-bar .lg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s6);
+  align-items: center;
+}
+.foot-bar a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+}
+@media (max-width: 1100px) {
+  .foot-top {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* span 2 in a two-track grid would push Platform onto its own row with the
+     sectors, so below this width the sector block simply takes the full row. */
+  .foot-col--wide {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 720px) {
+  .foot-top {
+    grid-template-columns: 1fr;
+    gap: var(--s8);
+  }
+}
+@media (max-width: 620px) {
+  .foot-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* the contact links are real tap targets, not captions */
+.foot-contact a {
+  min-height: 44px;
+  align-items: center;
+}
+.foot-contact a svg {
+  margin-top: 0;
+}
+
+/* ── the open mobile nav must scroll inside a fixed header ──────────── */
+@media (max-width: 1280px) {
+  .hdr {
+    max-height: calc(100dvh - 28px);
+  }
+  .nav.is-open {
+    max-height: calc(100dvh - 140px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-right: var(--s2);
+  }
+  .nav.is-open::-webkit-scrollbar {
+    width: 4px;
+  }
+  .nav.is-open::-webkit-scrollbar-thumb {
+    background: var(--line-hi);
+    border-radius: 999px;
+  }
+}

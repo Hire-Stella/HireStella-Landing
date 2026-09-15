@@ -1,0 +1,816 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   HireStella · the illustrative operations workspace
+
+   A product surface, not an editorial one: §8.3 panels, the §29 token set,
+   and no glass. Every colour resolves from a token so the two themes stay
+   in step. Orange is reserved for the one thing that needs a person.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.ws {
+  display: grid;
+  grid-template-columns: 254px minmax(0, 1fr);
+  border-radius: var(--r-hero);
+  overflow: hidden;
+}
+
+/* ── the rail of views ── */
+/* The rail of views is short and the working area beside it is long, so a
+   solid border-right left roughly 650px of bare line hanging below the last
+   nav item. The divider fades out instead, the way every other line in the
+   system does. */
+.ws-side {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--s6);
+  padding: var(--s6) var(--s4) var(--s6) var(--s5);
+  background: linear-gradient(178deg, rgba(255, 98, 0, 0.05), transparent 42%);
+}
+.ws-side::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--line) 0%, var(--line) 34%, transparent 76%);
+}
+.ws-org {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-width: 0;
+}
+.ws-badge {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 98, 0, 0.3);
+  background: linear-gradient(178deg, rgba(255, 98, 0, 0.16), rgba(255, 98, 0, 0.04));
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--sig-ink);
+}
+.ws-org b {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1);
+  line-height: 1.3;
+}
+.ws-org em {
+  display: block;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--t3);
+}
+
+.ws-nav {
+  display: grid;
+  gap: 2px;
+}
+.ws-nav button {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  min-height: 42px;
+  padding: 0 var(--s3);
+  border: 0;
+  border-radius: 11px;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  color: var(--t2);
+  text-align: left;
+  cursor: pointer;
+  transition: background 150ms var(--e-std), color 150ms var(--e-std);
+}
+.ws-nav button span {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+.ws-nav button svg {
+  flex: 0 0 auto;
+  color: var(--t3);
+}
+.ws-nav button:hover {
+  color: var(--t1);
+  background: rgba(199, 201, 232, 0.07);
+}
+.ws-nav button[aria-pressed='true'] {
+  color: var(--t1);
+  font-weight: 600;
+  background: rgba(199, 201, 232, 0.1);
+  box-shadow: inset 2px 0 0 var(--sig);
+}
+.ws-nav button[aria-pressed='true'] svg {
+  color: var(--sig-ink);
+}
+:root[data-theme='light'] .ws-nav button:hover,
+:root[data-theme='light'] .ws-nav button[aria-pressed='true'] {
+  background: rgba(20, 27, 69, 0.055);
+}
+.ws-pip {
+  flex: 0 0 auto;
+  min-width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--sig-ink);
+  background: rgba(255, 98, 0, 0.13);
+  border: 1px solid rgba(255, 98, 0, 0.28);
+}
+
+.ws-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line);
+}
+.ws-note svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: var(--t3);
+}
+.ws-note p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--t3);
+}
+.ws-note strong {
+  color: var(--t1);
+  font-weight: 600;
+}
+
+/* ── the working area ── */
+.ws-main {
+  min-width: 0;
+  padding: 0 var(--s6) var(--s6);
+  display: grid;
+  align-content: start;
+  gap: var(--s5);
+}
+.ws-bar-top {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  margin: 0 calc(-1 * var(--s6));
+  padding: var(--s4) var(--s6);
+  border-bottom: 1px solid var(--line);
+}
+.ws-crumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--t3);
+}
+.ws-crumb svg {
+  color: var(--t3);
+}
+.ws-crumb i {
+  font-style: normal;
+  opacity: 0.5;
+}
+.ws-demo {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+
+/* the view picker only exists where the rail cannot */
+.ws-pick {
+  display: none;
+  gap: 6px;
+}
+.ws-pick select {
+  min-height: 44px;
+  padding: 0 var(--s4);
+  border-radius: var(--r-btn);
+  border: 1px solid var(--line-hi);
+  background: var(--bg);
+  color: var(--t1);
+  font: inherit;
+  font-size: 14px;
+}
+
+.ws-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s5);
+  flex-wrap: wrap;
+}
+.ws-head .micro {
+  margin-bottom: 4px;
+}
+.ws-head h3 {
+  font-size: clamp(20px, 2vw, 25px);
+  font-weight: 700;
+  letter-spacing: -0.026em;
+  line-height: 1.2;
+}
+.ws-period {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+.ws-period button {
+  min-height: 34px;
+  padding: 0 var(--s4);
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: var(--t3);
+  cursor: pointer;
+  transition: background 150ms var(--e-std), color 150ms var(--e-std);
+}
+.ws-period button[aria-pressed='true'] {
+  color: var(--t1);
+  font-weight: 600;
+  background: rgba(199, 201, 232, 0.12);
+}
+:root[data-theme='light'] .ws-period button[aria-pressed='true'] {
+  background: rgba(20, 27, 69, 0.07);
+}
+
+/* ── the four tiles ── */
+.ws-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--s3);
+}
+.ws-tile {
+  display: grid;
+  gap: 5px;
+  align-content: start;
+  padding: var(--s4);
+  border-radius: var(--r-card);
+  border: 1px solid var(--line);
+  background: rgba(199, 201, 232, 0.045);
+}
+:root[data-theme='light'] .ws-tile {
+  background: rgba(255, 255, 255, 0.7);
+}
+.ws-tile-k {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--t3);
+}
+.ws-tile-k svg {
+  color: var(--t3);
+}
+.ws-tile strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--t1);
+}
+.ws-tile small {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--t3);
+}
+/* the only orange on the surface: the number that needs a person */
+.ws-tile.is-sig {
+  border-color: rgba(255, 98, 0, 0.3);
+  background: rgba(255, 98, 0, 0.055);
+}
+.ws-tile.is-sig strong {
+  color: var(--sig-ink);
+}
+
+/* ── chart and ring ── */
+.ws-charts {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--s3);
+}
+.ws-chart,
+.ws-ring {
+  margin: 0;
+  padding: var(--s5);
+  border-radius: var(--r-card);
+  border: 1px solid var(--line);
+  background: rgba(199, 201, 232, 0.045);
+}
+:root[data-theme='light'] .ws-chart,
+:root[data-theme='light'] .ws-ring {
+  background: rgba(255, 255, 255, 0.7);
+}
+.ws-chart figcaption,
+.ws-ring figcaption {
+  display: grid;
+  gap: 2px;
+  margin-bottom: var(--s3);
+}
+.ws-chart figcaption strong,
+.ws-ring figcaption strong {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--t1);
+}
+.ws-chart figcaption span,
+.ws-ring figcaption span {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--t3);
+}
+.ws-legend {
+  display: flex;
+  gap: var(--s4);
+  margin-bottom: var(--s2);
+}
+.ws-key {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--t3);
+}
+.ws-key::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+}
+.ws-key--e::before {
+  background: var(--mist);
+}
+.ws-key--b::before {
+  background: var(--orange);
+}
+.ws-chart svg {
+  display: block;
+  width: 100%;
+  height: 168px;
+}
+.ws-grid {
+  stroke: var(--line);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.ws-bar--e {
+  fill: var(--mist);
+  opacity: 0.62;
+}
+:root[data-theme='light'] .ws-bar--e {
+  fill: #8f93c4;
+  opacity: 0.85;
+}
+:root[data-theme='light'] .ws-key--e::before {
+  background: #8f93c4;
+}
+.ws-bar--b {
+  fill: var(--orange);
+}
+.ws-axis {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.ws-axis span {
+  font-size: 12px;
+  text-align: center;
+  color: var(--t3);
+  font-variant-numeric: tabular-nums;
+}
+
+.ws-ring {
+  display: grid;
+  gap: var(--s3);
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+}
+.ws-ring svg {
+  width: 132px;
+  height: 132px;
+}
+.ws-ring figcaption {
+  justify-items: center;
+}
+.ws-ring-track {
+  stroke: var(--line-hi);
+  opacity: 0.5;
+}
+.ws-ring-fill {
+  stroke: var(--orange);
+}
+.ws-ring-v {
+  fill: var(--t1);
+  font-family: 'Poppins', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.ws-ring-k {
+  fill: var(--t3);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+}
+
+/* ── the shared sub-header for every list ── */
+.ws-sub {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding-bottom: var(--s3);
+  border-bottom: 1px solid var(--line);
+}
+.ws-sub strong {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--t1);
+}
+.ws-sub span {
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+
+/* ── records ── */
+.ws-records {
+  display: grid;
+  border-radius: var(--r-card);
+  border: 1px solid var(--line);
+  padding: var(--s4) var(--s5) var(--s2);
+  background: rgba(199, 201, 232, 0.045);
+}
+:root[data-theme='light'] .ws-records {
+  background: rgba(255, 255, 255, 0.7);
+}
+.ws-rec + .ws-rec {
+  border-top: 1px solid var(--line);
+}
+.ws-rec > button {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  min-height: 58px;
+  padding: var(--s2) 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--t1);
+  cursor: pointer;
+}
+.ws-rec-i {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  color: var(--t3);
+}
+.ws-rec-t {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+.ws-rec-t b {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.ws-rec-t em {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--t3);
+}
+.ws-rec time {
+  flex: 0 0 auto;
+  font-size: 13px;
+  color: var(--t3);
+}
+.ws-pill {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid var(--line-hi);
+  color: var(--t2);
+}
+.ws-pill--confirmed {
+  color: #5fd3a5;
+  border-color: rgba(95, 211, 165, 0.34);
+  background: rgba(95, 211, 165, 0.1);
+}
+:root[data-theme='light'] .ws-pill--confirmed {
+  color: #16794f;
+  border-color: rgba(22, 121, 79, 0.3);
+  background: rgba(22, 121, 79, 0.08);
+}
+.ws-pill--staff {
+  color: var(--sig-ink);
+  border-color: rgba(255, 98, 0, 0.32);
+  background: rgba(255, 98, 0, 0.09);
+}
+.ws-rec-x {
+  flex: 0 0 auto;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  color: var(--t3);
+}
+.ws-rec-x::before,
+.ws-rec-x::after {
+  content: '';
+  position: absolute;
+  inset: 50% 2px auto 2px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 200ms var(--e-std);
+}
+.ws-rec-x::after {
+  transform: rotate(90deg);
+}
+.ws-rec.is-open .ws-rec-x::after {
+  transform: rotate(0deg);
+}
+.ws-rec-d {
+  margin: 0 0 var(--s4) 46px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--t2);
+  max-width: 68ch;
+}
+
+/* ── live activity ── */
+.ws-feed {
+  display: grid;
+  gap: var(--s4);
+  padding: var(--s4) var(--s5) var(--s5);
+  border-radius: var(--r-card);
+  border: 1px solid var(--line);
+  background: rgba(199, 201, 232, 0.045);
+}
+:root[data-theme='light'] .ws-feed {
+  background: rgba(255, 255, 255, 0.7);
+}
+.ws-feed ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+.ws-feed li {
+  display: grid;
+  grid-template-columns: 52px 22px 1fr;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 44px;
+  font-size: 13.5px;
+  color: var(--t2);
+}
+.ws-feed time {
+  font-size: 12.5px;
+  color: var(--t3);
+}
+.ws-feed li i {
+  position: relative;
+  justify-self: center;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--line-hi);
+}
+.ws-feed li:not(:last-child) i::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1px;
+  height: 35px;
+  transform: translateX(-50%);
+  background: var(--line);
+}
+.ws-feed li.is-live i {
+  background: var(--orange);
+  box-shadow: 0 0 0 4px rgba(255, 98, 0, 0.16);
+}
+.ws-feed li.is-live {
+  color: var(--t1);
+  font-weight: 600;
+}
+
+/* ── specialists ── */
+.ws-roster {
+  display: grid;
+  gap: var(--s2);
+  padding: var(--s4) var(--s5) var(--s5);
+  border-radius: var(--r-card);
+  border: 1px solid var(--line);
+  background: rgba(199, 201, 232, 0.045);
+}
+:root[data-theme='light'] .ws-roster {
+  background: rgba(255, 255, 255, 0.7);
+}
+.ws-roster .ws-sub {
+  margin-bottom: var(--s2);
+}
+.ws-role {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) minmax(70px, 150px) 44px;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 48px;
+}
+.ws-role-i {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  color: var(--t3);
+}
+.ws-role-t {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+.ws-role-t b {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1);
+}
+.ws-role-t em {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--t3);
+}
+.ws-meter {
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgba(199, 201, 232, 0.16);
+}
+.ws-meter i {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--mist);
+  opacity: 0.8;
+}
+.ws-role-v {
+  font-size: 12.5px;
+  color: var(--t3);
+  text-align: right;
+}
+
+.ws-foot {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--t3);
+}
+.ws-foot svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: var(--sig-ink);
+}
+
+/* ── narrow ── */
+@media (max-width: 1080px) {
+  .ws {
+    grid-template-columns: 1fr;
+  }
+  .ws-side {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: var(--s5);
+  }
+  .ws-nav,
+  .ws-note {
+    display: none;
+  }
+  .ws-pick {
+    display: grid;
+  }
+  .ws-main {
+    padding: 0 var(--s5) var(--s5);
+  }
+  .ws-bar-top {
+    margin: 0 calc(-1 * var(--s5));
+    padding: var(--s4) var(--s5);
+  }
+  .ws-charts {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 620px) {
+  .ws-sub {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .ws-chart svg {
+    height: 150px;
+  }
+  .ws-axis span {
+    font-size: 11px;
+  }
+  .ws-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ws-rec > button {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+  .ws-rec-t {
+    flex: 1 0 60%;
+  }
+  .ws-rec-d {
+    margin-left: 0;
+  }
+  .ws-role {
+    grid-template-columns: 34px minmax(0, 1fr) 44px;
+  }
+  .ws-meter {
+    display: none;
+  }
+  .ws-records {
+    padding: var(--s4) var(--s4) var(--s2);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Stella Sales Coach · the coaching workspace
+   It reuses the whole `ws-*` vocabulary above. These are the only additions:
+   three status words the operations workspace never has, and the one row
+   state that carries the orange — a competency or a seller under target.
+   ═══════════════════════════════════════════════════════════════════════ */
+.ws-pill--passed {
+  color: #5fd3a5;
+  border-color: rgba(95, 211, 165, 0.34);
+  background: rgba(95, 211, 165, 0.1);
+}
+:root[data-theme='light'] .ws-pill--passed {
+  color: #16794f;
+  border-color: rgba(22, 121, 79, 0.3);
+  background: rgba(22, 121, 79, 0.08);
+}
+.ws-pill--coaching {
+  color: var(--sig-ink);
+  border-color: rgba(255, 98, 0, 0.32);
+  background: rgba(255, 98, 0, 0.09);
+}
+/* 'Not attempted' keeps the plain pill: it is the absence of a result, not a
+   result. Giving it a colour would put three signals in a five-row list. */
+
+/* The one place orange appears in these two views: the score that means a
+   person should spend an hour with someone. The meter carries it, not the
+   row, so a list of five reads as one flagged bar and four quiet ones. */
+.ws-role.is-under .ws-meter i {
+  background: var(--orange);
+  opacity: 0.9;
+}
+.ws-role.is-under .ws-role-v {
+  color: var(--sig-ink);
+  font-weight: 600;
+}

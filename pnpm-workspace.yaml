@@ -1,0 +1,4 @@
+# esbuild is used by local tsx tests, not the Next.js production build.
+# Its optional platform package supplies the binary without postinstall.
+allowBuilds:
+  esbuild@0.28.2: false

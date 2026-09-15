@@ -1,0 +1,37 @@
+{
+  "name": "hirestella-website",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "verify": "pnpm typecheck && pnpm build",
+    "test": "tsx --test tests/logic.test.ts",
+    "test:browser": "node scripts/browser-check.mjs"
+  },
+  "dependencies": {
+    "@fontsource/montserrat": "latest",
+    "@fontsource/poppins": "latest",
+    "@swc/helpers": "0.5.23",
+    "lucide-react": "1.42.0",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "latest",
+    "@playwright/test": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "prettier": "3.9.6",
+    "tsx": "latest",
+    "typescript": "5.9.3"
+  }
+}
