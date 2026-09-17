@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { MessageSquare, Mic, X } from 'lucide-react';
 import { Logo } from './ui';
 import { StellaWidget } from './stella-widget';
-import { VoiceAgent } from './voice-agent';
+import { VoiceAgent, voiceConfigured } from './voice-agent';
 import { track } from '@/lib/telemetry';
 
 /**
@@ -17,8 +17,10 @@ import { track } from '@/lib/telemetry';
 
 type Mode = 'voice' | 'chat' | null;
 
+/* Voice is withheld when no embed token is configured, so a misconfigured
+   build degrades to chat rather than calling the wrong workflow. */
 const OPTIONS = [
-  { mode: 'voice' as const, icon: Mic, label: 'Call Stella' },
+  ...(voiceConfigured ? [{ mode: 'voice' as const, icon: Mic, label: 'Call Stella' }] : []),
   { mode: 'chat' as const, icon: MessageSquare, label: 'Chat with Stella' },
 ];
 
@@ -29,9 +31,20 @@ export function AgentLauncher() {
   const symbol = useRef<HTMLButtonElement>(null);
   const leaving = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hoverCapable = useRef(true);
+  const restoringFocus = useRef(false);
 
   useEffect(() => {
     hoverCapable.current = matchMedia('(hover: hover)').matches;
+  }, []);
+
+  /* Returning focus to the symbol must not look like the visitor tabbing to
+     it: after a keyboard interaction the programmatic focus still matches
+     :focus-visible, which would fan the options straight back open. .focus()
+     dispatches synchronously, so the flag is clear again by the next line. */
+  const focusSymbol = useCallback(() => {
+    restoringFocus.current = true;
+    symbol.current?.focus();
+    restoringFocus.current = false;
   }, []);
 
   const closeFan = useCallback(() => {
@@ -65,7 +78,7 @@ export function AgentLauncher() {
     function esc(e: KeyboardEvent) {
       if (e.key !== 'Escape') return;
       closeFan();
-      symbol.current?.focus();
+      focusSymbol();
     }
     function away(e: PointerEvent) {
       if (!wrap.current?.contains(e.target as Node)) closeFan();
@@ -76,7 +89,7 @@ export function AgentLauncher() {
       document.removeEventListener('keydown', esc);
       document.removeEventListener('pointerdown', away);
     };
-  }, [fan, closeFan]);
+  }, [fan, closeFan, focusSymbol]);
 
   function choose(next: Exclude<Mode, null>) {
     closeFan();
@@ -86,8 +99,8 @@ export function AgentLauncher() {
 
   const closePanel = useCallback(() => {
     setMode(null);
-    symbol.current?.focus();
-  }, []);
+    focusSymbol();
+  }, [focusSymbol]);
 
   const panelOpen = mode !== null;
 
@@ -110,6 +123,7 @@ export function AgentLauncher() {
            without :focus-visible the click below would toggle it straight
            back shut. */
         onFocus={(e) => {
+          if (restoringFocus.current) return;
           if (e.target.matches(':focus-visible')) openFan();
         }}
         onBlur={(e) => {

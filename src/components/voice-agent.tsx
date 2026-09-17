@@ -32,9 +32,15 @@ declare global {
   }
 }
 
-const TOKEN =
-  process.env.NEXT_PUBLIC_DOGRAH_TOKEN ?? 'emb_nwbFG_AlqMRl8-LmulT9LnhBCR_q-hdfKXzFyh04rag';
-const API = process.env.NEXT_PUBLIC_DOGRAH_ENDPOINT ?? 'https://voice.hirestella.ai';
+/* No fallback token. A build without one must not quietly dial somebody
+   else's workflow, so the voice option is withheld instead — see
+   `voiceConfigured`. `||` rather than `??` because .env.example ships the key
+   blank, so a copied-but-unset var arrives as '' rather than undefined. */
+const TOKEN = process.env.NEXT_PUBLIC_DOGRAH_TOKEN || '';
+const API = process.env.NEXT_PUBLIC_DOGRAH_ENDPOINT || 'https://voice.hirestella.ai';
+
+/** False when no embed token is configured; the launcher then offers chat only. */
+export const voiceConfigured = TOKEN.length > 0;
 const SCRIPT_ID = 'dograh-widget';
 
 /* One load per document, shared by every mount. */
@@ -50,14 +56,21 @@ function loadDograh(context: Record<string, string>): Promise<Dograh> {
     script.async = true;
     script.src = `${API}/embed/dograh-widget.js?token=${encodeURIComponent(TOKEN)}&environment=production&apiEndpoint=${encodeURIComponent(API)}`;
     script.setAttribute('data-dograh-context', JSON.stringify(context));
+
+    /* Drop both the cached promise and the dead <script> so that "Try again"
+       re-attempts the load. Leaving `loading` set would replay this rejection
+       for the rest of the page's life. */
+    const fail = (message: string) => {
+      loading = null;
+      script.remove();
+      reject(new Error(message));
+    };
+
     script.onload = () =>
       window.DograhWidget
         ? resolve(window.DograhWidget)
-        : reject(new Error('Voice agent loaded without an API'));
-    script.onerror = () => {
-      loading = null;
-      reject(new Error('Voice agent failed to load'));
-    };
+        : fail('Voice agent loaded without an API');
+    script.onerror = () => fail('Voice agent failed to load');
     document.head.appendChild(script);
   });
 
@@ -93,6 +106,10 @@ export function VoiceAgent({ open, onClose }: { open: boolean; onClose: () => vo
   const [detail, setDetail] = useState<string | null>(null);
   const panel = useRef<HTMLDivElement>(null);
   const live = useRef(false);
+  /* Bumped whenever the call is torn down. Anything that resumes after an
+     await compares against it and stands down if it belongs to a call the
+     visitor has already closed. */
+  const session = useRef(0);
 
   /* Keep a ref of the call state so unmount can hang up without re-binding. */
   live.current = status === 'connecting' || status === 'connected';
@@ -111,8 +128,12 @@ export function VoiceAgent({ open, onClose }: { open: boolean; onClose: () => vo
   }, [open]);
 
   const hangUp = useCallback(() => {
-    if (!live.current) return;
-    window.DograhWidget?.stop();
+    /* Invalidate first, so a start still waiting on the network stands down
+       even though there is nothing to stop yet. */
+    session.current += 1;
+    if (live.current) window.DograhWidget?.stop();
+    /* Reset unconditionally: `failed` is not a live state, so guarding this
+       behind live.current would leave the error on screen for the next open. */
     setStatus('idle');
     setDetail(null);
   }, []);
@@ -124,6 +145,9 @@ export function VoiceAgent({ open, onClose }: { open: boolean; onClose: () => vo
   }, [open, hangUp]);
 
   async function startCall() {
+    const mine = session.current;
+    const current = () => mine === session.current;
+
     setStatus('connecting');
     setDetail(null);
     track('voice_call_started', { page: pathname });
@@ -134,7 +158,11 @@ export function VoiceAgent({ open, onClose }: { open: boolean; onClose: () => vo
         today: new Date().toISOString().slice(0, 10),
       });
 
+      /* Closed while the script was still downloading. */
+      if (!current()) return;
+
       widget.onStatusChange((next, _text, subtext) => {
+        if (!current()) return;
         if (next === 'connected') setStatus('connected');
         else if (next === 'connecting') setStatus('connecting');
         else if (next === 'failed') {
@@ -143,10 +171,12 @@ export function VoiceAgent({ open, onClose }: { open: boolean; onClose: () => vo
         } else setStatus('idle');
       });
       widget.onCallEnd(() => {
+        if (!current()) return;
         setStatus('idle');
         track('voice_call_ended', { page: pathname });
       });
       widget.onError((error) => {
+        if (!current()) return;
         setStatus('failed');
         setDetail(error?.message ?? null);
       });
@@ -157,7 +187,12 @@ export function VoiceAgent({ open, onClose }: { open: boolean; onClose: () => vo
       });
 
       await widget.start();
+
+      /* Closed while the line was being opened: hang up the call we just
+         placed, since hangUp() ran before there was anything to stop. */
+      if (!current()) widget.stop();
     } catch (error) {
+      if (!current()) return;
       setStatus('failed');
       setDetail(error instanceof Error ? error.message : null);
     }
