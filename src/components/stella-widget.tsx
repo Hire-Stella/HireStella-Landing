@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { X, MessageSquare } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Logo } from './ui';
 import { track } from '@/lib/telemetry';
 
@@ -12,6 +12,9 @@ import { track } from '@/lib/telemetry';
  *
  * Stella here runs labelled local scripts, not a live model, and the panel says
  * so. §34 of the brand book requires demo surfaces to be identifiable as demos.
+ *
+ * Opening is owned by AgentLauncher, which offers this chat alongside the live
+ * voice Stella — one symbol, one panel at a time.
  */
 
 type Line = { from: 'stella' | 'you'; text: string };
@@ -66,9 +69,20 @@ function useReducedMotion() {
   return reduce;
 }
 
-export function StellaWidget() {
+export function StellaWidget({
+  open,
+  engaged,
+  onOpen,
+  onClose,
+}: {
+  open: boolean;
+  /* True once the launcher is in use. The invitation and the launcher's
+     options share the same corner, so only one of them may be on screen. */
+  engaged: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}) {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
   const [lines, setLines] = useState<Line[]>(OPENING);
   const [used, setUsed] = useState<string[]>([]);
   const [typing, setTyping] = useState(false);
@@ -76,7 +90,6 @@ export function StellaWidget() {
   const [invite, setInvite] = useState(false);
   const log = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
-  const trigger = useRef<HTMLButtonElement>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const reduce = useReducedMotion();
 
@@ -114,14 +127,19 @@ export function StellaWidget() {
     function esc(e: KeyboardEvent) {
       if (e.key !== 'Escape') return;
       if (invite) dismissInvite('escape');
-      if (open) {
-        setOpen(false);
-        trigger.current?.focus();
-      }
+      if (open) onClose();
     }
     document.addEventListener('keydown', esc);
     return () => document.removeEventListener('keydown', esc);
-  }, [open, invite, dismissInvite]);
+  }, [open, invite, dismissInvite, onClose]);
+
+  useEffect(() => {
+    if (open) panel.current?.focus();
+  }, [open]);
+
+  useEffect(() => {
+    if (engaged && invite) dismissInvite('engaged');
+  }, [engaged, invite, dismissInvite]);
 
   useEffect(() => {
     if (open) log.current?.scrollTo({ top: log.current.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
@@ -152,10 +170,9 @@ export function StellaWidget() {
   }
 
   function openPanel() {
-    setOpen(true);
     dismissInvite('opened');
     track('stella_widget_opened');
-    setTimeout(() => panel.current?.focus(), reduce ? 0 : 260);
+    onOpen();
   }
 
   const remaining = REPLIES.filter((r) => !used.includes(r.label));
@@ -209,15 +226,7 @@ export function StellaWidget() {
               <b>Stella</b>
               <em>Your AI General Manager</em>
             </span>
-            <button
-              className="ico"
-              aria-label="Close"
-              onClick={() => {
-                setOpen(false);
-                trigger.current?.focus();
-              }}
-              type="button"
-            >
+            <button className="ico" aria-label="Close" onClick={onClose} type="button">
               <X size={17} />
             </button>
           </div>
@@ -234,7 +243,7 @@ export function StellaWidget() {
               </p>
             )}
             {cta && !typing && (
-              <Link className="btn-3 sw-cta" href={cta.href} onClick={() => setOpen(false)}>
+              <Link className="btn-3 sw-cta" href={cta.href} onClick={onClose}>
                 {cta.label} <span className="tri" aria-hidden="true" />
               </Link>
             )}
@@ -251,10 +260,10 @@ export function StellaWidget() {
               </div>
             ) : (
               <div className="sw-chips">
-                <button className="btn btn-1" type="button" data-demo onClick={() => setOpen(false)}>
+                <button className="btn btn-1" type="button" data-demo onClick={onClose}>
                   Book a demo <span className="tri" aria-hidden="true" />
                 </button>
-                <Link className="chip" href="/#ask-stella" onClick={() => setOpen(false)}>
+                <Link className="chip" href="/#ask-stella" onClick={onClose}>
                   Brief Stella properly
                 </Link>
               </div>
@@ -266,19 +275,6 @@ export function StellaWidget() {
           </div>
         </div>
       )}
-
-      <button
-        className={`sw-trigger ${open ? 'is-open' : ''}`}
-        ref={trigger}
-        aria-expanded={open}
-        aria-label={open ? 'Close Stella' : 'Talk to Stella'}
-        onClick={() => (open ? setOpen(false) : openPanel())}
-        type="button"
-      >
-        {open ? <X size={18} /> : <MessageSquare size={18} />}
-        <span>{open ? 'Close' : 'Talk to Stella'}</span>
-        {!open && <i className="dot" aria-hidden="true" />}
-      </button>
     </>
   );
 }
