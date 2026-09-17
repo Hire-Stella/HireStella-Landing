@@ -12,7 +12,7 @@ import '../styles/widget.css';
 import '../styles/modal.css';
 import '../styles/workspace.css';
 import { Header, Footer } from '@/components/shell';
-import { StellaWidget } from '@/components/stella-widget';
+import { AgentLauncher } from '@/components/agent-launcher';
 import { DemoModal } from '@/components/demo-modal';
 import { SiteBehavior, themeBootstrap } from '@/components/site-behavior';
 import { Ld } from '@/components/system';
@@ -78,7 +78,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         {children}
         <Footer />
-        <StellaWidget />
+        <AgentLauncher />
         <DemoModal configured={Boolean(process.env.LEAD_WEBHOOK_URL)} />
         <SiteBehavior />
       </body>
