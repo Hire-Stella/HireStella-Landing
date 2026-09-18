@@ -229,14 +229,17 @@ export function Footer() {
                 <Globe size={15} strokeWidth={1.6} aria-hidden="true" />
                 {CONTACT.site}
               </a>
-              <span>
+              {/* Office address hidden in the footer for now. It remains the
+                  source of truth for the contact page, the FAQ answer and the
+                  Organization schema, so uncommenting restores it as-is. */}
+              {/* <span>
                 <MapPin size={15} strokeWidth={1.6} aria-hidden="true" />
                 <span>
                   {CONTACT.address[0]}
                   <br />
                   {CONTACT.address[1]}
                 </span>
-              </span>
+              </span> */}
             </div>
           </div>
 
