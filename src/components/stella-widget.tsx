@@ -197,7 +197,7 @@ export function StellaWidget() {
         <div
           className="sw pan pan--solid blur"
           role="dialog"
-          aria-label="Talk to Stella"
+          aria-label="Chat to Stella"
           tabIndex={-1}
           ref={panel}
         >
@@ -271,12 +271,12 @@ export function StellaWidget() {
         className={`sw-trigger ${open ? 'is-open' : ''}`}
         ref={trigger}
         aria-expanded={open}
-        aria-label={open ? 'Close Stella' : 'Talk to Stella'}
+        aria-label={open ? 'Close Stella' : 'Chat to Stella'}
         onClick={() => (open ? setOpen(false) : openPanel())}
         type="button"
       >
         {open ? <X size={18} /> : <MessageSquare size={18} />}
-        <span>{open ? 'Close' : 'Talk to Stella'}</span>
+        <span>{open ? 'Close' : 'Chat to Stella'}</span>
         {!open && <i className="dot" aria-hidden="true" />}
       </button>
     </>

@@ -4,8 +4,9 @@ import { industries, specialists } from '@/lib/data';
 import { industryGroups } from '@/lib/industry-content';
 import { blogPosts } from '@/lib/blog-content';
 import { segmentDetails } from '@/lib/segment-content';
+import { origin as siteOrigin } from '@/lib/seo';
 export default function sitemap(): MetadataRoute.Sitemap {
-  const origin = process.env.NEXT_PUBLIC_SITE_URL;
+  const origin = siteOrigin();
   if (!origin) return [];
   return [
     '',
@@ -25,7 +26,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...industryGroups.map((group) => `industries/${group.id}`),
     ...Object.entries(segmentDetails).map(([id, d]) => `industries/${d.group}/${id}`),
     ...blogPosts.map((post) => `blogs/${post.slug}`),
-    'roi',
     'contact',
     'book-demo',
     'become-a-partner',

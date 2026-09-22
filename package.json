@@ -12,11 +12,13 @@
     "typecheck": "tsc --noEmit",
     "verify": "pnpm typecheck && pnpm build",
     "test": "tsx --test tests/logic.test.ts",
-    "test:browser": "node scripts/browser-check.mjs"
+    "test:browser": "node scripts/browser-check.mjs",
+    "test:veo": "node --env-file=.env.local scripts/test-veo.mjs"
   },
   "dependencies": {
     "@fontsource/montserrat": "latest",
     "@fontsource/poppins": "latest",
+    "@google/genai": "^2.23.0",
     "@swc/helpers": "0.5.23",
     "lucide-react": "1.42.0",
     "next": "latest",

@@ -4,7 +4,7 @@ export const editorialPages = {
     eyebrow: 'YOUR SYSTEMS. ONE CONNECTED JOURNEY.',
     title: 'Keep your context.\nConnect your systems.',
     intro:
-      'Build the workforce around the systems your operation uses. Availability, permissions, and integration scope are confirmed before deployment.',
+      'Build the workforce around the systems your operation uses. Availability, permissions and integration scope are confirmed before deployment.',
     statement: 'A useful connection carries context into the next action.',
     blocks: [
       {
@@ -20,12 +20,12 @@ export const editorialPages = {
       {
         icon: 'message',
         title: 'Customer channels',
-        text: 'Scope conversations across website, WhatsApp, Instagram, social, voice, and email according to provider access and your selected configuration.',
+        text: 'Scope conversations across website, WhatsApp, Instagram, social, voice and email according to provider access and your selected configuration.',
       },
       {
         icon: 'network',
         title: 'Custom APIs',
-        text: 'Enterprise and bespoke configurations can scope custom API work. Feasibility, permissions, effort, and system limits are reviewed first.',
+        text: 'Enterprise and bespoke configurations can scope custom API work. Feasibility, permissions, effort and system limits are reviewed first.',
       },
     ],
     closing: 'Tell us which systems your business runs on.',
@@ -35,13 +35,13 @@ export const editorialPages = {
     eyebrow: 'YOUR PEOPLE, PLUS STELLA',
     title: 'More capacity.\nHuman judgement intact.',
     intro:
-      'AI handles configured, structured work. Your people own sensitive conversations, exceptions, and decisions that need experience and judgement.',
+      'AI handles configured, structured work. Your people own sensitive conversations, exceptions and decisions that need experience and judgement.',
     statement: 'The goal is more output and capacity per person.',
     blocks: [
       {
         icon: 'network',
         title: 'Structured work moves',
-        text: 'Routine responses, approved qualification, bookings, reminders, and supported record updates follow your agreed workflows.',
+        text: 'Routine responses, approved qualification, bookings, reminders and supported record updates follow your agreed workflows.',
       },
       {
         icon: 'shield',
@@ -66,13 +66,13 @@ export const editorialPages = {
     eyebrow: 'CLARITY IS PART OF TRUST',
     title: 'Defined scope.\nVisible responsibility.',
     intro:
-      'Security, hosting, and integration requirements are scoped to the selected configuration. Contact our team for the controls applicable to your deployment.',
+      'Security, hosting and integration requirements are scoped to the selected configuration. Contact our team for the controls applicable to your deployment.',
     statement: 'Know what is connected, what is permitted, and who takes over.',
     blocks: [
       {
         icon: 'shield',
         title: 'Deployment requirements',
-        text: 'Discuss hosting, access, data handling, retention, and your organisation’s requirements during scoping. The applicable controls must be confirmed for your configuration.',
+        text: 'Discuss hosting, access, data handling, retention and your organisation’s requirements during scoping. The applicable controls must be confirmed for your configuration.',
       },
       {
         icon: 'settings',

@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
-import { canonical } from '@/lib/seo';
+import { canonical, breadcrumbLd } from '@/lib/seo';
 import Link from 'next/link';
 import { industryGroups, segmentPath, lowerName } from '@/lib/industry-content';
 import { businessTypes } from '@/lib/business-types';
-import { PageHero, Closer, Thread, SectionHead, Tri } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Tri, Ld } from '@/components/system';
 import { Icon } from '@/components/ui';
 
 export const metadata: Metadata = {
   ...canonical('/use-cases'),
-  title: 'Use cases',
+  title: 'AI Use Cases, One Enquiry End to End',
   description:
     'Follow one enquiry from first contact to a booked outcome, in every sector HireStella is configured for.',
 };
@@ -27,6 +27,7 @@ export default function UseCasesPage() {
 
   return (
     <main id="main">
+      <Ld data={breadcrumbLd([['Home', '/'], ['Use cases', '/use-cases']])} />
       <PageHero
         eyebrow="Use cases"
         crumb={[['Home', '/'], ['Use cases']]}
@@ -48,7 +49,7 @@ export default function UseCasesPage() {
             </button>
           </>
         }
-        meta={[`${industryGroups.length} sectors`, `${types} kinds of business`, 'Illustrative, not case studies']}
+        meta={[`${industryGroups.length} sectors`, `${types} kinds of business`]}
         aside={
           <div className="route pan">
             <p className="eyebrow eyebrow--sig">The shape of every journey</p>

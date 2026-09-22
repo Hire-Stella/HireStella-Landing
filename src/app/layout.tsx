@@ -16,17 +16,17 @@ import { StellaWidget } from '@/components/stella-widget';
 import { DemoModal } from '@/components/demo-modal';
 import { SiteBehavior, themeBootstrap } from '@/components/site-behavior';
 import { Ld } from '@/components/system';
-import { organizationLd, websiteLd } from '@/lib/seo';
+import { organizationLd, websiteLd, origin as siteOrigin } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: { default: 'HireStella — Capacity, coordinated.', template: '%s | HireStella' },
+  title: { default: 'HireStella | Capacity, coordinated.', template: '%s | HireStella' },
   description:
     'One AI General Manager. Eight connected AI Specialists. Tell Stella what is slowing your business down and explore the workforce built to move it forward.',
   openGraph: {
     type: 'website',
     locale: 'en_AE',
     siteName: 'HireStella',
-    title: 'HireStella — Capacity, coordinated.',
+    title: 'HireStella | Capacity, coordinated.',
     description:
       'One AI General Manager. A connected AI Specialist Workforce. Start with your business.',
   },
@@ -55,11 +55,9 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   twitter: { card: 'summary_large_image' },
-  alternates: process.env.NEXT_PUBLIC_SITE_URL ? { canonical: '/' } : undefined,
+  alternates: siteOrigin() ? { canonical: '/' } : undefined,
   robots: { index: true, follow: true },
-  ...(process.env.NEXT_PUBLIC_SITE_URL
-    ? { metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL) }
-    : {}),
+  ...(siteOrigin() ? { metadataBase: new URL(siteOrigin()) } : {}),
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

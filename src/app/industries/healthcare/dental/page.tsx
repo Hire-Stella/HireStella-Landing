@@ -5,14 +5,15 @@ import { DentalExplorer } from '@/components/dental-explorer';
 import { OperationsWorkspace } from '@/components/workspace';
 import { clinicWorkspace } from '@/lib/workspace-content';
 import { MarketPanel, ReadingRoom, PagePhotograph } from '@/components/industry-parts';
-import { PageHero, Closer, Thread, SectionHead, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Tri, Bul, Ld } from '@/components/system';
 import { Icon } from '@/components/ui';
+import { canonical, breadcrumbLd, serviceLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'AI coordination for dental clinics',
+  title: 'AI Receptionist for Dental Clinics in Dubai',
   description:
     'Explore dental call handling, appointment coordination, reminders and follow-ups, with example workflows and sourced Dubai market context.',
-  alternates: { canonical: '/industries/healthcare/dental' },
+  ...canonical('/industries/healthcare/dental'),
 };
 
 const PROBLEMS = [
@@ -24,6 +25,22 @@ const PROBLEMS = [
 export default function DentalPage() {
   return (
     <main id="main">
+      <Ld
+        data={[
+          breadcrumbLd([
+            ['Home', '/'],
+            ['Industries', '/industries'],
+            ['Healthcare & clinics', '/industries/healthcare'],
+            ['Dental clinics', '/industries/healthcare/dental'],
+          ]),
+          serviceLd({
+            name: 'AI coordination for dental clinics',
+            description:
+              'Capture missed-call enquiries, coordinate consultations, send reminders and run recall follow-ups, with clinical questions handed to your team.',
+            path: '/industries/healthcare/dental',
+          }),
+        ]}
+      />
       <PageHero
         eyebrow="Dental clinics"
         crumb={[['Home', '/'], ['Industries', '/industries'], ['Clinics', '/industries/healthcare'], ['Dental']]}
@@ -45,7 +62,7 @@ export default function DentalPage() {
             </Link>
           </>
         }
-        meta={['8 specialists, one patient journey', 'Illustrative workflows', 'Clinical decisions stay with your team']}
+        meta={['8 specialists, one patient journey', 'Clinical decisions stay with your team']}
         aside={
           <div className="route pan">
             <p className="eyebrow eyebrow--sig">One patient journey</p>

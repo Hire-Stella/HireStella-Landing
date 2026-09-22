@@ -22,8 +22,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { industry } = await params;
   const group = industryGroups.find((g) => g.id === industry);
+  /* `name` is the label the site shows in navigation, cards and headings, and
+     it stays as written. The title tag is what a searcher reads in Google, so
+     it leads with the thing they typed rather than the category noun. */
   return {
-    title: group?.name ?? 'Industry not found',
+    title: group?.seoTitle ?? 'Industry not found',
     description: group?.intro,
     ...canonical(`/industries/${industry}`),
   };
@@ -52,7 +55,7 @@ const PROFILES: Record<string, Profile> = {
     rosterTitle: 'Reception never works alone again.',
     core: ['voice', 'front-desk', 'booking', 'outbound-followup'],
     signals: [['After-hours enquiries', 'Answered'], ['Enquiry to appointment', '62%', true], ['Clinical questions', 'To your team'], ['Recall follow-ups', 'Scheduled']],
-    signalNote: 'Illustrative clinic figures. Treatment decisions always stay with a clinician.',
+    signalNote: 'Treatment decisions always stay with a clinician.',
     boundary: 'Clinical questions, treatment decisions and complaints transfer to your team with the full conversation attached.',
     problemTitle: ['Great care.', 'Too many loose ends.'],
     problemLede: 'The patient journey starts long before the chair. That is where coordination can make room for your people.',
@@ -69,7 +72,7 @@ const PROFILES: Record<string, Profile> = {
     rosterTitle: 'Every lead reaches an agent warm.',
     core: ['front-desk', 'voice', 'booking', 'outbound-followup'],
     signals: [['Overnight portal leads', 'Answered'], ['First response', 'Immediate', true], ['Viewings coordinated', 'In calendar'], ['Second follow-up', 'Owned']],
-    signalNote: 'Illustrative. Negotiation and pricing always stay with your agent.',
+    signalNote: 'Negotiation and pricing always stay with your agent.',
     boundary: 'Negotiation, pricing and anything contractual stays with your agent, briefed and ready.',
     problemTitle: ['The lead is warm.', 'For about an hour.'],
     problemLede: 'Portal enquiries do not wait for office hours, and the agent who answers first is usually the agent who gets the viewing.',
@@ -86,7 +89,7 @@ const PROFILES: Record<string, Profile> = {
     rosterTitle: 'The desk keeps its hardest cases.',
     core: ['front-desk', 'voice', 'admin', 'booking'],
     signals: [['Routine status questions', 'Handled'], ['Complex cases', 'Reach staff sooner', true], ['Documents processed', 'Triaged'], ['Advisory requests', 'Authorised staff']],
-    signalNote: 'Illustrative. Regulated and advisory matters never leave your team.',
+    signalNote: 'Regulated and advisory matters never leave your team.',
     boundary: 'Anything advisory, regulated or account-sensitive transfers to authorised staff only.',
     problemTitle: ['Routine questions.', 'Complex cases waiting.'],
     problemLede: 'The volume is not the hard work. It is what the hard work is queuing behind.',
@@ -103,7 +106,7 @@ const PROFILES: Record<string, Profile> = {
     rosterTitle: 'Rental, service and sales stop working apart.',
     core: ['front-desk', 'booking', 'admin', 'outbound-followup'],
     signals: [['Rental enquiries', 'Captured'], ['Workshop bookings', 'Coordinated', true], ['Returning customers', 'Recognised'], ['Quotes & disputes', 'To your advisor']],
-    signalNote: 'Illustrative. Vehicle assessments and quotes go to a service advisor.',
+    signalNote: 'Vehicle assessments and quotes go to a service advisor.',
     boundary: 'Quotes, disputes and anything involving a vehicle assessment go to your service advisor.',
     problemTitle: ['One customer.', 'Three separate systems.'],
     problemLede: 'Rental, workshop and sales each meet the same person, and none of them knows the other two already have.',
@@ -125,7 +128,7 @@ const PROFILES: Record<string, Profile> = {
       ['Fee and curriculum questions', 'From approved answers'],
       ['Follow-up through the decision', 'Owned'],
     ],
-    signalNote: 'Illustrative. Admissions decisions, assessments and fee negotiation stay with your team.',
+    signalNote: 'Admissions decisions, assessments and fee negotiation stay with your team.',
     boundary:
       'Admissions decisions, assessments, safeguarding and anything about a specific child go to your staff, never to the workforce.',
     problemTitle: ['A long decision.', 'A dozen small contacts.'],
@@ -149,7 +152,7 @@ const PROFILES: Record<string, Profile> = {
       ['Technician schedule', 'Kept current'],
       ['Quotes and disputes', 'To your supervisor'],
     ],
-    signalNote: 'Illustrative. Pricing, diagnosis and anything requiring a site visit stay with your team.',
+    signalNote: 'Pricing, diagnosis and anything requiring a site visit stay with your team.',
     boundary:
       'Diagnosis, pricing and any commitment about what a repair will cost go to your supervisor, with the description and photographs attached.',
     problemTitle: ['Urgent work.', 'Nobody free to take it.'],
@@ -173,7 +176,7 @@ const PROFILES: Record<string, Profile> = {
       ['Channels covered', 'Configured'],
       ['Refunds and complaints', 'To your team'],
     ],
-    signalNote: 'Illustrative. Refunds, goodwill and anything about a specific payment stay with your team.',
+    signalNote: 'Refunds, goodwill and anything about a specific payment stay with your team.',
     boundary:
       'Refunds, goodwill gestures, complaints and anything touching a payment go to your team, with the order and the conversation attached.',
     problemTitle: ['One question sells.', 'One question keeps.'],
@@ -197,7 +200,7 @@ const PROFILES: Record<string, Profile> = {
       ['Reservations and changes', 'Coordinated'],
       ['Complaints and comps', 'To your manager'],
     ],
-    signalNote: 'Illustrative. Rates outside your published list, upgrades and service recovery stay with your team.',
+    signalNote: 'Rates outside your published list, upgrades and service recovery stay with your team.',
     boundary:
       'Rate negotiation, upgrades, comps and any service recovery go to your duty manager with the booking and the conversation attached.',
     problemTitle: ['A full house.', 'And a ringing phone.'],
@@ -221,7 +224,7 @@ const PROFILES: Record<string, Profile> = {
       ['Document checklists', 'Sent and chased'],
       ['Case advice', 'To your consultants'],
     ],
-    signalNote: 'Illustrative. Eligibility rulings and any advice on a specific application stay with your licensed team.',
+    signalNote: 'Eligibility rulings and any advice on a specific application stay with your licensed team.',
     boundary:
       'Eligibility decisions, immigration advice and anything about a specific application go to your licensed consultants, never to the workforce.',
     problemTitle: ['Answered a hundred times.', 'Still asked every day.'],
@@ -245,7 +248,7 @@ const PROFILES: Record<string, Profile> = {
       ['Meetings coordinated', 'In the diary'],
       ['Advice and scope', 'To your team'],
     ],
-    signalNote: 'Illustrative. Advice, scope, fees and anything privileged stay with your qualified people.',
+    signalNote: 'Advice, scope, fees and anything privileged stay with your qualified people.',
     boundary:
       'Advice, scope, fees, conflict decisions and anything privileged go to your qualified team. The workforce captures the enquiry and never answers it.',
     problemTitle: ['Every enquiry looks the same.', 'Until someone asks.'],
@@ -309,7 +312,6 @@ export default async function IndustryGroupPage({
         aside={
           <HeroPanel
             kicker={`${group.name} · what changes`}
-            tag="Illustrative"
             rows={profile.signals}
             note={profile.signalNote}
           />
@@ -384,7 +386,7 @@ export default async function IndustryGroupPage({
           </SectionHead>
           <div className="grid-3">
             {core.map((s) => (
-              <Link className="card card-link pan" href={`/workforce/${s.id}`} key={s.id}>
+              <Link className="card card-link pan" href="/stella#workforce" key={s.id}>
                 <div className="k">
                   <Icon name={s.icon} size={17} />
                   {s.short}
@@ -473,7 +475,6 @@ export default async function IndustryGroupPage({
         title="Before you book"
         links={[
           { href: '/stella', label: 'Meet Stella', note: 'The workspace, the eight specialists, and how a deployment is built.', kind: 'Product' },
-          { href: '/roi', label: 'ROI calculator', note: 'Put a number on what your call volume costs today.', kind: 'Tool' },
           { href: '/human-boundary', label: 'The human boundary', note: 'Where automation stops and your team decides.', kind: 'Sibling' },
           { href: '/contact', label: 'Contact us', note: 'Bring one workflow and we will map it with you.', kind: 'Next step' },
         ]}

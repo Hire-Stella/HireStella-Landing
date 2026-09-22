@@ -667,7 +667,12 @@
 .planes {
   position: relative;
   perspective: 1800px;
-  min-height: 470px;
+  /* The planes are absolutely positioned above 1100px, so this height is what
+     reserves their space in the flow. The front plane sits at 126px and grew
+     when the command centre was rebuilt; at 470px it ran 80px past the bottom
+     and into the section below. Below 1100px the planes stack and this is
+     released to 0. */
+  min-height: 640px;
   margin-top: var(--s10);
 }
 .plane {
@@ -690,7 +695,10 @@
   transform: translateZ(-80px) rotateY(3deg);
 }
 .p-front {
-  inset: 126px 0 auto auto;
+  /* 126px covered the rear chart's axis entirely, which made labelling it
+     pointless. The front plane now starts below the axis, so the day's shape
+     and the figure it produces are both readable. */
+  inset: 180px 0 auto auto;
   width: 69%;
   padding: var(--s6);
   transform: rotateY(-2deg);
@@ -1341,4 +1349,239 @@
   .roi-go {
     justify-self: stretch;
   }
+}
+
+/* ── command centre, the rebuilt front plane §30A.2 ─────────────────────
+   Scoped to `cc-` so the shared `.stat` HeroPanel uses on other pages is
+   untouched. The accent appears twice here and no more: the conversion rate
+   and the peak bar. Everything else is Mist. */
+.pcap-note {
+  margin-left: auto;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--t3);
+  text-transform: none;
+  font-size: 11px;
+}
+.cc-pulse {
+  margin-left: auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 0 rgba(255, 98, 0, 0.55);
+  animation: cc-pulse 2.6s ease-out infinite;
+}
+@keyframes cc-pulse {
+  70% { box-shadow: 0 0 0 7px rgba(255, 98, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 98, 0, 0); }
+}
+
+/* the rate: the one figure that makes the case */
+.cc-lead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s3) var(--s5);
+  padding-bottom: var(--s5);
+  margin-bottom: var(--s5);
+  border-bottom: 1px solid var(--line);
+}
+.cc-rate {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(40px, 5.4vw, 58px);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+  color: var(--orange);
+  display: block;
+}
+.cc-rate-k {
+  display: block;
+  margin-top: 6px;
+  font-size: 14.5px;
+  color: var(--t2);
+  max-width: 24ch;
+}
+.cc-rate-delta {
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--t3);
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+/* supporting figures: a direction, not just a quantity */
+.cc-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s3);
+}
+.cc-tile {
+  display: grid;
+  gap: 5px;
+  text-align: left;
+  padding: var(--s4);
+  border-radius: var(--r-btn);
+  border: 1px solid var(--line);
+  background: rgba(199, 201, 232, 0.05);
+  color: inherit;
+  font: inherit;
+  cursor: default;
+  transition: border-color 0.2s var(--e-in), background 0.2s var(--e-in);
+}
+.cc-tile.is-on {
+  border-color: rgba(255, 139, 62, 0.42);
+  background: rgba(255, 98, 0, 0.07);
+}
+.cc-tile-k {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.cc-tile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+.cc-tile-row b {
+  font-family: 'Poppins', sans-serif;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--t1);
+}
+.cc-spark {
+  width: 62px;
+  height: 18px;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+.cc-spark-line {
+  fill: none;
+  stroke: var(--mist);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.6;
+}
+.cc-spark-fill {
+  fill: var(--mist);
+  opacity: 0.09;
+}
+.cc-spark-dot {
+  fill: var(--mist);
+  opacity: 0.75;
+}
+.cc-spark.is-on .cc-spark-line { stroke: var(--orange); opacity: 1; }
+.cc-spark.is-on .cc-spark-fill { fill: var(--orange); opacity: 0.14; }
+.cc-spark.is-on .cc-spark-dot  { fill: var(--orange); opacity: 1; }
+
+.cc-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--t3);
+}
+.cc-delta.is-up { color: #4ec49a; }
+.cc-delta.is-down { color: var(--t3); }
+.cc-delta-k { color: var(--t3); }
+.cc-delta.is-up .cc-delta-k { color: var(--t3); }
+
+/* an exception count reads as a state, not a statistic */
+.cc-flag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: var(--s4);
+  padding: 10px var(--s4);
+  border-radius: var(--r-btn);
+  border: 1px solid var(--line);
+  font-size: 13.5px;
+  color: var(--t2);
+  transition: border-color 0.2s var(--e-in);
+}
+.cc-flag b {
+  color: var(--t1);
+  font-weight: 600;
+}
+.cc-flag-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--orange);
+}
+.cc-read {
+  font-size: 14.5px;
+  margin-top: var(--s4);
+  line-height: 1.65;
+  color: var(--t2);
+}
+
+/* the chart, now with an axis that names real hours */
+.cc-chart { margin-top: var(--s4); }
+.cc-chart .bars { margin-top: 0; }
+.cc-bar {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+}
+.cc-bar i { width: 100%; }
+.cc-axis {
+  display: flex;
+  gap: 8px;
+  margin-top: 7px;
+}
+.cc-axis span {
+  flex: 1;
+  text-align: center;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--t3);
+  opacity: 0.75;
+}
+.cc-axis span.is-peak {
+  color: var(--orange);
+  opacity: 1;
+  font-weight: 600;
+}
+
+/* the feed fills in once, then holds */
+.ev {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.45s var(--e-in), transform 0.45s var(--e-in);
+}
+.ev.is-in {
+  opacity: 1;
+  transform: none;
+}
+.ev.is-dim {
+  opacity: 0.32;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ev { opacity: 1; transform: none; transition: none; }
+  .cc-pulse { animation: none; }
+}
+@media (max-width: 900px) {
+  .cc-tiles { grid-template-columns: repeat(3, 1fr); }
+  .cc-spark { display: none; }
+}
+@media (max-width: 620px) {
+  .cc-tiles { grid-template-columns: 1fr 1fr; }
+  .cc-lead { gap: var(--s3); }
 }

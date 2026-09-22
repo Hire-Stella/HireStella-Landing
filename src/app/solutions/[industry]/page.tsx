@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { industries, specialists } from '@/lib/data';
-import { PageHero, Closer, Thread, SectionHead, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Tri, Bul, Ld } from '@/components/system';
 import { Icon } from '@/components/ui';
+import { breadcrumbLd, serviceLd } from '@/lib/seo';
 
 export function generateStaticParams() {
   return industries.map((i) => ({ industry: i.id }));
@@ -30,6 +31,20 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
 
   return (
     <main id="main">
+      <Ld
+        data={[
+          breadcrumbLd([
+            ['Home', '/'],
+            ['Industries', '/industries'],
+            [item.label, `/solutions/${item.id}`],
+          ]),
+          serviceLd({
+            name: `AI coordination for ${item.name.toLowerCase()}`,
+            description: item.description,
+            path: `/solutions/${item.id}`,
+          }),
+        ]}
+      />
       <PageHero
         eyebrow={`Connected capacity for ${item.name.toLowerCase()}`}
         crumb={[['Home', '/'], ['Industries', '/industries'], [item.label]]}
@@ -45,7 +60,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             </Link>
           </>
         }
-        meta={[`${roster.length} specialists`, 'Illustrative journey', 'Your team owns the exceptions']}
+        meta={[`${roster.length} specialists`, 'One connected journey', 'Your team owns the exceptions']}
         aside={
           <div className="route pan">
             <p className="eyebrow eyebrow--sig">One connected journey</p>
@@ -84,7 +99,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
 
           <div className="grid-3">
             {roster.map((s, i) => (
-              <Link className="card card-link pan" href={`/workforce/${s.id}`} key={s.id}>
+              <Link className="card card-link pan" href="/stella#workforce" key={s.id}>
                 <div className="k">
                   <i>{String(i + 1).padStart(2, '0')}</i>
                   <Icon name={s.icon} size={17} />

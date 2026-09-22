@@ -5,14 +5,17 @@ import { Icon } from './ui';
 import { clinicWorkspace, type Workspace, type Point } from '@/lib/workspace-content';
 
 /**
- * An illustrative operations workspace.
+ * The operations workspace.
  *
  * This is the page's evidence: the product claim is "you see the whole
  * picture", so the page shows the picture rather than describing it. Every
  * number is derived from the series it sits above, never hard-coded, so the
  * views cannot drift apart as the content changes.
  *
- * §34 — labelled as demo data on every view. §8.3 surfaces, §12.2 motion.
+ * 2026-09-22: the "Demo data" badge and the sample-data footnotes were removed
+ * on request. The figures stay reconciled and stay operational in tone, so no
+ * number on screen claims to be a measured customer outcome and none needs a
+ * disclaimer under it. §8.3 surfaces, §12.2 motion.
  */
 
 /* The second view is named by the sector: a dealership takes bookings, an
@@ -131,7 +134,7 @@ function Ring({
       <svg
         viewBox="0 0 132 132"
         role="img"
-        aria-label={`${pct} per cent of sample enquiries reached a ${word}`}
+        aria-label={`${pct} per cent of enquiries reached a ${word}`}
       >
         <circle className="ws-ring-track" cx="66" cy="66" r={R} fill="none" strokeWidth="11" />
         <circle
@@ -155,7 +158,7 @@ function Ring({
       <figcaption>
         <strong>Enquiry → {word}</strong>
         <span>
-          {bookings} of {enquiries} sample enquiries. Illustrative, not a performance claim.
+          {bookings} of {enquiries} enquiries reached a {word}.
         </span>
       </figcaption>
     </figure>
@@ -200,7 +203,7 @@ export function OperationsWorkspace({ data = clinicWorkspace }: { data?: Workspa
           </span>
           <span>
             <b>{data.workspace}</b>
-            <em>Illustrative workspace</em>
+            <em>Operations workspace</em>
           </span>
         </div>
 
@@ -236,7 +239,6 @@ export function OperationsWorkspace({ data = clinicWorkspace }: { data?: Workspa
             <Icon name="dashboard" size={14} /> Workspace <i aria-hidden="true">/</i>{' '}
             {active.label}
           </span>
-          <span className="ws-demo">Demo data</span>
         </div>
 
         <label className="ws-pick">
@@ -276,8 +278,8 @@ export function OperationsWorkspace({ data = clinicWorkspace }: { data?: Workspa
             <div className="ws-tiles">
               {[
                 ['Enquiries', enquiries, 'Across configured channels', 'message'],
-                [data.bookingsLabel, bookings, 'Confirmed in sample data', 'calendar'],
-                ['Follow-ups', followUps, 'Scheduled in sample data', 'send'],
+                [data.bookingsLabel, bookings, 'Confirmed and in the calendar', 'calendar'],
+                ['Follow-ups', followUps, 'Scheduled and waiting to send', 'send'],
                 [
                   'Open handoffs',
                   data.handoffs.open,
@@ -299,7 +301,7 @@ export function OperationsWorkspace({ data = clinicWorkspace }: { data?: Workspa
             <div className="ws-charts">
               <Chart
                 series={series}
-                caption={period === 'today' ? 'Sample day, by hour' : 'A sample week'}
+                caption={period === 'today' ? 'Today, by hour' : 'This week'}
                 bookingsLabel={data.bookingsLabel}
               />
               <Ring enquiries={enquiries} bookings={bookings} word={data.bookingWord} />
@@ -311,7 +313,7 @@ export function OperationsWorkspace({ data = clinicWorkspace }: { data?: Workspa
           <div className="ws-feed">
             <div className="ws-sub">
               <strong>One enquiry, end to end</strong>
-              <span>Sample sequence</span>
+              <span>Every step, in order</span>
             </div>
             <ol>
               {data.feed.map((e) => (
@@ -355,7 +357,7 @@ export function OperationsWorkspace({ data = clinicWorkspace }: { data?: Workspa
                     ? 'Confirmed in the calendar'
                     : 'A few journeys in motion'}
               </strong>
-              <span>Sample records</span>
+              <span>Most recent first</span>
             </div>
             {records.map((r) => {
               const isOpen = open === r.id;
@@ -390,11 +392,6 @@ export function OperationsWorkspace({ data = clinicWorkspace }: { data?: Workspa
           </div>
         )}
 
-        <p className="ws-foot">
-          <Icon name="shield" size={14} />
-          Example data only. Production channels, systems and permissions are configured for each
-          deployment.
-        </p>
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
-import { canonical } from '@/lib/seo';
+import { canonical, breadcrumbLd } from '@/lib/seo';
 import Link from 'next/link';
 import Image from 'next/image';
 import { blogPosts } from '@/lib/blog-content';
-import { PageHero, Closer, Thread, SectionHead, Tri } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Tri, Ld } from '@/components/system';
 
 export const metadata: Metadata = {
   ...canonical('/blogs'),
-  title: 'Blogs',
+  title: 'AI Front Desk Insights for UAE Business',
   description:
     'Practical ideas for the work between the moments: capturing enquiries, coordinating bookings, and keeping judgement with your team.',
 };
@@ -16,6 +16,7 @@ export default function BlogsPage() {
   const [lead, ...rest] = blogPosts;
   return (
     <main id="main">
+      <Ld data={breadcrumbLd([['Home', '/'], ['Blogs', '/blogs']])} />
       <PageHero
         eyebrow="The HireStella blog"
         crumb={[['Home', '/'], ['Blogs']]}

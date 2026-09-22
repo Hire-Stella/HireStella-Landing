@@ -2,15 +2,15 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, Menu, X, Mail, Globe, MapPin } from 'lucide-react';
+import { ChevronDown, Menu, X, Mail, MapPin } from 'lucide-react';
 import { navigation } from '@/lib/data';
 import { industryGroups } from '@/lib/industry-content';
 import { Icon, Logo } from './ui';
+import { SocialLinks } from './social';
 import { ThemeToggle } from './site-behavior';
 
 const CONTACT = {
   email: 'sales@hirestella.ai',
-  site: 'www.hirestella.ai',
   address: ['Lake Central Towers 1903,', 'Business Bay, Dubai, UAE'],
   entity: 'HireStella AI for Software Solutions Co LLC',
 };
@@ -225,10 +225,6 @@ export function Footer() {
                 <Mail size={15} strokeWidth={1.6} aria-hidden="true" />
                 {CONTACT.email}
               </a>
-              <a href={`https://${CONTACT.site}`}>
-                <Globe size={15} strokeWidth={1.6} aria-hidden="true" />
-                {CONTACT.site}
-              </a>
               <span>
                 <MapPin size={15} strokeWidth={1.6} aria-hidden="true" />
                 <span>
@@ -238,6 +234,7 @@ export function Footer() {
                 </span>
               </span>
             </div>
+            <SocialLinks />
           </div>
 
           <div className="foot-col foot-col--wide">

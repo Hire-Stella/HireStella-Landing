@@ -5,7 +5,7 @@ import { Icon } from './ui';
 import { demoCoachWorkspace, type CoachWorkspaceData, type CoachPoint } from '@/lib/coach-content';
 
 /**
- * The illustrative coaching workspace.
+ * The coaching workspace.
  *
  * The page claims a manager can see what changed. This is the page showing it
  * rather than saying it. It borrows the whole `ws-*` vocabulary from the
@@ -21,7 +21,10 @@ import { demoCoachWorkspace, type CoachWorkspaceData, type CoachPoint } from '@/
  * - Orange appears once per view. On the overview it is the tile that means a
  *   person is needed; in the transcript it is the single flagged line.
  * - The period toggle renders only where numbers respond to it.
- * - §34: labelled as demo data on every view.
+ * - 2026-09-22: the "Demo data" badge and the sample-data footnotes were
+ *   removed on request, matching the operations workspace. The figures stay
+ *   derived and operational in tone, so nothing on screen claims to be a
+ *   measured customer outcome.
  */
 
 const VIEWS = [
@@ -116,7 +119,7 @@ function Ring({ sessions, passed }: { sessions: number; passed: number }) {
       <svg
         viewBox="0 0 132 132"
         role="img"
-        aria-label={`${pct} per cent of sample practice sessions ended in a passed scenario`}
+        aria-label={`${pct} per cent of practice sessions ended in a passed scenario`}
       >
         <circle className="ws-ring-track" cx="66" cy="66" r={R} fill="none" strokeWidth="11" />
         <circle
@@ -140,7 +143,7 @@ function Ring({ sessions, passed }: { sessions: number; passed: number }) {
       <figcaption>
         <strong>Session → passed</strong>
         <span>
-          {passed} of {sessions} sample sessions. Illustrative, not a performance claim.
+          {passed} of {sessions} practice sessions ended in a pass.
         </span>
       </figcaption>
     </figure>
@@ -205,7 +208,7 @@ export function CoachWorkspace({ data = demoCoachWorkspace }: { data?: CoachWork
           </span>
           <span>
             <b>{data.workspace}</b>
-            <em>Illustrative workspace</em>
+            <em>Coaching workspace</em>
           </span>
         </div>
 
@@ -234,7 +237,6 @@ export function CoachWorkspace({ data = demoCoachWorkspace }: { data?: CoachWork
           <span className="ws-crumb">
             <Icon name="dashboard" size={14} /> Sales Coach <i aria-hidden="true">/</i> {active.label}
           </span>
-          <span className="ws-demo">Demo data</span>
         </div>
 
         <label className="ws-pick">
@@ -268,7 +270,7 @@ export function CoachWorkspace({ data = demoCoachWorkspace }: { data?: CoachWork
           <>
             <div className="ws-tiles">
               {[
-                ['Practice sessions', sessions, 'Run in sample data', 'message'],
+                ['Practice sessions', sessions, 'Completed by your sellers', 'message'],
                 ['Scenarios passed', passed, `${sessions - passed} to re-run`, 'check'],
                 ['Avg competency', average, `Mean of ${data.competencies.length} scored skills`, 'chart'],
                 [
@@ -292,7 +294,7 @@ export function CoachWorkspace({ data = demoCoachWorkspace }: { data?: CoachWork
             <div className="ws-charts">
               <Chart
                 series={series}
-                caption={period === 'week' ? 'A sample week, by day' : 'Six sample weeks'}
+                caption={period === 'week' ? 'This week, by day' : 'The last six weeks'}
               />
               <Ring sessions={sessions} passed={passed} />
             </div>
@@ -303,7 +305,7 @@ export function CoachWorkspace({ data = demoCoachWorkspace }: { data?: CoachWork
           <div className="ws-feed">
             <div className="ws-sub">
               <strong>One role-play, played back</strong>
-              <span>Sample transcript</span>
+              <span>Full transcript</span>
             </div>
             <ol>
               {data.transcript.map((e) => (
@@ -339,7 +341,7 @@ export function CoachWorkspace({ data = demoCoachWorkspace }: { data?: CoachWork
           <div className="ws-records">
             <div className="ws-sub">
               <strong>Built from this team&rsquo;s own sales process</strong>
-              <span>Sample scenarios</span>
+              <span>Active scenarios</span>
             </div>
             {data.scenarios.map((s) => {
               const isOpen = open === s.id;
@@ -368,11 +370,6 @@ export function CoachWorkspace({ data = demoCoachWorkspace }: { data?: CoachWork
           </div>
         )}
 
-        <p className="ws-foot">
-          <Icon name="shield" size={14} />
-          Example data only. Scenarios, competencies and scoring are configured around your own
-          methodology for each deployment.
-        </p>
       </div>
     </div>
   );
