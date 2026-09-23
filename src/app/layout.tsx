@@ -15,6 +15,9 @@ import { Header, Footer } from '@/components/shell';
 import { AgentLauncher } from '@/components/agent-launcher';
 import { DemoModal } from '@/components/demo-modal';
 import { SiteBehavior, themeBootstrap } from '@/components/site-behavior';
+import { Analytics } from '@/components/analytics';
+import { ConsentBanner } from '@/components/consent-banner';
+import { consentBootstrap } from '@/lib/consent';
 import { Ld } from '@/components/system';
 import { organizationLd, websiteLd } from '@/lib/seo';
 
@@ -67,6 +70,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <meta name="theme-color" content="#141B45" />
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+        <script dangerouslySetInnerHTML={{ __html: consentBootstrap }} />
         <Ld data={[organizationLd(), websiteLd()]} />
       </head>
       <body>
@@ -80,6 +84,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <AgentLauncher />
         <DemoModal configured={Boolean(process.env.LEAD_WEBHOOK_URL)} />
+        <ConsentBanner />
+        <Analytics />
         <SiteBehavior />
       </body>
     </html>
