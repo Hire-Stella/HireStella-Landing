@@ -3,6 +3,100 @@
    Both are command surfaces, so both may use backdrop-filter (§30.3).
    ═══════════════════════════════════════════════════════════════════════ */
 
+/* ── the analytics consent bar ──────────────────────────────────────── */
+.cb {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 80;
+  padding: var(--s4) var(--gutter);
+  padding-bottom: calc(var(--s4) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  background: linear-gradient(178deg, var(--solid-a), var(--solid-b));
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.32);
+  animation: cb-in 320ms var(--e-in) both;
+}
+@keyframes cb-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+.cb-inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+}
+.cb-copy {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--t2);
+  max-width: 68ch;
+}
+.cb-act {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex: 0 0 auto;
+}
+.cb-act .btn {
+  min-height: 42px;
+  padding: 0 20px;
+  font-size: 14px;
+}
+/* Reject carries the same weight as accept — same height, same hit area. */
+.cb-reject {
+  min-height: 42px;
+  padding: 0 20px;
+  border-radius: var(--r-btn);
+  border: 1px solid var(--line-hi);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1);
+  background: rgba(199, 201, 232, 0.08);
+  cursor: pointer;
+}
+.cb-reject:hover {
+  background: rgba(199, 201, 232, 0.16);
+}
+
+/* Lift the launcher clear of the bar while it is open. */
+:root[data-consent-open='true'] .al {
+  bottom: 108px;
+}
+
+@media (max-width: 620px) {
+  .cb {
+    padding: var(--s4) var(--s5);
+    padding-bottom: calc(var(--s4) + env(safe-area-inset-bottom, 0px));
+  }
+  .cb-inner {
+    gap: var(--s3);
+  }
+  .cb-act {
+    width: 100%;
+  }
+  .cb-act .btn,
+  .cb-reject {
+    flex: 1 1 0;
+    justify-content: center;
+  }
+  :root[data-consent-open='true'] .al {
+    bottom: 150px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cb {
+    animation: none !important;
+  }
+}
+
 /* ── the launcher: one symbol, two Stellas ──────────────────────────── */
 .al {
   position: fixed;
