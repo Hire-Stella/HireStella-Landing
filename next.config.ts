@@ -40,15 +40,26 @@ const config: NextConfig = {
 
        `frame-src` names Google Maps only, so the click-to-load embed works and
        nothing else can be framed. `frame-ancestors 'none'` is the modern form
-       of the X-Frame-Options header kept below for older browsers. */
+       of the X-Frame-Options header kept below for older browsers.
+
+       Two later features load third parties and are named here too, or the
+       policy blocks them silently. Voice Stella loads the Dograh widget from
+       its endpoint, then opens a WebSocket back to it for signaling. The
+       consent-gated analytics load GTM (which pulls in GA4 and Google Ads) and
+       the Meta Pixel, only after the visitor accepts. */
+    const voice = new URL(process.env.NEXT_PUBLIC_DOGRAH_ENDPOINT || 'https://voice.hirestella.ai').origin;
+    const voiceWs = voice.replace(/^http/, 'ws');
+    const google =
+      'https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.g.doubleclick.net https://www.googleadservices.com https://www.google.com https://www.google.ae';
+    const meta = 'https://connect.facebook.net https://www.facebook.com';
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      `script-src 'self' 'unsafe-inline' ${voice} ${google} ${meta}`,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://maps.google.com",
+      `img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://maps.google.com ${google} ${meta}`,
       "font-src 'self' data:",
-      "connect-src 'self'",
-      "frame-src https://www.google.com https://maps.google.com",
+      `connect-src 'self' ${voice} ${voiceWs} ${google} ${meta}`,
+      "frame-src https://www.google.com https://maps.google.com https://*.googletagmanager.com https://td.doubleclick.net",
       "form-action 'self'",
       "base-uri 'self'",
       "object-src 'none'",
@@ -64,11 +75,12 @@ const config: NextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'Content-Security-Policy', value: csp },
-          /* Nothing on this site needs a camera, a microphone or a location,
-             so every page says so rather than leaving it to the browser. */
+          /* Voice Stella needs the microphone, on this origin only. Nothing
+             needs a camera or a location, so every page says so rather than
+             leaving it to the browser. */
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()',
+            value: 'camera=(), microphone=(self), geolocation=(), payment=(), usb=(), interest-cohort=()',
           },
         ],
       },
