@@ -90,7 +90,7 @@ export function DemoDialog({ configured }: { configured: boolean }) {
         <span className="eyebrow">LET'S UNDERSTAND YOUR BUSINESS</span>
         <h2 id="demo-dialog-title">Book a demo.</h2>
         <p className="demo-form-intro">Tell us a little about your business. We will use it to shape the conversation.</p>
-        <ConsultationForm key={instance} configured={configured} initialProblem={context.problem} compact id="demo-consultation" />
+        <ConsultationForm key={instance} configured={configured} initialProblem={context.problem} compact id="demo-consultation" source="modal" />
       </div>
     </div>}
   </dialog>;

@@ -52,9 +52,13 @@ const config: NextConfig = {
     const google =
       'https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.g.doubleclick.net https://www.googleadservices.com https://www.google.com https://www.google.ae';
     const meta = 'https://connect.facebook.net https://www.facebook.com';
+    /* React's development build calls eval() to rebuild stack frames, so
+       `next dev` breaks without this. Development only: the production bundle
+       never evals, so the shipped policy stays strict. */
+    const devOnly = process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : '';
     const csp = [
       "default-src 'self'",
-      `script-src 'self' 'unsafe-inline' ${voice} ${google} ${meta}`,
+      `script-src 'self' 'unsafe-inline'${devOnly} ${voice} ${google} ${meta}`,
       "style-src 'self' 'unsafe-inline'",
       `img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://maps.google.com ${google} ${meta}`,
       "font-src 'self' data:",

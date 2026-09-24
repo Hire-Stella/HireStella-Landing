@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Lock, ShieldCheck, X } from 'lucide-react';
 import { Logo } from './ui';
 import { demoSchema, HEARD_FROM } from '@/lib/lead-schema';
@@ -15,12 +16,22 @@ import { track } from '@/lib/telemetry';
  *
  * Any element with a `data-demo` attribute opens it, which keeps every entry
  * point in the site down to one behaviour.
+ *
+ * A *delivered* request is the one case that does leave the page: it lands on
+ * /thank-you, where the lead conversion is raised. Measuring the conversion on
+ * a destination URL is what Google Ads imports most reliably, and this modal is
+ * the site's main booking path, so leaving it inline would have left most
+ * conversions uncounted. The inline confirmation below is now only the
+ * unconfigured preview, where nothing was sent.
  */
 export function DemoModal({ configured }: { configured: boolean }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const [done, setDone] = useState<'sent' | 'local' | null>(null);
+  /* Only the unconfigured preview ends inside the modal. A delivered request
+     leaves for /thank-you, so there is no longer a "sent" state to render. */
+  const [done, setDone] = useState(false);
   const [heard, setHeard] = useState('');
   const [draft, setDraft] = useState<Record<string, string>>({});
   const [carried, setCarried] = useState(false);
@@ -55,7 +66,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
         setCarried(true);
       }
       setOpen(true);
-      setDone(null);
+      setDone(false);
       setError('');
       track('demo_modal_opened', { carried: Boolean(brief) });
     }
@@ -110,7 +121,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
       return;
     }
     if (!configured) {
-      setDone('local');
+      setDone(true);
       setDraft({});
       setHeard('');
       setCarried(false);
@@ -125,14 +136,17 @@ export function DemoModal({ configured }: { configured: boolean }) {
         body: JSON.stringify(parsed.data),
       });
       if (!response.ok) throw new Error('undelivered');
-      setDone('sent');
       setDraft({});
       setHeard('');
       setCarried(false);
       track('demo_submitted', { delivered: true });
+      /* Close before navigating: the open modal locks body scroll, and the
+         confirmation page would otherwise arrive unscrollable. `busy` stays set
+         so the button cannot be pressed again while the route resolves. */
+      setOpen(false);
+      router.push('/thank-you?src=modal');
     } catch {
       setError('Your request could not be delivered. Please try again, or email sales@hirestella.ai.');
-    } finally {
       setBusy(false);
     }
   }
@@ -205,11 +219,10 @@ export function DemoModal({ configured }: { configured: boolean }) {
                   <path d="M4 12.5l5.5 5.5L20 7" />
                 </svg>
               </span>
-              <h3>{done === 'sent' ? 'Your request is with the team.' : 'Your brief is ready.'}</h3>
+              <h3>Your brief is ready.</h3>
               <p className="sm">
-                {done === 'sent'
-                  ? 'Someone will read it and reply with the questions that matter. A demo is not confirmed until the team arranges it with you.'
-                  : 'Delivery is not connected on this preview, so nothing was sent. Email sales@hirestella.ai and we will pick it up from there.'}
+                Delivery is not connected on this preview, so nothing was sent. Email
+                sales@hirestella.ai and we will pick it up from there.
               </p>
               <button className="btn btn-2" type="button" onClick={close}>
                 Close

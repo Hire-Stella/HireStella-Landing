@@ -95,9 +95,13 @@ export function StellaWidget({
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
-  /* The delayed invitation: once per session, never on a conversion page. */
+  /* The delayed invitation: once per session, never on a conversion page, and
+     never on the confirmation that follows one. Inviting someone to book a demo
+     thirty seconds after they booked one reads as a broken site, and the
+     invitation's own button would reopen the form on the page whose only job is
+     to record the conversion. */
   useEffect(() => {
-    if (pathname === '/book-demo' || pathname === '/contact') return;
+    if (pathname === '/book-demo' || pathname === '/contact' || pathname === '/thank-you') return;
     let seen = false;
     try {
       seen = sessionStorage.getItem('hirestella-invite') === 'seen';

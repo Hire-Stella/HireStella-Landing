@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { calculateCapacity, defaultCapacity, workforcePreview } from '../src/lib/logic';
 import { plans } from '../src/lib/data';
 import { leadSchema } from '../src/lib/lead-schema';
+import { originAllowed } from '../src/lib/request-origin';
 
 test('commercial reference remains exact across all commitments', () => {
   assert.deepEqual(
@@ -80,4 +81,63 @@ test('consultation validation requires consent and rejects honeypot submissions'
   assert.equal(leadSchema.safeParse({ ...valid, website: 'spam' }).success, false);
   assert.equal(leadSchema.safeParse({ ...valid, problem: 'short' }).success, false);
   assert.equal(leadSchema.safeParse({ ...valid, email: 'invalid' }).success, false);
+});
+
+/* The origin check on /api/leads. It had been comparing the browser's Origin
+   against `new URL(request.url).origin`, which is not the same value behind a
+   proxy or under `next dev --hostname 127.0.0.1`, so the site was refusing its
+   own submissions. Every case below is a way to lose leads silently. */
+const asRequest = (url: string, headers: Record<string, string>) => ({
+  url,
+  headers: { get: (name: string) => headers[name.toLowerCase()] ?? null },
+});
+
+test('lead submissions are accepted from the host the browser actually requested', () => {
+  /* The dev case: Next reports localhost in request.url, the browser is on 127.0.0.1. */
+  assert.equal(
+    originAllowed(
+      asRequest('http://localhost:3000/api/leads', {
+        origin: 'http://127.0.0.1:3000',
+        host: '127.0.0.1:3000',
+      }),
+    ),
+    true,
+  );
+  /* The proxied production case: the handler sees an internal URL. */
+  assert.equal(
+    originAllowed(
+      asRequest('http://internal.vercel/api/leads', {
+        origin: 'https://hirestella.ai',
+        'x-forwarded-host': 'hirestella.ai',
+        'x-forwarded-proto': 'https',
+      }),
+    ),
+    true,
+  );
+  /* A request with no Origin at all is not a cross-site post. */
+  assert.equal(originAllowed(asRequest('https://hirestella.ai/api/leads', {})), true);
+});
+
+test('lead submissions are refused from any other origin', () => {
+  assert.equal(
+    originAllowed(
+      asRequest('https://hirestella.ai/api/leads', {
+        origin: 'https://evil.example.com',
+        'x-forwarded-host': 'hirestella.ai',
+        'x-forwarded-proto': 'https',
+      }),
+    ),
+    false,
+  );
+  /* A forwarded host must not be readable as permission for a different one. */
+  assert.equal(
+    originAllowed(
+      asRequest('https://hirestella.ai/api/leads', {
+        origin: 'https://hirestella.ai.evil.example.com',
+        'x-forwarded-host': 'hirestella.ai',
+        'x-forwarded-proto': 'https',
+      }),
+    ),
+    false,
+  );
 });

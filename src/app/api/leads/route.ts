@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { leadSchema, demoSchema, partnerSchema } from '@/lib/lead-schema';
+import { originAllowed } from '@/lib/request-origin';
 
 export async function POST(request: Request) {
-  const origin = request.headers.get('origin');
-  if (origin && origin !== new URL(request.url).origin)
+  if (!originAllowed(request))
     return NextResponse.json({ error: 'Origin not allowed.' }, { status: 403 });
   if (!request.headers.get('content-type')?.includes('application/json'))
     return NextResponse.json({ error: 'JSON required.' }, { status: 415 });

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ArrowUpRight, Download, RotateCcw } from 'lucide-react';
 import { Icon } from './ui';
 import { leadSchema } from '@/lib/lead-schema';
@@ -10,16 +11,20 @@ export function ConsultationForm({
   initialProblem = '',
   compact = false,
   id = 'consultation',
+  source = 'book-demo',
 }: {
   configured: boolean;
   initialProblem?: string;
   compact?: boolean;
   id?: string;
+  /** Which surface this form is on. Carried to /thank-you so one conversion
+      can still be segmented by where the lead started. */
+  source?: string;
 }) {
+  const router = useRouter();
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [brief, setBrief] = useState('');
-  const [sent, setSent] = useState(false);
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
@@ -48,13 +53,17 @@ export function ConsultationForm({
         body: JSON.stringify(data),
       });
       if (!response.ok) throw new Error('Your request could not be delivered. Please try again.');
-      setBrief(prepared);
-      setSent(true);
+      /* Delivered requests leave for the confirmation page, which is where the
+         lead conversion is raised. The inline panel below is now only the
+         unconfigured preview path, where nothing was sent and there is nothing
+         to confirm. `busy` is deliberately left set: the button stays disabled
+         until the navigation replaces the page, so a slow route change cannot
+         be submitted a second time. */
+      router.push(`/thank-you?src=${encodeURIComponent(source)}`);
     } catch {
       setError(
         'Your request could not be delivered. Please try again; no booking has been confirmed.',
       );
-    } finally {
       setBusy(false);
     }
   }
@@ -69,12 +78,11 @@ export function ConsultationForm({
   if (brief)
     return (
       <div id={id} className="form-success pan pan--solid" role="status">
-        <Icon name={sent ? 'check' : 'records'} size={30} />
-        <h2>{sent ? 'Your request is with the team.' : 'Your brief is ready.'}</h2>
+        <Icon name="records" size={30} />
+        <h2>Your brief is ready.</h2>
         <p>
-          {sent
-            ? 'Your consultation request has been delivered. A booking is not confirmed until the team arranges it with you.'
-            : 'Download your brief to keep your starting point. Nothing has been sent and no consultation has been booked.'}
+          Download your brief to keep your starting point. Nothing has been sent and no consultation
+          has been booked.
         </p>
         <pre>{brief}</pre>
         <div className="inline-actions">
@@ -82,13 +90,7 @@ export function ConsultationForm({
             Download my brief
             <Download size={16} />
           </button>
-          <button
-            className="btn btn-2"
-            onClick={() => {
-              setBrief('');
-              setSent(false);
-            }}
-          >
+          <button className="btn btn-2" onClick={() => setBrief('')}>
             <RotateCcw size={15} />
             Start another brief
           </button>
