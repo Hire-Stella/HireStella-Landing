@@ -55,7 +55,7 @@ export function DentalExplorer() {
             </div>
           </dl>
 
-          <Link className="btn-3" href={`/workforce/${current.id}`}>
+          <Link className="btn-3" href="/stella#workforce">
             Meet the {current.name.toLowerCase()} specialist <span className="tri" aria-hidden="true" />
           </Link>
         </div>

@@ -12,7 +12,7 @@ export const SECTOR_FAQS: Record<string, { q: string; a: string }[]> = {
   healthcare: [
     {
       q: 'Will it give medical advice to a patient?',
-      a: 'No, and it is configured so it cannot. It answers the questions your clinic has approved in writing — opening hours, what a service involves, what to bring — and anything clinical transfers to your team with the full conversation attached. A clinician makes every clinical judgement.',
+      a: 'No, and it is configured so it cannot. It answers the questions your clinic has approved in writing (opening hours, what a service involves, what to bring), and anything clinical transfers to your team with the full conversation attached. A clinician makes every clinical judgement.',
     },
     {
       q: 'What happens with patient data?',
@@ -95,7 +95,7 @@ export const SECTOR_FAQS: Record<string, { q: string; a: string }[]> = {
     },
     {
       q: 'Most of our volume is document chasing. Does that help?',
-      a: 'That is one of the clearest cases. The approved checklist goes out, the follow-up runs on schedule, and it stops the moment the documents arrive — which is the work that currently decides whether a case completes on time.',
+      a: 'That is one of the clearest cases. The approved checklist goes out, the follow-up runs on schedule, and it stops the moment the documents arrive, which is the work that currently decides whether a case completes on time.',
     },
   ],
 
@@ -132,7 +132,7 @@ export const SECTOR_FAQS: Record<string, { q: string; a: string }[]> = {
   'professional-services': [
     {
       q: 'Will it give advice or quote a fee?',
-      a: 'Neither. Advice, scope, fees and anything privileged go to your qualified people. The workforce asks the qualifying questions you define — budget, timeline, decision-maker — so a fee earner opens an enquiry already worth their time.',
+      a: 'Neither. Advice, scope, fees and anything privileged go to your qualified people. The workforce asks the qualifying questions you define (budget, timeline, decision-maker), so a fee earner opens an enquiry already worth their time.',
     },
     {
       q: 'How does it handle a possible conflict?',

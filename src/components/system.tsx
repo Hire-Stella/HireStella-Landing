@@ -149,7 +149,12 @@ export function PageHero({
       <span className="phero-pool" aria-hidden="true" />
       <span className="phero-dots" aria-hidden="true" />
       <div className="wrap">
-        {crumb ? <Crumb trail={crumb} /> : null}
+        {/* The visible breadcrumb is withheld: the header already carries every
+            route, so the trail repeated navigation the visitor had just used and
+            opened each interior page on "Home /" rather than on its own title.
+            The `crumb` prop is kept on the call sites, and breadcrumbLd still
+            ships the BreadcrumbList to Google, so search results are unaffected.
+            Restoring the trail is this one line. */}
         <div className="phero-in">
           <div className="phero-copy">
             <p className="eyebrow eyebrow--sig">{eyebrow}</p>

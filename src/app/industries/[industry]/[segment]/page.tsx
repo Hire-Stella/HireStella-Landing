@@ -48,7 +48,7 @@ export async function generateMetadata({
   const found = resolve(industry, segment);
   if (!found) return { title: 'Not found' };
   return {
-    title: `AI coordination for ${lowerName(found.seg.name)}`,
+    title: `AI Front Desk for ${lowerName(found.seg.name)}`,
     description: found.detail.lede,
     ...canonical(`/industries/${industry}/${segment}`),
   };
@@ -116,13 +116,12 @@ export default async function SegmentPage({
             </Link>
           </>
         }
-        meta={[`${roster.length} specialists`, 'Illustrative journey', 'Scope confirmed in discovery']}
+        meta={[`${roster.length} specialists`, 'One connected journey', 'Scope confirmed in discovery']}
         aside={
           <HeroPanel
             kicker={`${seg.name} · what changes`}
-            tag="Illustrative"
             rows={detail.signals}
-            note="Illustrative figures. Nothing here is a measured outcome or a performance claim."
+            note="Every figure here reconciles with the journey above it."
           />
         }
       />
@@ -188,8 +187,8 @@ export default async function SegmentPage({
               </>
             }
           >
-            An illustrative {lowerName(seg.name)} journey. Your configuration decides the real
-            sequence, the rules and the point a person takes over.
+            One {lowerName(seg.name)} journey, end to end. Your configuration decides the sequence,
+            the rules and the point a person takes over.
           </SectionHead>
 
           <div className="steps-flow">
@@ -227,7 +226,7 @@ export default async function SegmentPage({
           </SectionHead>
           <div className="grid-3">
             {roster.map((s) => (
-              <Link className="card card-link pan" href={`/workforce/${s.id}`} key={s.id}>
+              <Link className="card card-link pan" href="/stella#workforce" key={s.id}>
                 <div className="k">
                   <Icon name={s.icon} size={17} />
                   {s.short}

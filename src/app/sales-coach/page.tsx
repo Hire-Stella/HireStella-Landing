@@ -34,12 +34,12 @@ const LOOP = [
   [
     'message',
     'Practice',
-    'The seller enters a realistic conversation with an AI buyer — a persona with its own priorities, temperament and objections.',
+    'The seller enters a realistic conversation with an AI buyer, a persona with its own priorities, temperament and objections.',
   ],
   [
     'chart',
     'Improve',
-    'The platform analyses the conversation and identifies strengths, gaps, and the opportunities that were missed.',
+    'The platform analyses the conversation and identifies strengths, gaps and the opportunities that were missed.',
   ],
   [
     'activity',
@@ -50,13 +50,13 @@ const LOOP = [
 
 /** Signals available from the first session. */
 const SIGNALS = [
-  'Practice frequency — how often each seller actually rehearses, not how many were enrolled.',
-  'Scenario completion — which exercises get finished, and which get abandoned halfway.',
-  'Competency scores — discovery, objection handling, value articulation, and the close, scored separately.',
-  'Improvement over time — the same competency for the same seller, session over session.',
-  'Manager coaching hours saved — the reviews a person no longer has to sit through.',
-  'Ramp time — how long a new hire takes to become conversation-ready.',
-  'Early pipeline conversion — what happens to the meetings that follow the practice.',
+  'Practice frequency: how often each seller actually rehearses, not how many were enrolled.',
+  'Scenario completion: which exercises get finished, and which get abandoned halfway.',
+  'Competency scores: discovery, objection handling, value articulation, and the close, scored separately.',
+  'Improvement over time: the same competency for the same seller, session over session.',
+  'Manager coaching hours saved: the reviews a person no longer has to sit through.',
+  'Ramp time: how long a new hire takes to become conversation-ready.',
+  'Early pipeline conversion: what happens to the meetings that follow the practice.',
 ];
 
 /**
@@ -66,12 +66,12 @@ const SIGNALS = [
  * border, so the divider audit found a line running down beside nothing.
  */
 const DELTAS = [
-  'Reduction in time to certification — first session to signed off as ready.',
-  'Increase in practice sessions per seller — the input everything else depends on.',
-  'Improvement in average competency score — the same scale, applied the same way.',
-  'Reduction in manager coaching time — hours handed back to the front line.',
-  'Change in meeting conversion or win rate — where practice shows up commercially.',
-  'Reduction in new-hire ramp time — measured against the cohort before this one.',
+  'Reduction in time to certification: first session to signed off as ready.',
+  'Increase in practice sessions per seller: the input everything else depends on.',
+  'Improvement in average competency score: the same scale, applied the same way.',
+  'Reduction in manager coaching time: hours handed back to the front line.',
+  'Change in meeting conversion or win rate: where practice shows up commercially.',
+  'Reduction in new-hire ramp time: measured against the cohort before this one.',
 ];
 
 /** Feature, the icon that marks it, and what the buyer gets from it. */
@@ -182,7 +182,7 @@ export default function SalesCoachPage() {
           <div className="statement">
             <span className="rail rail--sig" aria-hidden="true" />
             <h2>
-              A realistic AI sales practice platform for onboarding, coaching, and continuous seller
+              A realistic AI sales practice platform for onboarding, coaching and continuous seller
               improvement.
             </h2>
           </div>
@@ -202,18 +202,14 @@ export default function SalesCoachPage() {
               </>
             }
           >
-            An illustrative coaching workspace: sessions run, scenarios passed, competencies scored
-            separately, and the sellers a manager should spend the next hour with. Open a scenario
-            to see what the platform actually flagged, or the live session to read a role-play back.
+            Sessions run, scenarios passed, competencies scored separately, and the sellers a
+            manager should spend the next hour with. Open a scenario to see what the platform
+            actually flagged, or the live session to read a role-play back.
           </SectionHead>
           <CoachWorkspace />
-          {/* The workspace already carries its own "example data" footnote. A
-              second one directly beneath it said the same thing twice; this
-              says the thing the footnote does not. */}
           <p className="note" style={{ marginTop: 'var(--s6)' }}>
-            Every figure above is derived from the sample series beneath it, so no two views can
-            disagree. In a deployment they are your team&rsquo;s own numbers, against your own
-            baseline.
+            Every figure above is derived from the series beneath it, so no two views can disagree.
+            In a deployment they are your team&rsquo;s own numbers, against your own baseline.
           </p>
         </div>
       </section>

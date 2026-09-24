@@ -1,21 +1,22 @@
 import type { Metadata } from 'next';
-import { canonical } from '@/lib/seo';
+import { canonical, breadcrumbLd, localBusinessLd, SITE, BUSINESS, mapsUrl } from '@/lib/seo';
 import Link from 'next/link';
-import { Mail, MapPin, ShieldCheck } from 'lucide-react';
+import { Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
 import { ConsultationForm } from '@/components/consultation-form';
-import { PageHero, Closer, Thread, Tri, Bul } from '@/components/system';
+import { ContactMap } from '@/components/contact-map';
+import { PageHero, Closer, Thread, Tri, Bul, Ld } from '@/components/system';
 
 export const metadata: Metadata = {
   ...canonical('/contact'),
-  title: 'Contact',
+  title: 'Contact Us, Business Bay Dubai',
   description:
     'Start a conversation about your business capacity, integration requirements, or a bespoke HireStella workforce.',
 };
 
 const EXPLORE = [
   'The workflows creating pressure for your team.',
-  'Your channels, systems, and integration needs.',
-  'Language, voice, and operational capacity.',
+  'Your channels, systems and integration needs.',
+  'Language, voice and operational capacity.',
   'Custom requirements and human oversight.',
 ];
 
@@ -23,6 +24,12 @@ export default function Contact() {
   const configured = Boolean(process.env.LEAD_WEBHOOK_URL);
   return (
     <main id="main">
+      <Ld
+        data={[
+          breadcrumbLd([['Home', '/'], ['Contact', '/contact']]),
+          localBusinessLd(),
+        ]}
+      />
       <PageHero
         eyebrow="Let us find your starting point"
         crumb={[['Home', '/'], ['Contact']]}
@@ -66,18 +73,27 @@ export default function Contact() {
             <aside className="convert-aside pan" style={{ position: 'sticky', top: 100 }}>
               <p className="eyebrow">Reach us directly</p>
               <div className="foot-contact">
-                <a href="mailto:sales@hirestella.ai">
+                <a href={`mailto:${SITE.email}`}>
                   <Mail size={15} strokeWidth={1.6} aria-hidden="true" />
-                  sales@hirestella.ai
+                  {SITE.email}
                 </a>
-                <span>
+                {BUSINESS.phone ? (
+                  <a href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`}>
+                    <Phone size={15} strokeWidth={1.6} aria-hidden="true" />
+                    {BUSINESS.phone}
+                  </a>
+                ) : null}
+                {/* The address is a link, not text: on a phone this is the tap
+                    that starts directions, and it is the same string the
+                    LocalBusiness markup carries. */}
+                <a href={mapsUrl()} target="_blank" rel="noopener noreferrer">
                   <MapPin size={15} strokeWidth={1.6} aria-hidden="true" />
                   <span>
-                    Lake Central Towers 1903,
+                    {SITE.street},
                     <br />
-                    Business Bay, Dubai, UAE
+                    {SITE.city}, UAE
                   </span>
-                </span>
+                </a>
               </div>
               <ul className="bullets">
                 <li>
@@ -98,6 +114,8 @@ export default function Contact() {
               </Link>
             </aside>
           </div>
+
+          <ContactMap />
         </div>
       </section>
 

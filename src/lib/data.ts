@@ -30,7 +30,7 @@ export const specialists = [
     description: 'Your digital front door, connected to what follows.',
     actions: 'BUILDS · CONNECTS · CONVERTS',
     detail:
-      'Create a conversion-ready website connected to enquiries, qualification, bookings, and the wider workforce journey.',
+      'Create a conversion-ready website connected to enquiries, qualification, bookings and the wider workforce journey.',
     boundary: 'Your team approves content, brand presentation, and publication.',
   },
   {
@@ -64,7 +64,7 @@ export const specialists = [
     actions: 'CREATES · NURTURES · TRACKS',
     detail:
       'Support content, nurture sequences, campaign execution, and engagement tracking within an approved strategy.',
-    boundary: 'People own strategy, budgets, claims, and final creative approval.',
+    boundary: 'People own strategy, budgets, claims and final creative approval.',
   },
   {
     id: 'social',
@@ -86,7 +86,7 @@ export const specialists = [
     actions: 'REACHES · FOLLOWS UP · RE-ENGAGES',
     detail:
       'Coordinate approved outreach, timely reminders, and re-engagement workflows so opportunities keep moving.',
-    boundary: 'Your team defines consent, contact rules, messaging, and escalation.',
+    boundary: 'Your team defines consent, contact rules, messaging and escalation.',
   },
 ] as const;
 
@@ -216,8 +216,8 @@ export const industries = [
       'Rebooking reminder sent',
     ],
     boundary:
-      'Your team handles treatment suitability, complaints, and exceptions to booking policy.',
-    systems: 'Supported booking systems, calendars, and social channels',
+      'Your team handles treatment suitability, complaints and exceptions to booking policy.',
+    systems: 'Supported booking systems, calendars and social channels',
     ids: ['front-desk', 'voice', 'booking', 'social', 'outbound-followup'],
   },
 ] as const;
@@ -259,7 +259,6 @@ export const navigation = [
       ['Integrations', '/integrations'],
       ['Human boundary', '/human-boundary'],
       ['Security & trust', '/security'],
-      ['ROI calculator', '/roi'],
     ],
   },
   {

@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
-import { canonical } from '@/lib/seo';
+import { canonical, breadcrumbLd } from '@/lib/seo';
 import Link from 'next/link';
 import { industryGroups, lowerName } from '@/lib/industry-content';
 import { businessTypes } from '@/lib/business-types';
-import { PageHero, Closer, Thread, SectionHead, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Tri, Bul, Ld } from '@/components/system';
 import { Icon } from '@/components/ui';
 
 export const metadata: Metadata = {
   ...canonical('/industries'),
-  title: 'Industries',
+  title: 'AI Workforce by Industry, 10 UAE Sectors',
   description:
     'Start with the way work actually moves in your industry, then build the AI workforce around it.',
 };
@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 export default function IndustriesPage() {
   return (
     <main id="main">
+      <Ld data={breadcrumbLd([['Home', '/'], ['Industries', '/industries']])} />
       <PageHero
         eyebrow="Built around your reality"
         crumb={[['Home', '/'], ['Industries']]}

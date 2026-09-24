@@ -31,15 +31,22 @@ const additional = {
     eyebrow: 'Your connected workforce',
     title: 'Your operation.\nOne clear view.',
     intro:
-      'This website includes an interactive demonstration workspace. Production workspace access is provided as part of your configured deployment.',
+      'This website includes an interactive workspace you can explore. Production workspace access is provided as part of your configured deployment.',
   },
 } as const;
 
 type EditorialKey = keyof typeof editorialPages;
 type AdditionalKey = keyof typeof additional;
 
+/* Routes kept in the source but withheld from the live site. The ROI calculator
+   is hidden while pricing stays hidden; clearing this set restores the page,
+   its sitemap entry and its links with no other edit. */
+const HIDDEN_SLUGS = new Set<string>(['roi']);
+
 export function generateStaticParams() {
-  return [...Object.keys(editorialPages), ...Object.keys(additional)].map((slug) => ({ slug }));
+  return [...Object.keys(editorialPages), ...Object.keys(additional)]
+    .filter((slug) => !HIDDEN_SLUGS.has(slug))
+    .map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -75,8 +82,7 @@ function RouteAside({ steps, caption }: { steps: string[]; caption: string }) {
 const HERO_PANELS: Record<string, React.ReactNode> = {
   workforce: (
     <HeroPanel
-      kicker="Command centre · sample day"
-      tag="Demo data"
+      kicker="Command centre · today"
       stats={[
         ['Enquiries', '34'],
         ['Bookings', '21'],
@@ -88,13 +94,12 @@ const HERO_PANELS: Record<string, React.ReactNode> = {
         ['Enquiry to booking', '62%', true],
         ['Handoffs resolved', '16 / 18'],
       ]}
-      note="Illustrative figures that reconcile with the demo workspace. Not a performance claim."
+      note="Every figure here reconciles with every other view of the workspace."
     />
   ),
   dashboard: (
     <HeroPanel
-      kicker="Thursday · sample day"
-      tag="Demo data"
+      kicker="Thursday"
       stats={[
         ['Enquiries', '34'],
         ['Bookings', '21'],
@@ -135,7 +140,7 @@ const HERO_PANELS: Record<string, React.ReactNode> = {
     <HeroPanel
       kicker="What you can open"
       rows={[
-        ['Demo workspace', 'Open'],
+        ['Explore the workspace', 'Open'],
         ['Production workspace', 'By deployment', true],
         ['Consultation brief', 'Anytime'],
       ]}
@@ -188,7 +193,7 @@ const RELATED: Record<string, { href: string; label: string; note: string; kind:
     { href: '/book-demo', label: 'Book a demo', note: 'Start with the way your business works.', kind: 'Next step' },
   ],
   login: [
-    { href: '/stella#dashboard', label: 'Explore the dashboard', note: 'The demonstration workspace, open to anyone.', kind: 'Child' },
+    { href: '/stella#dashboard', label: 'Explore the dashboard', note: 'The operations workspace, open to anyone.', kind: 'Child' },
     { href: '/security', label: 'Security & trust', note: 'Access, permissions and deployment scope.', kind: 'Sibling' },
     { href: '/book-demo', label: 'Book a demo', note: 'Plan a configured deployment.', kind: 'Next step' },
   ],
@@ -198,7 +203,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   const { slug } = await params;
   const editorial = editorialPages[slug as EditorialKey];
   const page = editorial ?? additional[slug as AdditionalKey];
-  if (!page) notFound();
+  if (!page || HIDDEN_SLUGS.has(slug)) notFound();
 
   const [first, ...rest] = page.title.split('\n');
 
@@ -425,7 +430,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
               </SectionHead>
               <div className="grid-3">
                 {specialists.map((s) => (
-                  <Link className="card card-link pan" href={`/workforce/${s.id}`} key={s.id}>
+                  <Link className="card card-link pan" href="/stella#workforce" key={s.id}>
                     <div className="k">
                       <Icon name={s.icon} size={17} />
                       {s.short}
@@ -506,11 +511,6 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           <section className="sec">
             <div className="wrap">
               <DashboardPlanes />
-              <p className="note" style={{ marginTop: 'var(--s6)' }}>
-                Illustrative clinic data, not live customer activity. Today and seven-day totals are
-                sample aggregates; the records show selected journeys from the sample day. Two open
-                handoffs remain with the clinic team.
-              </p>
             </div>
           </section>
           <section className="sec">
@@ -559,7 +559,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                 </p>
                 <div className="btn-row" style={{ justifyContent: 'center' }}>
                   <Link className="btn btn-1" href="/stella#dashboard">
-                    Open demo workspace <Tri />
+                    Open the workspace <Tri />
                   </Link>
                   <button className="btn btn-2" type="button" data-demo>
                     Plan your deployment

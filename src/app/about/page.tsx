@@ -8,7 +8,7 @@ import { FAQS } from '@/lib/faqs';
 
 export const metadata: Metadata = {
   ...canonical('/about'),
-  title: 'Our story',
+  title: 'About HireStella, Our Story',
   description:
     'Businesses do not always need more people. They need more capacity from the people they already have. The idea HireStella was built around, and what it means in practice.',
 };

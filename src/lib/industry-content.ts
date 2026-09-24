@@ -9,6 +9,7 @@ export const industryGroups = [
   {
     id: 'healthcare',
     name: 'Healthcare & clinics',
+    seoTitle: 'AI Receptionist for Clinics in Dubai',
     headline: 'From the first call to a confirmed appointment.',
     icon: 'medical',
     intro:
@@ -92,6 +93,7 @@ export const industryGroups = [
   {
     id: 'automotive',
     name: 'Automotive',
+    seoTitle: 'AI Call Handling for Car Rental & Service',
     headline: 'Rental, workshop and showroom. One customer.',
     icon: 'car',
     intro:
@@ -138,6 +140,7 @@ export const industryGroups = [
   {
     id: 'real-estate',
     name: 'Real estate',
+    seoTitle: 'AI Lead Response for Dubai Real Estate',
     headline: 'Answer tonight. Show this week.',
     icon: 'home',
     intro:
@@ -172,15 +175,54 @@ export const industryGroups = [
   {
     id: 'hospitality',
     name: 'Hospitality',
+    seoTitle: '24/7 AI Booking Assistant for Hospitality',
     headline: 'Answer the guest who is still deciding.',
     icon: 'hotel',
     intro:
       'Answer the booking question while the guest is still deciding, and keep the floor free to look after the ones already here.',
-    segments: [],
+    segments: [
+      {
+        id: 'hotels',
+        name: 'Hotels & resorts',
+        description:
+          'Answer the direct availability question before a channel does, at any hour.',
+        steps: [
+          'Answer the enquiry',
+          'Capture what the stay needs',
+          'Coordinate the reservation',
+          'Follow up before arrival',
+        ],
+      },
+      {
+        id: 'apartments',
+        name: 'Serviced apartments',
+        description:
+          'Terms, inclusions and access coordinated for extended and corporate stays.',
+        steps: [
+          'Answer the stay question',
+          'Capture the requirement',
+          'Coordinate access or a call',
+          'Follow through on open items',
+        ],
+      },
+      {
+        id: 'venues',
+        name: 'Restaurants & venues',
+        description:
+          'Reservations, large parties and event enquiries handled during service.',
+        steps: [
+          'Take the enquiry',
+          'Answer the standing questions',
+          'Coordinate the booking or visit',
+          'Confirm and follow up',
+        ],
+      },
+    ],
   },
   {
     id: 'education',
     name: 'Education & training',
+    seoTitle: 'AI Admissions Assistant for Schools',
     headline: 'Admissions that answer after hours.',
     icon: 'graduation',
     intro:
@@ -215,6 +257,7 @@ export const industryGroups = [
   {
     id: 'financial-services',
     name: 'Financial services',
+    seoTitle: 'AI Client Service for Financial Firms',
     headline: 'Routine cleared. Complex cases reached.',
     icon: 'bank',
     intro:
@@ -248,6 +291,7 @@ export const industryGroups = [
   {
     id: 'home-services',
     name: 'Home services',
+    seoTitle: 'AI Answering Service for Home Services',
     headline: 'The job booked while the vans are out.',
     icon: 'tools',
     intro:
@@ -282,24 +326,113 @@ export const industryGroups = [
   {
     id: 'travel',
     name: 'Travel & tourism',
+    seoTitle: 'AI Enquiry Handling for Travel & Tourism',
     headline: 'Answered in every time zone.',
     icon: 'plane',
     intro:
       'Handle the itinerary and eligibility questions that arrive at every hour from every time zone, before a consultant is ever needed.',
-    segments: [],
+    segments: [
+      {
+        id: 'agents',
+        name: 'Travel agencies',
+        description:
+          'Itinerary and package questions answered across every time zone.',
+        steps: [
+          'Answer the enquiry',
+          'Capture the trip',
+          'Coordinate the consultation',
+          'Follow up on the itinerary',
+        ],
+      },
+      {
+        id: 'visas',
+        name: 'Visa & immigration services',
+        description:
+          'Published requirements answered and document checklists chased.',
+        steps: [
+          'Answer the standing question',
+          'Send the checklist',
+          'Chase what is missing',
+          'Hand the case over',
+        ],
+      },
+    ],
   },
   {
     id: 'professional-services',
     name: 'Professional services',
+    seoTitle: 'AI Lead Qualification for Consultancies',
     headline: 'Qualified before a fee earner sees it.',
     icon: 'briefcase',
     intro:
       'Qualify inbound enquiries before they reach a fee earner, so consultant hours go to the work that was always going to convert.',
-    segments: [],
+    segments: [
+      {
+        id: 'legal',
+        name: 'Legal firms',
+        description:
+          'Enquiries captured and conflict information gathered before a fee earner.',
+        steps: [
+          'Capture the enquiry',
+          'Gather what a check needs',
+          'Coordinate the consultation',
+          'Keep the file moving',
+        ],
+      },
+      {
+        id: 'accounting',
+        name: 'Accounting firms',
+        description:
+          'Document checklists sent and chased against every filing deadline.',
+        steps: [
+          'Capture the enquiry or request',
+          'Send the checklist',
+          'Chase what is outstanding',
+          'Hand the file to a person',
+        ],
+      },
+      {
+        id: 'recruitment',
+        name: 'Recruitment agencies',
+        description:
+          'Candidate and client enquiries answered without taking a consultant hour.',
+        steps: [
+          'Answer the enquiry',
+          'Capture the brief',
+          'Coordinate the conversation',
+          'Keep candidates warm',
+        ],
+      },
+      {
+        id: 'strategy',
+        name: 'Business consultancies',
+        description:
+          'Budget, timeline and decision-maker established before a scoping call.',
+        steps: [
+          'Capture the enquiry',
+          'Qualify against your criteria',
+          'Coordinate the scoping call',
+          'Follow up on what is open',
+        ],
+      },
+      {
+        id: 'agencies',
+        name: 'Marketing & creative agencies',
+        description:
+          'Inbound briefs acknowledged and qualified before anyone builds a proposal.',
+        steps: [
+          'Answer the brief',
+          'Qualify the opportunity',
+          'Coordinate the chemistry call',
+          'Keep the pipeline warm',
+        ],
+      },
+    ],
   },
   {
     id: 'retail',
     name: 'Retail & D2C',
+    seoTitle: 'AI Customer Service for Retail & D2C',
     headline: 'Before they buy. After it ships.',
     icon: 'store',
     intro:

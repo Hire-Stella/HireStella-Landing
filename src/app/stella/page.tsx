@@ -10,7 +10,7 @@ import { FAQS } from '@/lib/faqs';
 
 export const metadata: Metadata = {
   ...canonical('/stella'),
-  title: 'Meet Stella',
+  title: 'Meet Stella, Your AI General Manager',
   description:
     'One AI General Manager and eight connected specialists. See the workspace, the roles, how a deployment is built, and where your people stay in control.',
 };
@@ -117,14 +117,13 @@ export default function StellaPage() {
               </>
             }
           >
-            An illustrative workspace with enquiry trends, booking activity and human handoffs. Every
-            number reconciles across every view, and opening a record shows what was actually
-            decided.
+            Enquiry trends, booking activity and human handoffs in one view. Every number
+            reconciles across every view, and opening a record shows what was actually decided.
           </SectionHead>
           <OperationsWorkspace data={clinicWorkspace} />
           <p className="note" style={{ marginTop: 'var(--s6)' }}>
-            Example data only. Production channels, systems, permissions and reporting depth are
-            configured for each deployment.
+            Your channels, systems, permissions and reporting depth are configured around the way
+            your business already runs.
           </p>
         </div>
       </section>
@@ -245,7 +244,6 @@ export default function StellaPage() {
           { href: '/industries', label: 'Your industry', note: 'Ten sectors, and what changes in each one.', kind: 'Next' },
           { href: '/integrations', label: 'Integrations', note: 'How context carries into the systems you already run.', kind: 'Sibling' },
           { href: '/human-boundary', label: 'The human boundary', note: 'Where automation stops and your team decides.', kind: 'Sibling' },
-          { href: '/roi', label: 'ROI calculator', note: 'Put a number on what your call volume costs today.', kind: 'Next step' },
         ]}
       />
 

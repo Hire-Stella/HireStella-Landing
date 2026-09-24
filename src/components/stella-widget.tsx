@@ -214,7 +214,7 @@ export function StellaWidget({
         <div
           className="sw pan pan--solid blur"
           role="dialog"
-          aria-label="Talk to Stella"
+          aria-label="Chat to Stella"
           tabIndex={-1}
           ref={panel}
         >

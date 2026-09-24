@@ -7,7 +7,7 @@ import { FAQS } from '@/lib/faqs';
 
 export const metadata: Metadata = {
   ...canonical('/team'),
-  title: 'Our approach',
+  title: 'How We Build an AI Workforce',
   description:
     'We do not start with a list of AI features. We start with the work: where your team is under pressure, how work moves, and where human judgement has to stay.',
 };
