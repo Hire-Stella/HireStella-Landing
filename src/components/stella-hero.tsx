@@ -325,8 +325,8 @@ export function StellaHero() {
         </h1>
 
         <p className="lede">
-          One AI General Manager. A connected team of AI Specialists. Built around your business,
-          working as one.
+          Stella, your AI General Manager, runs eight AI specialists that answer your calls and
+          messages, book appointments and follow up. Anything sensitive goes to your team.
         </p>
 
         <div className="btn-row" style={{ justifyContent: 'center' }}>

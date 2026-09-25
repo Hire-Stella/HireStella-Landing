@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { canonical, breadcrumbLd, serviceLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, HeroPanel, Related, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, HeroPanel, Ld, Tri, Bul } from '@/components/system';
 import { CoachWorkspace } from '@/components/coach-workspace';
 import { PracticeLoop } from '@/components/figures';
 import { Icon } from '@/components/ui';
@@ -345,34 +345,6 @@ export default function SalesCoachPage() {
         </div>
       </section>
 
-      <Related
-        links={[
-          {
-            href: '/stella',
-            label: 'Meet Stella',
-            note: 'The AI General Manager and the eight specialists that run the operation itself.',
-            kind: 'Sibling',
-          },
-          {
-            href: '/industries',
-            label: 'Your industry',
-            note: 'Ten sectors, and what a sales conversation is actually about in each one.',
-            kind: 'Next',
-          },
-          {
-            href: '/integrations',
-            label: 'Integrations',
-            note: 'How context carries into the systems your sales team already runs.',
-            kind: 'Sibling',
-          },
-          {
-            href: '/contact',
-            label: 'Talk to us',
-            note: 'Tell us the objection your team loses most often.',
-            kind: 'Next step',
-          },
-        ]}
-      />
 
       <Closer
         title={

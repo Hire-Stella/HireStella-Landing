@@ -47,7 +47,7 @@ const REPLIES: { label: string; you: string; stella: string[]; cta?: { href: str
     label: 'What does it cost?',
     you: 'How is this priced?',
     stella: [
-      'All eight specialists are included in every plan, and there is no per-message price.',
+      'All eight specialists come with every deployment, and there is no per-message price.',
       'The operating level is set by volume, voice, languages, integrations and reporting. We confirm it during scoping rather than quoting blind.',
     ],
     cta: { href: '/book-demo', label: 'Book a demo' },

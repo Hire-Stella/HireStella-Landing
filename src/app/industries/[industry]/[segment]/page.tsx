@@ -39,6 +39,45 @@ function resolve(industry: string, segment: string) {
   return { detail, group, seg };
 }
 
+/* One business of each type, for sentences like "for a dental clinic like
+   yours". Written out because the names do not singularise by rule: the old
+   `replace(/s$/, '')` printed "real estate companie" and "hotels and resort". */
+const ONE_OF: Record<string, string> = {
+  dental: 'a dental clinic',
+  eye: 'an eye clinic',
+  aesthetic: 'an aesthetic clinic',
+  multispecialty: 'a multispecialty clinic',
+  enterprise: 'a hospital',
+  groups: 'a hospital group',
+  rental: 'a car rental business',
+  service: 'a service centre',
+  dealerships: 'a dealership',
+  companies: 'a real estate company',
+  consultancies: 'a consultancy or brokerage',
+  hotels: 'a hotel or resort',
+  apartments: 'a serviced apartment business',
+  venues: 'a restaurant or venue',
+  schools: 'a school or nursery',
+  training: 'a training institute',
+  banks: 'a bank',
+  advisory: 'an advisory or brokerage firm',
+  maintenance: 'a maintenance business',
+  cleaning: 'a cleaning company',
+  agents: 'a travel agency',
+  visas: 'a visa service',
+  legal: 'a law firm',
+  accounting: 'an accounting firm',
+  recruitment: 'a recruitment agency',
+  strategy: 'a consultancy',
+  agencies: 'an agency',
+  online: 'an online brand',
+  stores: 'a showroom or store',
+};
+
+/** "Eye clinics" to "Eye Clinics", for page titles. */
+const titleCase = (name: string) =>
+  name.replace(/\b(?!and\b|or\b)([a-z])/g, (c) => c.toUpperCase());
+
 export async function generateMetadata({
   params,
 }: {
@@ -48,7 +87,7 @@ export async function generateMetadata({
   const found = resolve(industry, segment);
   if (!found) return { title: 'Not found' };
   return {
-    title: `AI Front Desk for ${lowerName(found.seg.name)}`,
+    title: `AI Front Desk for ${titleCase(found.seg.name)}`,
     description: found.detail.lede,
     ...canonical(`/industries/${industry}/${segment}`),
   };
@@ -116,7 +155,7 @@ export default async function SegmentPage({
             </Link>
           </>
         }
-        meta={[`${roster.length} specialists`, 'One connected journey', 'Scope confirmed in discovery']}
+        meta={[`${roster.length} specialists lead this workflow`, 'One connected journey', 'Scope confirmed in discovery']}
         aside={
           <HeroPanel
             kicker={`${seg.name} · what changes`}
@@ -221,7 +260,7 @@ export default async function SegmentPage({
             title="Four roles, working in sequence."
             headMax="20ch"
           >
-            All eight specialists are included in every plan. These are the ones Stella typically
+            All eight specialists come with every deployment. These are the ones Stella typically
             activates first for {lowerName(seg.name)}.
           </SectionHead>
           <div className="grid-3">
@@ -268,7 +307,6 @@ export default async function SegmentPage({
             href: `/industries/${group.id}`,
             label: `${group.name} overview`,
             note: `Every segment in ${lowerName(group.name)}, and what they share.`,
-            kind: 'Parent',
           },
           ...siblings.map((s) => ({
             href:
@@ -277,14 +315,14 @@ export default async function SegmentPage({
                 : `/industries/${group.id}/${s.id}`,
             label: s.name,
             note: s.description,
-            kind: 'Sibling',
           })),
         ]}
       />
 
       <Closer
-        title={`Build this around your ${lowerName(seg.name).replace(/s$/, '')}.`}
-        lede="Start with the enquiries you are missing today and map the workflow around them."
+        eyebrow={seg.name}
+        title={`See it working for ${ONE_OF[segment] ?? 'a business'} like yours.`}
+        lede="Bring the enquiries you are missing today. We will map the workflow around them with you, before anything is configured."
       />
     </main>
   );

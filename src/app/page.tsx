@@ -133,7 +133,7 @@ export default function HomePage() {
           <WorkforceMap />
 
           <p className="note" style={{ marginTop: 'var(--s5)' }}>
-            The full specialist workforce is included in every plan. Capacity scales with you.
+            The full specialist workforce comes with every deployment. Capacity scales with you.
           </p>
         </div>
       </section>
@@ -267,7 +267,8 @@ export default function HomePage() {
             <br className="lb" /> Tell Stella.
           </>
         }
-        lede="One manager. One connected workforce. More capacity, without more chaos."
+        eyebrow="Start with one problem"
+        lede="Describe what is slowing you down. Stella shows which specialists would take it on, and where your team stays in charge."
       />
     </main>
   );

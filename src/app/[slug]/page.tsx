@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { editorialPages } from '@/lib/pages';
 import { canonical, breadcrumbLd, serviceLd, faqLd } from '@/lib/seo';
-import { Thread, SectionHead, Closer, PageHero, HeroPanel, Related, Faq, Ld, Tri, Bul } from '@/components/system';
+import { Thread, SectionHead, Closer, PageHero, HeroPanel, Faq, Ld, Tri, Bul } from '@/components/system';
 import { WorkforceMap, DashboardPlanes } from '@/components/home-parts';
 import { RoiCalculator } from '@/components/roi-calculator';
 import { Icon } from '@/components/ui';
@@ -149,55 +149,6 @@ const HERO_PANELS: Record<string, React.ReactNode> = {
   ),
 };
 
-const RELATED: Record<string, { href: string; label: string; note: string; kind: string }[]> = {
-  integrations: [
-    { href: '/security', label: 'Security & trust', note: 'What is connected, what is permitted, and who takes over.', kind: 'Sibling' },
-    { href: '/human-boundary', label: 'The human boundary', note: 'Where automation stops and your team decides.', kind: 'Sibling' },
-    { href: '/stella#dashboard', label: 'Explore the dashboard', note: 'The operating picture those connections produce.', kind: 'Child' },
-    { href: '/contact', label: 'Contact us', note: 'Tell us which systems your business runs on.', kind: 'Next step' },
-  ],
-  'human-boundary': [
-    { href: '/security', label: 'Security & trust', note: 'Deployment scope, permissions and responsibility.', kind: 'Sibling' },
-    { href: '/stella#workforce', label: 'The specialist workforce', note: 'Each role names the point it hands off to a person.', kind: 'Parent' },
-    { href: '/industries/healthcare', label: 'Clinics', note: 'Where the boundary matters most: clinical judgement.', kind: 'Use case' },
-    { href: '/book-demo', label: 'Book a demo', note: 'Configure the boundary around your own rules.', kind: 'Next step' },
-  ],
-  security: [
-    { href: '/integrations', label: 'Integrations', note: 'What connects, and what is confirmed during scoping.', kind: 'Sibling' },
-    { href: '/human-boundary', label: 'The human boundary', note: 'Responsibility stays visible at every handoff.', kind: 'Sibling' },
-    { href: '/about', label: 'About HireStella', note: 'Why the company works this way.', kind: 'Parent' },
-    { href: '/contact', label: 'Contact us', note: 'Discuss the requirements your deployment must meet.', kind: 'Next step' },
-  ],
-  about: [
-    { href: '/team', label: 'Our approach', note: 'How we start, and what we refuse to guess at.', kind: 'Sibling' },
-    { href: '/stella', label: 'Meet Stella', note: 'The product idea the company is built around.', kind: 'Child' },
-    { href: '/security', label: 'Security & trust', note: 'Defined scope, visible responsibility.', kind: 'Sibling' },
-    { href: '/contact', label: 'Contact us', note: 'Start a conversation about your operation.', kind: 'Next step' },
-  ],
-  team: [
-    { href: '/about', label: 'About HireStella', note: 'The thesis behind the workforce.', kind: 'Parent' },
-    { href: '/stella#how-it-works', label: 'How it works', note: 'The path from first conversation to first journey.', kind: 'Sibling' },
-    { href: '/blogs', label: 'The blog', note: 'Practical pieces on operational coordination.', kind: 'Sibling' },
-    { href: '/become-a-partner', label: 'Become a partner', note: 'Take the workforce to the clients you already advise.', kind: 'Next step' },
-  ],
-  roi: [
-    { href: '/stella#how-it-works', label: 'How it works', note: 'What has to be true before those hours come back.', kind: 'Parent' },
-    { href: '/stella#dashboard', label: 'Explore the dashboard', note: 'Where the recovered capacity becomes visible.', kind: 'Sibling' },
-    { href: '/industries', label: 'Industries', note: 'Sector journeys and where each one loses time.', kind: 'Sibling' },
-    { href: '/book-demo', label: 'Book a demo', note: 'Bring your own numbers to a scoping conversation.', kind: 'Next step' },
-  ],
-  solutions: [
-    { href: '/industries', label: 'All industries', note: 'Five sectors, each with its own journey.', kind: 'Parent' },
-    { href: '/use-cases', label: 'Use cases', note: 'Every journey, trigger to outcome.', kind: 'Sibling' },
-    { href: '/stella#workforce', label: 'The specialist workforce', note: 'The roles these journeys draw on.', kind: 'Sibling' },
-    { href: '/book-demo', label: 'Book a demo', note: 'Start with the way your business works.', kind: 'Next step' },
-  ],
-  login: [
-    { href: '/stella#dashboard', label: 'Explore the dashboard', note: 'The operations workspace, open to anyone.', kind: 'Child' },
-    { href: '/security', label: 'Security & trust', note: 'Access, permissions and deployment scope.', kind: 'Sibling' },
-    { href: '/book-demo', label: 'Book a demo', note: 'Plan a configured deployment.', kind: 'Next step' },
-  ],
-};
 
 export default async function DetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -340,7 +291,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <section className="sec">
               <div className="wrap">
                 <SectionHead
-                  eyebrow="Where the route changes colour"
+                  eyebrow="Where the handoff happens"
                   title={
                     <>
                       Structured work moves.
@@ -398,10 +349,9 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           {FAQS[slug] ? <Faq title="Questions buyers actually ask." items={FAQS[slug]} /> : null}
 
 
-          {RELATED[slug] ? <Related links={RELATED[slug]} /> : null}
 
 
-          <Closer title={editorial.closing} lede="One manager. One connected workforce. More capacity, without more chaos." />
+          <Closer title={editorial.closing} lede={editorial.closingLede} />
         </>
       )}
 
@@ -425,7 +375,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                   </>
                 }
               >
-                All eight specialists are included in every plan. Configuration and capacity vary
+                All eight specialists come with every deployment. Configuration and capacity vary
                 with your operation.
               </SectionHead>
               <div className="grid-3">
@@ -447,7 +397,6 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           </section>
           {FAQS[slug] ? <Faq title="Questions buyers actually ask." items={FAQS[slug]} /> : null}
 
-          {RELATED[slug] ? <Related links={RELATED[slug]} /> : null}
 
           <Closer title="Let us map your next move." lede="Start with the workflow that is costing you the most time." />
         </>
@@ -473,7 +422,6 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           </section>
           {FAQS[slug] ? <Faq title="Questions buyers actually ask." items={FAQS[slug]} /> : null}
 
-          {RELATED[slug] ? <Related links={RELATED[slug]} /> : null}
 
           <Closer title="Start with the way your business works." lede="Every configuration begins with one workflow worth improving." />
         </>
@@ -499,7 +447,6 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           </section>
           {FAQS[slug] ? <Faq title="Questions buyers actually ask." items={FAQS[slug]} /> : null}
 
-          {RELATED[slug] ? <Related links={RELATED[slug]} /> : null}
 
           <Closer title="Turn your assumptions into a clearer roadmap." lede="Bring your own numbers and we will map them against the workflows that move first." />
         </>
@@ -540,7 +487,6 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           </section>
           {FAQS[slug] ? <Faq title="Questions buyers actually ask." items={FAQS[slug]} /> : null}
 
-          {RELATED[slug] ? <Related links={RELATED[slug]} /> : null}
 
           <Closer title="Let us map your next move." lede="See the same picture built around your own channels and systems." />
         </>
@@ -570,9 +516,8 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           </section>
           {FAQS[slug] ? <Faq title="Questions buyers actually ask." items={FAQS[slug]} /> : null}
 
-          {RELATED[slug] ? <Related links={RELATED[slug]} /> : null}
 
-          <Closer title="Your operation. One clear view." lede="Production workspace access is part of a configured deployment." />
+          <Closer title="See it built around your operation." lede="Production workspace access is part of a configured deployment." />
         </>
       )}
     </main>

@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { industryGroups, lowerName } from '@/lib/industry-content';
 import { specialists } from '@/lib/data';
 import { canonical, breadcrumbLd, serviceLd, faqLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, HeroPanel, Faq, Related, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, HeroPanel, Faq, Ld, Tri, Bul } from '@/components/system';
 import { OperationsWorkspace } from '@/components/workspace';
 import { workspaces } from '@/lib/workspace-content';
 import { MarketPanel, ReadingRoom, PagePhotograph, BusinessTypes } from '@/components/industry-parts';
@@ -471,22 +471,15 @@ export default async function IndustryGroupPage({
 
       <ReadingRoom industry={group.id} />
 
-      <Related
-        title="Before you book"
-        links={[
-          { href: '/stella', label: 'Meet Stella', note: 'The workspace, the eight specialists, and how a deployment is built.', kind: 'Product' },
-          { href: '/human-boundary', label: 'The human boundary', note: 'Where automation stops and your team decides.', kind: 'Sibling' },
-          { href: '/contact', label: 'Contact us', note: 'Bring one workflow and we will map it with you.', kind: 'Next step' },
-        ]}
-      />
 
       {SECTOR_FAQS[group.id] ? (
         <Faq title={`Questions ${lowerName(group.name)} ask.`} items={SECTOR_FAQS[group.id]} />
       ) : null}
 
       <Closer
-        title={`What could this coordinate for ${lowerName(group.name)}?`}
-        lede="Bring one workflow and we will map the specialists, the systems and the handoffs around it."
+        eyebrow={group.name}
+        title="Bring one workflow. See what Stella takes on."
+        lede="We map the specialists, the systems and the handoffs around it with you, before anything is configured."
       />
     </main>
   );

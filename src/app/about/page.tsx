@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { canonical, breadcrumbLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, Faq, Related, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul } from '@/components/system';
 import { founder } from '@/lib/founder';
 import { FAQS } from '@/lib/faqs';
 
@@ -227,14 +227,6 @@ export default function AboutPage() {
 
       {FAQS.about ? <Faq title="Questions people ask about us." items={FAQS.about} /> : null}
 
-      <Related
-        links={[
-          { href: '/team', label: 'Our approach', note: 'How we start, and what we refuse to guess at.', kind: 'Sibling' },
-          { href: '/stella', label: 'Meet Stella', note: 'The product idea the company is built around.', kind: 'Child' },
-          { href: '/human-boundary', label: 'The human boundary', note: 'Where automation stops and your team decides.', kind: 'Sibling' },
-          { href: '/contact', label: 'Contact us', note: 'Start a conversation about your operation.', kind: 'Next step' },
-        ]}
-      />
 
       <Closer
         title={

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   ...canonical('/blogs'),
   title: 'AI Front Desk Insights for UAE Business',
   description:
-    'Practical ideas for the work between the moments: capturing enquiries, coordinating bookings, and keeping judgement with your team.',
+    'Practical guides for a busier front desk: capturing enquiries, coordinating bookings, and keeping judgement with your team.',
 };
 
 export default function BlogsPage() {
@@ -22,9 +22,9 @@ export default function BlogsPage() {
         crumb={[['Home', '/'], ['Blogs']]}
         title={
           <>
-            Ideas for the work
+            Practical guides for a
             <br />
-            between the moments.
+            busier front desk.
           </>
         }
         lede="Short, practical pieces on operational coordination. Every claim carries its source and its date, and nothing here is a performance promise."

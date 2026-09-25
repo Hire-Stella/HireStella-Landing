@@ -22,9 +22,9 @@ import { Ld } from '@/components/system';
 import { organizationLd, websiteLd, origin as siteOrigin } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: { default: 'HireStella | Capacity, coordinated.', template: '%s | HireStella' },
+  title: { default: 'HireStella | AI Front Desk and Workforce for UAE Businesses', template: '%s | HireStella' },
   description:
-    'One AI General Manager. Eight connected AI Specialists. Tell Stella what is slowing your business down and explore the workforce built to move it forward.',
+    'Stella, your AI General Manager, runs eight AI specialists that answer calls and messages, book appointments and follow up, and hands sensitive work to your team.',
   openGraph: {
     type: 'website',
     locale: 'en_AE',

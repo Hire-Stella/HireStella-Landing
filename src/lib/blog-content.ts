@@ -39,7 +39,7 @@ export const blogPosts = [
   },
   {
     slug: 'dubai-healthcare-growth-clinic-operations',
-    category: 'Dental',
+    category: 'Healthcare',
     industry: 'clinics',
     title: 'Dubai’s growing healthcare market: what to examine at the front desk',
     seoTitle: 'Dubai Healthcare Growth: The Front Desk Gap',

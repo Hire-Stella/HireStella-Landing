@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { canonical, breadcrumbLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, Faq, Related, Ld, Tri } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri } from '@/components/system';
 import { Icon } from '@/components/ui';
 import { FAQS } from '@/lib/faqs';
 
@@ -137,14 +137,6 @@ export default function TeamPage() {
 
       {FAQS.team ? <Faq title="Questions about working with us." items={FAQS.team} /> : null}
 
-      <Related
-        links={[
-          { href: '/about', label: 'Our story', note: 'The idea the company was built around.', kind: 'Parent' },
-          { href: '/stella', label: 'Meet Stella', note: 'The workspace, the specialists, and how a deployment is built.', kind: 'Sibling' },
-          { href: '/human-boundary', label: 'The human boundary', note: 'Where automation stops and your team decides.', kind: 'Sibling' },
-          { href: '/become-a-partner', label: 'Become a partner', note: 'Take the workforce to the clients you already advise.', kind: 'Next step' },
-        ]}
-      />
 
       <Closer
         title="Start with the work, not the software."

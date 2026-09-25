@@ -26,6 +26,10 @@ export const HOME_FAQS = [
     q: 'How long before it is doing anything useful?',
     a: 'It starts with one workflow, not your whole operation. Discovery establishes where capacity is being lost, the first connected journey is configured around that, and it expands from what is working. Scope and timing are confirmed in the scoping conversation.',
   },
+  {
+    q: 'Is there anything for sales teams?',
+    a: 'Yes. Stella Sales Coach is a separate product for sales teams: AI role-play where sellers practise real customer conversations and objections, get feedback, and improve before the next live call.',
+  },
 ] as const;
 
 export const FAQS: Record<string, Faq[]> = {
@@ -36,7 +40,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
     {
       q: 'Do I have to pick which specialists I want?',
-      a: 'No. All eight specialists are included in every plan. Stella recommends which ones to activate and configure first, based on your volume, channels, languages, systems and reporting needs. You are not buying them one at a time.',
+      a: 'No. All eight specialists come with every deployment. Stella recommends which ones to activate and configure first, based on your volume, channels, languages, systems and reporting needs. You are not buying them one at a time.',
     },
     {
       q: 'How much does Stella decide on her own?',
@@ -102,7 +106,7 @@ export const FAQS: Record<string, Faq[]> = {
   workforce: [
     {
       q: 'Do I pay per specialist?',
-      a: 'No. All eight specialists are included in every plan. Plans are driven by volume, voice, languages, complexity, integrations and reporting rather than by how many roles you switch on.',
+      a: 'No. All eight specialists come with every deployment. Pricing is driven by volume, voice, languages, complexity, integrations and reporting rather than by how many roles you switch on.',
     },
     {
       q: 'Can we start with just one?',

@@ -67,7 +67,7 @@ export function SectionHead({
  * with its own space rather than sharing a band with the footer.
  */
 export function Closer({
-  eyebrow = 'Your next chapter',
+  eyebrow = 'The next step',
   title,
   lede,
   primary = { href: '/book-demo', label: 'Book a demo' },
@@ -280,13 +280,16 @@ export function Faq({
  * §8.1 — the four-link model: parent, child, sibling and a commercial bridge.
  * Contextual links in the body, not only header/footer navigation, so no page
  * is left orphaned (§8.2 treats orphans as errors).
+ *
+ * Parent / child / sibling is how the links are chosen, not something to show.
+ * The cards used to print that label, so visitors read "Sibling" above a link.
  */
 export function Related({
   title = 'Keep exploring',
   links,
 }: {
   title?: string;
-  links: { href: string; label: string; note: string; kind?: string }[];
+  links: { href: string; label: string; note: string }[];
 }) {
   return (
     <section className="sec" style={{ paddingTop: 0 }}>
@@ -295,7 +298,6 @@ export function Related({
         <div className="related">
           {links.map((l) => (
             <Link className="rel-card pan" href={l.href} key={l.href}>
-              {l.kind ? <span className="micro">{l.kind}</span> : null}
               <b>{l.label}</b>
               <p>{l.note}</p>
               <span className="btn-3" style={{ fontSize: 14 }}>

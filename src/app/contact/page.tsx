@@ -35,9 +35,9 @@ export default function Contact() {
         crumb={[['Home', '/'], ['Contact']]}
         title={
           <>
-            Your business has a next chapter.
+            Tell us where your team
             <br />
-            Let us talk about it.
+            is stretched.
           </>
         }
         lede="Discuss a workforce configuration, integration requirements, or a more complex operation. Start with a little context about what you need."

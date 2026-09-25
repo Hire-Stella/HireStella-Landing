@@ -136,8 +136,8 @@ export function PagePhotograph({ group, segment }: { group: string; segment?: st
  */
 export function BusinessTypes({
   industry,
-  title = 'The businesses we work with.',
-  eyebrow = 'Who this covers',
+  title = 'The businesses this is built for.',
+  eyebrow = 'Who this is for',
   flush = false,
 }: {
   industry: string;

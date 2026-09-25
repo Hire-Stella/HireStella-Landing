@@ -66,7 +66,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             </Link>
           </>
         }
-        meta={[`${roster.length} specialists`, 'One connected journey', 'Your team owns the exceptions']}
+        meta={[`${roster.length} specialists lead this workflow`, 'One connected journey', 'Your team owns the exceptions']}
         aside={
           <div className="route pan">
             <p className="eyebrow eyebrow--sig">One connected journey</p>
