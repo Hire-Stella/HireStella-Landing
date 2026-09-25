@@ -35,7 +35,7 @@ export function ConsultationForm({
       return;
     }
     const data = parsed.data;
-    const prepared = `HireStella — Consultation brief\n\nName: ${data.name}\nEmail: ${data.email}\nBusiness: ${data.company}\n\nBusiness challenge\n${data.problem}\n\nThis brief is a starting point for scoping. No booking or deployment is confirmed.`;
+    const prepared = `HireStella consultation brief\n\nName: ${data.name}\nEmail: ${data.email}\nBusiness: ${data.company}\n\nBusiness challenge\n${data.problem}\n\nThis brief is a starting point for scoping. No booking or deployment is confirmed.`;
     if (!configured) {
       setBrief(prepared);
       return;
@@ -152,7 +152,7 @@ export function ConsultationForm({
       <p className="form-note">
         {configured
           ? 'We use these details to respond to your consultation request. Please do not include confidential customer data. Deployment-specific data handling and retention requirements are discussed during scoping.'
-          : 'Consultation delivery is not connected in this preview. Your details stay in this page while you prepare a downloadable brief. Please do not include confidential customer data.'}
+          : 'Consultation delivery is not connected in this preview. Your details stay on this page while you prepare a downloadable brief. Please do not include confidential customer data.'}
       </p>
       <label className="consent-label">
         <input type="checkbox" name="consent" required />

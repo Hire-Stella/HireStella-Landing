@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
+import { origin as siteOrigin } from '@/lib/seo';
 export default function robots(): MetadataRoute.Robots {
-  const origin = process.env.NEXT_PUBLIC_SITE_URL;
+  const origin = siteOrigin();
   return {
     rules: {
       userAgent: '*',

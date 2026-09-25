@@ -1,5 +1,5 @@
 /**
- * The illustrative operations workspace.
+ * The operations workspace.
  *
  * Every figure here reconciles with every other: the period totals are the sum
  * of their own series, and the conversion ring is bookings over enquiries for
@@ -48,7 +48,7 @@ export const clinicWorkspace: Workspace = {
   bookingWord: 'appointment',
   inView: 'Your clinic, in view',
   initials: 'DC',
-  day: 'Thursday · sample day',
+  day: 'Thursday',
   headline: 'A clearer day at the front desk.',
   subject: 'patient',
 
@@ -149,7 +149,7 @@ export const hospitalWorkspace: Workspace = {
   bookingsLabel: 'Appointments',
   bookingWord: 'appointment',
   inView: 'Your hospital, in view',
-  day: 'Tuesday · sample day',
+  day: 'Tuesday',
   headline: 'One front door, department by department.',
   subject: 'patient',
 
@@ -252,7 +252,7 @@ export const realEstateWorkspace: Workspace = {
   bookingsLabel: 'Viewings',
   bookingWord: 'viewing',
   inView: 'Your agency, in view',
-  day: 'Thursday · sample day',
+  day: 'Thursday',
   headline: 'Every lead answered while it is still warm.',
   subject: 'buyer',
 
@@ -355,7 +355,7 @@ export const bankingWorkspace: Workspace = {
   bookingsLabel: 'Appointments',
   bookingWord: 'appointment',
   inView: 'Your service desk, in view',
-  day: 'Wednesday · sample day',
+  day: 'Wednesday',
   headline: 'Routine questions cleared off the desk.',
   subject: 'customer',
 
@@ -458,7 +458,7 @@ export const automotiveWorkspace: Workspace = {
   bookingsLabel: 'Bookings',
   bookingWord: 'booking',
   inView: 'Your dealership, in view',
-  day: 'Saturday · sample day',
+  day: 'Saturday',
   headline: 'Rental, workshop and sales on one view.',
   subject: 'customer',
 
@@ -562,7 +562,7 @@ export const educationWorkspace: Workspace = {
   bookingsLabel: 'Tours',
   bookingWord: 'tour',
   inView: 'Your admissions desk, in view',
-  day: 'Tuesday · sample day',
+  day: 'Tuesday',
   headline: 'Every enquiry answered the same evening.',
   subject: 'family',
 
@@ -665,7 +665,7 @@ export const homeServicesWorkspace: Workspace = {
   bookingsLabel: 'Jobs',
   bookingWord: 'job',
   inView: 'Your dispatch desk, in view',
-  day: 'Monday · sample day',
+  day: 'Monday',
   headline: 'The diary fills while the vans are out.',
   subject: 'customer',
 
@@ -768,7 +768,7 @@ export const retailWorkspace: Workspace = {
   bookingsLabel: 'Resolved',
   bookingWord: 'resolution',
   inView: 'Your customer desk, in view',
-  day: 'Saturday · sample day',
+  day: 'Saturday',
   headline: 'Before they buy, and after it ships.',
   subject: 'customer',
 
@@ -872,7 +872,7 @@ export const hospitalityWorkspace: Workspace = {
   bookingsLabel: 'Reservations',
   bookingWord: 'reservation',
   inView: 'Your front desk, in view',
-  day: 'Friday · sample day',
+  day: 'Friday',
   headline: 'The desk keeps the guests in front of it.',
   subject: 'guest',
 
@@ -935,7 +935,7 @@ export const travelWorkspace: Workspace = {
   bookingsLabel: 'Consultations',
   bookingWord: 'consultation',
   inView: 'Your travel desk, in view',
-  day: 'Wednesday · sample day',
+  day: 'Wednesday',
   headline: 'Answered while they were still awake.',
   subject: 'traveller',
 
@@ -998,7 +998,7 @@ export const professionalWorkspace: Workspace = {
   bookingsLabel: 'Meetings',
   bookingWord: 'meeting',
   inView: 'Your intake desk, in view',
-  day: 'Thursday · sample day',
+  day: 'Thursday',
   headline: 'Qualified before anyone billable saw it.',
   subject: 'enquiry',
 

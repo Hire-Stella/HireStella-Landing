@@ -157,7 +157,7 @@ export function RoiCalculator() {
         </button>
 
         <p className="note">
-          The starting cost per call is {draftCountry.currency} {draftCountry.callCost} — one
+          The starting cost per call is {draftCountry.currency} {draftCountry.callCost}, one
           front-desk salary of about {money(draftCountry.salary, draftCountry)} a month spread over{' '}
           {count(CALLS_PER_AGENT)} calls. It is an assumption to replace with your own figure, not a
           measured benchmark.

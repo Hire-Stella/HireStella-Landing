@@ -17,8 +17,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { article } = await params;
   const post = blogPosts.find((item) => item.slug === article);
+  /* The headline stays as written; the title tag is the shorter one, because
+     all three ran past the ~60 characters Google shows and were truncating. */
   return {
-    title: post?.title ?? 'Article not found',
+    title: post?.seoTitle ?? post?.title ?? 'Article not found',
     description: post?.summary,
     ...canonical(`/blogs/${article}`),
   };
@@ -50,7 +52,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
         crumb={[['Home', '/'], ['Blogs', '/blogs'], [post.category]]}
         title={post.title}
         lede={post.summary}
-        meta={[published, post.readTime, 'Illustrative, not a performance claim']}
+        meta={[published, post.readTime]}
         aside={
           <div className="route pan">
             <p className="eyebrow eyebrow--sig">In this article</p>
@@ -109,9 +111,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
               <section className="article-sources pan">
                 <p className="eyebrow eyebrow--sig">Editorial context</p>
                 <p className="note">
-                  Examples on this page are illustrative. Production channels, systems and
-                  operating rules are configured for each deployment, and nothing here is a measured
-                  outcome or a performance guarantee.
+                  The examples here describe how the work moves, not results we are promising you.
+                  Your channels, systems and operating rules are configured around your own
+                  business.
                 </p>
               </section>
             )}

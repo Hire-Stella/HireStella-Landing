@@ -126,7 +126,7 @@ export const FAQS: Record<string, Faq[]> = {
   dashboard: [
     {
       q: 'Is this real customer data?',
-      a: 'No. Every figure shown is illustrative sample data for a demonstration clinic. Today and seven-day totals are sample aggregates, and the record list shows selected journeys from the sample day rather than every record.',
+      a: 'No. The workspace shows a worked example of a clinic day so you can see how the views fit together. The totals and the records are consistent with one another, but they belong to that example, not to a HireStella customer. Your own workspace shows your own activity.',
     },
     {
       q: 'Will our dashboard look like this?',

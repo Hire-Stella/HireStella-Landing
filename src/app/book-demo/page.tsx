@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
-import { canonical } from '@/lib/seo';
+import { canonical, breadcrumbLd } from '@/lib/seo';
 import Link from 'next/link';
 import { ShieldCheck } from 'lucide-react';
 import { ConsultationForm } from '@/components/consultation-form';
-import { PageHero, Closer, Thread, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, Tri, Bul, Ld } from '@/components/system';
 
 export const metadata: Metadata = {
   ...canonical('/book-demo'),
-  title: 'Book a demo',
+  title: 'Book an AI Workforce Demo',
   description:
     'Prepare a consultation brief around your business, your workflows, and your next step with HireStella.',
 };
@@ -31,6 +31,7 @@ export default async function BookDemo({
 
   return (
     <main id="main">
+      <Ld data={breadcrumbLd([['Home', '/'], ['Book a demo', '/book-demo']])} />
       <PageHero
         eyebrow="Start with your business"
         crumb={[['Home', '/'], ['Book a demo']]}

@@ -44,15 +44,15 @@ export const businessTypes: Record<string, BusinessType[]> = {
     { name: 'Luxury agencies', note: 'Low volume, high value, and no lead you can afford to answer late.' },
     { name: 'Property developers', note: 'Launch campaigns create a spike no sales office is staffed for.' },
     { name: 'Commercial agencies', note: 'Longer cycles, more stakeholders, and a qualifying call that never gets made.' },
-    { name: 'Property management', note: 'Tenant requests and maintenance reports arriving on every channel at once.', page: 'consultancies' },
+    { name: 'Property management', note: 'Tenant requests and maintenance reports arriving on every channel at once.' },
   ],
 
   hospitality: [
-    { name: 'Hotels', note: 'Direct booking questions competing with the channel that already answered.' },
-    { name: 'Resorts', note: 'Long-lead enquiries about dates, packages and transfers, mostly from other time zones.' },
-    { name: 'Serviced apartments', note: 'Extended-stay enquiries that need availability and terms before anything else.' },
-    { name: 'Restaurants & restaurant groups', note: 'Reservation and large-party requests at exactly the hour the floor is full.' },
-    { name: 'Events & banquet venues', note: 'One enquiry, a dozen questions, and a site visit that decides it.' },
+    { name: 'Hotels', note: 'Direct booking questions competing with the channel that already answered.', page: 'hotels' },
+    { name: 'Resorts', note: 'Long-lead enquiries about dates, packages and transfers, mostly from other time zones.', page: 'hotels' },
+    { name: 'Serviced apartments', note: 'Extended-stay enquiries that need availability and terms before anything else.', page: 'apartments' },
+    { name: 'Restaurants & restaurant groups', note: 'Reservation and large-party requests at exactly the hour the floor is full.', page: 'venues' },
+    { name: 'Events & banquet venues', note: 'One enquiry, a dozen questions, and a site visit that decides it.', page: 'venues' },
   ],
 
   education: [
@@ -63,7 +63,7 @@ export const businessTypes: Record<string, BusinessType[]> = {
 
   'financial-services': [
     { name: 'Insurance brokers', note: 'Quote requests that need qualifying before an adviser should touch them.' },
-    { name: 'Insurance companies', note: 'Policy and claim status questions filling the queue a real claim sits in.', page: 'banks' },
+    { name: 'Insurance companies', note: 'Policy and claim status questions filling the queue a real claim sits in.' },
     { name: 'Mortgage brokers', note: 'Document collection and the chasing that decides whether a case completes.', page: 'advisory' },
     { name: 'Wealth management firms', note: 'Adviser time is the scarce resource and should not be spent on scheduling.' },
     { name: 'Lending & finance companies', note: 'Application status, all day, on every channel.' },
@@ -80,18 +80,18 @@ export const businessTypes: Record<string, BusinessType[]> = {
   ],
 
   travel: [
-    { name: 'Travel agencies', note: 'Itinerary questions arriving at all hours from several time zones.' },
-    { name: 'Visa & immigration services', note: 'The same eligibility and document questions, endlessly, before any real case.' },
+    { name: 'Travel agencies', note: 'Itinerary questions arriving at all hours from several time zones.', page: 'agents' },
+    { name: 'Visa & immigration services', note: 'The same eligibility and document questions, endlessly, before any real case.', page: 'visas' },
   ],
 
   'professional-services': [
-    { name: 'Recruitment agencies', note: 'Candidate and client enquiries competing for the same consultant hour.' },
-    { name: 'Legal firms', note: 'Enquiries that must be qualified and conflict-checked before a lawyer sees them.' },
-    { name: 'Accounting firms', note: 'Deadline-driven document chasing that repeats every quarter.' },
-    { name: 'Business consultancies', note: 'Scoping calls that decide whether an enquiry was ever worth taking.' },
-    { name: 'Marketing agencies', note: 'Inbound briefs that need qualifying before anyone builds a proposal.' },
-    { name: 'Digital agencies', note: 'Project enquiries with no budget, timeline or decision-maker attached.' },
-    { name: 'PR agencies', note: 'Media and client requests that are urgent by nature and arrive unscheduled.' },
+    { name: 'Recruitment agencies', note: 'Candidate and client enquiries competing for the same consultant hour.', page: 'recruitment' },
+    { name: 'Legal firms', note: 'Enquiries that must be qualified and conflict-checked before a lawyer sees them.', page: 'legal' },
+    { name: 'Accounting firms', note: 'Deadline-driven document chasing that repeats every quarter.', page: 'accounting' },
+    { name: 'Business consultancies', note: 'Scoping calls that decide whether an enquiry was ever worth taking.', page: 'strategy' },
+    { name: 'Marketing agencies', note: 'Inbound briefs that need qualifying before anyone builds a proposal.', page: 'agencies' },
+    { name: 'Digital agencies', note: 'Project enquiries with no budget, timeline or decision-maker attached.', page: 'agencies' },
+    { name: 'PR agencies', note: 'Media and client requests that are urgent by nature and arrive unscheduled.', page: 'agencies' },
     { name: 'B2B sales agencies', note: 'Speed to lead is the entire product, and it is measured in minutes.' },
   ],
 

@@ -103,20 +103,27 @@ export function FigBoundary() {
 
 /** A day of activity, with the busiest hour marked. */
 export function FigVolume() {
-  const bars = [22, 41, 33, 58, 72, 96, 64, 48, 37, 29];
+  /* Ten bars at two-hour steps from 08:00 ran off the end of the clock and
+     labelled the last two 24:00 and 26:00. Eight bars cover 08:00 to 22:00,
+     which is the working day the caption is actually talking about. */
+  const bars = [22, 41, 33, 58, 72, 96, 64, 48];
   const peak = Math.max(...bars);
   return (
-    <Frame label="Sample day · enquiries by hour" caption="Illustrative distribution. The point is the shape: demand does not arrive evenly across the working day.">
-      <svg viewBox="0 0 520 150" role="img" aria-label="Enquiry volume by hour across a sample day, peaking in the late afternoon">
+    <Frame label="Enquiries by hour" caption="Demand does not arrive evenly across the working day. The shape is the point.">
+      <svg viewBox="0 0 520 150" role="img" aria-label="Enquiry volume by hour across a working day, peaking in the late afternoon">
         <line x1="24" y1="118" x2="496" y2="118" stroke={STROKE} strokeOpacity=".22" />
         {bars.map((v, i) => {
-          const x = 34 + i * 46;
+          /* Geometry follows the array so the run always fills the axis and the
+             last label always lands on a real hour, whatever the bar count. */
+          const step = (496 - 24) / bars.length;
+          const barW = 26;
+          const x = 24 + i * step + (step - barW) / 2;
           const h = (v / 110) * 96;
           const on = v === peak;
           return (
             <g key={i}>
-              <rect x={x} y={118 - h} width="26" height={h} rx="4" fill={on ? '#FF6200' : STROKE} opacity={on ? 1 : 0.34} />
-              <text x={x + 13} y="134" textAnchor="middle" fill="var(--t3)" fontSize="11" fontFamily="Montserrat">{8 + i * 2}:00</text>
+              <rect x={x} y={118 - h} width={barW} height={h} rx="4" fill={on ? '#FF6200' : STROKE} opacity={on ? 1 : 0.34} />
+              <text x={x + barW / 2} y="134" textAnchor="middle" fill="var(--t3)" fontSize="11" fontFamily="Montserrat">{8 + i * 2}:00</text>
             </g>
           );
         })}

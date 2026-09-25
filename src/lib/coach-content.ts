@@ -1,5 +1,5 @@
 /**
- * The illustrative coaching workspace for Stella Sales Coach.
+ * The coaching workspace for Stella Sales Coach.
  *
  * Same contract as `workspace-content.ts`: nothing here is a claim, every
  * figure reconciles with every other, and the component never prints a number
@@ -50,7 +50,7 @@ export type CoachWorkspaceData = {
 export const demoCoachWorkspace: CoachWorkspaceData = {
   workspace: 'Demo sales team',
   initials: 'DS',
-  day: 'Week 24 · sample data',
+  day: 'Week 24',
   headline: 'Where the team is actually strong.',
   target: 70,
 
@@ -110,7 +110,7 @@ export const demoCoachWorkspace: CoachWorkspaceData = {
       status: 'Coaching needed',
       icon: 'chart',
       detail:
-        'Price was quoted at 1:06, before any business outcome had been agreed. Flagged: value not yet articulated. Suggested practice — the same scenario with the number withheld until the cost of the problem is named.',
+        'Price was quoted at 1:06, before any business outcome had been agreed. Flagged: value not yet articulated. Suggested practice: the same scenario with the number withheld until the cost of the problem is named.',
     },
     {
       id: 'SC-13',

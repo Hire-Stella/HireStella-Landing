@@ -2,10 +2,9 @@ import { canonical } from '@/lib/seo';
 import Link from 'next/link';
 import { StellaHero } from '@/components/stella-hero';
 import { WorkforceMap, DashboardPlanes } from '@/components/home-parts';
-import { RoiCalculator } from '@/components/roi-calculator';
 import { Thread, SectionHead, Closer, Faq, Ld, Bul } from '@/components/system';
 import { HOME_FAQS } from '@/lib/faqs';
-import { faqLd } from '@/lib/seo';
+import { faqLd, serviceLd } from '@/lib/seo';
 import { industryGroups } from '@/lib/industry-content';
 import { businessTypes } from '@/lib/business-types';
 import { Icon } from '@/components/ui';
@@ -44,7 +43,17 @@ const SPECIALISTS = [
 export default function HomePage() {
   return (
     <main id="main">
-      <Ld data={faqLd([...HOME_FAQS])} />
+      <Ld
+        data={[
+          faqLd([...HOME_FAQS]),
+          serviceLd({
+            name: 'AI workforce orchestration',
+            description:
+              'One AI General Manager and eight connected AI Specialists that coordinate enquiries, bookings and follow-ups across your channels.',
+            path: '/',
+          }),
+        ]}
+      />
       <StellaHero />
 
       <section className="sec" id="capacity-gap">
@@ -52,7 +61,7 @@ export default function HomePage() {
           <SectionHead
             eyebrow="The capacity gap"
             signal
-            title="Your ambition is not the problem. Your team's bandwidth is."
+            title="Your ambition is not the problem. Your team’s bandwidth is."
             headMax="30ch"
           >
             Calls come in. Messages pile up. Follow-ups slip. The work is not stopping. It is
@@ -186,10 +195,6 @@ export default function HomePage() {
               <br />
               <em>It is more output and capacity per person.</em>
             </h3>
-            <p className="note">
-              At the boundary the route changes colour from orange to Mist. That is a transfer, not
-              a failure.
-            </p>
           </div>
         </div>
       </section>
@@ -211,31 +216,6 @@ export default function HomePage() {
           </SectionHead>
 
           <DashboardPlanes />
-
-          <p className="note" style={{ marginTop: 'var(--s6)' }}>
-            Example data only. Production channels, systems and permissions are configured for each
-            deployment.
-          </p>
-        </div>
-      </section>
-
-      <section className="sec sec--field" id="capacity">
-        <div className="wrap">
-          <SectionHead
-            eyebrow="Put a number on it"
-            title={
-              <>
-                What those calls cost you.
-                <br />
-                And what changes.
-              </>
-            }
-          >
-            Set your country, the calls you take each month and what one costs you to handle. Add
-            the annual figure from your proposal and the breakdown shows the saving, the return and
-            the payback.
-          </SectionHead>
-          <RoiCalculator />
         </div>
       </section>
 

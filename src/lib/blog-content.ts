@@ -6,6 +6,7 @@ export const blogPosts = [
     category: 'Dental',
     industry: 'clinics',
     title: 'From a missed dental call to a clear next appointment',
+    seoTitle: 'Missed Dental Call to Booked Appointment',
     summary:
       'A practical workflow for capturing enquiries, coordinating bookings and keeping clinical questions with your team.',
     readTime: '4 min read',
@@ -15,7 +16,7 @@ export const blogPosts = [
     sections: [
       {
         title: 'Start with the moment reception is busy',
-        text: 'Consider an illustrative dental clinic at the end of the working day. Reception is checking in a patient when another person calls to ask about a consultation. The useful outcome is a captured request with a clear owner: who called, what they are asking for, how they prefer to be contacted and what should happen next. An answer alone does not complete that work.',
+        text: 'Consider a dental clinic at the end of the working day. Reception is checking in a patient when another person calls to ask about a consultation. The useful outcome is a captured request with a clear owner: who called, what they are asking for, how they prefer to be contacted and what should happen next. An answer alone does not complete that work.',
       },
       {
         title: 'Separate a booking request from a confirmed appointment',
@@ -27,7 +28,7 @@ export const blogPosts = [
       },
       {
         title: 'Keep treatment questions with clinicians',
-        text: 'A question about suitability for a procedure changes the next step. Stella can carry the conversation context into a staff handoff; the qualified team provides the clinical answer. The illustrative workflow describes service coordination, with supported systems and clinic-approved information configured during setup.',
+        text: 'A question about suitability for a procedure changes the next step. Stella can carry the conversation context into a staff handoff; the qualified team provides the clinical answer. The workflow described here is service coordination, with supported systems and clinic-approved information configured during setup.',
       },
       {
         title: 'Measure the whole journey',
@@ -41,6 +42,7 @@ export const blogPosts = [
     category: 'Dental',
     industry: 'clinics',
     title: 'Dubai’s growing healthcare market: what to examine at the front desk',
+    seoTitle: 'Dubai Healthcare Growth: The Front Desk Gap',
     summary:
       'The official 2025 figures provide market context. Your own enquiry and appointment data should guide the operational response.',
     readTime: '3 min read',
@@ -72,6 +74,7 @@ export const blogPosts = [
     category: 'General',
     industry: 'general',
     title: 'How to choose your first AI coordination workflow',
+    seoTitle: 'Choosing Your First AI Workflow',
     summary:
       'Start with a repeatable operational task, define its handoffs and measure a useful outcome.',
     readTime: '3 min read',
@@ -93,7 +96,7 @@ export const blogPosts = [
       },
       {
         title: 'Agree on a baseline before launch',
-        text: 'Choose a small set of measures: response time, requests reaching a confirmed next step, unresolved exceptions and staff time per request. Compare similar periods and document changes in demand or staffing. Use the findings to refine the workflow before widening its scope. The website examples are illustrative; production channels, systems and operating rules are configured for each deployment.',
+        text: 'Choose a small set of measures: response time, requests reaching a confirmed next step, unresolved exceptions and staff time per request. Compare similar periods and document changes in demand or staffing. Use the findings to refine the workflow before widening its scope. The examples on this website describe how the work moves; your own channels, systems and operating rules are configured around your business.',
       },
     ],
     sources: [],

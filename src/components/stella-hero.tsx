@@ -78,7 +78,7 @@ const SCENARIOS: Scenario[] = [
     business: 'Hotel & restaurant group · Dubai',
     channels: 'Phone · Website · WhatsApp · Instagram',
     bottleneck:
-      'Availability and menu questions land while the team is looking after the guests already in the room, so the guest still deciding waits — and decides elsewhere.',
+      'Availability and menu questions land while the team is looking after the guests already in the room, so the guest still deciding waits, and decides elsewhere.',
     specialists: ['Front Desk', 'Voice', 'Booking', 'Social'],
     boundary:
       'Complaints, special requests and anything affecting a guest already staying with you go to your duty manager.',

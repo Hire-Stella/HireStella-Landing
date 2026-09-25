@@ -5,7 +5,7 @@
  * between them beyond the page template, because a car rental desk and an
  * ophthalmology clinic do not lose capacity in the same place.
  *
- * Everything here stays inside the current product scope: illustrative
+ * Everything here stays inside the current product scope: worked
  * journeys, no invented integrations, no measured outcomes, and a named human
  * boundary on every segment.
  */
@@ -79,7 +79,7 @@ export const segmentDetails: Record<string, SegmentDetail> = {
     lede: 'In a multispecialty clinic the hardest part of an enquiry is deciding where it belongs. Getting that wrong costs the patient a second call and your team a transfer.',
     whoFor: 'Multispecialty clinics and polyclinics where one reception team fronts many departments and consultant schedules.',
     problems: [
-      { title: 'Reception has to route before it can book.', body: 'The caller describes a problem, not a department. Reception guesses, transfers, and sometimes guesses wrong.' },
+      { title: 'Reception has to route before it can book.', body: 'The caller describes a problem, not a department. Reception guesses, transfers and sometimes guesses wrong.' },
       { title: 'Consultant availability differs everywhere.', body: 'Each specialty has its own slot lengths, preparation requirements and clinic days. One rulebook does not cover them.' },
       { title: 'Context is lost between departments.', body: 'A patient referred internally often repeats their story, because the record of the first conversation did not travel with them.' },
     ],
@@ -161,7 +161,7 @@ export const segmentDetails: Record<string, SegmentDetail> = {
     ],
     journey: [
       { step: 'Answer the enquiry', detail: 'The lead gets an immediate, useful reply on the channel it arrived on, with the property information you have approved.' },
-      { step: 'Qualify the interest', detail: 'Budget, timeline, and what they are actually looking for are captured using your questions.' },
+      { step: 'Qualify the interest', detail: 'Budget, timeline and what they are actually looking for are captured using your questions.' },
       { step: 'Coordinate a viewing', detail: 'An available slot with the right agent is offered and written to the calendar.' },
       { step: 'Keep following up', detail: 'The second and third contacts are scheduled and owned, not left to whoever remembers.' },
     ],
@@ -403,7 +403,7 @@ export const segmentDetails: Record<string, SegmentDetail> = {
     ],
     specialists: ['voice', 'front-desk', 'booking', 'outbound-followup'],
     boundary:
-      'Diagnosis, pricing, and any commitment about what a repair will cost or how long it will take go to your supervisor with the description and photographs attached.',
+      'Diagnosis, pricing and any commitment about what a repair will cost or how long it will take go to your supervisor with the description and photographs attached.',
     signals: [
       ['After-hours callouts', 'Captured'],
       ['Enquiry to booked slot', 'Coordinated', true],
@@ -505,6 +505,258 @@ export const segmentDetails: Record<string, SegmentDetail> = {
     faqs: [
       { q: 'Does it know what is in stock?', a: 'Only where your stock system is connected during configuration. Where it is not, it captures the request and routes it to the store rather than guessing, because a wrong availability answer costs you the visit.' },
       { q: 'Can it hold an item?', a: 'Holding stock is a commercial decision with a cost attached, so it goes to your store team. The workforce captures the request and puts it in front of somebody who can decide.' },
+    ],
+  },
+  /* ── Professional services ───────────────────────────────────────── */
+  legal: {
+    group: 'professional-services',
+    headline: ['Every enquiry looks urgent.', 'Few of them are instructions.'],
+    lede: 'A firm cannot take an instruction from an enquiry it has not qualified or conflict-checked, and a partner is the most expensive person available to find that out.',
+    whoFor: 'Law firms and legal practices where intake arrives by phone, web form and referral, and a fee earner is currently the first responder.',
+    problems: [
+      { title: 'The partner answers the intake call.', body: 'The enquiry that turns out to have no matter, no budget and no jurisdiction still took twenty minutes of the most expensive hour in the building.' },
+      { title: 'Conflict checks start too late.', body: 'The names needed to run a check sit in an inbox until someone opens it, so the clock on a time-sensitive matter starts late.' },
+      { title: 'The prospect instructs whoever replied.', body: 'Someone contacting three firms about the same matter usually instructs the one that came back the same day.' },
+    ],
+    journey: [
+      { step: 'Capture the enquiry', detail: 'The enquiry is answered on the channel it arrived on and the parties, the matter type and the timeline are captured using your own intake questions.' },
+      { step: 'Gather what a check needs', detail: 'The names and entities your conflict process requires are collected up front, so the check can be run by your team without a second round of emails.' },
+      { step: 'Coordinate the consultation', detail: 'Where the enquiry matches your criteria, an available slot with the right fee earner is offered and written to the diary.' },
+      { step: 'Keep the file moving', detail: 'Outstanding documents and identity requirements are chased on a schedule, and the chase stops the moment they arrive or your team takes ownership.' },
+    ],
+    specialists: ['front-desk', 'voice', 'booking', 'admin'],
+    boundary: 'Legal advice, scope, fees, conflict decisions and anything privileged go to your qualified people. The workforce captures the enquiry and never answers it.',
+    signals: [['Intake enquiries', 'Captured'], ['Qualified before a call', 'By your criteria', true], ['Consultations coordinated', 'In the diary'], ['Advice and conflicts', 'To your team']],
+    faqs: [
+      { q: 'Will it give legal advice?', a: 'No, and it is configured so it cannot. It captures the enquiry against the questions your firm has approved and hands it to a qualified person. Any question touching advice, merits or fees transfers with the full conversation attached.' },
+      { q: 'Can it run our conflict check?', a: 'It collects the information your check needs and presents it to your team. The check itself, and the decision that follows it, stays with the people responsible for it.' },
+    ],
+  },
+
+  accounting: {
+    group: 'professional-services',
+    headline: ['The deadline is fixed.', 'The documents are not.'],
+    lede: 'Most of what stands between a client and a filed return is a document nobody has chased yet, and the chasing repeats every quarter.',
+    whoFor: 'Accountancy practices, audit firms and tax advisers whose calendar is driven by filing deadlines and client paperwork.',
+    problems: [
+      { title: 'The same chase, every quarter.', body: 'The list of clients who have not sent their records is rebuilt by hand each period, usually by the person who can least afford the time.' },
+      { title: 'One missing page holds a return.', body: 'A file sits complete except for a single statement, and it waits because chasing it is nobody’s named job.' },
+      { title: 'Deadline week answers routine questions.', body: 'The week with the least capacity receives the most calls asking what is needed and when it is due.' },
+    ],
+    journey: [
+      { step: 'Capture the enquiry or request', detail: 'New enquiries and existing client questions are answered from the information your practice has approved, on the channel they arrived on.' },
+      { step: 'Send the checklist', detail: 'The document list for the service and the period is sent, so the client knows exactly what is outstanding rather than what is missing in general.' },
+      { step: 'Chase what is outstanding', detail: 'Follow-ups run on a schedule you set against the deadline, and stop the moment the documents arrive or a member of staff takes the file over.' },
+      { step: 'Hand the file to a person', detail: 'Once the records are in, the file reaches the accountant with the conversation, the checklist and what is still missing attached.' },
+    ],
+    specialists: ['front-desk', 'admin', 'outbound-followup', 'booking'],
+    boundary: 'Tax positions, accounting treatment, audit judgements and anything a client will act on go to your qualified accountants. The workforce coordinates the paperwork around them.',
+    signals: [['Client document requests', 'Sent'], ['Outstanding items', 'Chased on schedule', true], ['Deadline questions', 'Answered from your content'], ['Advice and treatment', 'To your accountants']],
+    faqs: [
+      { q: 'Will it answer a tax question?', a: 'No. It answers process questions your practice has published, such as what a service requires and when a deadline falls. Anything about a client position or a treatment goes to a qualified accountant.' },
+      { q: 'Does the chasing stop when we take over?', a: 'Yes. A follow-up sequence stops when the documents arrive, when the client asks it to, or when a member of your team takes ownership of the file.' },
+    ],
+  },
+
+  recruitment: {
+    group: 'professional-services',
+    headline: ['Candidates and clients', 'want the same hour.'],
+    lede: 'A consultant is the only person who can place a role, and the same consultant is answering the application questions that stop them doing it.',
+    whoFor: 'Recruitment and staffing agencies handling candidate applications and client briefs through the same small team.',
+    problems: [
+      { title: 'Candidate questions fill the consultant’s day.', body: 'Status, process and role questions arrive in volume, and each one interrupts the search work that actually earns the fee.' },
+      { title: 'The client brief arrives incomplete.', body: 'A role comes in without the seniority, the range or the timeline, and the first search runs against a guess.' },
+      { title: 'Good candidates go quiet.', body: 'The candidate who was not contacted this week is interviewing somewhere else next week.' },
+    ],
+    journey: [
+      { step: 'Answer the enquiry', detail: 'Candidate and client enquiries are answered on the channel they arrived on, using the information your agency has approved.' },
+      { step: 'Capture the brief', detail: 'Role, seniority, timeline and the other details your consultants need are captured through your own questions before a search begins.' },
+      { step: 'Coordinate the conversation', detail: 'Screening calls and client meetings are offered against real availability and written to the consultant’s diary.' },
+      { step: 'Keep candidates warm', detail: 'Scheduled follow-ups keep active candidates in contact, and stop when they withdraw, are placed, or a consultant takes over.' },
+    ],
+    specialists: ['front-desk', 'voice', 'booking', 'outbound-followup'],
+    boundary: 'Suitability, shortlisting, salary negotiation and every placement decision stay with your consultants. The workforce keeps the conversation moving between them.',
+    signals: [['Candidate enquiries', 'Answered'], ['Client briefs captured', 'To your questions', true], ['Screening calls', 'In the diary'], ['Shortlisting and offers', 'To your consultants']],
+    faqs: [
+      { q: 'Will it screen candidates?', a: 'No. It captures the information your consultants asked for and presents it. Judging whether someone is right for a role is a consultant decision and stays that way.' },
+      { q: 'Can it talk to clients as well as candidates?', a: 'Both, within the scope you configure. What it is permitted to say to each is set during scoping rather than assumed here.' },
+    ],
+  },
+
+  strategy: {
+    group: 'professional-services',
+    headline: ['The scoping call', 'decides whether it was worth it.'],
+    lede: 'A consultancy finds out whether an enquiry had a budget, a timeline and a decision-maker by spending an hour asking, and that hour is the product.',
+    whoFor: 'Management, strategy and specialist business consultancies where inbound enquiries are qualified by the people who deliver the work.',
+    problems: [
+      { title: 'Scoping is done by the deliverer.', body: 'The consultant who should be on billable work is the one establishing whether there was any work to bill.' },
+      { title: 'The enquiry with no decision-maker.', body: 'Three conversations in, it becomes clear the person asking cannot authorise anything, and the time is already spent.' },
+      { title: 'Proposals built on a sentence.', body: 'A brief with no scope produces a proposal that guesses, and a guess is rewritten at least once.' },
+    ],
+    journey: [
+      { step: 'Capture the enquiry', detail: 'The enquiry is answered promptly and the problem, the organisation and the context are captured in the client’s own words.' },
+      { step: 'Qualify against your criteria', detail: 'Budget range, timeline and decision-maker are asked using the questions your firm uses, before any consultant time is committed.' },
+      { step: 'Coordinate the scoping call', detail: 'Where it qualifies, a call is offered against real availability and the consultant arrives with the brief already attached.' },
+      { step: 'Follow up on what is open', detail: 'Outstanding information and the second contact are scheduled and owned rather than left to whoever remembers.' },
+    ],
+    specialists: ['front-desk', 'voice', 'booking', 'admin'],
+    boundary: 'Advice, scope, methodology and fees go to your consultants. The workforce establishes whether a conversation is worth having and never has it.',
+    signals: [['Inbound enquiries', 'Captured'], ['Qualified before a call', 'By your criteria', true], ['Scoping calls', 'Coordinated'], ['Scope and fees', 'To your consultants']],
+    faqs: [
+      { q: 'Will it quote for a piece of work?', a: 'No. Fees, scope and anything a client would rely on go to your consultants. The workforce captures what is needed for that conversation to be a short one.' },
+      { q: 'Can we change the qualifying questions?', a: 'Yes. The criteria are yours and are configured during setup. They are the questions your own team would ask, asked consistently and every time.' },
+    ],
+  },
+
+  agencies: {
+    group: 'professional-services',
+    headline: ['The brief arrives.', 'The budget does not.'],
+    lede: 'Agency new business runs on inbound briefs, and most of them have no budget, no timeline and no decision-maker attached until somebody asks.',
+    whoFor: 'Marketing, digital, creative and PR agencies handling inbound briefs, referrals and new business enquiries.',
+    problems: [
+      { title: 'Pitching before qualifying.', body: 'A team builds thinking for a brief that was never funded, because the enquiry looked serious and nobody had time to check.' },
+      { title: 'The enquiry that arrives on five channels.', body: 'A form, an inbox, a direct message and a phone call reach different people, and the agency answers the same prospect three times.' },
+      { title: 'Client requests arrive as urgent.', body: 'Live account requests interrupt new business work, and new business interrupts delivery, all day.' },
+    ],
+    journey: [
+      { step: 'Answer the brief', detail: 'Inbound briefs are acknowledged quickly on whichever channel they arrived on, so the agency is the one that replied first.' },
+      { step: 'Qualify the opportunity', detail: 'Budget range, timeline, decision-maker and scope are captured using the questions your new business team already asks.' },
+      { step: 'Coordinate the chemistry call', detail: 'Where it qualifies, a call is offered against real availability and the brief travels with it.' },
+      { step: 'Keep the pipeline warm', detail: 'Follow-ups on open briefs are scheduled and owned, and stop when the prospect responds or your team takes over.' },
+    ],
+    specialists: ['front-desk', 'website', 'booking', 'outbound-followup'],
+    boundary: 'Creative direction, strategy, costs and anything contractual stay with your team. The workforce makes sure the brief is worth their attention before it reaches them.',
+    signals: [['Inbound briefs', 'Acknowledged'], ['Budget and timeline', 'Captured up front', true], ['Chemistry calls', 'Coordinated'], ['Strategy and costs', 'To your team']],
+    faqs: [
+      { q: 'Will it respond to a creative brief?', a: 'It acknowledges the brief and captures what your team needs to judge it. Any thinking, recommendation or cost is your agency’s work and is never produced by the workforce.' },
+      { q: 'Can it handle live client requests too?', a: 'Within the scope you configure. Which accounts, channels and request types are in scope is confirmed during scoping.' },
+    ],
+  },
+
+  /* ── Hospitality ─────────────────────────────────────────────────── */
+  hotels: {
+    group: 'hospitality',
+    headline: ['The direct booking', 'was worth answering.'],
+    lede: 'A guest asking about availability directly is the most valuable enquiry a property receives, and it is lost the same way every time: the desk was busy.',
+    whoFor: 'Hotels and resorts taking direct enquiries by phone, website and message alongside channel bookings.',
+    problems: [
+      { title: 'The direct enquiry goes to a channel.', body: 'A guest who called and got voicemail books through an aggregator instead, and the property pays a commission for a booking it nearly had for nothing.' },
+      { title: 'The desk is busiest when the phone is.', body: 'Check-in, check-out and the dinner rush are also when availability questions arrive, and the guest standing in front of you comes first.' },
+      { title: 'Long-lead enquiries cross time zones.', body: 'Questions about dates, packages and transfers arrive from everywhere, mostly when the desk is closed.' },
+    ],
+    journey: [
+      { step: 'Answer the enquiry', detail: 'Availability, package and facility questions are answered from the information your property has published, at any hour.' },
+      { step: 'Capture what the stay needs', detail: 'Dates, party size, room preference and any requirement are captured so the booking conversation starts complete.' },
+      { step: 'Coordinate the reservation', detail: 'The request is written to your connected reservation system, or handed to the desk with everything attached where a person is required.' },
+      { step: 'Follow up before arrival', detail: 'Approved pre-arrival contact is scheduled, and stops when the guest replies or your team takes it on.' },
+    ],
+    specialists: ['front-desk', 'voice', 'booking', 'outbound-followup'],
+    boundary: 'Rate negotiation, upgrades, comps and any service recovery go to your duty manager with the booking and the conversation attached.',
+    signals: [['Out-of-hours enquiries', 'Answered'], ['Direct booking questions', 'Handled', true], ['Reservations and changes', 'Coordinated'], ['Rates and recovery', 'To your manager']],
+    faqs: [
+      { q: 'Will it quote a rate?', a: 'It can share the rates you have published. Anything outside your published list, including negotiation, upgrades and goodwill, goes to your duty manager.' },
+      { q: 'Does it write to our reservation system?', a: 'Where that system is supported and connected during scoping. Which systems are supported is confirmed then rather than assumed here.' },
+    ],
+  },
+
+  apartments: {
+    group: 'hospitality',
+    headline: ['An extended stay', 'is a different question.'],
+    lede: 'Someone booking three months asks about terms, bills and what is included before they ask about a date, and none of that is answered by a room rate.',
+    whoFor: 'Serviced apartment operators and extended-stay providers handling longer bookings, corporate accounts and relocation enquiries.',
+    problems: [
+      { title: 'The first question is terms, not dates.', body: 'Minimum stay, what is included, deposits and notice all come before availability, and each one needs the same answer every time.' },
+      { title: 'Corporate enquiries need a person eventually.', body: 'A relocation or corporate account is a real conversation, but it is currently queued behind the routine questions in front of it.' },
+      { title: 'Viewings and handovers go uncoordinated.', body: 'Arranging access around a resident, a cleaner and a prospective guest takes several messages that nobody owns.' },
+    ],
+    journey: [
+      { step: 'Answer the stay question', detail: 'Minimum terms, inclusions, facilities and policies are answered from the content your operation has approved.' },
+      { step: 'Capture the requirement', detail: 'Length of stay, party, budget range and whether it is corporate or private are captured before anyone is involved.' },
+      { step: 'Coordinate access or a call', detail: 'A viewing or a conversation is offered against real availability and written to the right calendar.' },
+      { step: 'Follow through on the open items', detail: 'Outstanding documents and the next contact are scheduled and owned until your team picks them up.' },
+    ],
+    specialists: ['front-desk', 'booking', 'admin', 'outbound-followup'],
+    boundary: 'Contract terms, rates outside your published list, deposits and anything about an individual tenancy go to your team.',
+    signals: [['Terms and inclusions', 'Answered'], ['Stay requirements captured', 'Before a call', true], ['Viewings coordinated', 'In calendar'], ['Contracts and deposits', 'To your team']],
+    faqs: [
+      { q: 'Can it agree a long-stay rate?', a: 'No. It shares what you have published and captures the requirement. Any negotiated rate or term is agreed by your team.' },
+      { q: 'Will it handle corporate accounts?', a: 'It captures and routes them. What an account holder is told and what reaches a person is configured during scoping.' },
+    ],
+  },
+
+  venues: {
+    group: 'hospitality',
+    headline: ['One enquiry.', 'A dozen questions.'],
+    lede: 'A large party or an event is decided over several exchanges and usually a site visit, and it starts with a call arriving at the busiest hour of service.',
+    whoFor: 'Restaurants, restaurant groups, event spaces and banquet venues handling reservations, large parties and event enquiries.',
+    problems: [
+      { title: 'The reservation call during service.', body: 'The floor is full and the phone is ringing, and the booking that was worth taking goes to voicemail.' },
+      { title: 'Large parties need answers first.', body: 'Minimums, menus, private areas and timings all come before a date is agreed, and each one repeats.' },
+      { title: 'The site visit that never got booked.', body: 'An event enquiry that needed a walkthrough drifts because arranging it took more messages than anyone had time for.' },
+    ],
+    journey: [
+      { step: 'Take the enquiry', detail: 'Reservation and event enquiries are answered on the channel they arrived on, at any hour, from your published information.' },
+      { step: 'Answer the standing questions', detail: 'Menus, minimum spends, private spaces and timings are answered from the content you have approved.' },
+      { step: 'Coordinate the booking or visit', detail: 'A table, a party slot or a site visit is offered against real availability and written to your system or your diary.' },
+      { step: 'Confirm and follow up', detail: 'Approved confirmations and reminders are scheduled, and stop when the guest replies or a manager takes over.' },
+    ],
+    specialists: ['front-desk', 'voice', 'booking', 'social'],
+    boundary: 'Bespoke pricing, menu changes, comps and any complaint go to your manager with the booking and the conversation attached.',
+    signals: [['Enquiries during service', 'Answered'], ['Large party questions', 'Handled', true], ['Bookings and site visits', 'Coordinated'], ['Pricing and complaints', 'To your manager']],
+    faqs: [
+      { q: 'Will it agree a price for an event?', a: 'No. It answers from your published minimums and packages, and anything bespoke goes to your manager.' },
+      { q: 'Can it take bookings during service?', a: 'That is the point of it. Enquiries are answered and coordinated while the floor is busy, and anything needing a person is flagged rather than guessed at.' },
+    ],
+  },
+
+  /* ── Travel & tourism ────────────────────────────────────────────── */
+  agents: {
+    group: 'travel',
+    headline: ['Planned from everywhere.', 'Answered from one desk.'],
+    lede: 'Travel is researched at every hour from every time zone, and most of what arrives is the same set of questions asked before there is a booking worth a consultant.',
+    whoFor: 'Travel agencies and tour operators handling itinerary, availability and package enquiries across channels and time zones.',
+    problems: [
+      { title: 'The enquiry lands while you are closed.', body: 'A traveller planning from another time zone sends a question at 3am and books with whoever answered by morning.' },
+      { title: 'The same itinerary questions repeat.', body: 'Inclusions, transfers, visa requirements and change policies are asked constantly and answered individually.' },
+      { title: 'The quote that was never chased.', body: 'An itinerary goes out and nobody follows it up, and the traveller books the version somebody else followed up.' },
+    ],
+    journey: [
+      { step: 'Answer the enquiry', detail: 'Destination, package and policy questions are answered from the content your agency has approved, at any hour.' },
+      { step: 'Capture the trip', detail: 'Dates, party, budget range and preferences are captured so a consultant opens a brief rather than a blank page.' },
+      { step: 'Coordinate the consultation', detail: 'Where it needs a person, a call is offered against real availability with the requirement already attached.' },
+      { step: 'Follow up on the itinerary', detail: 'Open quotes and outstanding decisions are chased on a schedule, and stop when the traveller responds or a consultant takes over.' },
+    ],
+    specialists: ['front-desk', 'voice', 'admin', 'outbound-followup'],
+    boundary: 'Pricing outside your published packages, supplier negotiation and any advice on a specific booking stay with your consultants.',
+    signals: [['Enquiries across time zones', 'Answered'], ['Published information', 'From your content', true], ['Consultations coordinated', 'In the diary'], ['Quotes and advice', 'To your consultants']],
+    faqs: [
+      { q: 'Will it price an itinerary?', a: 'It shares the packages and prices you have published. Anything built for a specific traveller is quoted by your consultants.' },
+      { q: 'Can it answer visa questions?', a: 'It can share published requirements. Eligibility for a specific person is not a question it answers, and it transfers to your team.' },
+    ],
+  },
+
+  visas: {
+    group: 'travel',
+    headline: ['Published on your site.', 'Still asked all day.'],
+    lede: 'Requirements, processing times and document lists are already written down, and a consultant answering them one enquiry at a time is the most expensive way to do it.',
+    whoFor: 'Visa, immigration and document services handling high volumes of eligibility and paperwork questions before any real case exists.',
+    problems: [
+      { title: 'The question your website already answers.', body: 'Requirements and processing times are published and still arrive by phone and message every day.' },
+      { title: 'Cases stall on one document.', body: 'A file waits a week for a single page because chasing it was nobody’s named job.' },
+      { title: 'Consultants answer before they advise.', body: 'Licensed people spend the day on general questions instead of the applications that need their judgement.' },
+    ],
+    journey: [
+      { step: 'Answer the standing question', detail: 'Published requirements, document lists and processing times are answered from your own approved content, at any hour.' },
+      { step: 'Send the checklist', detail: 'The document list for the route the enquirer described is sent, so they know exactly what is outstanding.' },
+      { step: 'Chase what is missing', detail: 'Outstanding documents are followed up on a schedule, and the chase stops when they arrive or a consultant takes the file.' },
+      { step: 'Hand the case over', detail: 'Anything touching eligibility or a specific application reaches your licensed team with the full conversation attached.' },
+    ],
+    specialists: ['front-desk', 'admin', 'outbound-followup', 'website'],
+    boundary: 'Eligibility decisions, immigration advice and anything about a specific application go to your licensed consultants, never to the workforce.',
+    signals: [['Published requirements', 'Answered'], ['Document checklists', 'Sent and chased', true], ['Cases moving', 'Without a chaser'], ['Eligibility and advice', 'To your licensed team']],
+    faqs: [
+      { q: 'Will it tell someone whether they qualify?', a: 'No, and it is configured so it cannot. It shares published criteria and captures the enquiry. Any judgement about a person or an application goes to your licensed consultants.' },
+      { q: 'Does it replace our consultants?', a: 'No. It removes the repeated questions that arrive before a case exists, so your consultants reach the real cases sooner.' },
     ],
   },
 };

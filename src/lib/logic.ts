@@ -27,7 +27,7 @@ export function workforcePreview(problem: string) {
       'Start with the repetitive first response and record updates, then connect the next steps around your actual operating needs.',
     boundary:
       industry?.boundary ??
-      'Sensitive requests, exceptions, and decisions requiring judgement stay with your team.',
+      'Sensitive requests, exceptions and decisions requiring judgement stay with your team.',
     steps: industry?.steps ?? [
       'Enquiry received',
       'Intent understood',
