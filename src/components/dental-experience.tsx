@@ -54,7 +54,7 @@ export function DentalSpecialists() {
             <Icon name={item.icon} size={40} />
           </div>
           <span className="micro">{item.preview[0]}</span>
-          <h4>{item.preview[1]}</h4>
+          <h3 className="h4">{item.preview[1]}</h3>
           {item.id === 'voice' ? (
             <div className="large-wave" aria-hidden="true">
               {Array.from({ length: 25 }, (_, i) => (

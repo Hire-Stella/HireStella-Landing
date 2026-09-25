@@ -241,7 +241,7 @@ export function Footer() {
           </div>
 
           <div className="foot-col foot-col--wide">
-            <h5>{industries.label}</h5>
+            <h2>{industries.label}</h2>
             <div className="foot-split">
               {[sectors.slice(0, half), sectors.slice(half)].map((column, i) => (
                 <div key={i}>
@@ -256,7 +256,7 @@ export function Footer() {
           </div>
 
           <div className="foot-col">
-            <h5>{platform.label}</h5>
+            <h2>{platform.label}</h2>
             {platformLinks.map(([label, href]) => (
               <Link key={href} href={href}>
                 {label}

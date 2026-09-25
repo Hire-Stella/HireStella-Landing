@@ -61,7 +61,7 @@ export default function BlogsPage() {
                     sizes="(max-width: 900px) 100vw, 33vw"
                   />
                 </span>
-                <span className="read-body">
+                <div className="read-body">
                   <span className="k">
                     {post.category} · {post.readTime}
                   </span>
@@ -70,7 +70,7 @@ export default function BlogsPage() {
                   <span className="btn-3" style={{ fontSize: 14 }}>
                     Read the article <Tri />
                   </span>
-                </span>
+                </div>
               </Link>
             ))}
           </div>

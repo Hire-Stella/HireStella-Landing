@@ -131,7 +131,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
                   <div className="k">
                     {p.category} · {p.readTime}
                   </div>
-                  <h4>{p.title}</h4>
+                  <h3 className="h4">{p.title}</h3>
                   <p>{p.summary}</p>
                   <span className="btn-3" style={{ fontSize: 14 }}>
                     Read the article <Tri />

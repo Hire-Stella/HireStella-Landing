@@ -272,7 +272,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                       <i>{String(i + 1).padStart(2, '0')}</i>
                       <Icon name={block.icon} size={17} />
                     </div>
-                    <h4>{block.title}</h4>
+                    <h3 className="h4">{block.title}</h3>
                     <p>{block.text}</p>
                   </article>
                 ))}
@@ -355,7 +355,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                 <div className="hb">
                   <div className="zone pan">
                     <p className="eyebrow eyebrow--sig">Structured zone · AI specialists</p>
-                    <h4 style={{ marginBottom: 'var(--s6)' }}>Work that follows a rule.</h4>
+                    <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Work that follows a rule.</h3>
                     <ul className="bullets">
                       {[
                         'Routine questions answered in your voice, on every channel',
@@ -375,7 +375,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                   </div>
                   <div className="zone pan">
                     <p className="eyebrow">Judgement zone · your people</p>
-                    <h4 style={{ marginBottom: 'var(--s6)' }}>Work that needs a person.</h4>
+                    <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Work that needs a person.</h3>
                     <ul className="bullets">
                       {[
                         'Clinical, legal and financial decisions',
@@ -435,7 +435,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                       <Icon name={s.icon} size={17} />
                       {s.short}
                     </div>
-                    <h4>{s.name}</h4>
+                    <h3 className="h4">{s.name}</h3>
                     <p>{s.description}</p>
                     <span className="btn-3" style={{ fontSize: 14 }}>
                       See the role <Tri />
@@ -531,7 +531,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                     <div className="k">
                       <Icon name={icon} size={17} />
                     </div>
-                    <h4>{title}</h4>
+                    <h3 className="h4">{title}</h3>
                     <p>{body}</p>
                   </article>
                 ))}
@@ -552,7 +552,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <div className="wrap">
               <div className="card pan" style={{ padding: 'var(--s12)', textAlign: 'center', justifyItems: 'center' }}>
                 <Icon name="dashboard" size={36} />
-                <h3>Explore the experience.</h3>
+                <h2 className="h3">Explore the experience.</h2>
                 <p style={{ maxWidth: '46ch' }}>
                   Open the demo to see the workspace, or prepare a consultation brief to discuss a
                   configured deployment.

@@ -291,7 +291,7 @@ export function OperationsDashboard({
                     <span>to booking</span>
                   </div>
                 </div>
-                <h4>Enquiry → appointment</h4>
+                <h3 className="h4">Enquiry → appointment</h3>
                 <p>
                   {bookings} of {enquiries} sample enquiries.
                   <br />
@@ -306,7 +306,7 @@ export function OperationsDashboard({
             {specialists.map((item) => (
               <Link key={item.id} href={`/workforce/${item.id}`}>
                 <Icon name={item.icon} size={25} />
-                <h4>{item.short}</h4>
+                <h3 className="h4">{item.short}</h3>
                 <p>{item.description}</p>
                 <span>Explore role ↗</span>
               </Link>
@@ -315,13 +315,13 @@ export function OperationsDashboard({
         ) : (
           <div className="ops-records">
             <div className="ops-records-heading">
-              <h4>
+              <h3 className="h4">
                 {view === 'Human Handoffs'
                   ? 'Waiting for your team'
                   : view === 'Appointments'
                     ? 'Confirmed appointments'
                     : 'A few journeys in motion'}
-              </h4>
+              </h3>
               <span>Sample records · today</span>
             </div>
             {visibleRecords.map((item) => (

@@ -180,7 +180,7 @@ export default function StellaPage() {
                   <Icon name={icon} size={18} />
                 </span>
                 <div>
-                  <h4>{title}</h4>
+                  <h3 className="h4">{title}</h3>
                   <p>{body}</p>
                 </div>
                 {i < HOW.length - 1 ? <span className="step-link" aria-hidden="true" /> : null}
@@ -206,7 +206,7 @@ export default function StellaPage() {
           <div className="hb">
             <div className="zone pan">
               <p className="eyebrow">Your people</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>The work only a person can hold.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work only a person can hold.</h3>
               <ul className="bullets">
                 {PEOPLE.map((line) => (
                   <li key={line}>
@@ -223,7 +223,7 @@ export default function StellaPage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">Stella and the specialists</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>The work that follows a rule.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work that follows a rule.</h3>
               <ul className="bullets">
                 {STELLA.map((line) => (
                   <li key={line}>

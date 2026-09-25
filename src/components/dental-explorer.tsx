@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { dentalSegments } from '@/lib/visual-content';
 import { Icon } from './ui';
+import { navigateTabs } from './tabs';
 
 /**
  * §16 — one role selected at a time, one orange active state.
@@ -15,14 +16,22 @@ export function DentalExplorer() {
 
   return (
     <div className="explorer">
-      <div className="explorer-tabs" role="tablist" aria-label="Dental specialists">
+      <div
+        className="explorer-tabs"
+        role="tablist"
+        aria-label="Dental specialists"
+        onKeyDown={(event) => navigateTabs(event, active, setActive)}
+      >
         {dentalSegments.map((segment, i) => (
           <button
             key={segment.id}
             role="tab"
             type="button"
             className="explorer-tab"
+            id={`dental-tab-${i}`}
+            aria-controls={'dental-panel'}
             aria-selected={i === active}
+            tabIndex={i === active ? 0 : -1}
             onClick={() => setActive(i)}
           >
             <Icon name={segment.icon} size={18} />
@@ -32,7 +41,14 @@ export function DentalExplorer() {
         ))}
       </div>
 
-      <div className="explorer-body pan">
+      {/* `is-on` is required: the shared explorer CSS hides every body without
+          it, which left this panel invisible and every tab click doing nothing. */}
+      <div
+        className="explorer-body pan is-on"
+        role="tabpanel"
+        id="dental-panel"
+        aria-labelledby={`dental-tab-${active}`}
+      >
         <div className="explorer-copy">
           <p className="eyebrow eyebrow--sig">
             {String(active + 1).padStart(2, '0')} / {String(dentalSegments.length).padStart(2, '0')}{' '}

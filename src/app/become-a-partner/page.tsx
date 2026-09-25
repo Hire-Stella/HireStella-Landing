@@ -150,7 +150,7 @@ export default function BecomePartner() {
                 <div className="k">
                   <Icon name={icon} size={17} />
                 </div>
-                <h4>{title}</h4>
+                <h3 className="h4">{title}</h3>
                 <p>{body}</p>
               </article>
             ))}

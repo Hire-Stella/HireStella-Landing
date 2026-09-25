@@ -107,7 +107,7 @@ export default function TeamPage() {
                   <p className="eyebrow" style={{ marginBottom: 'var(--s3)' }}>
                     {String(i + 1).padStart(2, '0')}
                   </p>
-                  <h4>{title}</h4>
+                  <h3 className="h4">{title}</h3>
                   <p>{body}</p>
                 </div>
                 {i < STEPS.length - 1 ? <span className="step-link" aria-hidden="true" /> : null}

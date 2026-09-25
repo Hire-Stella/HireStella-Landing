@@ -170,7 +170,7 @@ export function CapacityPanel() {
             </label>
             <b
               className="num"
-              style={{ fontFamily: 'Poppins', fontSize: 20, fontWeight: 600, color: 'var(--t1)' }}
+              style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, color: 'var(--t1)' }}
             >
               {hours} hrs
             </b>
@@ -215,7 +215,7 @@ export function CapacityPanel() {
           <span className="sm">Indicative capacity value</span>
           <b
             className="num"
-            style={{ fontFamily: 'Poppins', fontSize: 20, fontWeight: 600, color: 'var(--t1)' }}
+            style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, color: 'var(--t1)' }}
           >
             AED {value.toLocaleString('en-US')}
           </b>

@@ -83,7 +83,7 @@ export function ReadingRoom({
                   sizes="(max-width: 760px) 100vw, 33vw"
                 />
               </span>
-              <span className="read-body">
+              <div className="read-body">
                 <span className="k">
                   {post.category} · {post.readTime}
                 </span>
@@ -92,7 +92,7 @@ export function ReadingRoom({
                 <span className="btn-3" style={{ fontSize: 14 }}>
                   Read the article <Tri />
                 </span>
-              </span>
+              </div>
             </Link>
           ))}
         </div>

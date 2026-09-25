@@ -101,7 +101,7 @@ export default function UseCasesPage() {
                         <Icon name={group.icon} size={17} />
                         {group.name}
                       </div>
-                      <h4>{segment.name}</h4>
+                      <h3 className="h4">{segment.name}</h3>
                       <ol className="seg-flow">
                         {segment.steps.map((step, j) => (
                           <li key={step} className={j === segment.steps.length - 1 ? 'is-end' : ''}>

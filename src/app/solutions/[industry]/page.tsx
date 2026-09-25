@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { industries, specialists } from '@/lib/data';
 import { PageHero, Closer, Thread, SectionHead, Tri, Bul, Ld } from '@/components/system';
 import { Icon } from '@/components/ui';
-import { breadcrumbLd, serviceLd } from '@/lib/seo';
+import { breadcrumbLd, canonical, serviceLd } from '@/lib/seo';
 
 export function generateStaticParams() {
   return industries.map((i) => ({ industry: i.id }));
@@ -17,7 +17,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { industry } = await params;
   const item = industries.find((i) => i.id === industry);
-  return { title: item?.name ?? 'Solution not found', description: item?.description };
+  /* Without its own canonical this page inherited the root layout's, which
+     told search engines /solutions/salons was a duplicate of the homepage. */
+  return {
+    title: item?.name ?? 'Solution not found',
+    description: item?.description,
+    ...(item ? canonical(`/solutions/${item.id}`) : {}),
+  };
 }
 
 export default async function IndustryPage({ params }: { params: Promise<{ industry: string }> }) {
@@ -104,7 +110,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
                   <i>{String(i + 1).padStart(2, '0')}</i>
                   <Icon name={s.icon} size={17} />
                 </div>
-                <h4>{s.name}</h4>
+                <h3 className="h4">{s.name}</h3>
                 <p>{s.description}</p>
                 <span className="btn-3" style={{ fontSize: 14 }}>
                   See the role <Tri />

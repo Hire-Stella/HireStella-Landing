@@ -165,7 +165,7 @@ export default async function SegmentPage({
             {detail.problems.map((p, i) => (
               <div key={p.title}>
                 <span className={`rail ${i === 0 ? 'rail--sig' : ''}`} aria-hidden="true" />
-                <h4>{p.title}</h4>
+                <h3 className="h4">{p.title}</h3>
                 <p>{p.body}</p>
               </div>
             ))}
@@ -198,7 +198,7 @@ export default async function SegmentPage({
                   <Icon name={group.icon} size={18} />
                 </span>
                 <div>
-                  <h4>{j.step}</h4>
+                  <h3 className="h4">{j.step}</h3>
                   <p>{j.detail}</p>
                 </div>
                 {i < detail.journey.length - 1 ? (
@@ -231,7 +231,7 @@ export default async function SegmentPage({
                   <Icon name={s.icon} size={17} />
                   {s.short}
                 </div>
-                <h4>{s.name}</h4>
+                <h3 className="h4">{s.name}</h3>
                 <p>{s.description}</p>
               </Link>
             ))}

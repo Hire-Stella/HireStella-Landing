@@ -13,7 +13,32 @@
    · No animated blur layers. Depth is painted once, statically.
    ═══════════════════════════════════════════════════════════════════════ */
 
+/* Metric-matched stand-ins, shown only until the brand fonts arrive. Each
+   reshapes local Arial to the brand face's size and line box, so the swap
+   changes letterforms but not layout. Without them every heading and panel
+   reflowed on font load: Lighthouse measured a 0.17 layout shift on /stella.
+   The figures are what next/font computes for these families; recompute
+   rather than hand-tune if a font or weight changes. */
+@font-face {
+  font-family: 'Poppins Fallback';
+  src: local('Arial');
+  ascent-override: 93.62%;
+  descent-override: 31.21%;
+  line-gap-override: 8.92%;
+  size-adjust: 112.16%;
+}
+@font-face {
+  font-family: 'Montserrat Fallback';
+  src: local('Arial');
+  ascent-override: 85.79%;
+  descent-override: 22.25%;
+  line-gap-override: 0%;
+  size-adjust: 112.83%;
+}
+
 :root {
+  --font-display: 'Poppins', 'Poppins Fallback', sans-serif;
+  --font-ui: 'Montserrat', 'Montserrat Fallback', sans-serif;
   /*
    * Cache-buster. Bump this whenever a deploy needs to force NEW asset
    * filenames rather than new contents at the same filename.
@@ -163,7 +188,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--t1);
-  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-ui);
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -191,7 +216,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: 'Poppins', 'Montserrat', sans-serif;
+  font-family: var(--font-display);
   margin: 0;
   color: var(--t1);
   text-wrap: balance;
@@ -220,13 +245,15 @@ h2 {
   line-height: 1.1;
   letter-spacing: -0.028em;
 }
-h3 {
+h3,
+.h3 {
   font-size: 30px;
   font-weight: 600;
   line-height: 1.18;
   letter-spacing: -0.022em;
 }
-h4 {
+h4,
+.h4 {
   font-size: 22px;
   font-weight: 600;
   line-height: 1.28;
@@ -618,7 +645,8 @@ p {
   gap: var(--s3);
   align-content: start;
 }
-.card h4 {
+.card h4,
+.card .h4 {
   margin: 0;
 }
 .card p {
@@ -637,7 +665,7 @@ p {
 }
 .card .k i {
   font-style: normal;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 13px;
   font-weight: 700;
   color: var(--t1);
@@ -669,7 +697,8 @@ p {
   top: 0;
   height: 100%;
 }
-.raillist h4 {
+.raillist h4,
+.raillist .h4 {
   margin-bottom: var(--s3);
 }
 .raillist p {
@@ -711,7 +740,7 @@ p {
   background: rgba(199, 201, 232, 0.05);
 }
 .stat .v {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 30px;
   font-weight: 700;
   line-height: 1.1;
@@ -798,7 +827,8 @@ p {
   .closer-h {
     max-width: none;
   }
-  h3 {
+  h3,
+  .h3 {
     font-size: 24px;
   }
   .thread {
@@ -860,7 +890,7 @@ p {
   border-bottom: 0;
 }
 .route-no {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 12px;
   font-weight: 700;
   color: var(--t3);
@@ -1054,7 +1084,7 @@ p {
 }
 .convert-aside ol li::before {
   content: '0' counter(step);
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 12px;
   font-weight: 700;
   color: var(--t3);
@@ -1191,7 +1221,7 @@ p {
   border-bottom: 0;
 }
 .spec-metrics b {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 600;
   color: var(--t1);
@@ -1272,7 +1302,7 @@ p {
   transform: translateY(-3px);
 }
 .seg-card b {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -1341,7 +1371,7 @@ p {
   border-bottom: 0;
 }
 .seg-flow li .num {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 11px;
   font-weight: 700;
   color: var(--t3);
@@ -1368,7 +1398,7 @@ p {
   scroll-margin-top: 120px;
 }
 .article-no {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 13px;
   font-weight: 700;
   color: var(--t3);
@@ -1574,7 +1604,7 @@ a.route-label:hover {
   color: var(--t3);
 }
 .preview-lines li.is-lead {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 19px;
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -1610,7 +1640,7 @@ a.route-label:hover {
 }
 .market-facts b {
   display: block;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 34px;
   font-weight: 700;
   line-height: 1.1;
@@ -1690,7 +1720,7 @@ a.route-label:hover {
   border-bottom: 0;
 }
 .hpanel-rows b {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 15px;
   font-weight: 600;
   color: var(--t1);
@@ -1771,7 +1801,7 @@ a.route-label:hover {
   transform: translateY(-3px);
 }
 .rel-card b {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -1896,7 +1926,8 @@ a.hpanel {
   background: linear-gradient(178deg, rgba(255, 98, 0, 0.12), rgba(255, 98, 0, 0.03));
   color: var(--sig-ink);
 }
-.step-card h4 {
+.step-card h4,
+.step-card .h4 {
   font-size: 18px;
   margin-bottom: var(--s3);
 }
@@ -1997,7 +2028,7 @@ a.hpanel {
   color: var(--t3);
 }
 .read-body b {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 19px;
   font-weight: 600;
   line-height: 1.3;
@@ -2117,7 +2148,7 @@ a.hpanel {
   text-decoration: none;
 }
 .btype b {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 600;
   line-height: 1.35;
@@ -2178,7 +2209,7 @@ a.hpanel {
 }
 .thesis blockquote {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(20px, 2.2vw, 26px);
   font-weight: 600;
   line-height: 1.32;
@@ -2264,7 +2295,7 @@ a.hpanel {
   border-top: 1px solid var(--line);
 }
 .founder-sign b {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 600;
   color: var(--t1);
@@ -2321,7 +2352,7 @@ a.hpanel {
   display: flex;
   align-items: center;
   gap: var(--s3);
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -2384,7 +2415,7 @@ a.hpanel {
   place-items: center;
   border-radius: 50%;
   border: 1.5px solid var(--line-hi);
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 19px;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -2398,7 +2429,7 @@ a.hpanel {
   color: var(--sig-ink);
 }
 .loop-node b {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -2561,7 +2592,7 @@ a.hpanel {
 }
 .cmap-cta b {
   color: var(--t1);
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 16px;
 }
 .cmap-cta em {

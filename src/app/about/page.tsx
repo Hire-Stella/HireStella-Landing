@@ -98,7 +98,7 @@ export default function AboutPage() {
             {SLIPS.map(([title, body], i) => (
               <div key={title}>
                 <span className={`rail ${i === 0 ? 'rail--sig' : ''}`} aria-hidden="true" />
-                <h4>{title}</h4>
+                <h3 className="h4">{title}</h3>
                 <p>{body}</p>
               </div>
             ))}
@@ -153,7 +153,7 @@ export default function AboutPage() {
           <div className="hb">
             <div className="zone pan">
               <p className="eyebrow">Your people</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>Responsible for the judgement.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Responsible for the judgement.</h3>
               <ul className="bullets">
                 {PEOPLE.map((line) => (
                   <li key={line}>
@@ -170,7 +170,7 @@ export default function AboutPage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">The AI workforce</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>Responsible for the volume.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Responsible for the volume.</h3>
               <ul className="bullets">
                 {WORKFORCE.map((line) => (
                   <li key={line}>

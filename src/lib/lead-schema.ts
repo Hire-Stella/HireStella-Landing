@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+/* The site's CSP has no 'unsafe-eval'. Zod 4 otherwise probes `new Function`
+   to decide whether it can compile validators, and even though the probe's
+   throw is caught, Chrome logs the blocked eval as a CSP issue on every page
+   that loads a form, which Lighthouse scores against Best Practices. */
+z.config({ jitless: true });
+
 /** §9.1 — the attribution question the framework asks every commercial form to carry. */
 export const HEARD_FROM = [
   'Google search',

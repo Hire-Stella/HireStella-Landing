@@ -362,7 +362,7 @@ export default async function IndustryGroupPage({
             {profile.problems.map(([title, body], i) => (
               <div key={title}>
                 <span className={`rail ${i === 0 ? 'rail--sig' : ''}`} aria-hidden="true" />
-                <h4>{title}</h4>
+                <h3 className="h4">{title}</h3>
                 <p>{body}</p>
               </div>
             ))}
@@ -391,7 +391,7 @@ export default async function IndustryGroupPage({
                   <Icon name={s.icon} size={17} />
                   {s.short}
                 </div>
-                <h4>{s.name}</h4>
+                <h3 className="h4">{s.name}</h3>
                 <p>{s.description}</p>
               </Link>
             ))}

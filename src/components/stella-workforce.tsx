@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { specialists } from '@/lib/data';
 import { Icon } from './ui';
+import { navigateTabs } from './tabs';
 
 /**
  * The eight specialists, in one section.
@@ -21,14 +22,22 @@ export function StellaWorkforce() {
 
   return (
     <div className="explorer">
-      <div className="explorer-tabs" role="tablist" aria-label="The specialist workforce">
+      <div
+        className="explorer-tabs"
+        role="tablist"
+        aria-label="The specialist workforce"
+        onKeyDown={(event) => navigateTabs(event, active, setActive)}
+      >
         {specialists.map((s, i) => (
           <button
             key={s.id}
             role="tab"
             type="button"
             className="explorer-tab"
+            id={`workforce-tab-${i}`}
+            aria-controls={`workforce-panel-${i}`}
             aria-selected={i === active}
+            tabIndex={i === active ? 0 : -1}
             onClick={() => setActive(i)}
           >
             <Icon name={s.icon} size={18} />
@@ -39,7 +48,14 @@ export function StellaWorkforce() {
       </div>
 
       {specialists.map((current, i) => (
-        <div className={`explorer-body pan ${i === active ? 'is-on' : ''}`} key={current.id}>
+        <div
+          className={`explorer-body pan ${i === active ? 'is-on' : ''}`}
+          key={current.id}
+          role="tabpanel"
+          id={`workforce-panel-${i}`}
+          aria-labelledby={`workforce-tab-${i}`}
+          tabIndex={0}
+        >
           <div className="explorer-copy">
             <p className="eyebrow eyebrow--sig">
               {String(i + 1).padStart(2, '0')} / {String(specialists.length).padStart(2, '0')} ·{' '}

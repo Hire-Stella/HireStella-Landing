@@ -129,7 +129,7 @@ export default function DentalPage() {
             {PROBLEMS.map(([title, body, sig]) => (
               <div key={title as string}>
                 <span className={`rail ${sig ? 'rail--sig' : ''}`} aria-hidden="true" />
-                <h4>{title as string}</h4>
+                <h3 className="h4">{title as string}</h3>
                 <p>{body as string}</p>
               </div>
             ))}

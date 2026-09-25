@@ -241,7 +241,7 @@ export default function SalesCoachPage() {
                   <Icon name={icon} size={18} />
                 </span>
                 <div>
-                  <h4>{title}</h4>
+                  <h3 className="h4">{title}</h3>
                   <p>{body}</p>
                 </div>
                 {i < LOOP.length - 1 ? <span className="step-link" aria-hidden="true" /> : null}
@@ -274,9 +274,9 @@ export default function SalesCoachPage() {
           <div className="grid-2">
             <div className="zone pan">
               <p className="eyebrow">Tracked from the first session</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>
                 A completion score is not a result.
-              </h4>
+              </h3>
               <ul className="bullets">
                 {SIGNALS.map((line) => (
                   <li key={line}>
@@ -289,9 +289,9 @@ export default function SalesCoachPage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">Reported against your baseline</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>
                 The numbers a programme is judged on.
-              </h4>
+              </h3>
               <ul className="bullets">
                 {DELTAS.map((line) => (
                   <li key={line}>
