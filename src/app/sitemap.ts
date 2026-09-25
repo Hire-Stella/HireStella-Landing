@@ -8,6 +8,9 @@ import { origin as siteOrigin } from '@/lib/seo';
 export default function sitemap(): MetadataRoute.Sitemap {
   const origin = siteOrigin();
   if (!origin) return [];
+  const postDates: Record<string, string> = Object.fromEntries(
+    blogPosts.map((post) => [`blogs/${post.slug}`, post.date]),
+  );
   return [
     '',
     ...Object.keys(editorialPages),
@@ -32,6 +35,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...industries.filter((i) => i.id === 'salons').map((i) => `solutions/${i.id}`),
   ].map((path) => ({
     url: `${origin}/${path}`,
+    /* Only posts carry a date, because they are the only pages with a real
+       one. Stamping every page with the build time would be a false signal,
+       and Google stops trusting a sitemap's lastmod once it learns it is noise. */
+    ...(postDates[path] ? { lastModified: postDates[path] } : {}),
     changeFrequency: 'monthly',
     priority: path ? 0.7 : 1,
   }));

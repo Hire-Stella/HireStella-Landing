@@ -16,24 +16,24 @@
     "test:veo": "node --env-file=.env.local scripts/test-veo.mjs"
   },
   "dependencies": {
-    "@fontsource/montserrat": "latest",
-    "@fontsource/poppins": "latest",
+    "@fontsource/montserrat": "5.3.0",
+    "@fontsource/poppins": "5.3.0",
     "@google/genai": "^2.23.0",
     "@swc/helpers": "0.5.23",
     "lucide-react": "1.42.0",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "zod": "latest"
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.5.4"
   },
   "devDependencies": {
-    "@axe-core/playwright": "latest",
-    "@playwright/test": "latest",
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "26.5.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
     "prettier": "3.9.6",
-    "tsx": "latest",
+    "tsx": "4.23.13",
     "typescript": "5.9.3"
   }
 }
