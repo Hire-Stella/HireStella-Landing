@@ -179,11 +179,13 @@ export default function SalesCoachPage() {
       {/* ── what it is ── */}
       <section className="sec" id="what-it-is">
         <div className="wrap">
-          <div className="statement">
+          {/* Full width and a set break, so it reads as two lines on desktop rather
+              than four in the default 52ch statement column. */}
+          <div className="statement" style={{ maxWidth: 'none' }}>
             <span className="rail rail--sig" aria-hidden="true" />
             <h2>
-              A realistic AI sales practice platform for onboarding, coaching and continuous seller
-              improvement.
+              A realistic AI sales practice platform for onboarding,
+              <br className="lb" /> coaching and continuous seller improvement.
             </h2>
           </div>
         </div>
