@@ -133,7 +133,7 @@ const PROFILES: Record<string, Profile> = {
       'Admissions decisions, assessments, safeguarding and anything about a specific child go to your staff, never to the workforce.',
     problemTitle: ['A long decision.', 'A dozen small contacts.'],
     problemLede:
-      'Nobody enrols on the first call. The work is everything between the first question and the offer, and most of it happens outside school hours.',
+      'Nobody enrols on the first call. The work is everything between the first question and the offer: the questions, the visit requests and the follow-up.',
     problems: [
       ['The enquiry that arrives at 9pm.', 'Parents research after their own working day. By the time the office opens they have messaged three other schools.'],
       ['The tour nobody booked.', 'An interested family asked about visiting and the thread ended there, with nothing in the diary.'],

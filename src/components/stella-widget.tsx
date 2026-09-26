@@ -247,9 +247,17 @@ export function StellaWidget({
               </p>
             )}
             {cta && !typing && (
-              <Link className="btn-3 sw-cta" href={cta.href} onClick={onClose}>
-                {cta.label} <span className="tri" aria-hidden="true" />
-              </Link>
+              cta.href === '/book-demo' ? (
+                /* Booking opens the shared modal in place, like every other
+                   "Book a demo"; a link here navigated away mid-conversation. */
+                <button className="btn-3 sw-cta" type="button" data-demo onClick={onClose}>
+                  {cta.label} <span className="tri" aria-hidden="true" />
+                </button>
+              ) : (
+                <Link className="btn-3 sw-cta" href={cta.href} onClick={onClose}>
+                  {cta.label} <span className="tri" aria-hidden="true" />
+                </Link>
+              )
             )}
           </div>
 

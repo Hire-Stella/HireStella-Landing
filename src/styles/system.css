@@ -1831,6 +1831,11 @@ a.route-label:hover {
 .fig-art {
   overflow-x: auto;
 }
+.fig-art:focus-visible {
+  outline: 2px solid var(--sig);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
 .fig-art svg {
   display: block;
   width: 100%;
@@ -1907,6 +1912,31 @@ a.hpanel {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: var(--s4);
+}
+/* Auto-fit fills as many columns as fit, so on a wide screen five cards
+   landed 4+1 and six landed 4+2, leaving a lone card that read as unfinished.
+   Five become 3+2 and six become 3+3. Narrower screens keep auto-fit. */
+@media (min-width: 1100px) {
+  .grid-3:has(> :nth-child(5):last-child),
+  .steps-flow:has(> :nth-child(5):last-child) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .grid-3:has(> :nth-child(5):last-child) > :nth-child(-n + 3),
+  .steps-flow:has(> :nth-child(5):last-child) > :nth-child(-n + 3) {
+    grid-column: span 2;
+  }
+  .grid-3:has(> :nth-child(5):last-child) > :nth-child(n + 4),
+  .steps-flow:has(> :nth-child(5):last-child) > :nth-child(n + 4) {
+    grid-column: span 3;
+  }
+  .grid-3:has(> :nth-child(6):last-child),
+  .steps-flow:has(> :nth-child(6):last-child) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* Two-column sector lists: an odd last card takes the full row. */
+.sector-segments > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 .step-card {
   position: relative;

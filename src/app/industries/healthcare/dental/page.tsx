@@ -46,9 +46,9 @@ export default function DentalPage() {
         crumb={[['Home', '/'], ['Industries', '/industries'], ['Clinics', '/industries/healthcare'], ['Dental']]}
         title={
           <>
-            Every missed call is a missed patient.
+            Keep patient enquiries moving.
             <br />
-            Answer them all.
+            From first call to next appointment.
           </>
         }
         lede="Give calls, bookings and follow-ups a coordinated next step, while your people stay focused on the patient in front of them."
@@ -174,7 +174,7 @@ export default function DentalPage() {
             eyebrow="Where it actually helps"
             title={
               <>
-                Four moments where
+                Six moments where
                 <br />
                 clinics lose capacity.
               </>

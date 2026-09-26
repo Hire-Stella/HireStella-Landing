@@ -10,7 +10,16 @@ export const themeBootstrap = `(function(){var t=null;try{t=localStorage.getItem
 export function ThemeToggle() {
   const [theme, setTheme] = useState('dark');
   useEffect(() => {
-    setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+    /* The head bootstrap sets data-theme before paint, but Next streams the
+       404 page without running inline head scripts, so a saved light theme
+       was ignored there. Apply it here when the bootstrap has not. */
+    const root = document.documentElement;
+    let current = root.dataset.theme;
+    if (current !== 'light' && current !== 'dark') {
+      try { current = localStorage.getItem('hirestella-theme') === 'light' ? 'light' : 'dark'; } catch { current = 'dark'; }
+      root.dataset.theme = current;
+    }
+    setTheme(current === 'light' ? 'light' : 'dark');
   }, []);
   function toggle() {
     const next = theme === 'dark' ? 'light' : 'dark';

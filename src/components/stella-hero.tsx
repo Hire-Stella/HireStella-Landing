@@ -182,7 +182,7 @@ const GENERIC: Scenario = {
   id: 'generic',
   chip: 'Your brief',
   said: '',
-  business: 'From your brief',
+  business: 'General example',
   channels: 'The channels your enquiries already arrive on',
   bottleneck:
     'Work arrives faster than anyone can own it, and it lands in more than one place. Nothing is lost on purpose, but nothing has a single owner either.',
@@ -233,7 +233,7 @@ export function StellaHero() {
   const [said, setSaid] = useState('');
   const [active, setActive] = useState<string | null>(null);
   const [lit, setLit] = useState<string[]>([]);
-  const [state, setState] = useState({ label: 'Listening', busy: false });
+  const [state, setState] = useState({ label: 'Ready', busy: false });
   const [caption, setCaption] = useState<string | null>(null);
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
@@ -255,7 +255,7 @@ export function StellaHero() {
     setActive(null);
     setLit([]);
     setCaption(null);
-    setState({ label: 'Listening', busy: false });
+    setState({ label: 'Ready', busy: false });
   }, []);
 
   /* §12.3 — the hero signal: the brief lands, the relevant specialists illuminate. */
@@ -264,14 +264,14 @@ export function StellaHero() {
     setSaid(spoken || scenario.said);
     setLive(scenario);
     setLit([]);
-    setState({ label: 'Analysing', busy: true });
-    setCaption('Reading the brief.');
+    setState({ label: 'Matching an example', busy: true });
+    setCaption('Finding the closest example.');
     timers.current.push(setTimeout(() => setLit(scenario.specialists), 560));
     timers.current.push(
       setTimeout(() => {
-        setState({ label: 'Workforce ready', busy: true });
+        setState({ label: 'Example workflow', busy: true });
         setCaption(
-          `${scenario.specialists.length} specialists activated for this brief. The rest stay available.`,
+          `This example uses ${scenario.specialists.length} specialists. Your own configuration is confirmed in discovery.`,
         );
       }, 1150),
     );
@@ -379,11 +379,11 @@ export function StellaHero() {
                     onChange={(e) => setValue(e.target.value)}
                     onFocus={() => {
                       setFocused(true);
-                      setState({ label: 'Listening', busy: true });
+                      setState({ label: 'Ready', busy: true });
                     }}
                     onBlur={() => {
                       setFocused(false);
-                      setState({ label: 'Listening', busy: false });
+                      setState({ label: 'Ready', busy: false });
                     }}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
@@ -398,7 +398,7 @@ export function StellaHero() {
                 <div className="cmd-foot">
                   <span className="sm">
                     <Lock size={13} strokeWidth={1.8} aria-hidden="true" />
-                    No sign-up needed. Please do not enter confidential customer data.
+                    An interactive example using preset scenarios, not a live AI model. No sign-up needed. Please do not enter confidential customer data.
                   </span>
                   <button className="send" onClick={send} type="button">
                     Ask Stella <span className="tri" aria-hidden="true" />

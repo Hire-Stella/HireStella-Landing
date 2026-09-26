@@ -23,7 +23,11 @@ function Frame({
       <div className="fig-top">
         <span className="micro">{label}</span>
       </div>
-      <div className="fig-art">{children}</div>
+      {/* Focusable because at phone width the drawing scrolls sideways, and a
+          keyboard user can only scroll a region that can take focus. */}
+      <div className="fig-art" tabIndex={0} role="region" aria-label={`${label} diagram`}>
+        {children}
+      </div>
       <figcaption>{caption}</figcaption>
     </figure>
   );

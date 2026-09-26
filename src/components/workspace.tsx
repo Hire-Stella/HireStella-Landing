@@ -127,6 +127,8 @@ function Ring({
   word: string;
 }) {
   const pct = Math.round((bookings / enquiries) * 100);
+  /* "an appointment", "a booking": the noun changes per sector. */
+  const outcome = `${/^[aeiou]/i.test(word) ? 'an' : 'a'} ${word}`;
   const R = 52;
   const C = 2 * Math.PI * R;
   return (
@@ -134,7 +136,7 @@ function Ring({
       <svg
         viewBox="0 0 132 132"
         role="img"
-        aria-label={`${pct} per cent of enquiries reached a ${word}`}
+        aria-label={`${pct} per cent of enquiries reached ${outcome}`}
       >
         <circle className="ws-ring-track" cx="66" cy="66" r={R} fill="none" strokeWidth="11" />
         <circle
@@ -158,7 +160,7 @@ function Ring({
       <figcaption>
         <strong>Enquiry → {word}</strong>
         <span>
-          {bookings} of {enquiries} enquiries reached a {word}.
+          {bookings} of {enquiries} enquiries reached {outcome}.
         </span>
       </figcaption>
     </figure>

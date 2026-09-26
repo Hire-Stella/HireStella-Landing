@@ -79,7 +79,7 @@ export default function BlogsPage() {
 
       <Closer
         title="Reading is useful. Seeing it run is better."
-        lede="Describe your bottleneck and watch Stella assemble the workforce around it."
+        lede="Describe your bottleneck and explore an example of the workforce Stella would coordinate."
         primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
         secondary={{ href: '/book-demo', label: 'Book a demo' }}
       />
