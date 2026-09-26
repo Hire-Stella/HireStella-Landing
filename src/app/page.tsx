@@ -150,9 +150,8 @@ export default function HomePage() {
               </>
             }
           >
-            Some work follows a rule. Some work needs a person who knows your business. The line
-            between them is configured by you and visible in the interface, not buried in a policy
-            document.
+            Some work follows a rule. Some work needs a person who knows your business. You decide
+            where the line between them sits.
           </SectionHead>
 
           <div className="hb">

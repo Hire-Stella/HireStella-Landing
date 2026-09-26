@@ -82,7 +82,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
     {
       q: 'Will customers know they are talking to AI?',
-      a: 'Disclosure is part of your configuration, and the approved wording is yours. The boundary itself is visible in the interface rather than buried in a policy document, so your team can see which conversations are waiting on a person.',
+      a: 'Disclosure is part of your configuration, and the approved wording is yours. Your team can also see, in the workspace, which conversations are waiting on a person.',
     },
     {
       q: 'What happens if a specialist gets something wrong?',

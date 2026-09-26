@@ -30,7 +30,7 @@ const REPLIES: { label: string; you: string; stella: string[]; cta?: { href: str
     you: 'We keep missing calls when the team is busy.',
     stella: [
       'That is the most common one. Missed calls rarely call back.',
-      'A voice workflow answers every call, captures what the caller needs, and books or escalates it. Front Desk and Booking pick up from there.',
+      'A voice workflow answers the calls your team cannot get to, captures what the caller needs, and books or escalates it. Front Desk and Booking pick up from there.',
     ],
     cta: { href: '/stella#workforce', label: 'See the Voice specialist' },
   },
