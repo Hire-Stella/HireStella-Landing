@@ -121,16 +121,12 @@ export default function TeamPage() {
         <div className="wrap">
           <div className="goal">
             <span className="rail rail--sig" aria-hidden="true" />
-            <p className="eyebrow">The principle, and it is the whole thing</p>
+            <p className="eyebrow">Our principle</p>
             <h3>
               AI handles the work that follows a rule.
               <br />
               <em>People handle the work that requires judgement.</em>
             </h3>
-            <p className="note">
-              Where that line sits is configured with you, and it is visible in the interface rather
-              than buried in a policy document.
-            </p>
           </div>
         </div>
       </section>
@@ -139,6 +135,7 @@ export default function TeamPage() {
 
 
       <Closer
+        eyebrow="Map your first workflow"
         title="Start with the work, not the software."
         lede="Bring one workflow and we will map the specialists, the systems and the handoffs around it."
       />

@@ -217,6 +217,7 @@ export default function DentalPage() {
       <ReadingRoom industry="clinics" title="Fresh perspectives on dental operations." />
 
       <Closer
+        eyebrow="Dental clinics"
         title={
           <>
             Build a clearer patient journey

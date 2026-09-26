@@ -78,6 +78,7 @@ export default function BlogsPage() {
       </section>
 
       <Closer
+        eyebrow="See it in action"
         title="Reading is useful. Seeing it run is better."
         lede="Describe your bottleneck and explore an example of the workforce Stella would coordinate."
         primary={{ href: '/#ask-stella', label: 'Ask Stella' }}

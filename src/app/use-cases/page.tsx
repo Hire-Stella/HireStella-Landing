@@ -138,6 +138,7 @@ export default function UseCasesPage() {
       })}
 
       <Closer
+        eyebrow="Pick your first workflow"
         title="Start with one workflow worth improving."
         lede="Stella maps the specialists, the systems and the handoff around it before anything is configured."
       />

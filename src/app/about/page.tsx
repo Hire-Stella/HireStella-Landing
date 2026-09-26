@@ -232,6 +232,7 @@ export default function AboutPage() {
 
 
       <Closer
+        eyebrow="Work with us"
         title={
           <>
             More room

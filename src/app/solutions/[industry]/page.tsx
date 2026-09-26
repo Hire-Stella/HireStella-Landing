@@ -137,6 +137,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
       </section>
 
       <Closer
+        eyebrow="Salons & wellness"
         title="Let us connect the work around your business."
         lede="Bring the busiest hour of your week and we will map the journey through it."
       />

@@ -198,9 +198,8 @@ export default function StellaPage() {
             title="Each doing what they are for."
             headMax="20ch"
           >
-            Some work follows a rule. Some work needs a person who knows your business. You configure
-            the line between them, and it is visible in the interface rather than buried in a policy
-            document.
+            Some work follows a rule. Some work needs a person who knows your business. You decide
+            where the line between them sits.
           </SectionHead>
 
           <div className="hb">
@@ -241,6 +240,7 @@ export default function StellaPage() {
 
 
       <Closer
+        eyebrow="Build your workforce"
         title={
           <>
             One manager.

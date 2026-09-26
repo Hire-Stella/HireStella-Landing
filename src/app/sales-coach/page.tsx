@@ -347,6 +347,7 @@ export default function SalesCoachPage() {
 
 
       <Closer
+        eyebrow="Rehearse with Stella"
         title={
           <>
             The next hard call.

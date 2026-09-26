@@ -150,6 +150,7 @@ export default function IndustriesPage() {
       </section>
 
       <Closer
+        eyebrow="Find your starting point"
         title="Let us map the work around your business."
         lede="Start with one journey worth improving and build the workforce outward from it."
       />

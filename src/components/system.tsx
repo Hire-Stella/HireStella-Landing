@@ -67,7 +67,7 @@ export function SectionHead({
  * with its own space rather than sharing a band with the footer.
  */
 export function Closer({
-  eyebrow = 'The next step',
+  eyebrow = 'Get started',
   title,
   lede,
   primary = { href: '/book-demo', label: 'Book a demo' },

@@ -351,7 +351,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
 
 
 
-          <Closer title={editorial.closing} lede={editorial.closingLede} />
+          <Closer eyebrow={editorial.closingEyebrow} title={editorial.closing} lede={editorial.closingLede} />
         </>
       )}
 
@@ -517,7 +517,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           {FAQS[slug] ? <Faq title="Questions buyers actually ask." items={FAQS[slug]} /> : null}
 
 
-          <Closer title="See it built around your operation." lede="Production workspace access is part of a configured deployment." />
+          <Closer eyebrow="Your own workspace" title="See it built around your operation." lede="Production workspace access is part of a configured deployment." />
         </>
       )}
     </main>
