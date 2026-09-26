@@ -2224,21 +2224,28 @@ a.hpanel {
 /* ── the thesis panel ───────────────────────────────────────────────────
    A story page leads with its sentence, not a stat block. Display type in a
    hero aside, with the second clause carrying the weight. */
+/* A pull-quote card: label, quote, then what it means. The skewed rail used
+   to float over the left edge and cut through the label and the quote, so
+   the accent is now a straight bar that belongs to the quote alone, and the
+   explanation sits under a hairline. Nothing overlaps at any width. */
 .thesis {
   position: relative;
   display: grid;
-  gap: var(--s4);
+  gap: var(--s5);
   align-content: center;
-  padding: var(--s10) var(--s10) var(--s10) var(--s12);
+  padding: var(--s10);
   border-radius: var(--r-hero);
 }
 .thesis > .rail {
-  left: 30px;
-  top: 16%;
-  height: min(60%, 220px);
+  display: none;
+}
+.thesis .eyebrow {
+  margin: 0;
 }
 .thesis blockquote {
   margin: 0;
+  padding-left: var(--s5);
+  border-left: 3px solid var(--orange);
   font-family: var(--font-display);
   font-size: clamp(20px, 2.2vw, 26px);
   font-weight: 600;
@@ -2253,6 +2260,8 @@ a.hpanel {
 }
 .thesis .note {
   margin: 0;
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line);
 }
 
 /* ── vision and mission ─────────────────────────────────────────────── */
