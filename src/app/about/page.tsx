@@ -64,12 +64,15 @@ export default function AboutPage() {
         aside={
           <div className="thesis pan">
             <span className="rail rail--sig" aria-hidden="true" />
-            <p className="eyebrow">The idea</p>
+            <p className="eyebrow">What we believe</p>
             <blockquote>
               Businesses don&rsquo;t always need more people.
               <em> They need more capacity from the people they already have.</em>
             </blockquote>
-            <p className="note">Everything on this site follows from that sentence.</p>
+            <p className="note">
+              So Stella takes the repetitive work, answering, booking and following up, and your people keep
+              the work that needs them.
+            </p>
           </div>
         }
       />
