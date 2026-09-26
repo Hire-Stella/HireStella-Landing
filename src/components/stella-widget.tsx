@@ -30,7 +30,7 @@ const REPLIES: { label: string; you: string; stella: string[]; cta?: { href: str
     you: 'We keep missing calls when the team is busy.',
     stella: [
       'That is the most common one. Missed calls rarely call back.',
-      'A voice workflow answers every call, captures what the caller needs, and books or escalates it. Front Desk and Booking pick up from there.',
+      'A voice workflow answers the calls your team cannot get to, captures what the caller needs, and books or escalates it. Front Desk and Booking pick up from there.',
     ],
     cta: { href: '/stella#workforce', label: 'See the Voice specialist' },
   },
@@ -47,7 +47,7 @@ const REPLIES: { label: string; you: string; stella: string[]; cta?: { href: str
     label: 'What does it cost?',
     you: 'How is this priced?',
     stella: [
-      'All eight specialists are included in every plan, and there is no per-message price.',
+      'All eight specialists come with every deployment, and there is no per-message price.',
       'The operating level is set by volume, voice, languages, integrations and reporting. We confirm it during scoping rather than quoting blind.',
     ],
     cta: { href: '/book-demo', label: 'Book a demo' },
@@ -247,9 +247,17 @@ export function StellaWidget({
               </p>
             )}
             {cta && !typing && (
-              <Link className="btn-3 sw-cta" href={cta.href} onClick={onClose}>
-                {cta.label} <span className="tri" aria-hidden="true" />
-              </Link>
+              cta.href === '/book-demo' ? (
+                /* Booking opens the shared modal in place, like every other
+                   "Book a demo"; a link here navigated away mid-conversation. */
+                <button className="btn-3 sw-cta" type="button" data-demo onClick={onClose}>
+                  {cta.label} <span className="tri" aria-hidden="true" />
+                </button>
+              ) : (
+                <Link className="btn-3 sw-cta" href={cta.href} onClick={onClose}>
+                  {cta.label} <span className="tri" aria-hidden="true" />
+                </Link>
+              )
             )}
           </div>
 

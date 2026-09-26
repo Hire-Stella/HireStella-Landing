@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { canonical, breadcrumbLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, Faq, Related, Ld, Tri } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri } from '@/components/system';
 import { Icon } from '@/components/ui';
 import { FAQS } from '@/lib/faqs';
 
@@ -107,7 +107,7 @@ export default function TeamPage() {
                   <p className="eyebrow" style={{ marginBottom: 'var(--s3)' }}>
                     {String(i + 1).padStart(2, '0')}
                   </p>
-                  <h4>{title}</h4>
+                  <h3 className="h4">{title}</h3>
                   <p>{body}</p>
                 </div>
                 {i < STEPS.length - 1 ? <span className="step-link" aria-hidden="true" /> : null}
@@ -121,32 +121,21 @@ export default function TeamPage() {
         <div className="wrap">
           <div className="goal">
             <span className="rail rail--sig" aria-hidden="true" />
-            <p className="eyebrow">The principle, and it is the whole thing</p>
+            <p className="eyebrow">Our principle</p>
             <h3>
               AI handles the work that follows a rule.
               <br />
               <em>People handle the work that requires judgement.</em>
             </h3>
-            <p className="note">
-              Where that line sits is configured with you, and it is visible in the interface rather
-              than buried in a policy document.
-            </p>
           </div>
         </div>
       </section>
 
       {FAQS.team ? <Faq title="Questions about working with us." items={FAQS.team} /> : null}
 
-      <Related
-        links={[
-          { href: '/about', label: 'Our story', note: 'The idea the company was built around.', kind: 'Parent' },
-          { href: '/stella', label: 'Meet Stella', note: 'The workspace, the specialists, and how a deployment is built.', kind: 'Sibling' },
-          { href: '/human-boundary', label: 'The human boundary', note: 'Where automation stops and your team decides.', kind: 'Sibling' },
-          { href: '/become-a-partner', label: 'Become a partner', note: 'Take the workforce to the clients you already advise.', kind: 'Next step' },
-        ]}
-      />
 
       <Closer
+        eyebrow="Map your first workflow"
         title="Start with the work, not the software."
         lede="Bring one workflow and we will map the specialists, the systems and the handoffs around it."
       />

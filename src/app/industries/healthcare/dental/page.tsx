@@ -10,7 +10,7 @@ import { Icon } from '@/components/ui';
 import { canonical, breadcrumbLd, serviceLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'AI Receptionist for Dental Clinics in Dubai',
+  title: 'AI Front Desk for Dental Clinics in Dubai',
   description:
     'Explore dental call handling, appointment coordination, reminders and follow-ups, with example workflows and sourced Dubai market context.',
   ...canonical('/industries/healthcare/dental'),
@@ -46,9 +46,9 @@ export default function DentalPage() {
         crumb={[['Home', '/'], ['Industries', '/industries'], ['Clinics', '/industries/healthcare'], ['Dental']]}
         title={
           <>
-            Care for your patients.
+            Keep patient enquiries moving.
             <br />
-            We connect everything else.
+            From first call to next appointment.
           </>
         }
         lede="Give calls, bookings and follow-ups a coordinated next step, while your people stay focused on the patient in front of them."
@@ -111,7 +111,7 @@ export default function DentalPage() {
       <section className="sec" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <SectionHead
-            eyebrow="The problem is between the moments"
+            eyebrow="Where the time goes"
             signal
             title={
               <>
@@ -129,7 +129,7 @@ export default function DentalPage() {
             {PROBLEMS.map(([title, body, sig]) => (
               <div key={title as string}>
                 <span className={`rail ${sig ? 'rail--sig' : ''}`} aria-hidden="true" />
-                <h4>{title as string}</h4>
+                <h3 className="h4">{title as string}</h3>
                 <p>{body as string}</p>
               </div>
             ))}
@@ -174,7 +174,7 @@ export default function DentalPage() {
             eyebrow="Where it actually helps"
             title={
               <>
-                Four moments where
+                Six moments where
                 <br />
                 clinics lose capacity.
               </>
@@ -217,6 +217,7 @@ export default function DentalPage() {
       <ReadingRoom industry="clinics" title="Fresh perspectives on dental operations." />
 
       <Closer
+        eyebrow="Dental clinics"
         title={
           <>
             Build a clearer patient journey

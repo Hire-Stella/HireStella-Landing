@@ -101,7 +101,7 @@ export default function UseCasesPage() {
                         <Icon name={group.icon} size={17} />
                         {group.name}
                       </div>
-                      <h4>{segment.name}</h4>
+                      <h3 className="h4">{segment.name}</h3>
                       <ol className="seg-flow">
                         {segment.steps.map((step, j) => (
                           <li key={step} className={j === segment.steps.length - 1 ? 'is-end' : ''}>
@@ -138,6 +138,7 @@ export default function UseCasesPage() {
       })}
 
       <Closer
+        eyebrow="Pick your first workflow"
         title="Start with one workflow worth improving."
         lede="Stella maps the specialists, the systems and the handoff around it before anything is configured."
       />

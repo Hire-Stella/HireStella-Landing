@@ -417,14 +417,16 @@
 .foot-contact a:hover {
   color: var(--t1);
 }
-.foot-col h5 {
+/* An h2 for the outline, sized as the small caps label it always was. */
+.foot-col h2 {
   margin: 0 0 var(--s4);
+  line-height: 1.65;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--t3);
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-ui);
 }
 .foot-col a {
   display: flex;
@@ -453,17 +455,19 @@
   display: grid;
   align-content: start;
 }
-/* The Talk to Stella trigger is fixed at bottom right, 48px tall on a 20px
-   inset. At the very bottom of the page it sat on top of the last two links
-   in this bar and made them unclickable, so the bar keeps that much clearance
-   below it. */
+/* The Talk to Stella trigger is fixed at bottom right: 58px on a 20px inset.
+   It used to cover the last links in this bar, which was solved with 80px of
+   empty space below it, leaving a long scroll after the copyright line. The
+   bar now keeps clear of the trigger sideways instead, so the space below
+   it can be ordinary. */
 .foot-bar {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s4) var(--s8);
   align-items: center;
   justify-content: space-between;
-  padding-block: var(--s6) var(--s20);
+  padding-block: var(--s6) var(--s8);
+  padding-right: 88px;
   border-top: 1px solid var(--line);
 }
 .foot-bar .lg {
@@ -477,6 +481,18 @@
   align-items: center;
   min-height: 44px;
   text-decoration: none;
+}
+/* Phones: the links wrap to the left, clear of the trigger in the right
+   corner, so the side clearance is not needed; the 44px link height is
+   spacing enough between wrapped rows. */
+@media (max-width: 640px) {
+  .foot-bar {
+    padding-right: 0;
+    row-gap: var(--s2);
+  }
+  .foot-bar .lg {
+    row-gap: 0;
+  }
 }
 @media (max-width: 1100px) {
   .foot-top {

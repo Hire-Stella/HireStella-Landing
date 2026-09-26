@@ -1,29 +1,12 @@
 'use client';
 
-import { useState, type KeyboardEvent } from 'react';
+import { useState } from 'react';
 import { OperationsDashboard } from './operations-dashboard';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { industries, specialists } from '@/lib/data';
 import { Icon, Logo, ButtonLink, Eyebrow } from './ui';
-
-/** Horizontal tab groups support arrow keys as well as pointer and touch input. */
-function navigateTabs(
-  event: KeyboardEvent<HTMLDivElement>,
-  selected: number,
-  select: (index: number) => void,
-) {
-  const tabs = event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]');
-  let next = selected;
-  if (event.key === 'ArrowRight') next = (selected + 1) % tabs.length;
-  else if (event.key === 'ArrowLeft') next = (selected - 1 + tabs.length) % tabs.length;
-  else if (event.key === 'Home') next = 0;
-  else if (event.key === 'End') next = tabs.length - 1;
-  else return;
-  event.preventDefault();
-  select(next);
-  tabs[next]?.focus();
-}
+import { navigateTabs } from './tabs';
 
 export { WorkforceNetwork } from './workforce-network';
 

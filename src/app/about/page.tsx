@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { canonical, breadcrumbLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, Faq, Related, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul } from '@/components/system';
 import { founder } from '@/lib/founder';
 import { FAQS } from '@/lib/faqs';
 
@@ -64,12 +64,15 @@ export default function AboutPage() {
         aside={
           <div className="thesis pan">
             <span className="rail rail--sig" aria-hidden="true" />
-            <p className="eyebrow">The idea</p>
+            <p className="eyebrow">What we believe</p>
             <blockquote>
               Businesses don&rsquo;t always need more people.
               <em> They need more capacity from the people they already have.</em>
             </blockquote>
-            <p className="note">Everything on this site follows from that sentence.</p>
+            <p className="note">
+              So Stella takes the repetitive work, answering, booking and following up, and your people keep
+              the work that needs them.
+            </p>
           </div>
         }
       />
@@ -98,7 +101,7 @@ export default function AboutPage() {
             {SLIPS.map(([title, body], i) => (
               <div key={title}>
                 <span className={`rail ${i === 0 ? 'rail--sig' : ''}`} aria-hidden="true" />
-                <h4>{title}</h4>
+                <h3 className="h4">{title}</h3>
                 <p>{body}</p>
               </div>
             ))}
@@ -153,7 +156,7 @@ export default function AboutPage() {
           <div className="hb">
             <div className="zone pan">
               <p className="eyebrow">Your people</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>Responsible for the judgement.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Responsible for the judgement.</h3>
               <ul className="bullets">
                 {PEOPLE.map((line) => (
                   <li key={line}>
@@ -170,7 +173,7 @@ export default function AboutPage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">The AI workforce</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>Responsible for the volume.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Responsible for the volume.</h3>
               <ul className="bullets">
                 {WORKFORCE.map((line) => (
                   <li key={line}>
@@ -227,16 +230,9 @@ export default function AboutPage() {
 
       {FAQS.about ? <Faq title="Questions people ask about us." items={FAQS.about} /> : null}
 
-      <Related
-        links={[
-          { href: '/team', label: 'Our approach', note: 'How we start, and what we refuse to guess at.', kind: 'Sibling' },
-          { href: '/stella', label: 'Meet Stella', note: 'The product idea the company is built around.', kind: 'Child' },
-          { href: '/human-boundary', label: 'The human boundary', note: 'Where automation stops and your team decides.', kind: 'Sibling' },
-          { href: '/contact', label: 'Contact us', note: 'Start a conversation about your operation.', kind: 'Next step' },
-        ]}
-      />
 
       <Closer
+        eyebrow="Work with us"
         title={
           <>
             More room

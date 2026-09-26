@@ -11,7 +11,7 @@ export function PricingCards() {
   return (
     <div className="pricing-block">
       <div className="pricing-toolbar">
-        <p>The full specialist workforce. In every plan.</p>
+        <p>The full specialist workforce. In every deployment.</p>
         <div className="segmented" aria-label="Commitment term">
           {(Object.keys(termNames) as Term[]).map((key) => (
             <button key={key} aria-pressed={term === key} onClick={() => setTerm(key)}>

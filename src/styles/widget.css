@@ -245,7 +245,7 @@
   color: var(--sig-ink);
 }
 .al-opt-txt {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 14px;
   font-weight: 600;
   /* Flat line box, so the label centres against the glyph rather than
@@ -301,7 +301,7 @@
 }
 .va-id b {
   display: block;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.012em;
@@ -414,7 +414,7 @@
 
 .va-state b {
   display: block;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 600;
   line-height: 1.32;
@@ -513,7 +513,7 @@
 }
 .sw-id b {
   display: block;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.012em;
@@ -667,7 +667,7 @@
   min-width: 0;
 }
 .invite-body b {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 17px;
   font-weight: 600;
   line-height: 1.32;

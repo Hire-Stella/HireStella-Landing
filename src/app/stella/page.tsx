@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { canonical, breadcrumbLd, serviceLd, faqLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, HeroPanel, Faq, Related, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, HeroPanel, Faq, Ld, Tri, Bul } from '@/components/system';
 import { OperationsWorkspace } from '@/components/workspace';
 import { clinicWorkspace } from '@/lib/workspace-content';
 import { StellaWorkforce } from '@/components/stella-workforce';
@@ -75,7 +75,7 @@ export default function StellaPage() {
             Every next move.
           </>
         }
-        lede="Stella understands how work moves through your business, configures the specialists it needs, and keeps the handoffs connected. You see all of it in one place."
+        lede="Stella is your AI General Manager. Eight AI specialists answer your calls and messages, book appointments and follow up, while Stella decides who does what and hands anything sensitive to your people. You see all of it in one place."
         actions={
           <>
             <button className="btn btn-1" type="button" data-demo>
@@ -149,7 +149,7 @@ export default function StellaPage() {
           <StellaWorkforce />
 
           <p className="note" style={{ marginTop: 'var(--s6)' }}>
-            All eight are included in every plan. Capacity scales with you, not the headcount.
+            All eight come with every deployment. Capacity scales with you, not the headcount.
           </p>
         </div>
       </section>
@@ -180,7 +180,7 @@ export default function StellaPage() {
                   <Icon name={icon} size={18} />
                 </span>
                 <div>
-                  <h4>{title}</h4>
+                  <h3 className="h4">{title}</h3>
                   <p>{body}</p>
                 </div>
                 {i < HOW.length - 1 ? <span className="step-link" aria-hidden="true" /> : null}
@@ -198,15 +198,14 @@ export default function StellaPage() {
             title="Each doing what they are for."
             headMax="20ch"
           >
-            Some work follows a rule. Some work needs a person who knows your business. You configure
-            the line between them, and it is visible in the interface rather than buried in a policy
-            document.
+            Some work follows a rule. Some work needs a person who knows your business. You decide
+            where the line between them sits.
           </SectionHead>
 
           <div className="hb">
             <div className="zone pan">
               <p className="eyebrow">Your people</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>The work only a person can hold.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work only a person can hold.</h3>
               <ul className="bullets">
                 {PEOPLE.map((line) => (
                   <li key={line}>
@@ -223,7 +222,7 @@ export default function StellaPage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">Stella and the specialists</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>The work that follows a rule.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work that follows a rule.</h3>
               <ul className="bullets">
                 {STELLA.map((line) => (
                   <li key={line}>
@@ -239,15 +238,9 @@ export default function StellaPage() {
 
       <Faq title="Questions buyers actually ask." items={faqs} />
 
-      <Related
-        links={[
-          { href: '/industries', label: 'Your industry', note: 'Ten sectors, and what changes in each one.', kind: 'Next' },
-          { href: '/integrations', label: 'Integrations', note: 'How context carries into the systems you already run.', kind: 'Sibling' },
-          { href: '/human-boundary', label: 'The human boundary', note: 'Where automation stops and your team decides.', kind: 'Sibling' },
-        ]}
-      />
 
       <Closer
+        eyebrow="Build your workforce"
         title={
           <>
             One manager.

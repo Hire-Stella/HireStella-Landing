@@ -25,7 +25,6 @@ type Scenario = {
   bottleneck: string;
   specialists: string[];
   boundary: string;
-  next: string;
 };
 
 /* Labelled local scenarios, not a live model. Every claim stays illustrative.
@@ -43,7 +42,6 @@ const SCENARIOS: Scenario[] = [
     specialists: ['Voice', 'Front Desk', 'Booking', 'Follow-up'],
     boundary:
       'Clinical questions, treatment decisions and complaints transfer to your team with the full conversation attached.',
-    next: 'Build this workforce exclusively for your clinic',
   },
   {
     id: 'automotive',
@@ -56,7 +54,6 @@ const SCENARIOS: Scenario[] = [
     specialists: ['Front Desk', 'Booking', 'Admin', 'Follow-up'],
     boundary:
       'Quotes, disputes and anything involving a vehicle assessment go to your service advisor.',
-    next: 'Build this workforce exclusively for your group',
   },
   {
     id: 'real-estate',
@@ -69,7 +66,6 @@ const SCENARIOS: Scenario[] = [
     specialists: ['Front Desk', 'Voice', 'Booking', 'Follow-up'],
     boundary:
       'Negotiation, pricing and anything contractual stays with your agent, briefed and ready.',
-    next: 'Build this workforce exclusively for your agency',
   },
   {
     id: 'hospitality',
@@ -82,7 +78,6 @@ const SCENARIOS: Scenario[] = [
     specialists: ['Front Desk', 'Voice', 'Booking', 'Social'],
     boundary:
       'Complaints, special requests and anything affecting a guest already staying with you go to your duty manager.',
-    next: 'Build this workforce exclusively for your property',
   },
   {
     id: 'education',
@@ -95,7 +90,6 @@ const SCENARIOS: Scenario[] = [
     specialists: ['Front Desk', 'Booking', 'Follow-up', 'Admin'],
     boundary:
       'Eligibility, fees, placement decisions and anything about a specific child stay with your admissions team.',
-    next: 'Build this workforce exclusively for your institution',
   },
   {
     id: 'banking',
@@ -107,7 +101,6 @@ const SCENARIOS: Scenario[] = [
       'High volumes of routine status and document questions absorb the service desk, so complex cases wait behind them.',
     specialists: ['Front Desk', 'Voice', 'Admin', 'Booking'],
     boundary: 'Anything advisory, regulated or account-sensitive transfers to authorised staff only.',
-    next: 'Build this workforce exclusively for your service desk',
   },
   {
     id: 'home-services',
@@ -120,7 +113,6 @@ const SCENARIOS: Scenario[] = [
     specialists: ['Voice', 'Front Desk', 'Booking', 'Follow-up'],
     boundary:
       'Quotes, site assessments and anything carrying liability go to your supervisor before a commitment is made.',
-    next: 'Build this workforce exclusively for your team',
   },
   {
     id: 'travel',
@@ -133,7 +125,6 @@ const SCENARIOS: Scenario[] = [
     specialists: ['Front Desk', 'Website', 'Follow-up', 'Admin'],
     boundary:
       'Bookings, payments, visa advice and anything a supplier must confirm stay with your consultant.',
-    next: 'Build this workforce exclusively for your agency',
   },
   {
     id: 'professional-services',
@@ -146,7 +137,6 @@ const SCENARIOS: Scenario[] = [
     specialists: ['Front Desk', 'Booking', 'Follow-up', 'Admin'],
     boundary:
       'Scope, fees, advice and anything that commits the firm stay with your partner or consultant.',
-    next: 'Build this workforce exclusively for your firm',
   },
   {
     id: 'retail',
@@ -159,7 +149,6 @@ const SCENARIOS: Scenario[] = [
     specialists: ['Front Desk', 'Social', 'Admin', 'Follow-up'],
     boundary:
       'Refunds, complaints and any goodwill decision go to your team with the order history attached.',
-    next: 'Build this workforce exclusively for your brand',
   },
 ];
 
@@ -182,29 +171,13 @@ const GENERIC: Scenario = {
   id: 'generic',
   chip: 'Your brief',
   said: '',
-  business: 'From your brief',
+  business: 'General example',
   channels: 'The channels your enquiries already arrive on',
   bottleneck:
     'Work arrives faster than anyone can own it, and it lands in more than one place. Nothing is lost on purpose, but nothing has a single owner either.',
   specialists: ['Front Desk', 'Voice', 'Booking', 'Follow-up'],
   boundary:
     'Decisions, complaints, negotiation and anything contractual transfer to your team with the full conversation attached.',
-  next: 'Build this workforce exclusively for your business',
-};
-
-/* A chip names the business, so it earns "your group". A typed brief only
-   tells us the sector, so the wording stays to what the visitor said. */
-const TYPED_NEXT: Record<string, string> = {
-  dental: 'Build this workforce exclusively for your clinic',
-  'real-estate': 'Build this workforce exclusively for your agency',
-  banking: 'Build this workforce exclusively for your service desk',
-  automotive: 'Build this workforce exclusively for your workshop',
-  hospitality: 'Build this workforce exclusively for your property',
-  education: 'Build this workforce exclusively for your institution',
-  'home-services': 'Build this workforce exclusively for your team',
-  travel: 'Build this workforce exclusively for your agency',
-  'professional-services': 'Build this workforce exclusively for your firm',
-  retail: 'Build this workforce exclusively for your brand',
 };
 
 function routeBrief(text: string): Scenario {
@@ -221,7 +194,6 @@ function routeBrief(text: string): Scenario {
         ...matched,
         business: GENERIC.business,
         channels: GENERIC.channels,
-        next: TYPED_NEXT[matched.id] ?? GENERIC.next,
       }
     : GENERIC;
 }
@@ -233,7 +205,7 @@ export function StellaHero() {
   const [said, setSaid] = useState('');
   const [active, setActive] = useState<string | null>(null);
   const [lit, setLit] = useState<string[]>([]);
-  const [state, setState] = useState({ label: 'Listening', busy: false });
+  const [state, setState] = useState({ label: 'Ready', busy: false });
   const [caption, setCaption] = useState<string | null>(null);
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
@@ -255,7 +227,7 @@ export function StellaHero() {
     setActive(null);
     setLit([]);
     setCaption(null);
-    setState({ label: 'Listening', busy: false });
+    setState({ label: 'Ready', busy: false });
   }, []);
 
   /* §12.3 — the hero signal: the brief lands, the relevant specialists illuminate. */
@@ -264,14 +236,14 @@ export function StellaHero() {
     setSaid(spoken || scenario.said);
     setLive(scenario);
     setLit([]);
-    setState({ label: 'Analysing', busy: true });
-    setCaption('Reading the brief.');
+    setState({ label: 'Matching an example', busy: true });
+    setCaption('Finding the closest example.');
     timers.current.push(setTimeout(() => setLit(scenario.specialists), 560));
     timers.current.push(
       setTimeout(() => {
-        setState({ label: 'Workforce ready', busy: true });
+        setState({ label: 'Example workflow', busy: true });
         setCaption(
-          `${scenario.specialists.length} specialists activated for this brief. The rest stay available.`,
+          `This example uses ${scenario.specialists.length} specialists. Your own configuration is confirmed in discovery.`,
         );
       }, 1150),
     );
@@ -325,8 +297,8 @@ export function StellaHero() {
         </h1>
 
         <p className="lede">
-          One AI General Manager. A connected team of AI Specialists. Built around your business,
-          working as one.
+          Stella, your AI General Manager, runs eight AI specialists that answer your calls and
+          messages, book appointments and follow up. Anything sensitive goes to your team.
         </p>
 
         <div className="btn-row" style={{ justifyContent: 'center' }}>
@@ -379,11 +351,11 @@ export function StellaHero() {
                     onChange={(e) => setValue(e.target.value)}
                     onFocus={() => {
                       setFocused(true);
-                      setState({ label: 'Listening', busy: true });
+                      setState({ label: 'Ready', busy: true });
                     }}
                     onBlur={() => {
                       setFocused(false);
-                      setState({ label: 'Listening', busy: false });
+                      setState({ label: 'Ready', busy: false });
                     }}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
@@ -398,7 +370,7 @@ export function StellaHero() {
                 <div className="cmd-foot">
                   <span className="sm">
                     <Lock size={13} strokeWidth={1.8} aria-hidden="true" />
-                    No sign-up needed. Please do not enter confidential customer data.
+                    Preset examples, not a live AI model. No sign-up. Please do not enter confidential data.
                   </span>
                   <button className="send" onClick={send} type="button">
                     Ask Stella <span className="tri" aria-hidden="true" />
@@ -446,7 +418,6 @@ export function StellaHero() {
             <div className="nextstep pan pan--solid">
               <span className="rail rail--sig" aria-hidden="true" />
               <div className="nextstep-body">
-                <p className="eyebrow eyebrow--sig">Your next step</p>
                 <b>
                   {/* §7A.4 — the Stella Star, once, at the moment of diagnosis */}
                   <svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true">
@@ -455,7 +426,9 @@ export function StellaHero() {
                       fill="#FF6200"
                     />
                   </svg>
-                  <span>{live.next}</span>
+                  {/* The same line for every scenario: the offer is one workforce built
+                      for the visitor alone, whatever sector the example came from. */}
+                  <span>Build this workforce exclusively for your business.</span>
                 </b>
                 <p className="sm">
                   Configured around your channels, your systems and your rules. Nothing is shared
@@ -465,17 +438,6 @@ export function StellaHero() {
               <div className="nextstep-act">
                 <button className="btn btn-1" type="button" data-demo data-demo-problem={said}>
                   Book a demo <span className="tri" aria-hidden="true" />
-                </button>
-                <button
-                  className="btn-3"
-                  type="button"
-                  onClick={() => {
-                    reset();
-                    setValue('');
-                  }}
-                  style={{ color: 'var(--t3)', fontWeight: 500, fontSize: 13 }}
-                >
-                  Start again
                 </button>
               </div>
             </div>

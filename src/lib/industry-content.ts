@@ -9,7 +9,7 @@ export const industryGroups = [
   {
     id: 'healthcare',
     name: 'Healthcare & clinics',
-    seoTitle: 'AI Receptionist for Clinics in Dubai',
+    seoTitle: 'AI Front Desk for Clinics in Dubai',
     headline: 'From the first call to a confirmed appointment.',
     icon: 'medical',
     intro:
@@ -93,7 +93,7 @@ export const industryGroups = [
   {
     id: 'automotive',
     name: 'Automotive',
-    seoTitle: 'AI Call Handling for Car Rental & Service',
+    seoTitle: 'AI Front Desk for Car Rental & Service',
     headline: 'Rental, workshop and showroom. One customer.',
     icon: 'car',
     intro:
@@ -140,7 +140,7 @@ export const industryGroups = [
   {
     id: 'real-estate',
     name: 'Real estate',
-    seoTitle: 'AI Lead Response for Dubai Real Estate',
+    seoTitle: 'AI Front Desk for Dubai Real Estate',
     headline: 'Answer tonight. Show this week.',
     icon: 'home',
     intro:
@@ -175,7 +175,7 @@ export const industryGroups = [
   {
     id: 'hospitality',
     name: 'Hospitality',
-    seoTitle: '24/7 AI Booking Assistant for Hospitality',
+    seoTitle: '24/7 AI Front Desk for Hospitality',
     headline: 'Answer the guest who is still deciding.',
     icon: 'hotel',
     intro:
@@ -222,7 +222,7 @@ export const industryGroups = [
   {
     id: 'education',
     name: 'Education & training',
-    seoTitle: 'AI Admissions Assistant for Schools',
+    seoTitle: 'AI Front Desk for Schools & Training',
     headline: 'Admissions that answer after hours.',
     icon: 'graduation',
     intro:
@@ -257,7 +257,7 @@ export const industryGroups = [
   {
     id: 'financial-services',
     name: 'Financial services',
-    seoTitle: 'AI Client Service for Financial Firms',
+    seoTitle: 'AI Front Desk for Financial Firms',
     headline: 'Routine cleared. Complex cases reached.',
     icon: 'bank',
     intro:
@@ -291,7 +291,7 @@ export const industryGroups = [
   {
     id: 'home-services',
     name: 'Home services',
-    seoTitle: 'AI Answering Service for Home Services',
+    seoTitle: 'AI Front Desk for Home Services',
     headline: 'The job booked while the vans are out.',
     icon: 'tools',
     intro:
@@ -326,7 +326,7 @@ export const industryGroups = [
   {
     id: 'travel',
     name: 'Travel & tourism',
-    seoTitle: 'AI Enquiry Handling for Travel & Tourism',
+    seoTitle: 'AI Front Desk for Travel & Tourism',
     headline: 'Answered in every time zone.',
     icon: 'plane',
     intro:
@@ -361,7 +361,7 @@ export const industryGroups = [
   {
     id: 'professional-services',
     name: 'Professional services',
-    seoTitle: 'AI Lead Qualification for Consultancies',
+    seoTitle: 'AI Front Desk for Professional Services',
     headline: 'Qualified before a fee earner sees it.',
     icon: 'briefcase',
     intro:
@@ -432,7 +432,7 @@ export const industryGroups = [
   {
     id: 'retail',
     name: 'Retail & D2C',
-    seoTitle: 'AI Customer Service for Retail & D2C',
+    seoTitle: 'AI Front Desk for Retail & D2C',
     headline: 'Before they buy. After it ships.',
     icon: 'store',
     intro:

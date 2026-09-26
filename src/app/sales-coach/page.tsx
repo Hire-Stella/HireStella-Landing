@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { canonical, breadcrumbLd, serviceLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, HeroPanel, Related, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, HeroPanel, Ld, Tri, Bul } from '@/components/system';
 import { CoachWorkspace } from '@/components/coach-workspace';
 import { PracticeLoop } from '@/components/figures';
 import { Icon } from '@/components/ui';
@@ -179,11 +179,13 @@ export default function SalesCoachPage() {
       {/* ── what it is ── */}
       <section className="sec" id="what-it-is">
         <div className="wrap">
-          <div className="statement">
+          {/* Full width and a set break, so it reads as two lines on desktop rather
+              than four in the default 52ch statement column. */}
+          <div className="statement" style={{ maxWidth: 'none' }}>
             <span className="rail rail--sig" aria-hidden="true" />
             <h2>
-              A realistic AI sales practice platform for onboarding, coaching and continuous seller
-              improvement.
+              A realistic AI sales practice platform for onboarding,
+              <br className="lb" /> coaching and continuous seller improvement.
             </h2>
           </div>
         </div>
@@ -241,7 +243,7 @@ export default function SalesCoachPage() {
                   <Icon name={icon} size={18} />
                 </span>
                 <div>
-                  <h4>{title}</h4>
+                  <h3 className="h4">{title}</h3>
                   <p>{body}</p>
                 </div>
                 {i < LOOP.length - 1 ? <span className="step-link" aria-hidden="true" /> : null}
@@ -274,9 +276,9 @@ export default function SalesCoachPage() {
           <div className="grid-2">
             <div className="zone pan">
               <p className="eyebrow">Tracked from the first session</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>
                 A completion score is not a result.
-              </h4>
+              </h3>
               <ul className="bullets">
                 {SIGNALS.map((line) => (
                   <li key={line}>
@@ -289,9 +291,9 @@ export default function SalesCoachPage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">Reported against your baseline</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>
                 The numbers a programme is judged on.
-              </h4>
+              </h3>
               <ul className="bullets">
                 {DELTAS.map((line) => (
                   <li key={line}>
@@ -345,36 +347,9 @@ export default function SalesCoachPage() {
         </div>
       </section>
 
-      <Related
-        links={[
-          {
-            href: '/stella',
-            label: 'Meet Stella',
-            note: 'The AI General Manager and the eight specialists that run the operation itself.',
-            kind: 'Sibling',
-          },
-          {
-            href: '/industries',
-            label: 'Your industry',
-            note: 'Ten sectors, and what a sales conversation is actually about in each one.',
-            kind: 'Next',
-          },
-          {
-            href: '/integrations',
-            label: 'Integrations',
-            note: 'How context carries into the systems your sales team already runs.',
-            kind: 'Sibling',
-          },
-          {
-            href: '/contact',
-            label: 'Talk to us',
-            note: 'Tell us the objection your team loses most often.',
-            kind: 'Next step',
-          },
-        ]}
-      />
 
       <Closer
+        eyebrow="Rehearse with Stella"
         title={
           <>
             The next hard call.

@@ -118,7 +118,7 @@
 }
 .dm-steps li::before {
   content: '0' counter(dm);
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 12px;
   font-weight: 700;
   color: var(--t3);
@@ -227,7 +227,7 @@
   }
   .dm-mini b {
     display: block;
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-display);
     font-size: 16px;
     font-weight: 700;
     letter-spacing: -0.015em;
@@ -308,7 +308,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-display);
   font-size: 19px;
   font-weight: 600;
   letter-spacing: -0.015em;

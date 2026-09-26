@@ -357,7 +357,10 @@ export function CoachWorkspace({ data = demoCoachWorkspace }: { data?: CoachWork
                         {s.id} · {s.kind}
                       </em>
                     </span>
-                    <time className="num">{s.length}</time>
+                    {/* A duration, so it needs a machine-readable ISO value to be valid HTML. */}
+                    <time className="num" dateTime={`PT${parseInt(s.length, 10)}M`}>
+                      {s.length}
+                    </time>
                     <span className={`ws-pill ws-pill--${s.status.split(' ')[0].toLowerCase()}`}>
                       {s.status}
                     </span>

@@ -14,12 +14,18 @@
  */
 export type SocialKey = 'instagram' | 'facebook' | 'linkedin' | 'x' | 'tiktok';
 
+/* 2026-09-25: the old guessed handles did not exist, and facebook.com/hirestella
+   is an unrelated person's profile, which `sameAs` was telling Google is this
+   company. 2026-09-26: Instagram, LinkedIn and X set from the company's own
+   accounts, each opened and checked; share-tracking parameters (?stkn=, ?s=21)
+   removed. Facebook and TikTok stay empty until real accounts are confirmed.
+   Only paste a URL here after opening it and seeing the real account. */
 export const SOCIAL: { key: SocialKey; label: string; url: string }[] = [
-  { key: 'instagram', label: 'HireStella on Instagram', url: 'https://www.instagram.com/hirestella' },
-  { key: 'facebook', label: 'HireStella on Facebook', url: 'https://www.facebook.com/hirestella' },
-  { key: 'linkedin', label: 'HireStella on LinkedIn', url: 'https://www.linkedin.com/company/hirestella' },
-  { key: 'x', label: 'HireStella on X', url: 'https://x.com/hirestella' },
-  { key: 'tiktok', label: 'HireStella on TikTok', url: 'https://www.tiktok.com/@hirestella' },
+  { key: 'instagram', label: 'HireStella on Instagram', url: 'https://www.instagram.com/hirestella_ai/' },
+  { key: 'facebook', label: 'HireStella on Facebook', url: '' },
+  { key: 'linkedin', label: 'HireStella on LinkedIn', url: 'https://www.linkedin.com/company/hirestellaai/' },
+  { key: 'x', label: 'HireStella on X', url: 'https://x.com/hirestellaai' },
+  { key: 'tiktok', label: 'HireStella on TikTok', url: '' },
 ];
 
 /** The URLs actually set, for schema.org `sameAs`. */

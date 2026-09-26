@@ -72,7 +72,7 @@ export default function HomePage() {
             {PROBLEMS.map(([title, body, signal]) => (
               <div key={title}>
                 <span className={`rail ${signal ? 'rail--sig' : ''}`} aria-hidden="true" />
-                <h4>{title}</h4>
+                <h3 className="h4">{title}</h3>
                 <p>{body}</p>
               </div>
             ))}
@@ -103,7 +103,7 @@ export default function HomePage() {
                   <i>{no}</i>
                   {kicker}
                 </div>
-                <h4>{title}</h4>
+                <h3 className="h4">{title}</h3>
                 <p>{body}</p>
               </div>
             ))}
@@ -133,7 +133,7 @@ export default function HomePage() {
           <WorkforceMap />
 
           <p className="note" style={{ marginTop: 'var(--s5)' }}>
-            The full specialist workforce is included in every plan. Capacity scales with you.
+            The full specialist workforce comes with every deployment. Capacity scales with you.
           </p>
         </div>
       </section>
@@ -150,15 +150,14 @@ export default function HomePage() {
               </>
             }
           >
-            Some work follows a rule. Some work needs a person who knows your business. The line
-            between them is configured by you and visible in the interface, not buried in a policy
-            document.
+            Some work follows a rule. Some work needs a person who knows your business. You decide
+            where the line between them sits.
           </SectionHead>
 
           <div className="hb">
             <div className="zone pan">
               <p className="eyebrow">Your people</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>The work only a person can hold.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work only a person can hold.</h3>
               <ul className="bullets">
                 {PEOPLE.map((line) => (
                   <li key={line}>
@@ -175,7 +174,7 @@ export default function HomePage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">Your AI Specialists</p>
-              <h4 style={{ marginBottom: 'var(--s6)' }}>The work that follows a rule.</h4>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work that follows a rule.</h3>
               <ul className="bullets">
                 {SPECIALISTS.map((line) => (
                   <li key={line}>
@@ -267,7 +266,8 @@ export default function HomePage() {
             <br className="lb" /> Tell Stella.
           </>
         }
-        lede="One manager. One connected workforce. More capacity, without more chaos."
+        eyebrow="Start with one problem"
+        lede="Describe what is slowing you down. Stella shows which specialists would take it on, and where your team stays in charge."
       />
     </main>
   );

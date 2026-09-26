@@ -28,7 +28,9 @@ export const editorialPages = {
         text: 'Enterprise and bespoke configurations can scope custom API work. Feasibility, permissions, effort and system limits are reviewed first.',
       },
     ],
+    closingEyebrow: 'Connect your systems',
     closing: 'Tell us which systems your business runs on.',
+    closingLede: 'We confirm what connects, and how, before anything is configured.',
   },
   'human-boundary': {
     label: 'Human boundary',
@@ -59,7 +61,9 @@ export const editorialPages = {
         text: 'A handoff is an intentional part of the workflow. Review what needs attention and which next action belongs with your team.',
       },
     ],
-    closing: 'Build a workforce that supports the people behind your business.',
+    closingEyebrow: 'Set your boundary',
+    closing: 'You decide where the line sits.',
+    closingLede: 'In a demo we map which work Stella takes on and which stays with your people.',
   },
   security: {
     label: 'Security & trust',
@@ -90,6 +94,8 @@ export const editorialPages = {
         text: 'Request the relevant deployment documentation and evidence for your needs. Certifications, provider controls, and regulated capabilities should be verified for the actual scope.',
       },
     ],
+    closingEyebrow: 'Scope your deployment',
     closing: 'Let’s discuss the requirements your deployment needs to meet.',
+    closingLede: 'Hosting, data handling and access are scoped to your deployment before anything goes live.',
   },
 } as const;

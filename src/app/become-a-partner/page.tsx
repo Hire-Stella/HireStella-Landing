@@ -150,7 +150,7 @@ export default function BecomePartner() {
                 <div className="k">
                   <Icon name={icon} size={17} />
                 </div>
-                <h4>{title}</h4>
+                <h3 className="h4">{title}</h3>
                 <p>{body}</p>
               </article>
             ))}
@@ -163,7 +163,7 @@ export default function BecomePartner() {
       <Closer
         eyebrow="Not ready to apply"
         title="See the product first."
-        lede="Describe a client bottleneck and watch Stella assemble the workforce around it."
+        lede="Describe a client bottleneck and explore an example of the workforce Stella would coordinate."
         primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
         secondary={{ href: '/stella#workforce', label: 'See the workforce' }}
       />

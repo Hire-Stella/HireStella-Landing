@@ -26,7 +26,14 @@ export const consentBootstrap = `try{var c=localStorage.getItem('${CONSENT_KEY}'
 
 export function readConsent(): Consent | null {
   if (typeof document === 'undefined') return null;
-  const value = document.documentElement.dataset.analyticsConsent;
+  const root = document.documentElement;
+  let value = root.dataset.analyticsConsent;
+  /* The 404 page is streamed without the head bootstrap, so fall back to
+     storage; otherwise a visitor who already chose saw the banner again. */
+  if (value !== 'granted' && value !== 'denied') {
+    try { value = localStorage.getItem(CONSENT_KEY) ?? undefined; } catch { value = undefined; }
+    if (value === 'granted' || value === 'denied') root.dataset.analyticsConsent = value;
+  }
   return value === 'granted' || value === 'denied' ? value : null;
 }
 

@@ -131,7 +131,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
                   <div className="k">
                     {p.category} · {p.readTime}
                   </div>
-                  <h4>{p.title}</h4>
+                  <h3 className="h4">{p.title}</h3>
                   <p>{p.summary}</p>
                   <span className="btn-3" style={{ fontSize: 14 }}>
                     Read the article <Tri />
@@ -144,8 +144,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
       ) : null}
 
       <Closer
+        eyebrow="See it in action"
         title="Reading is useful. Seeing it run is better."
-        lede="Describe your bottleneck and watch Stella assemble the workforce around it."
+        lede="Describe your bottleneck and explore an example of the workforce Stella would coordinate."
         primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
         secondary={{ href: '/book-demo', label: 'Book a demo' }}
       />

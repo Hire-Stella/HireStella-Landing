@@ -145,7 +145,7 @@ export const marketFacts: Record<string, MarketFact> = {
   education: {
     eyebrow: 'In focus · Dubai private education',
     title: 'More families choosing. More questions to answer.',
-    body: 'Dubai private schools enrolled 387,441 students across 227 schools in the 2024-25 academic year, enrolment up 6 per cent on the year before. Every one of those places began as an enquiry from a parent, and most of those arrive outside school hours.',
+    body: 'Dubai private schools enrolled 387,441 students across 227 schools in the 2024-25 academic year, enrolment up 6 per cent on the year before. Every one of those places began as questions from a family, and admissions teams need a clear way to answer them, arrange visits and follow up.',
     facts: [
       { label: 'Students enrolled', value: '387,441', note: 'Private schools, 2024-25, up 6% on the year' },
       { label: 'Private schools', value: '227', note: 'Operating in Dubai in 2024-25' },
@@ -205,14 +205,14 @@ export const marketFacts: Record<string, MarketFact> = {
   travel: {
     eyebrow: 'In focus · Dubai tourism',
     title: 'Every visitor asked something first.',
-    body: 'Dubai welcomed 9.88 million international visitors in the first half of 2025 alone, on a third successive record year. Travel is planned from every time zone at once, which is why a desk that keeps office hours answers a fraction of what reaches it.',
+    body: 'Dubai welcomed 19.59 million international overnight visitors in 2025, its third successive record year. They plan from every time zone, so enquiries do not keep office hours.',
     facts: [
-      { label: 'International visitors', value: '9.88m', note: 'First half of 2025' },
+      { label: 'International visitors', value: '19.59m', note: 'Overnight visitors in 2025, up 5%' },
       { label: 'Average length of stay', value: '3.7 nights', note: 'Across 2025' },
-      { label: 'Average daily rate', value: 'AED 531', note: 'Up 6% on the previous year' },
+      { label: 'Average daily rate', value: 'AED 579', note: 'In 2025, up 8% from AED 538' },
     ],
     source: {
-      title: 'Dubai Media Office · Dubai tourism performance, citing DET',
+      title: 'Dubai Media Office · Dubai tourism performance 2025, citing DET',
       url: 'https://mediaoffice.ae/en/news/2026/february/09-02/dubais-tourism-industry-achieves-third-successive-record-breaking-year',
     },
   },

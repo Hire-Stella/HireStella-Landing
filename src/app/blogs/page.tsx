@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   ...canonical('/blogs'),
   title: 'AI Front Desk Insights for UAE Business',
   description:
-    'Practical ideas for the work between the moments: capturing enquiries, coordinating bookings, and keeping judgement with your team.',
+    'Practical guides for a busier front desk: capturing enquiries, coordinating bookings, and keeping judgement with your team.',
 };
 
 export default function BlogsPage() {
@@ -22,9 +22,9 @@ export default function BlogsPage() {
         crumb={[['Home', '/'], ['Blogs']]}
         title={
           <>
-            Ideas for the work
+            Practical guides for a
             <br />
-            between the moments.
+            busier front desk.
           </>
         }
         lede="Short, practical pieces on operational coordination. Every claim carries its source and its date, and nothing here is a performance promise."
@@ -61,7 +61,7 @@ export default function BlogsPage() {
                     sizes="(max-width: 900px) 100vw, 33vw"
                   />
                 </span>
-                <span className="read-body">
+                <div className="read-body">
                   <span className="k">
                     {post.category} · {post.readTime}
                   </span>
@@ -70,7 +70,7 @@ export default function BlogsPage() {
                   <span className="btn-3" style={{ fontSize: 14 }}>
                     Read the article <Tri />
                   </span>
-                </span>
+                </div>
               </Link>
             ))}
           </div>
@@ -78,8 +78,9 @@ export default function BlogsPage() {
       </section>
 
       <Closer
+        eyebrow="See it in action"
         title="Reading is useful. Seeing it run is better."
-        lede="Describe your bottleneck and watch Stella assemble the workforce around it."
+        lede="Describe your bottleneck and explore an example of the workforce Stella would coordinate."
         primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
         secondary={{ href: '/book-demo', label: 'Book a demo' }}
       />

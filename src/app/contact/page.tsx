@@ -35,9 +35,9 @@ export default function Contact() {
         crumb={[['Home', '/'], ['Contact']]}
         title={
           <>
-            Your business has a next chapter.
+            Tell us where your team
             <br />
-            Let us talk about it.
+            is stretched.
           </>
         }
         lede="Discuss a workforce configuration, integration requirements, or a more complex operation. Start with a little context about what you need."
@@ -122,7 +122,7 @@ export default function Contact() {
       <Closer
         eyebrow="Or start it yourself"
         title="Describe the bottleneck. See the workforce."
-        lede="Stella reads the brief and shows which specialists the work would actually need."
+        lede="Explore a preset example of how Stella would coordinate work like yours."
         primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
         secondary={{ href: '/book-demo', label: 'Book a demo' }}
       />
