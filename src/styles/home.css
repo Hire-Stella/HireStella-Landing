@@ -211,7 +211,19 @@
   gap: 9px;
   text-align: left;
 }
+/* On a phone the note sits above a full-width button, rather than being
+   squeezed into a narrow column beside it. */
+@media (max-width: 560px) {
+  .cmd-foot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s3);
+  }
+}
 .send {
+  /* Never wraps: the disclosure beside it is long enough to squeeze it. */
+  flex-shrink: 0;
+  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
