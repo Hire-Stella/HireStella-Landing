@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       '@fontsource/montserrat':
-        specifier: latest
+        specifier: 5.3.0
         version: 5.3.0
       '@fontsource/poppins':
-        specifier: latest
+        specifier: 5.3.0
         version: 5.3.0
       '@google/genai':
         specifier: ^2.23.0
@@ -24,38 +24,38 @@ importers:
         specifier: 1.42.0
         version: 1.42.0(react@19.2.8)
       next:
-        specifier: latest
+        specifier: 16.3.4
         version: 16.3.4(@playwright/test@1.63.0)(@types/node@26.5.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react:
-        specifier: latest
+        specifier: 19.2.8
         version: 19.2.8
       react-dom:
-        specifier: latest
+        specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
       zod:
-        specifier: latest
+        specifier: 4.5.4
         version: 4.5.4
     devDependencies:
       '@axe-core/playwright':
-        specifier: latest
+        specifier: 4.13.0
         version: 4.13.0(playwright-core@1.63.0)
       '@playwright/test':
-        specifier: latest
+        specifier: 1.63.0
         version: 1.63.0
       '@types/node':
-        specifier: latest
+        specifier: 26.5.0
         version: 26.5.0
       '@types/react':
-        specifier: latest
+        specifier: 19.2.18
         version: 19.2.18
       '@types/react-dom':
-        specifier: latest
+        specifier: 19.2.7
         version: 19.2.7(@types/react@19.2.18)
       prettier:
         specifier: 3.9.6
         version: 3.9.6
       tsx:
-        specifier: latest
+        specifier: 4.23.13
         version: 4.23.13
       typescript:
         specifier: 5.9.3
@@ -474,9 +474,6 @@ packages:
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
 
-  '@types/node@22.20.3':
-    resolution: {integrity: sha512-DZmzkmwHzXrLPAXPyKNDzlIwMMUZCVacoD25ywdy5YTKGbOx/2ld+Q38Im2zJ0vBuZP5Prd3VZutKZyXwkOS8A==}
-
   '@types/node@26.5.0':
     resolution: {integrity: sha512-dVSGpriSoCgz8WnDNTuSSuSv1PC/ALXihO4ulRZt7Md8k9mlbdin3lGOcDE8SnWOgf513ByWlXd7BK4azmyg/A==}
 
@@ -730,9 +727,6 @@ packages:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
     hasBin: true
-
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   undici-types@8.9.0:
     resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
@@ -1022,10 +1016,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@types/node@22.20.3':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@26.5.0':
     dependencies:
       undici-types: 8.9.0
@@ -1241,7 +1231,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.2
-      '@types/node': 22.20.3
+      '@types/node': 26.5.0
       long: 5.3.2
 
   react-dom@19.2.8(react@19.2.8):
@@ -1310,8 +1300,6 @@ snapshots:
       fsevents: 2.3.3
 
   typescript@5.9.3: {}
-
-  undici-types@6.21.0: {}
 
   undici-types@8.9.0: {}
 
