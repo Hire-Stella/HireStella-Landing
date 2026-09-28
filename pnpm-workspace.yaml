@@ -1,4 +1,8 @@
 # esbuild is used by local tsx tests, not the Next.js production build.
 # Its optional platform package supplies the binary without postinstall.
+# @google/genai's preinstall is a no-op echo, and protobufjs's postinstall only
+# prints a version notice; neither produces anything the package needs.
 allowBuilds:
+  '@google/genai': false
   esbuild@0.28.2: false
+  protobufjs: false
