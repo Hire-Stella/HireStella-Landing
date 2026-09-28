@@ -5,32 +5,18 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Mic, PhoneOff, RotateCcw, X } from 'lucide-react';
 import { Logo } from './ui';
 import { track } from '@/lib/telemetry';
+import type { Dograh } from '@/lib/dograh';
 
 /**
  * The live voice panel, driven by the Dograh embed.
  *
  * The embed token is provisioned `embedMode: "headless"`, so the script ships
  * no UI of its own — it injects a hidden <audio> element and exposes
- * window.DograhWidget. Every pixel below is ours, and the call is driven
- * through that API.
+ * window.DograhWidget (typed in lib/dograh.ts, shared with chat-agent.tsx).
+ * Every pixel below is ours, and the call is driven through that API.
  */
 
 type Status = 'idle' | 'connecting' | 'connected' | 'failed';
-
-type Dograh = {
-  start: () => Promise<unknown> | void;
-  stop: () => Promise<unknown> | void;
-  setContext: (variables: Record<string, string>) => void;
-  onCallEnd: (cb: () => void) => void;
-  onError: (cb: (error: Error) => void) => void;
-  onStatusChange: (cb: (status: string, text?: string, subtext?: string) => void) => void;
-};
-
-declare global {
-  interface Window {
-    DograhWidget?: Dograh;
-  }
-}
 
 /* No fallback token. A build without one must not quietly dial somebody
    else's workflow, so the voice option is withheld instead — see
@@ -41,16 +27,28 @@ const API = process.env.NEXT_PUBLIC_DOGRAH_ENDPOINT || 'https://voice.hirestella
 
 /** False when no embed token is configured; the launcher then offers chat only. */
 export const voiceConfigured = TOKEN.length > 0;
-const SCRIPT_ID = 'dograh-widget';
+const SCRIPT_ID = 'dograh-widget-voice';
 
 /* One load per document, shared by every mount. */
 let loading: Promise<Dograh> | null = null;
 
+/* The chat agent's token loads the same script under the same global
+   (window.DograhWidget) — the two cannot both be live. If the visitor used
+   chat first, that global is configured for its token, not this one; reusing
+   it here would silently try to start a chat session instead of a call. So
+   the existing global is reused only when it is already ours; otherwise both
+   Dograh script tags are cleared and this one loads fresh. */
 function loadDograh(context: Record<string, string>): Promise<Dograh> {
-  if (window.DograhWidget) return Promise.resolve(window.DograhWidget);
+  if (window.DograhWidget?.getState?.().config?.token === TOKEN) {
+    return Promise.resolve(window.DograhWidget);
+  }
   if (loading) return loading;
 
   loading = new Promise<Dograh>((resolve, reject) => {
+    document.getElementById('dograh-widget-voice')?.remove();
+    document.getElementById('dograh-widget-chat')?.remove();
+    delete window.DograhWidget;
+
     const script = document.createElement('script');
     script.id = SCRIPT_ID;
     script.async = true;
@@ -66,10 +64,15 @@ function loadDograh(context: Record<string, string>): Promise<Dograh> {
       reject(new Error(message));
     };
 
-    script.onload = () =>
-      window.DograhWidget
-        ? resolve(window.DograhWidget)
-        : fail('Voice agent loaded without an API');
+    script.onload = () => {
+      /* Cleared here too, on success, not just in fail(): once resolved this
+         promise would otherwise go on being handed out forever, including
+         after a later mode switch invalidates the widget it resolved to. The
+         token check above is what must run on every call after this one. */
+      loading = null;
+      if (window.DograhWidget) resolve(window.DograhWidget);
+      else fail('Voice agent loaded without an API');
+    };
     script.onerror = () => fail('Voice agent failed to load');
     document.head.appendChild(script);
   });

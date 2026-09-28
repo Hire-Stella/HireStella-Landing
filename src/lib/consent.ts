@@ -2,53 +2,36 @@
  * Analytics consent.
  *
  * `telemetry.ts` has always gated its dataLayer forwarding on
- * `document.documentElement.dataset.analyticsConsent`, but nothing ever set
- * it. This is the layer that does, and the same flag now also decides whether
- * GTM and the Meta Pixel load at all.
+ * `document.documentElement.dataset.analyticsConsent`, and the same flag
+ * decides whether GTM and the Meta Pixel load at all.
  *
- * Three states: 'granted', 'denied', and undecided (the attribute absent),
- * which is what makes the banner appear.
+ * 2026-09-28: there is no banner and no opt-out. Every new visitor is granted
+ * automatically on arrival; a visitor already recorded as 'denied' from
+ * before this change stays denied rather than being silently overridden.
+ * This was a deliberate site-owner decision, not an oversight — it means
+ * visitors in jurisdictions that require an opt-in choice before
+ * non-essential tracking (GDPR/PECR, UK GDPR, CCPA-style laws) are not asked.
  */
 
 export const CONSENT_KEY = 'hirestella-consent';
 
 export type Consent = 'granted' | 'denied';
 
-/** Fired on the window whenever a visitor makes or changes a choice. */
-export const CONSENT_EVENT = 'hirestella:consent';
-
 /**
- * Runs in <head> before first paint, so a returning visitor never sees the
- * banner flash and telemetry is live from the first event. Mirrors the
- * existing theme bootstrap.
+ * Runs in <head> before first paint, so telemetry is live from the very
+ * first request. Mirrors the existing theme bootstrap.
  */
-export const consentBootstrap = `try{var c=localStorage.getItem('${CONSENT_KEY}');if(c==='granted'||c==='denied'){document.documentElement.dataset.analyticsConsent=c}}catch(e){}`;
+export const consentBootstrap = `try{var c=localStorage.getItem('${CONSENT_KEY}');if(c!=='granted'&&c!=='denied'){c='granted';localStorage.setItem('${CONSENT_KEY}',c)}document.documentElement.dataset.analyticsConsent=c}catch(e){}`;
 
 export function readConsent(): Consent | null {
   if (typeof document === 'undefined') return null;
   const root = document.documentElement;
   let value = root.dataset.analyticsConsent;
   /* The 404 page is streamed without the head bootstrap, so fall back to
-     storage; otherwise a visitor who already chose saw the banner again. */
+     storage directly. */
   if (value !== 'granted' && value !== 'denied') {
     try { value = localStorage.getItem(CONSENT_KEY) ?? undefined; } catch { value = undefined; }
     if (value === 'granted' || value === 'denied') root.dataset.analyticsConsent = value;
   }
   return value === 'granted' || value === 'denied' ? value : null;
-}
-
-export function setConsent(value: Consent) {
-  document.documentElement.dataset.analyticsConsent = value;
-  try {
-    localStorage.setItem(CONSENT_KEY, value);
-  } catch {
-    /* Private browsing: the choice holds for this page view only. */
-  }
-  window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: value }));
-}
-
-export function onConsentChange(callback: (value: Consent | null) => void) {
-  const handler = () => callback(readConsent());
-  window.addEventListener(CONSENT_EVENT, handler);
-  return () => window.removeEventListener(CONSENT_EVENT, handler);
 }

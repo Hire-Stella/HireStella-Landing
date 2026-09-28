@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
-import { canonical, breadcrumbLd, localBusinessLd, SITE, BUSINESS, mapsUrl } from '@/lib/seo';
+import { canonical, breadcrumbLd, localBusinessLd, SITE, BUSINESS } from '@/lib/seo';
+// import { mapsUrl } from '@/lib/seo'; // only used by the address link below, which is commented out
 import Link from 'next/link';
-import { Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
+import { Mail, Phone, ShieldCheck } from 'lucide-react';
+// import { MapPin } from 'lucide-react'; // only used by the address link below, which is commented out
 import { ConsultationForm } from '@/components/consultation-form';
-import { ContactMap } from '@/components/contact-map';
+// import { ContactMap } from '@/components/contact-map'; // the map is commented out below
 import { PageHero, Closer, Thread, Tri, Bul, Ld } from '@/components/system';
 
 export const metadata: Metadata = {
@@ -86,14 +88,14 @@ export default function Contact() {
                 {/* The address is a link, not text: on a phone this is the tap
                     that starts directions, and it is the same string the
                     LocalBusiness markup carries. */}
-                <a href={mapsUrl()} target="_blank" rel="noopener noreferrer">
+                {/* <a href={mapsUrl()} target="_blank" rel="noopener noreferrer">
                   <MapPin size={15} strokeWidth={1.6} aria-hidden="true" />
                   <span>
                     {SITE.street},
                     <br />
                     {SITE.city}, UAE
                   </span>
-                </a>
+                </a> */}
               </div>
               <ul className="bullets">
                 <li>
@@ -115,7 +117,7 @@ export default function Contact() {
             </aside>
           </div>
 
-          <ContactMap />
+          {/* <ContactMap /> */}
         </div>
       </section>
 

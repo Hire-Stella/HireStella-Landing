@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MessageSquare, Mic, X } from 'lucide-react';
 import { Logo } from './ui';
-import { StellaWidget } from './stella-widget';
+import { ChatAgent, chatConfigured } from './chat-agent';
 import { VoiceAgent, voiceConfigured } from './voice-agent';
 import { track } from '@/lib/telemetry';
 
@@ -12,16 +12,19 @@ import { track } from '@/lib/telemetry';
  *
  * Hovering or focusing the symbol fans out two choices; clicking it does the
  * same for touch and keyboard. Only one panel is ever open, so the two Stellas
- * never talk over each other.
+ * never talk over each other — which also matters below the UI: voice and
+ * chat share one Dograh embed token slot in the browser, and can only ever
+ * have one of them actually loaded at a time (see chat-agent.tsx).
  */
 
 type Mode = 'voice' | 'chat' | null;
 
-/* Voice is withheld when no embed token is configured, so a misconfigured
-   build degrades to chat rather than calling the wrong workflow. */
+/* Each option is withheld when its embed token is not configured, so a
+   misconfigured build degrades to whichever one is available rather than
+   offering a mode that cannot work. */
 const OPTIONS = [
   ...(voiceConfigured ? [{ mode: 'voice' as const, icon: Mic, label: 'Call Stella' }] : []),
-  { mode: 'chat' as const, icon: MessageSquare, label: 'Chat with Stella' },
+  ...(chatConfigured ? [{ mode: 'chat' as const, icon: MessageSquare, label: 'Chat with Stella' }] : []),
 ];
 
 export function AgentLauncher() {
@@ -107,12 +110,7 @@ export function AgentLauncher() {
   return (
     <>
       <VoiceAgent open={mode === 'voice'} onClose={closePanel} />
-      <StellaWidget
-        open={mode === 'chat'}
-        engaged={fan || panelOpen}
-        onOpen={() => choose('chat')}
-        onClose={closePanel}
-      />
+      <ChatAgent open={mode === 'chat'} onClose={closePanel} />
 
       <div
         className="al"
