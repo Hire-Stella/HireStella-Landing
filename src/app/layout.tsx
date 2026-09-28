@@ -16,7 +16,6 @@ import { AgentLauncher } from '@/components/agent-launcher';
 import { DemoModal } from '@/components/demo-modal';
 import { SiteBehavior, themeBootstrap } from '@/components/site-behavior';
 import { Analytics } from '@/components/analytics';
-import { ConsentBanner } from '@/components/consent-banner';
 import { consentBootstrap } from '@/lib/consent';
 import { Ld } from '@/components/system';
 import { organizationLd, websiteLd, origin as siteOrigin } from '@/lib/seo';
@@ -82,7 +81,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <AgentLauncher />
         <DemoModal configured={Boolean(process.env.LEAD_WEBHOOK_URL)} />
-        <ConsentBanner />
         <Analytics />
         <SiteBehavior />
       </body>
