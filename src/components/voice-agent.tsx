@@ -259,10 +259,6 @@ export function VoiceAgent({ open, onClose }: { open: boolean; onClose: () => vo
           )}
           {copy.action}
         </button>
-        <p className="note">
-          A live demonstration. The conversation is processed by HireStella&rsquo;s voice
-          platform — please do not share confidential customer data.
-        </p>
       </div>
     </div>
   );
