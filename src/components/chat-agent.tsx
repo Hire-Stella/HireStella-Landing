@@ -296,10 +296,6 @@ export function ChatAgent({ open, onClose }: { open: boolean; onClose: () => voi
             <ArrowUp size={17} strokeWidth={2} />
           </button>
         </form>
-        <p className="note">
-          Stella&rsquo;s replies here are generated live by AI and may be inaccurate. Please do
-          not enter confidential customer data.
-        </p>
       </div>
     </div>
   );
