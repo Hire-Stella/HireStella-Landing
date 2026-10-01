@@ -476,11 +476,21 @@
   gap: var(--s6);
   align-items: center;
 }
-.foot-bar a {
+.foot-bar a,
+.foot-bar button {
   display: flex;
   align-items: center;
   min-height: 44px;
   text-decoration: none;
+}
+/* "Cookie settings" is an action, not a page, so it is a button dressed as
+   the links beside it. */
+.foot-bar button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
 }
 /* Phones: the links wrap to the left, clear of the trigger in the right
    corner, so the side clearance is not needed; the 44px link height is

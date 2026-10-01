@@ -1,3 +1,4 @@
+import { leadDeliveryConfigured } from '@/lib/lead-delivery';
 import type { Metadata } from 'next';
 import { canonical, breadcrumbLd } from '@/lib/seo';
 import Link from 'next/link';
@@ -27,7 +28,7 @@ export default async function BookDemo({
   const params = await searchParams;
   const get = (key: string) =>
     typeof params[key] === 'string' ? (params[key] as string) : undefined;
-  const configured = Boolean(process.env.LEAD_WEBHOOK_URL);
+  const configured = leadDeliveryConfigured();
 
   return (
     <main id="main">

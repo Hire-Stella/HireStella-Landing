@@ -1,3 +1,4 @@
+import { leadDeliveryConfigured } from '@/lib/lead-delivery';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Mail, ShieldCheck } from 'lucide-react';
@@ -46,7 +47,7 @@ const FAQS = [
 ];
 
 export default function BecomePartner() {
-  const configured = Boolean(process.env.LEAD_WEBHOOK_URL);
+  const configured = leadDeliveryConfigured();
   return (
     <main id="main">
       <Ld

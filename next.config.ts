@@ -5,6 +5,8 @@ const config: NextConfig = {
   async redirects() {
     return [
       { source: '/solutions', destination: '/industries', permanent: true },
+      /* 2026-10-01: /use-cases was merged into the industries overview. */
+      { source: '/use-cases', destination: '/industries#use-cases', permanent: true },
       /* 2026-09-13: Meet Stella replaced twelve pages. Each one is live and
          indexed, so each moves permanently into the section that replaced it. */
       { source: '/workforce', destination: '/stella#workforce', permanent: true },

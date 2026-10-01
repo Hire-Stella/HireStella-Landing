@@ -80,7 +80,7 @@ export const blogPosts = [
     readTime: '3 min read',
     cover: '/visuals/photo/coordination.webp',
     date: '2026-09-10',
-    link: '/use-cases',
+    link: '/industries#use-cases',
     sections: [
       {
         title: 'Choose a task with a clear finish',
