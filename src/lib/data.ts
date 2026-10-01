@@ -250,7 +250,6 @@ export const navigation = [
       ['Travel & tourism', '/industries/travel'],
       ['Professional services', '/industries/professional-services'],
       ['Retail & D2C', '/industries/retail'],
-      ['Use cases', '/use-cases'],
     ],
   },
   {

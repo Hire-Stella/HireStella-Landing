@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import { leadSchema, demoSchema, partnerSchema } from '@/lib/lead-schema';
 import { originAllowed } from '@/lib/request-origin';
+import { deliverLead, leadDeliveryConfigured } from '@/lib/lead-delivery';
 
 export async function POST(request: Request) {
   if (!originAllowed(request))
     return NextResponse.json({ error: 'Origin not allowed.' }, { status: 403 });
   if (!request.headers.get('content-type')?.includes('application/json'))
     return NextResponse.json({ error: 'JSON required.' }, { status: 415 });
-  const webhook = process.env.LEAD_WEBHOOK_URL;
-  if (!webhook || !webhook.startsWith('https://'))
+  if (!leadDeliveryConfigured())
     return NextResponse.json(
       { error: 'Consultation delivery is not configured.' },
       { status: 503 },
@@ -31,32 +31,22 @@ export async function POST(request: Request) {
     }
     const body = JSON.parse(Buffer.concat(chunks).toString('utf-8'));
     // one endpoint, three shapes: consultation, demo request, partner application
-    const parsed =
+    const kind =
       body?.kind === 'partner'
-        ? partnerSchema.safeParse(body)
+        ? 'partner'
         : body?.kind === 'demo' || 'heardFrom' in (body ?? {})
+          ? 'demo'
+          : 'consultation';
+    const parsed =
+      kind === 'partner'
+        ? partnerSchema.safeParse(body)
+        : kind === 'demo'
           ? demoSchema.safeParse(body)
           : leadSchema.safeParse(body);
     if (!parsed.success)
       return NextResponse.json({ error: 'Please check the request details.' }, { status: 400 });
     const { website: _honeypot, ...details } = parsed.data;
-    const response = await fetch(webhook, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.LEAD_WEBHOOK_TOKEN
-          ? { Authorization: `Bearer ${process.env.LEAD_WEBHOOK_TOKEN}` }
-          : {}),
-      },
-      body: JSON.stringify({
-        ...details,
-        source: 'hirestella-website',
-        receivedAt: new Date().toISOString(),
-      }),
-      signal: AbortSignal.timeout(10000),
-      redirect: 'error',
-    });
-    if (!response.ok)
+    if (!(await deliverLead(kind, details)))
       return NextResponse.json(
         { error: 'Delivery unavailable. Please try again.' },
         { status: 502 },

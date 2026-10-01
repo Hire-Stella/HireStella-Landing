@@ -24,7 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'team',
     'industries',
     'industries/healthcare/dental',
-    'use-cases',
     'blogs',
     ...industryGroups.map((group) => `industries/${group.id}`),
     ...Object.entries(segmentDetails).map(([id, d]) => `industries/${d.group}/${id}`),

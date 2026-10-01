@@ -8,6 +8,7 @@ import { industryGroups } from '@/lib/industry-content';
 import { Icon, Logo } from './ui';
 import { SocialLinks } from './social';
 import { ThemeToggle } from './site-behavior';
+import { openConsentSettings } from '@/lib/consent';
 
 const CONTACT = {
   email: 'sales@hirestella.ai',
@@ -49,7 +50,7 @@ function IndustryMenu({ onPick }: { onPick: () => void }) {
         <Link href="/industries" className="btn-3" onClick={onPick}>
           All industries <Tri />
         </Link>
-        <Link href="/use-cases" className="btn-3" onClick={onPick}>
+        <Link href="/industries#use-cases" className="btn-3" onClick={onPick}>
           See every use case <Tri />
         </Link>
       </div>
@@ -181,7 +182,9 @@ export function Header() {
           Ask Stella
         </Link>
         <button className="btn btn-1" type="button" data-demo onClick={dismiss}>
-          <span>Book<span className="btn-long"> a demo</span></span>
+          <span>
+            Book<span className="btn-long"> a demo</span>
+          </span>
           <Tri />
         </button>
         <button
@@ -208,23 +211,17 @@ export function Footer() {
   const [, , industries, platform, company] = navigation;
   const sectors = industries.links.filter(([, href]) => href.startsWith('/industries/'));
   const half = Math.ceil(sectors.length / 2);
-  /* 'Use cases' is not a sector. It belongs with the platform links, and so
-     does Sales Coach — it has no column of its own for the same reason Meet
-     Stella does not, but it still needs a link outside the header. */
-  const platformLinks = [
-    ['Stella Sales Coach', '/sales-coach'],
-    ...platform.links,
-    ...industries.links.filter(([, href]) => !href.startsWith('/industries/')),
-  ];
+  /* Sales Coach has no column of its own for the same reason Meet Stella does
+     not, but it still needs a link outside the header. ('Use cases' used to
+     sit here too; it is now a section of /industries.) */
+  const platformLinks = [['Stella Sales Coach', '/sales-coach'], ...platform.links];
   return (
     <footer className="foot">
       <div className="wrap">
         <div className="foot-top">
           <div className="foot-brand">
             <Logo />
-            <p>
-              One AI General Manager. Eight connected AI Specialists. Capacity, coordinated.
-            </p>
+            <p>One AI General Manager. Eight connected AI Specialists. Capacity, coordinated.</p>
             <div className="foot-contact">
               <a href={`mailto:${CONTACT.email}`}>
                 <Mail size={15} strokeWidth={1.6} aria-hidden="true" />
@@ -286,6 +283,9 @@ export function Footer() {
             <Link href="/security" className="note">
               Security &amp; trust
             </Link>
+            <button type="button" className="note" onClick={openConsentSettings}>
+              Cookie settings
+            </button>
           </div>
         </div>
       </div>

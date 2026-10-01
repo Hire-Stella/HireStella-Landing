@@ -1,3 +1,4 @@
+import { leadDeliveryConfigured } from '@/lib/lead-delivery';
 import type { Metadata } from 'next';
 import { canonical, breadcrumbLd, localBusinessLd, SITE, BUSINESS } from '@/lib/seo';
 // import { mapsUrl } from '@/lib/seo'; // only used by the address link below, which is commented out
@@ -23,7 +24,7 @@ const EXPLORE = [
 ];
 
 export default function Contact() {
-  const configured = Boolean(process.env.LEAD_WEBHOOK_URL);
+  const configured = leadDeliveryConfigured();
   return (
     <main id="main">
       <Ld
