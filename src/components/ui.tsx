@@ -82,7 +82,7 @@ export function Logo({ symbol = false, className = '' }: { symbol?: boolean; cla
     <>
     <Image
       className={`brand-on-dark ${className}`}
-      src={symbol ? '/brand/symbol-light.png' : '/brand/logo-light-v2.png'}
+      src={symbol ? '/brand/symbol-light.png' : '/brand/logo-light-v3.png'}
       alt={symbol ? '' : 'HireStella'}
       width={symbol ? 44 : 184}
       height={symbol ? 44 : 36}
