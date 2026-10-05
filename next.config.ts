@@ -47,13 +47,26 @@ const config: NextConfig = {
        Two later features load third parties and are named here too, or the
        policy blocks them silently. Voice Stella loads the Dograh widget from
        its endpoint, then opens a WebSocket back to it for signaling. The
-       consent-gated analytics load GTM (which pulls in GA4 and Google Ads) and
-       the Meta Pixel, only after the visitor accepts. */
+       analytics load GTM (which pulls in GA4 and Google Ads) and the Meta
+       Pixel.
+
+       2026-10-05: GA4's main collect endpoint is the bare analytics.google.com,
+       which `*.analytics.google.com` does not match, and Ads conversions go to
+       ad.doubleclick.net, outside `*.g.doubleclick.net`; both were blocked.
+       Remarketing pings go to the visitor's regional Google domain, which a
+       CSP cannot wildcard, so the markets that matter are listed. */
     const voice = new URL(process.env.NEXT_PUBLIC_DOGRAH_ENDPOINT || 'https://voice.hirestella.ai').origin;
     const voiceWs = voice.replace(/^http/, 'ws');
-    const google =
-      'https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.g.doubleclick.net https://www.googleadservices.com https://www.google.com https://www.google.ae';
-    const meta = 'https://connect.facebook.net https://www.facebook.com';
+    const googleRegions = ['ae', 'co.in', 'com.sa', 'com.qa', 'com.kw', 'com.om', 'com.bh', 'co.uk']
+      .map((tld) => `https://www.google.${tld}`)
+      .join(' ');
+    const google = `https://*.googletagmanager.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.doubleclick.net https://www.googleadservices.com https://www.google.com ${googleRegions}`;
+    /* The two gateway hosts are the Pixel's Conversions API Gateway, named as
+       its "openbridge" endpoint and fallback in Meta's own config for this
+       Pixel (connect.facebook.net/signals/config/<id>). If the gateway is ever
+       redeployed its hostname changes, and this list must follow. */
+    const meta =
+      'https://connect.facebook.net https://www.facebook.com https://xd-f1cf3d4fdb19408ea770fc6f80817dcb.ecs.us-east-1.on.aws https://bded8a3c6ae-1-1053047382554.us-central1.run.app';
     /* React's development build calls eval() to rebuild stack frames, so
        `next dev` breaks without this. Development only: the production bundle
        never evals, so the shipped policy stays strict. */
