@@ -16,7 +16,6 @@ import { AgentLauncher } from '@/components/agent-launcher';
 import { DemoModal } from '@/components/demo-modal';
 import { SiteBehavior, themeBootstrap } from '@/components/site-behavior';
 import { Analytics } from '@/components/analytics';
-import { ConsentBanner } from '@/components/consent-banner';
 import { consentBootstrap } from '@/lib/consent';
 import { leadDeliveryConfigured } from '@/lib/lead-delivery';
 import { Ld } from '@/components/system';
@@ -83,7 +82,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <AgentLauncher />
         <DemoModal configured={leadDeliveryConfigured()} />
-        <ConsentBanner />
         <Analytics />
         <SiteBehavior />
       </body>

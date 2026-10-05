@@ -8,7 +8,6 @@ import { industryGroups } from '@/lib/industry-content';
 import { Icon, Logo } from './ui';
 import { SocialLinks } from './social';
 import { ThemeToggle } from './site-behavior';
-import { openConsentSettings } from '@/lib/consent';
 
 const CONTACT = {
   email: 'sales@hirestella.ai',
@@ -283,9 +282,6 @@ export function Footer() {
             <Link href="/security" className="note">
               Security &amp; trust
             </Link>
-            <button type="button" className="note" onClick={openConsentSettings}>
-              Cookie settings
-            </button>
           </div>
         </div>
       </div>

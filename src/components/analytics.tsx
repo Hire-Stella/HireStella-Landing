@@ -2,11 +2,14 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { onConsentChange, readConsent } from '@/lib/consent';
+import { readConsent } from '@/lib/consent';
 
 /**
- * Google Tag Manager and the Meta Pixel, both withheld until the visitor
- * grants consent.
+ * Google Tag Manager and the Meta Pixel.
+ *
+ * Consent is granted automatically on arrival (see lib/consent.ts) and never
+ * changes mid-session, since there is no banner to change it with — so this
+ * reads it once rather than subscribing to change events.
  *
  * The tags are appended imperatively rather than rendered as JSX <script>
  * elements: React writes those through innerHTML after hydration, and the
@@ -81,7 +84,6 @@ export function Analytics() {
 
   useEffect(() => {
     setGranted(readConsent() === 'granted');
-    return onConsentChange((value) => setGranted(value === 'granted'));
   }, []);
 
   useEffect(() => {
