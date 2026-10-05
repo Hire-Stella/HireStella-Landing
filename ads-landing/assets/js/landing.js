@@ -72,12 +72,24 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
   }, { rootMargin: '-45% 0px -50% 0px' });
   navLinks.forEach((a) => { const s = document.querySelector(a.getAttribute('href')); if (s) navObs.observe(s); });
 
-  /* ── mobile CTA bar: shown once the form has scrolled away ─────────── */
+  /* ── mobile CTA bar: shown once the form has scrolled away, hidden again
+     at the closing card, which has its own button. Past the form, the
+     header button steps aside so there is only ever one on screen. ── */
   const formWrap = document.getElementById('plan');
   const mbar = document.getElementById('mbar');
+  let formAbove = false;
+  let closerIn = false;
+  const syncBar = () => {
+    const on = formAbove && !closerIn;
+    mbar.classList.toggle('show', on);
+    root.classList.toggle('past-form', formAbove);
+  };
   new IntersectionObserver(([entry]) => {
-    mbar.classList.toggle('show', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+    formAbove = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+    syncBar();
   }, { threshold: 0.15 }).observe(formWrap);
+  new IntersectionObserver(([entry]) => { closerIn = entry.isIntersecting; syncBar(); })
+    .observe(document.querySelector('.closer'));
 
   /* Every "Get my free plan" goes to the form and puts the cursor in it. */
   const firstField = document.getElementById('f-name');
@@ -368,9 +380,13 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
     }
     if (!sent && CONFIG.WHATSAPP_NUMBER) {
       // The email function is unavailable: hand the lead over by WhatsApp so it is never lost.
+      // Same tab, because phones block a new window opened after a network wait. No
+      // conversion fires: the lead only arrives if the visitor sends the message.
       const msg = `New HireStella enquiry\nName: ${lead.name}\nBusiness: ${lead.business}\nWhatsApp: ${lead.phone}\nIndustry: ${lead.industry}\nStart with: ${lead.need}`;
-      window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
-      sent = true;
+      btn.disabled = false;
+      btn.innerHTML = btnLabel;
+      location.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+      return;
     }
     if (!sent) {
       fail('Your request could not be sent. Please try again, or email us at sales@hirestella.ai.');

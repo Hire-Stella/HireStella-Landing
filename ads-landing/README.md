@@ -15,10 +15,12 @@ draft, kept here for reference and excluded from deploys by `.vercelignore`).
 | `index.html` | The landing page |
 | `thank-you.html` | Where a delivered lead lands; fires the conversion |
 | `assets/js/config.js` | **The settings you edit** (WhatsApp, privacy URL…) |
+| `assets/js/tags.js` | Loads Google Tag Manager and the Meta Pixel from the IDs in config.js |
 | `assets/js/landing.js` | Animations, form, validation |
 | `assets/css/landing.css` | All styles, dark and light themes |
 | `api/lead.js` | Server function: emails each lead to the team via Resend |
 | `tests/lead.test.js` | Tests for the email function (`npm test`) |
+| `robots.txt` | Lets Google Ads and Meta crawl the pages, which stay `noindex` |
 | `vercel.json` | Clean URLs, security and cache headers |
 
 ## Settings (`assets/js/config.js`)
@@ -28,11 +30,13 @@ draft, kept here for reference and excluded from deploys by `.vercelignore`).
 - `PRIVACY_URL`: full URL of the privacy policy. Empty = privacy links hidden.
 - `FORM_ENDPOINT`: leave as `/api/lead`.
 - `THANK_YOU_URL`: leave as `thank-you.html`.
+- `GTM_ID`: Google Tag Manager container ID, e.g. `GTM-ABC1234`. Empty = no Google tags.
+- `META_PIXEL_ID`: Meta Pixel ID, digits only. Empty = no Pixel.
 
 ## Deploy (its own Vercel project)
 
-1. Put this folder in its own Git repository and import it in Vercel as a new
-   project. Framework preset: **Other**. No build command. Output: the folder root.
+1. Import the repository in Vercel as a new project with **Root Directory**
+   `ads-landing`. Framework preset: **Other**. No build command. Output: the folder root.
 2. Add the environment variables (Settings → Environment Variables), the same
    Resend setup as the website:
    - `RESEND_API_KEY`
@@ -41,7 +45,9 @@ draft, kept here for reference and excluded from deploys by `.vercelignore`).
      verified in Resend
    - optional `LEAD_WEBHOOK_URL` / `LEAD_WEBHOOK_TOKEN` for a CRM or sheet
 3. Redeploy, then submit one real test lead and confirm the email arrives.
-4. Optional: point a subdomain at it, e.g. `get.hirestella.ai`.
+4. Add the domain `get.hirestella.ai` (Settings → Domains) and create the
+   record Vercel shows at the DNS host. The share image and `og:url` already
+   point there.
 
 Until `RESEND_API_KEY`/`LEAD_EMAIL_*` (or a webhook) are set, `/api/lead`
 answers 503 and the form shows an error, unless `WHATSAPP_NUMBER` is set, in
@@ -55,8 +61,8 @@ not an email. The team replies on WhatsApp.
 
 ## Ads tracking
 
-Paste the Google Tag Manager (or gtag) and Meta Pixel snippets where the
-comment says so in the `<head>` of **both** `index.html` and `thank-you.html`.
+Put the IDs in `assets/js/config.js` (`GTM_ID`, `META_PIXEL_ID`). `tags.js`
+loads them in the `<head>` of both pages; there is nothing to paste.
 
 - The conversion is `generate_lead`, pushed to `dataLayer` on `/thank-you`
   (plus `gtag('event','generate_lead')` and `fbq('track','Lead')` when present).
@@ -72,9 +78,8 @@ comment says so in the `<head>` of **both** `index.html` and `thank-you.html`.
 ## Share preview
 
 `assets/brand/og-image.jpg` (1200x630) is the image shown when the link is shared on
-WhatsApp, LinkedIn or Facebook. Once the domain is live, change the `og:image`
-meta tag in `index.html` to the full URL, e.g. `https://get.hirestella.ai/assets/brand/og-image.jpg`;
-some platforms ignore relative paths.
+WhatsApp, LinkedIn or Facebook. The `og:image` tags use the full URL on
+`https://get.hirestella.ai`; if the domain changes, update them in both pages.
 
 ## Local preview
 

@@ -11,4 +11,8 @@ window.HS_CONFIG = {
   PRIVACY_URL: '',
   // Where a delivered lead lands. The Google Ads / Meta conversion fires there.
   THANK_YOU_URL: 'thank-you.html',
+  // Google Tag Manager container ID, e.g. "GTM-ABC1234". While empty, no Google tags load.
+  GTM_ID: '',
+  // Meta Pixel ID, digits only, e.g. "123456789012345". While empty, the Pixel does not load.
+  META_PIXEL_ID: '',
 };

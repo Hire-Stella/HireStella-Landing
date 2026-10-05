@@ -552,6 +552,8 @@ main, .foot { position: relative; z-index: 1; }
     transform: translateY(110%); transition: transform 400ms var(--e-in);
   }
   .mbar.show { transform: none; }
+  .hdr .btn-sm { transition: opacity 300ms var(--e-std), visibility 300ms; }
+  .past-form .hdr .btn-sm { opacity: 0; visibility: hidden; }
   .mbar .btn-1 { flex: 1; }
 }
 
@@ -657,6 +659,9 @@ main, .foot { position: relative; z-index: 1; }
 }
 [data-theme='light'] .kpi--hl .kpi-v, [data-theme='light'] .sc-num { color: #d94f00; }
 [data-theme='light'] .act-chart { background-color: rgba(20, 27, 69, 0.02); }
+[data-theme='light'] .field input::placeholder { color: rgba(20, 27, 69, 0.45); }
+/* Light mode: the navy half of the orb read as a grey smudge on white; keep only the warm glow. */
+[data-theme='light'] .closer-orb { background: radial-gradient(closest-side, rgba(255, 98, 0, 0.14), rgba(255, 98, 0, 0.05) 55%, transparent); }
 
 /* ── header and new parts at smaller widths ─────────────────────────── */
 @media (max-width: 1180px) {
