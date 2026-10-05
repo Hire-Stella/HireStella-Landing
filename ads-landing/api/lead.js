@@ -1,5 +1,5 @@
 /**
- * POST /api/lead — the ads landing page's lead delivery. Server-only: it reads secrets.
+ * POST /api/lead: the ads landing page's lead delivery. Server-only: it reads secrets.
  *
  * Same approach as hirestella.ai: the lead is emailed to the team through the
  * Resend REST API, and can also be POSTed to a webhook (CRM, sheet, automation).
