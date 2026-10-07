@@ -13,6 +13,9 @@ window.HS_CONFIG = {
   THANK_YOU_URL: 'thank-you.html',
   // Google Tag Manager container ID, e.g. "GTM-ABC1234". While empty, no Google tags load.
   GTM_ID: '',
+  // Google Analytics 4 measurement ID. Loads the Google tag on both pages (page views).
+  // Do not add another Google tag for this ID in GTM, or every page view counts twice.
+  GA4_ID: 'G-DVWYC93VD9',
   // Meta Pixel ID, digits only, e.g. "123456789012345". While empty, the Pixel does not load.
   META_PIXEL_ID: '',
 };

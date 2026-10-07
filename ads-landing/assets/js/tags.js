@@ -4,7 +4,20 @@
 (function () {
   var c = window.HS_CONFIG || {};
 
-  // Google Tag Manager. GA4 and the Google Ads conversion are set up inside the container.
+  // Google tag for GA4 page views. The generate_lead event and the Google Ads
+  // conversion are set up inside the GTM container, not here, so nothing is sent twice.
+  if (/^G-[A-Z0-9]+$/.test(c.GA4_ID || '')) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', c.GA4_ID);
+    var a = document.createElement('script');
+    a.async = true;
+    a.src = 'https://www.googletagmanager.com/gtag/js?id=' + c.GA4_ID;
+    document.head.appendChild(a);
+  }
+
+  // Google Tag Manager. The generate_lead event and the Google Ads conversion are set up inside the container.
   if (/^GTM-[A-Z0-9]+$/.test(c.GTM_ID || '')) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });

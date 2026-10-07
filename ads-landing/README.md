@@ -30,7 +30,8 @@ draft, kept here for reference and excluded from deploys by `.vercelignore`).
 - `PRIVACY_URL`: full URL of the privacy policy. Empty = privacy links hidden.
 - `FORM_ENDPOINT`: leave as `/api/lead`.
 - `THANK_YOU_URL`: leave as `thank-you.html`.
-- `GTM_ID`: Google Tag Manager container ID, e.g. `GTM-ABC1234`. Empty = no Google tags.
+- `GTM_ID`: Google Tag Manager container ID, e.g. `GTM-ABC1234`. Empty = no GTM.
+- `GA4_ID`: GA4 measurement ID (set to `G-DVWYC93VD9`). Loads the Google tag for page views.
 - `META_PIXEL_ID`: Meta Pixel ID, digits only. Empty = no Pixel.
 
 ## Deploy (its own Vercel project)
@@ -61,11 +62,14 @@ not an email. The team replies on WhatsApp.
 
 ## Ads tracking
 
-Put the IDs in `assets/js/config.js` (`GTM_ID`, `META_PIXEL_ID`). `tags.js`
+Put the IDs in `assets/js/config.js` (`GTM_ID`, `GA4_ID`, `META_PIXEL_ID`). `tags.js`
 loads them in the `<head>` of both pages; there is nothing to paste.
 
 - The conversion is `generate_lead`, pushed to `dataLayer` on `/thank-you`
-  (plus `gtag('event','generate_lead')` and `fbq('track','Lead')` when present).
+  (plus `fbq('track','Lead')` when the Pixel is on). GA4 gets it through the
+  GA4 Event tag in GTM, not from the page, so it is never counted twice.
+- The Google tag (page views) is loaded by the page from `GA4_ID`. Do not add
+  another Google tag for the same ID in GTM.
 - It fires only for a visitor who has just submitted the form. A reload, a
   bookmark or a stray visit is not counted.
 - Google Ads: either import the GA4 `generate_lead` event, or use a
