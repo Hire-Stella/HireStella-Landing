@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { POST, validate } from '../api/lead.js';
+import { POST, validate } from '../src/lib/ads-lead/lead.js';
 
 const valid = {
   name: 'Sara Ahmed',
@@ -14,9 +14,9 @@ const valid = {
 };
 
 function post(body, headers = {}) {
-  return new Request('https://ads.hirestella.ai/api/lead', {
+  return new Request('https://hirestella.ai/api/get-lead', {
     method: 'POST',
-    headers: { 'content-type': 'application/json', origin: 'https://ads.hirestella.ai', host: 'ads.hirestella.ai', ...headers },
+    headers: { 'content-type': 'application/json', origin: 'https://hirestella.ai', host: 'hirestella.ai', ...headers },
     body: typeof body === 'string' ? body : JSON.stringify(body),
   });
 }

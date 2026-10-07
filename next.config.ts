@@ -2,6 +2,18 @@ import type { NextConfig } from 'next';
 
 const config: NextConfig = {
   poweredByHeader: false,
+  /* 2026-10-07: the ads landing page is static HTML in public/get, served at
+     /get and /get/thank-you. beforeFiles, so the [slug] page never sees /get. */
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: '/get', destination: '/get/index.html' },
+        { source: '/get/thank-you', destination: '/get/thank-you.html' },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
   async redirects() {
     return [
       { source: '/solutions', destination: '/industries', permanent: true },
@@ -102,6 +114,15 @@ const config: NextConfig = {
             value: 'camera=(), microphone=(self), geolocation=(), payment=(), usb=(), interest-cohort=()',
           },
         ],
+      },
+      /* The ads landing page is for paid traffic only and never indexed. */
+      {
+        source: '/get/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex' }],
+      },
+      {
+        source: '/get',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex' }],
       },
     ];
   },
