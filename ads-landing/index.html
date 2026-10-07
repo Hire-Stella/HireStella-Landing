@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Meet Stella: Your AI General Manager | HireStella</title>
+  <meta name="description" content="Stella leads a team of eight AI specialists who answer every enquiry, book appointments and follow up on every lead. Get your free AI workforce plan.">
+  <!-- Ad landing page: kept out of search so it never competes with hirestella.ai. -->
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#F4F5FA">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://get.hirestella.ai/">
+  <meta property="og:title" content="Meet Stella: Your AI General Manager">
+  <meta property="og:description" content="One manager. Eight AI specialists. Get your free AI workforce plan.">
+  <meta property="og:image" content="https://get.hirestella.ai/assets/brand/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Meet Stella, your AI General Manager">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/brand/favicon-180.png">
+  <link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/montserrat-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/landing.css">
+  <!-- Theme before first paint, so there is no flash. Light by default. -->
+  <script>(function(){var d=document.documentElement,t=null;d.classList.add('js');try{t=localStorage.getItem('hs-lp-theme')}catch(e){}d.dataset.theme=t==='dark'?'dark':'light'})()</script>
+  <!-- Settings, then the Google Tag Manager / Meta Pixel tags they switch on. IDs go in assets/js/config.js. -->
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/tags.js"></script>
+</head>
+<body>
+
+<!-- Icon sprite (Lucide outlines, the same set the website uses) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></symbol>
+    <symbol id="i-web" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M8 13h.01"/><path d="M12 13h.01"/><path d="M16 13h.01"/><path d="M8 17h.01"/><path d="M12 17h.01"/><path d="M16 17h.01"/></symbol>
+    <symbol id="i-admin" viewBox="0 0 24 24"><path d="M15 2h-4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8"/><path d="M16.706 2.706A2.4 2.4 0 0 0 15 2v5a1 1 0 0 0 1 1h5a2.4 2.4 0 0 0-.706-1.706z"/><path d="M5 7a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 1.732-1"/></symbol>
+    <symbol id="i-mkt" viewBox="0 0 24 24"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></symbol>
+    <symbol id="i-social" viewBox="0 0 24 24"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></symbol>
+    <symbol id="i-team" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></symbol>
+    <symbol id="i-city" viewBox="0 0 24 24"><path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/></symbol>
+    <symbol id="i-report" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+  </defs>
+</svg>
+
+<div class="field-bg" aria-hidden="true"></div>
+
+<header class="hdr" id="top">
+  <div class="wrap">
+    <div class="hdr-bar">
+      <a class="hdr-brand" href="#top" aria-label="HireStella, back to top">
+        <img class="logo on-dark" src="assets/brand/logo-light-v3.png" alt="HireStella" width="154" height="30">
+        <img class="logo on-light" src="assets/brand/logo-dark-v2.png" alt="HireStella" width="154" height="30">
+      </a>
+      <nav class="hdr-nav" aria-label="On this page">
+        <a href="#team">The team</a>
+        <a href="#how">How it works</a>
+        <a href="#report">Morning report</a>
+        <a href="#stories">Results</a>
+        <a href="#start">Get started</a>
+      </nav>
+      <div class="hdr-act">
+        <button class="theme-btn" type="button" id="themeBtn" aria-label="Switch to light mode">
+          <svg class="t-sun" viewBox="0 0 24 24"><use href="#i-sun"/></svg>
+          <svg class="t-moon" viewBox="0 0 24 24"><use href="#i-moon"/></svg>
+        </button>
+        <a class="btn btn-1 btn-sm" href="#plan" data-cta="header">Get my free plan <span class="tri" aria-hidden="true"></span></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ═══ HERO + FORM ═══════════════════════════════════════════════ -->
+  <section class="hero">
+    <span class="hero-glow" aria-hidden="true"></span>
+    
+    <div class="wrap hero-in">
+      <div class="hero-copy hero-top">
+        <h1 class="hero-h" data-reveal style="--d:80ms">Meet Stella<span class="dot hero-dot">.<svg class="glint" viewBox="0 0 200 100" aria-hidden="true"><path d="M30 3 C31 39 58 47 197 50 C58 53 31 61 30 97 C29 61 8 53 3 50 C8 47 29 39 30 3 Z"/></svg></span></h1>
+        <p class="hero-sub" data-reveal style="--d:160ms">Your AI General Manager.</p>
+        <p class="hero-status" data-reveal style="--d:200ms" aria-hidden="true"><span class="hs-ico"><svg><use id="statusIco" href="#i-wa"/></svg></span><span class="hs-text" id="statusText">Replying on WhatsApp</span><span class="hs-dots"><i></i><i></i><i></i></span></p>
+      </div>
+      <div class="hero-copy hero-more">
+        <p class="lede" data-reveal style="--d:240ms">Stella leads a team of eight AI specialists who run the front of your business: answering every enquiry, booking appointments and following up on every lead, so your team can focus on the work only people can do.</p>
+        <ul class="hero-list" data-reveal style="--d:320ms">
+          <li><span class="hl-ico"><svg><use href="#i-chat"/></svg></span>Replies on WhatsApp, calls, social and your website, day and night</li>
+          <li><span class="hl-ico"><svg><use href="#i-cal"/></svg></span>Books, reminds and follows up without anyone having to remember</li>
+          <li><span class="hl-ico"><svg><use href="#i-report"/></svg></span>Sends you one clear report every morning</li>
+        </ul>
+        <div class="chips" data-reveal style="--d:400ms">
+          <span><svg><use href="#i-city"/></svg>Built in Dubai</span>
+          <span><svg><use href="#i-bolt"/></svg>Live in days, not months</span>
+          <span><svg><use href="#i-team"/></svg>Set up by our team</span>
+        </div>
+      </div>
+
+      <div class="form-wrap" id="plan" data-reveal style="--d:200ms">
+        <div class="core" aria-hidden="true"><span class="core-r core-r1"></span><span class="core-r core-r2"></span><span class="core-r core-r3"></span><span class="core-orb"></span></div>
+        <div class="form-card pan pan--solid">
+          <span class="form-glow" aria-hidden="true"></span>
+          <div class="form-body">
+            <h2 class="form-h">Get your free AI workforce plan</h2>
+            <p class="form-p">Tell us about your business. We'll show you which specialists Stella would put to work first.</p>
+            <form id="leadForm" novalidate>
+              <div class="field">
+                <label for="f-name">Full name</label>
+                <input id="f-name" name="name" autocomplete="name" maxlength="100" required>
+                <span class="err">Enter your name.</span>
+              </div>
+              <div class="field">
+                <label for="f-business">Business name</label>
+                <input id="f-business" name="business" autocomplete="organization" maxlength="160" required>
+                <span class="err">Enter your business name.</span>
+              </div>
+              <div class="field">
+                <label for="f-phone">WhatsApp number</label>
+                <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+971 50 123 4567" maxlength="24" required>
+                <span class="err">Enter a valid phone number with country code.</span>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="f-industry">Industry</label>
+                  <select id="f-industry" name="industry" required>
+                    <option value="">Select</option>
+                    <option>Clinics &amp; wellness</option>
+                    <option>Real estate</option>
+                    <option>Automotive</option>
+                    <option>Retail &amp; e-commerce</option>
+                    <option>Travel &amp; hospitality</option>
+                    <option>Restaurants &amp; catering</option>
+                    <option>Trading &amp; B2B</option>
+                    <option>Education &amp; training</option>
+                    <option>Financial services</option>
+                    <option>Other</option>
+                  </select>
+                  <span class="err">Choose your industry.</span>
+                </div>
+                <div class="field">
+                  <label for="f-need">Start with</label>
+                  <select id="f-need" name="need" required>
+                    <option value="">Select</option>
+                    <option>Answering enquiries</option>
+                    <option>Phone calls</option>
+                    <option>Bookings &amp; reminders</option>
+                    <option>Lead follow-up</option>
+                    <option>Social media &amp; marketing</option>
+                    <option>A new website</option>
+                    <option>Not sure yet</option>
+                  </select>
+                  <span class="err">Choose where to start.</span>
+                </div>
+              </div>
+              <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+              <button class="btn btn-1 btn-block" id="submitBtn" type="submit">Get my free plan <span class="tri" aria-hidden="true"></span></button>
+              <p class="form-error" id="formError" role="alert" hidden></p>
+              <p class="form-fine">No commitment. By submitting, you agree to be contacted about HireStella. <a class="privacy-link" href="#">Privacy policy</a></p>
+            </form>
+            <div class="form-alt wa-only">
+              <span>Prefer to chat?</span>
+              <a class="wa-link" href="#"><svg><use href="#i-wa"/></svg>Message us on WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="form-done" role="status" aria-live="polite">
+            <div class="done-mark"><svg><use href="#i-check"/></svg></div>
+            <h2 class="form-h" tabindex="-1">Thanks, we've got it.</h2>
+            <p class="form-p">Our team will contact you on WhatsApp to walk you through your plan.</p>
+            <a class="btn btn-2 wa-link wa-only" href="#"><svg class="btn-ico"><use href="#i-wa"/></svg>Message us now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Continuous strip: the industries Stella's team works in (from the form's list) -->
+  <div class="ticker" aria-label="Industries we work with">
+    <div class="ticker-track">
+      <ul>
+        <li>Clinics &amp; wellness</li><li>Real estate</li><li>Automotive</li><li>Retail &amp; e-commerce</li><li>Travel &amp; hospitality</li><li>Restaurants &amp; catering</li><li>Trading &amp; B2B</li><li>Education &amp; training</li><li>Financial services</li>
+      </ul>
+      <ul aria-hidden="true">
+        <li>Clinics &amp; wellness</li><li>Real estate</li><li>Automotive</li><li>Retail &amp; e-commerce</li><li>Travel &amp; hospitality</li><li>Restaurants &amp; catering</li><li>Trading &amp; B2B</li><li>Education &amp; training</li><li>Financial services</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══ THE TEAM ══════════════════════════════════════════════════ -->
+  <section class="sec" id="team">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow eyebrow--sig">Meet the team</p>
+        <h2>One manager. Eight specialists<span class="dot">.</span></h2>
+        <p class="head-p">You talk to one manager. Stella assigns each job to the right specialist, checks it's done and reports back to you.</p>
+      </div>
+
+      <div class="team">
+        <div class="orbit" data-reveal aria-hidden="true">
+          <svg class="orbit-svg" viewBox="0 0 400 400">
+            <circle class="ring ring-1" cx="200" cy="200" r="150"/>
+            <circle class="ring ring-2" cx="200" cy="200" r="108"/>
+            <circle class="ring ring-3" cx="200" cy="200" r="182"/>
+            <g class="spokes"></g>
+          </svg>
+          <div class="orbit-core">
+            <span class="core-ring"></span><span class="core-ring core-ring--2"></span>
+            <img src="assets/brand/symbol.png" alt="" width="64" height="59">
+          </div>
+          <div class="orbit-nodes"></div>
+        </div>
+
+        <div class="roster">
+          <div class="mgr pan pan--solid" data-reveal>
+            <div class="avatar"><img src="assets/brand/symbol.png" alt="" width="28" height="26"></div>
+            <div>
+              <div class="mgr-t">Stella, AI General Manager</div>
+              <span class="mgr-s">Assigns the work, checks it's done, reports to you.</span>
+            </div>
+            <span class="live"><i></i>Live</span>
+          </div>
+          <div class="specs">
+            <article class="spec pan" data-i="0" data-icon="chat" data-reveal style="--d:0ms"><span class="spec-ico"><svg><use href="#i-chat"/></svg></span><h3>Front Desk &amp; Chat</h3><p>Answers, qualifies and routes every message.</p></article>
+            <article class="spec pan" data-i="1" data-icon="phone" data-reveal style="--d:60ms"><span class="spec-ico"><svg><use href="#i-phone"/></svg></span><h3>Voice</h3><p>Picks up calls, qualifies callers and transfers when needed.</p></article>
+            <article class="spec pan" data-i="2" data-icon="web" data-reveal style="--d:120ms"><span class="spec-ico"><svg><use href="#i-web"/></svg></span><h3>Website Builder</h3><p>Designs, publishes and updates a site built to convert.</p></article>
+            <article class="spec pan" data-i="3" data-icon="cal" data-reveal style="--d:180ms"><span class="spec-ico"><svg><use href="#i-cal"/></svg></span><h3>Booking &amp; Scheduling</h3><p>Checks real availability, books and sends reminders.</p></article>
+            <article class="spec pan" data-i="4" data-icon="admin" data-reveal style="--d:240ms"><span class="spec-ico"><svg><use href="#i-admin"/></svg></span><h3>Admin</h3><p>Updates records and keeps the paperwork in order.</p></article>
+            <article class="spec pan" data-i="5" data-icon="mkt" data-reveal style="--d:300ms"><span class="spec-ico"><svg><use href="#i-mkt"/></svg></span><h3>Marketing</h3><p>Plans and runs campaigns that nurture every lead.</p></article>
+            <article class="spec pan" data-i="6" data-icon="social" data-reveal style="--d:360ms"><span class="spec-ico"><svg><use href="#i-social"/></svg></span><h3>Social</h3><p>Posts, replies to every DM and turns chats into bookings.</p></article>
+            <article class="spec pan" data-i="7" data-icon="send" data-reveal style="--d:420ms"><span class="spec-ico"><svg><use href="#i-send"/></svg></span><h3>Outbound &amp; Follow-up</h3><p>Follows up on time, every time, and re-engages quiet leads.</p></article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ HOW STELLA WORKS ══════════════════════════════════════════ -->
+  <section class="sec sec--wash" id="how">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow eyebrow--sig">How Stella works</p>
+        <h2>One customer, handled end to end<span class="dot">.</span></h2>
+      </div>
+
+      <div class="story">
+        <div class="phone" data-reveal>
+          <div class="phone-frame">
+            <div class="phone-top">
+              <div class="avatar avatar--sm"><img src="assets/brand/symbol.png" alt="" width="28" height="26"></div>
+              <div>
+                <div class="phone-name">Your Business</div>
+                <div class="phone-status"><i></i>Online, replies instantly</div>
+              </div>
+            </div>
+            <div class="chat" id="chat">
+              <div class="msg in" data-step="0">Hi! Do you have anything free this Saturday?<time>11:04 pm</time></div>
+              <div class="msg out" data-step="0">Hi Sara! Yes, 11am or 2pm. Which suits you?<time>11:04 pm</time></div>
+              <div class="msg in" data-step="1">11am please<time>11:05 pm</time></div>
+              <div class="msg out" data-step="1">Booked for Saturday at 11am. Your confirmation is on its way.<time>11:06 pm</time></div>
+              <div class="msg out" data-step="1">See you Saturday! Reply here anytime if plans change.<time>11:06 pm</time></div>
+              <div class="typing" aria-hidden="true"><i></i><i></i><i></i></div>
+            </div>
+            <div class="phone-input"><span>Message</span><span class="send-dot"><svg><use href="#i-send"/></svg></span></div>
+          </div>
+        </div>
+
+        <ol class="timeline" id="timeline">
+          <li class="tl" data-reveal><span class="tl-dot"></span><div><b>11:04 pm, Front Desk &amp; Chat</b> <em>Answered in seconds</em><span class="tl-s">A customer asks about availability on WhatsApp.</span></div></li>
+          <li class="tl" data-reveal style="--d:80ms"><span class="tl-dot"></span><div><b>11:06 pm, Booking &amp; Scheduling</b> <em>Booked and confirmed</em><span class="tl-s">Saturday 11am goes into the diary.</span></div></li>
+          <li class="tl" data-reveal style="--d:160ms"><span class="tl-dot"></span><div><b>Next day, Outbound &amp; Follow-up</b> <em>Details and an offer sent</em><span class="tl-s">A personalised follow-up keeps them engaged.</span></div></li>
+          <li class="tl" data-reveal style="--d:240ms"><span class="tl-dot"></span><div><b>Saturday morning, Voice</b> <em>A friendly reminder call</em><span class="tl-s">Fewer no-shows, without anyone picking up the phone.</span></div></li>
+          <li class="tl" data-reveal style="--d:320ms"><span class="tl-dot"></span><div><b>Next morning, Stella</b> <em>The owner gets the report</em><span class="tl-s">What happened, and only what needs a person.</span></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MORNING REPORT ════════════════════════════════════════════ -->
+  <section class="sec" id="report">
+    <div class="wrap">
+      <div class="head head--report" data-reveal>
+        <p class="eyebrow eyebrow--sig">Every morning</p>
+        <h2>Wake up to a report,<br>not a backlog<span class="dot">.</span></h2>
+        <div class="head-side">
+          <p class="head-p">Stella briefs you every morning: what came in, what her team handled, and the few things that genuinely need you.</p>
+        </div>
+      </div>
+
+      <div class="report dash pan pan--solid" data-reveal style="--d:120ms">
+        <div class="dash-bar">
+          <span class="wctl" aria-hidden="true"><i class="wc-close"><svg viewBox="0 0 10 10"><path d="M2.6 2.6l4.8 4.8M7.4 2.6L2.6 7.4"/></svg></i><i class="wc-min"><svg viewBox="0 0 10 10"><path d="M2.2 5h5.6"/></svg></i><i class="wc-max"><svg viewBox="0 0 10 10"><path d="M5 2.2v5.6M2.2 5h5.6"/></svg></i></span>
+          <span class="dash-title"><span class="avatar avatar--xs"><img src="assets/brand/symbol.png" alt="" width="28" height="26"></span>Stella, morning report</span>
+          <span class="live"><i></i>Live</span>
+        </div>
+        <div class="dash-body">
+          <div class="dash-main">
+          <h3 class="report-h">Good morning. Here's yesterday.</h3>
+          <div class="kpis">
+            <div class="kpi"><span class="kpi-ico"><svg><use href="#i-chat"/></svg></span><div class="kpi-v" data-count="47">47</div><span class="kpi-l">enquiries answered</span><span class="kpi-bar"><i style="--v:1"></i></span></div>
+            <div class="kpi"><span class="kpi-ico"><svg><use href="#i-cal"/></svg></span><div class="kpi-v" data-count="12">12</div><span class="kpi-l">bookings made</span><span class="kpi-bar"><i style="--v:.255"></i></span></div>
+            <div class="kpi"><span class="kpi-ico"><svg><use href="#i-send"/></svg></span><div class="kpi-v" data-count="9">9</div><span class="kpi-l">follow-ups sent</span><span class="kpi-bar"><i style="--v:.19"></i></span></div>
+            <div class="kpi kpi--hl"><span class="kpi-ico"><svg><use href="#i-team"/></svg></span><div class="kpi-v" data-count="2">2</div><span class="kpi-l">need you today</span><span class="kpi-bar"><i style="--v:.043"></i></span></div>
+          </div>
+          <div class="activity">
+            <div class="act-chart" aria-hidden="true">
+              <div class="act-head"><span class="micro">Team activity</span><span class="act-legend"><i></i>Handled</span></div>
+              <div class="act-bars"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i><i style="--i:15"></i><i style="--i:16"></i><i style="--i:17"></i><i style="--i:18"></i><i style="--i:19"></i><i style="--i:20"></i><i style="--i:21"></i></div>
+              <span class="act-scan"></span>
+            </div>
+            <div class="act-feed" aria-live="off">
+              <div class="act-label micro">Right now</div>
+              <div class="act-view"><ul id="feed">
+              <li><span class="act-ico"><svg><use href="#i-chat"/></svg></span><span class="act-t"><b>Front Desk &amp; Chat</b> answered a WhatsApp enquiry</span></li>
+              <li><span class="act-ico"><svg><use href="#i-cal"/></svg></span><span class="act-t"><b>Booking &amp; Scheduling</b> booked and confirmed Saturday 11am</span></li>
+              <li><span class="act-ico"><svg><use href="#i-send"/></svg></span><span class="act-t"><b>Outbound &amp; Follow-up</b> sent details and an offer</span></li>
+              <li><span class="act-ico"><svg><use href="#i-phone"/></svg></span><span class="act-t"><b>Voice</b> made a friendly reminder call</span></li>
+              <li><span class="act-ico"><svg><use href="#i-social"/></svg></span><span class="act-t"><b>Social</b> replied to a DM</span></li>
+              <li><span class="act-ico"><svg><use href="#i-admin"/></svg></span><span class="act-t"><b>Admin</b> updated the records</span></li>
+            </ul></div>
+            </div>
+          </div>
+          </div>
+          <div class="dash-side">
+          <div class="needs">
+            <div class="micro">Needs you today</div>
+            <div class="need"><span class="need-b"></span><div>Approve a corporate order quote<span>Prepared by Outbound &amp; Follow-up, ready to send</span></div><span class="need-chip">Approve</span></div>
+            <div class="need"><span class="need-b"></span><div>Call back a long-standing customer<span>Asked to speak to the owner personally</span></div><span class="need-chip">Call back</span></div>
+          </div>
+          <div class="handled"><span class="handled-ico"><svg><use href="#i-check"/></svg></span>Everything else was handled.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CLIENT STORIES ════════════════════════════════════════════ -->
+  <section class="sec sec--wash" id="stories">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <p class="eyebrow eyebrow--sig">Client stories</p>
+        <h2>Working for growing businesses<span class="dot">.</span></h2>
+        <p class="head-p">From trading and travel to e-commerce and manufacturing, Stella's team adapts to the business.</p>
+      </div>
+      <div class="stories">
+        <article class="story-card pan" data-reveal style="--d:0ms">
+          <div class="sc-tag">General trading, UAE</div>
+          <h3>Global Gate General Trading</h3>
+          <div class="sc-num"><span data-count="72" data-prefix="+" data-suffix="%">+72%</span></div>
+          <div class="sc-l">orders a month</div>
+          <div class="meter"><i style="--v:72%"></i></div>
+          <div class="sc-proj">Projected at 6 months</div>
+          <p>Answers buyers in their language and follows up on every quote.</p>
+        </article>
+        <article class="story-card pan" data-reveal style="--d:80ms">
+          <div class="sc-tag">Travel &amp; tours, UAE</div>
+          <h3>Stempire Travel</h3>
+          <div class="sc-num"><span data-count="66" data-prefix="+" data-suffix="%">+66%</span></div>
+          <div class="sc-l">bookings a month</div>
+          <div class="meter"><i style="--v:66%"></i></div>
+          <div class="sc-proj">Projected at 6 months</div>
+          <p>Replies to travellers instantly and books tours directly.</p>
+        </article>
+        <article class="story-card pan" data-reveal style="--d:160ms">
+          <div class="sc-tag">Trading community, UAE</div>
+          <h3>Global Vision</h3>
+          <div class="sc-num"><span data-count="60" data-prefix="+" data-suffix="%">+60%</span></div>
+          <div class="sc-l">paid members a month</div>
+          <div class="meter"><i style="--v:60%"></i></div>
+          <div class="sc-proj">Projected at 6 months</div>
+          <p>Calls new leads within minutes and re-engages webinar no-shows.</p>
+        </article>
+        <article class="story-card pan" data-reveal style="--d:240ms">
+          <div class="sc-tag">E-commerce, Philippines</div>
+          <h3>Big Boss Ecom</h3>
+          <div class="sc-num"><span data-count="49" data-prefix="+" data-suffix="%">+49%</span></div>
+          <div class="sc-l">delivered orders</div>
+          <div class="meter"><i style="--v:49%"></i></div>
+          <div class="sc-proj">Projected at 6 months</div>
+          <p>Takes orders in chat and confirms every cash-on-delivery order.</p>
+        </article>
+        <article class="story-card pan" data-reveal style="--d:320ms">
+          <div class="sc-tag">Manufacturing, Philippines</div>
+          <h3>Win Philippines</h3>
+          <div class="sc-num"><span data-count="67" data-prefix="+" data-suffix="%">+67%</span></div>
+          <div class="sc-l">new brand clients</div>
+          <div class="meter"><i style="--v:67%"></i></div>
+          <div class="sc-proj">Projected at 6 months</div>
+          <p>Answers MOQ and pricing questions and follows up every sample.</p>
+        </article>
+      </div>
+      <p class="fine" data-reveal>Figures are projected six-month impact based on industry benchmarks, not measured results.</p>
+    </div>
+  </section>
+
+  <!-- ═══ GETTING STARTED ═══════════════════════════════════════════ -->
+  <section class="sec" id="start">
+    <div class="wrap">
+      <div class="head head--center" data-reveal>
+        <p class="eyebrow eyebrow--sig">Getting started</p>
+        <h2>Live in days, not months<span class="dot">.</span></h2>
+        <p class="head-p">Our team sets Stella up for you. There's nothing to install and nothing to configure yourself.</p>
+      </div>
+      <div class="steps">
+        <div class="steps-line" aria-hidden="true"><i></i></div>
+        <ol>
+          <li class="step pan pan--solid" data-reveal style="--d:0ms"><span class="step-n">1</span><h3>Tell us about your business</h3><p>Your services, your channels and what you want handled first.</p></li>
+          <li class="step pan pan--solid" data-reveal style="--d:140ms"><span class="step-n">2</span><h3>Stella designs your team</h3><p>The right specialists, workflows and integrations for how you work.</p></li>
+          <li class="step pan pan--solid" data-reveal style="--d:280ms"><span class="step-n">3</span><h3>Go live</h3><p>Tested, launched and reporting to you from day one.</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CLOSER ════════════════════════════════════════════════════ -->
+  <section class="closer">
+    <div class="wrap">
+      <div class="closer-card pan pan--solid" data-reveal>
+        <span class="closer-orb" aria-hidden="true"></span>
+        <h2>Every business deserves a great general manager<span class="dot">.</span></h2>
+        <p class="lede">Now every business can have one. Get a free plan showing exactly what Stella's team would take off your plate.</p>
+        <div class="btn-row">
+          <a class="btn btn-1" href="#plan" data-cta="closer">Get my free plan <span class="tri" aria-hidden="true"></span></a>
+          <a class="btn btn-2 wa-link wa-only" href="#"><svg class="btn-ico"><use href="#i-wa"/></svg>Chat on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <img class="foot-logo on-dark" src="assets/brand/logo-light-v3.png" alt="HireStella" width="140" height="27" loading="lazy">
+    <img class="foot-logo on-light" src="assets/brand/logo-dark-v2.png" alt="HireStella" width="140" height="27" loading="lazy">
+    <div class="foot-links">
+      <a href="mailto:sales@hirestella.ai"><svg><use href="#i-mail"/></svg>sales@hirestella.ai</a>
+      <a href="https://www.hirestella.ai" target="_blank" rel="noopener"><svg><use href="#i-globe"/></svg>hirestella.ai</a>
+      <a class="privacy-link" href="#">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<div class="mbar" id="mbar">
+  <a class="btn btn-1" href="#plan" data-cta="mobile-bar">Get my free plan <span class="tri" aria-hidden="true"></span></a>
+  <a class="btn btn-2 btn-icon wa-link wa-only" href="#" aria-label="Chat on WhatsApp"><svg class="btn-ico"><use href="#i-wa"/></svg></a>
+</div>
+
+<script src="assets/js/landing.js" defer></script>
+</body>
+</html>
