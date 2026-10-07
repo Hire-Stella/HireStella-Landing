@@ -4,13 +4,13 @@ window.HS_CONFIG = {
   // WhatsApp Business number, digits only, with country code, e.g. "971501234567".
   // While empty, every WhatsApp button is hidden.
   WHATSAPP_NUMBER: '',
-  // Where the form is sent. "/api/lead" is the email function (api/lead.js),
+  // Where the form is sent. "/api/get-lead" is the email function (src/lib/ads-lead/lead.js),
   // which emails every lead to the team through Resend.
-  FORM_ENDPOINT: '/api/lead',
+  FORM_ENDPOINT: '/api/get-lead',
   // Full URL of the privacy policy. While empty, the privacy links are hidden.
   PRIVACY_URL: '',
   // Where a delivered lead lands. The Google Ads / Meta conversion fires there.
-  THANK_YOU_URL: 'thank-you.html',
+  THANK_YOU_URL: '/get/thank-you',
   // Google Tag Manager container ID, e.g. "GTM-ABC1234". While empty, no Google tags load.
   GTM_ID: '',
   // Google Analytics 4 measurement ID. Loads the Google tag on both pages (page views).

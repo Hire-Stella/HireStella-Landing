@@ -11,7 +11,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "verify": "pnpm typecheck && pnpm build",
-    "test": "tsx --test tests/logic.test.ts",
+    "test": "tsx --test tests/logic.test.ts tests/ads-lead.test.js",
     "test:browser": "node scripts/browser-check.mjs",
     "test:veo": "node --env-file=.env.local scripts/test-veo.mjs"
   },
