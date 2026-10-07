@@ -60,6 +60,9 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image' },
   alternates: siteOrigin() ? { canonical: '/' } : undefined,
   robots: { index: true, follow: true },
+  /* Meta Business domain verification for hirestella.ai. Must stay in the
+     server-rendered <head>: Meta's check ignores tags added by JavaScript. */
+  other: { 'facebook-domain-verification': 'wlcc4arsmraxtm8vhelobvv7kpffgr' },
   ...(siteOrigin() ? { metadataBase: new URL(siteOrigin()) } : {}),
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
