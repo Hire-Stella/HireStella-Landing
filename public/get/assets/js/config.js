@@ -1,4 +1,4 @@
-/* ============ SETTINGS for the landing page and the thank-you page ============
+﻿/* ============ SETTINGS for the landing page and the thank-you page ============
    Edit these values, save, and redeploy. See README.md. */
 window.HS_CONFIG = {
   // WhatsApp Business number, digits only, with country code, e.g. "971501234567".
@@ -11,7 +11,7 @@ window.HS_CONFIG = {
   PRIVACY_URL: '',
   // Where a delivered lead lands. The Google Ads / Meta conversion fires there.
   THANK_YOU_URL: '/get/thank-you',
-  // Google Tag Manager container ID, e.g. "GTM-ABC1234". While empty, no Google tags load.
+  // Leave empty: the GTM container (GTM-T7WP6PDV) is pasted directly into index.html and thank-you.html.
   GTM_ID: '',
   // Google Analytics 4 measurement ID. Loads the Google tag on both pages (page views).
   // Do not add another Google tag for this ID in GTM, or every page view counts twice.
