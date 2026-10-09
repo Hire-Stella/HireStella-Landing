@@ -153,12 +153,13 @@ main, .foot { position: relative; z-index: 1; }
   font-size: 15px; font-weight: 600; letter-spacing: -0.005em; text-decoration: none; cursor: pointer;
   transition: transform 180ms var(--e-std), box-shadow 220ms var(--e-std), opacity 180ms;
 }
+/* Same as the main site (client choice, 2026-10-09, option C): a top-to-bottom
+   gradient ending in the exact logo orange, white text, no glow. */
 .btn-1 {
-  color: #141b45; border: 1px solid #ff6200;
-  background: #ff6200;
-  box-shadow: 0 10px 26px rgba(255, 98, 0, 0.24);
+  color: #fff; border: 1px solid transparent;
+  background: linear-gradient(180deg, #ff8a3d, #ff6200) border-box;
 }
-.btn-1:hover { transform: translateY(-1px); box-shadow: var(--glow), 0 14px 32px rgba(255, 98, 0, 0.3); }
+.btn-1:hover { transform: translateY(-1px); background: linear-gradient(180deg, #ff7a26, #f05c00) border-box; }
 .btn-1:hover .tri { transform: translateX(3px); }
 .btn-1:active { transform: translateY(0); }
 .btn-1[disabled] { opacity: 0.7; cursor: progress; transform: none; }

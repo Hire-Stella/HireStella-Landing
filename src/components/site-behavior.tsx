@@ -36,6 +36,28 @@ export function ThemeToggle() {
 export function SiteBehavior() {
   const pathname = usePathname();
   useEffect(() => { track('page_view'); }, [pathname]);
+  /* Scroll depth: how far down each page a visitor reads, as the share of the
+     page that has been on screen. Each mark is sent once per page view, as
+     `hirestella_scroll_depth` with `percent` (25, 50, 75, 90, 100). */
+  useEffect(() => {
+    const marks = [25, 50, 75, 90, 100];
+    const sent = new Set<number>();
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const doc = document.documentElement;
+      const seen = ((window.scrollY + window.innerHeight) / doc.scrollHeight) * 100;
+      for (const m of marks) {
+        if (seen >= m - 0.5 && !sent.has(m)) {
+          sent.add(m);
+          track('scroll_depth', { percent: m });
+        }
+      }
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(measure); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(frame); };
+  }, [pathname]);
   useEffect(() => {
     const click = (e: MouseEvent) => {
       const link = (e.target as Element)?.closest?.('a');

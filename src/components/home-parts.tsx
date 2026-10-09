@@ -122,19 +122,34 @@ export function WorkforceMap() {
               />
             ) : null,
           )}
-          {/* Work leaving Stella for the active role. */}
+          {/* Work leaving Stella for the active role, and the result coming back. */}
           {paths[active]?.d && !still ? (
-            <circle key={`pulse-${active}`} className="wire-pulse" r="4">
-              <animateMotion
-                dur="1.6s"
-                begin="0.6s"
-                repeatCount="indefinite"
-                path={paths[active].d}
-                keyPoints="1;0"
-                keyTimes="0;1"
-                calcMode="linear"
-              />
-            </circle>
+            <>
+              <circle key={`pulse-${active}`} className="wire-pulse" r="4">
+                <animateMotion
+                  dur="1.9s"
+                  begin="0.6s"
+                  repeatCount="indefinite"
+                  path={paths[active].d}
+                  keyPoints="1;0"
+                  keyTimes="0;1"
+                  calcMode="spline"
+                  keySplines="0.45 0 0.3 1"
+                />
+              </circle>
+              <circle key={`back-${active}`} className="wire-pulse is-back" r="3">
+                <animateMotion
+                  dur="1.9s"
+                  begin="1.55s"
+                  repeatCount="indefinite"
+                  path={paths[active].d}
+                  keyPoints="0;1"
+                  keyTimes="0;1"
+                  calcMode="spline"
+                  keySplines="0.45 0 0.3 1"
+                />
+              </circle>
+            </>
           ) : null}
         </svg>
 
@@ -160,6 +175,7 @@ export function WorkforceMap() {
         </div>
 
         <div className="core" ref={core}>
+          <span className="core-orbit" aria-hidden="true" />
           <div className="sym">
             <Logo symbol />
           </div>
@@ -167,8 +183,10 @@ export function WorkforceMap() {
           <p className="sm" style={{ color: 'var(--t2)' }}>
             Your AI General Manager
           </p>
-          <p className="micro" style={{ marginTop: 8, letterSpacing: '.08em' }}>
-            Understands · Coordinates · Connects
+          <p className="core-route" aria-live="polite">
+            <span className="core-route-k">Now routing</span>
+            <span className="tri" aria-hidden="true" />
+            <b key={current.id}>{current.short}</b>
           </p>
         </div>
 
@@ -371,10 +389,33 @@ function Delta({ now, before }: { now: number; before: number }) {
   );
 }
 
+/** Counts up to a figure once it is on screen. The final value is the text
+    from the first render, so the number is never wrong for a crawler. */
+function Count({ to, run, ms = 1400 }: { to: number; run: boolean; ms?: number }) {
+  const [n, setN] = useState(to);
+  useEffect(() => {
+    if (!run || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setN(to);
+      return;
+    }
+    let frame = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / ms);
+      setN(Math.round(to * (1 - Math.pow(1 - t, 3))));
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [run, to, ms]);
+  return <>{n}</>;
+}
+
 export function DashboardPlanes() {
   const [settled, setSettled] = useState(false);
   const [focus, setFocus] = useState<Kind | null>(null);
   const [shown, setShown] = useState(0);
+  const [beat, setBeat] = useState(-1);
   const host = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -411,12 +452,43 @@ export function DashboardPlanes() {
     return () => clearTimeout(t);
   }, [settled, shown]);
 
+  /* Once the feed has filled, a highlight keeps walking it: the workspace is
+     live, without inventing new events or reordering the timeline. */
+  useEffect(() => {
+    if (!settled || shown < FEED.length) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t = setInterval(() => setBeat((b) => (b + 1) % FEED.length), 2600);
+    return () => clearInterval(t);
+  }, [settled, shown]);
+
+  /* Depth: the three planes travel at different speeds as the section passes. */
+  useEffect(() => {
+    const el = host.current;
+    if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const r = el.getBoundingClientRect();
+      const t = (window.innerHeight / 2 - (r.top + r.height / 2)) / window.innerHeight;
+      el.style.setProperty('--sp', Math.max(-1, Math.min(1, t)).toFixed(3));
+    };
+    const on = () => {
+      if (!frame) frame = requestAnimationFrame(measure);
+    };
+    measure();
+    window.addEventListener('scroll', on, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', on);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
   const rear = settled ? { transform: 'translateZ(-60px) rotateX(1deg)', opacity: 0.88 } : undefined;
   const mid = settled ? { transform: 'translateZ(-20px) rotateY(1deg)' } : undefined;
   const dim = (k: Kind) => (focus && focus !== k ? ' is-dim' : '');
 
   return (
-    <div className="planes" ref={host}>
+    <div className={`planes${settled ? ' is-live' : ''}`} ref={host}>
       {/* ── the day's shape ── */}
       <div className="plane p-rear pan pan--solid" style={rear}>
         <div className="pcap">
@@ -425,11 +497,11 @@ export function DashboardPlanes() {
         </div>
         <div className="cc-chart">
           <div className="bars" role="img" aria-label={`Enquiries by hour. ${HOURS.map((h) => `${h.at}: ${h.enquiries}`).join(', ')}.`}>
-            {HOURS.map((h) => (
+            {HOURS.map((h, i) => (
               <span className="cc-bar" key={h.at}>
                 <i
                   className={h.at === PEAK.at ? 'on' : ''}
-                  style={{ height: `${(h.enquiries / PEAK.enquiries) * 100}%` }}
+                  style={{ height: `${(h.enquiries / PEAK.enquiries) * 100}%`, ['--j' as string]: i }}
                 />
               </span>
             ))}
@@ -453,7 +525,7 @@ export function DashboardPlanes() {
         <div className="feed">
           {FEED.map((e, i) => (
             <div
-              className={`ev${i < shown ? ' is-in' : ''}${dim(e.kind)}`}
+              className={`ev${i < shown ? ' is-in' : ''}${i === beat ? ' is-beat' : ''}${dim(e.kind)}`}
               key={e.label}
               aria-hidden={i >= shown}
             >
@@ -462,6 +534,16 @@ export function DashboardPlanes() {
               {e.label}
             </div>
           ))}
+          <div className={`ev ev-live${shown >= FEED.length ? ' is-in' : ''}`} aria-hidden="true">
+            <time>now</time>
+            <i className="on" />
+            Stella is routing a new enquiry
+            <span className="ev-dots">
+              <b />
+              <b />
+              <b />
+            </span>
+          </div>
         </div>
       </div>
 
@@ -474,7 +556,9 @@ export function DashboardPlanes() {
 
         <div className="cc-lead">
           <div>
-            <span className="cc-rate">{RATE}%</span>
+            <span className="cc-rate">
+              <Count to={RATE} run={settled} />%
+            </span>
             <span className="cc-rate-k">of enquiries reached a booking</span>
           </div>
           <span className="cc-rate-delta">
@@ -497,7 +581,9 @@ export function DashboardPlanes() {
             >
               <span className="cc-tile-k">{t.label}</span>
               <span className="cc-tile-row">
-                <b>{t.value}</b>
+                <b>
+                  <Count to={t.value} run={settled} ms={1100} />
+                </b>
                 <Spark points={t.spark} active={focus === t.key} />
               </span>
               <Delta now={t.value} before={t.before} />

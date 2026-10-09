@@ -68,7 +68,11 @@ export function DemoModal({ configured }: { configured: boolean }) {
       setOpen(true);
       setDone(false);
       setError('');
-      track('demo_modal_opened', { carried: Boolean(brief) });
+      /* `data-cta` names the button, so GTM can tell which placement converts. */
+      track('demo_modal_opened', {
+        carried: Boolean(brief),
+        cta: (el as HTMLElement).dataset.cta || 'unnamed',
+      });
     }
     /* The timed invitation (demo-nudge.tsx) opens the same dialog. */
     function onInvite() {

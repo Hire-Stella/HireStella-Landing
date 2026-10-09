@@ -2729,3 +2729,23 @@ a.hpanel {
 .consultation-form .field textarea {
   min-height: 96px;
 }
+
+/* ── Become a partner: the /contact layout (client review, 2026-10-09) ── */
+.partner-why {
+  display: grid;
+  gap: var(--s3);
+  margin: 0 0 var(--s4);
+  padding: 0;
+  list-style: none;
+}
+.partner-why li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  color: var(--t1);
+}
+.partner-why svg {
+  flex: none;
+  color: var(--sig-ink);
+}

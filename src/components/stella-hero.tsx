@@ -200,6 +200,28 @@ function routeBrief(text: string): Scenario {
 
 const IDLE_CAPTION = 'Eight specialists, waiting for a brief.';
 
+/* Client review, 2026-10-09: an idle "Ready" sold nothing. While the panel is
+   idle its status chip turns through the three things a visitor should leave
+   with. A running example still shows what Stella is doing instead. */
+const HOOKS = ['On shift 24/7', 'Replies in seconds', '8 specialists on call'] as const;
+
+/* The headline enters a word at a time. Spaces stay outside the spans so the
+   line still breaks and reads as plain text to assistive technology. */
+function Words({ text, from = 0 }: { text: string; from?: number }) {
+  return (
+    <>
+      {text.split(' ').map((w, i, all) => (
+        <span key={i}>
+          <span className="w" style={{ '--i': from + i } as React.CSSProperties}>
+            {w}
+          </span>
+          {i < all.length - 1 ? ' ' : null}
+        </span>
+      ))}
+    </>
+  );
+}
+
 export function StellaHero() {
   const [live, setLive] = useState<Scenario | null>(null);
   const [said, setSaid] = useState('');
@@ -212,8 +234,79 @@ export function StellaHero() {
   const field = useRef<HTMLTextAreaElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const section = useRef<HTMLElement>(null);
+  /* The idle demo: while nobody is using the panel, example problems type
+     themselves into it and the specialists they need glow on the rail. */
+  const [ghost, setGhost] = useState('');
+  const [ghostOn, setGhostOn] = useState(false);
+  const [preview, setPreview] = useState<Scenario | null>(null);
+  const [inView, setInView] = useState(true);
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
+  const [hook, setHook] = useState(0);
+  const idleChip = state.label === 'Ready';
+  useEffect(() => {
+    if (!idleChip || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t = setInterval(() => setHook((h) => (h + 1) % HOOKS.length), 3200);
+    return () => clearInterval(t);
+  }, [idleChip]);
+
+  useEffect(() => {
+    const el = section.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const idle = !live && !focused && !value;
+  useEffect(() => {
+    if (!idle || !inView || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setGhostOn(false);
+      setGhost('');
+      setPreview(null);
+      return;
+    }
+    let t: ReturnType<typeof setTimeout>;
+    let s = 0;
+    let i = 0;
+    let phase: 'type' | 'hold' | 'erase' = 'type';
+    const step = () => {
+      const scene = SCENARIOS[s];
+      const line = scene.said;
+      if (phase === 'type') {
+        i += 1;
+        setGhost(line.slice(0, i));
+        if (i >= line.length) {
+          phase = 'hold';
+          setPreview(scene);
+          t = setTimeout(step, 2600);
+          return;
+        }
+        t = setTimeout(step, 24 + Math.random() * 34);
+        return;
+      }
+      if (phase === 'hold') {
+        phase = 'erase';
+        setPreview(null);
+        t = setTimeout(step, 260);
+        return;
+      }
+      i = Math.max(0, i - 3);
+      setGhost(line.slice(0, i));
+      if (i === 0) {
+        s = (s + 1) % SCENARIOS.length;
+        phase = 'type';
+        t = setTimeout(step, 520);
+        return;
+      }
+      t = setTimeout(step, 16);
+    };
+    setGhostOn(true);
+    t = setTimeout(step, 1900);
+    return () => clearTimeout(t);
+  }, [idle, inView]);
 
   const clearTimers = () => {
     timers.current.forEach(clearTimeout);
@@ -282,15 +375,19 @@ export function StellaHero() {
   }
 
   return (
-    <section className="hero" id="ask-stella">
+    <section className="hero" id="ask-stella" ref={section}>
       <span className="hero-pool" aria-hidden="true" />
+      <span className="hero-aura" aria-hidden="true" />
       <span className="hero-dots" aria-hidden="true" />
 
       <div className="wrap hero-in">
 
         <h1 className="d-xl">
-          Tell Stella what is slowing
-          <br className="lb" /> your business <em>down.</em>
+          <Words text="Tell Stella what is slowing" />
+          <br className="lb" /> <Words text="your business" from={5} />{' '}
+          <em className="w w-accent" style={{ '--i': 7 } as React.CSSProperties}>
+            down.
+          </em>
         </h1>
 
         <p className="lede">
@@ -299,12 +396,12 @@ export function StellaHero() {
         </p>
 
         <div className="btn-row" style={{ justifyContent: 'center' }}>
+          <button className="btn btn-1" type="button" data-demo data-cta="home-hero">
+            Book a demo <span className="tri" aria-hidden="true" />
+          </button>
           <button className="btn btn-2" onClick={ask} type="button">
             Ask Stella
           </button>
-          <button className="btn-3" type="button" data-demo style={{ color: 'var(--t2)', fontWeight: 500 }}>
-              Book a demo <span className="tri" aria-hidden="true" />
-            </button>
         </div>
 
         <div className="stage">
@@ -312,6 +409,7 @@ export function StellaHero() {
             ref={panel}
             className={`cmd pan blur ${live ? 'is-live' : ''} ${focused && !live ? 'is-focus' : ''}`}
           >
+            <span className="cmd-orbit" aria-hidden="true" />
             <div className="cmd-top">
               <span className="stella">
                 <span className="stella-mark">
@@ -322,8 +420,11 @@ export function StellaHero() {
                   <em>Your AI General Manager</em>
                 </span>
               </span>
-              <span className={`state ${state.busy ? 'busy' : ''}`}>
-                <i className="dot" aria-hidden="true" /> {state.label}
+              <span className={`state ${state.busy ? 'busy' : ''} ${idleChip ? 'is-hook' : ''}`}>
+                <i className="dot" aria-hidden="true" />{' '}
+                <span className="state-t" key={idleChip ? `h${hook}` : state.label}>
+                  {idleChip ? HOOKS[hook] : state.label}
+                </span>
               </span>
             </div>
 
@@ -360,8 +461,18 @@ export function StellaHero() {
                         send();
                       }
                     }}
-                    placeholder="For example: we miss calls after hours, enquiries arrive on three channels, and follow-ups are not happening."
+                    placeholder={
+                      ghostOn
+                        ? ''
+                        : 'For example: we miss calls after hours, enquiries arrive on three channels, and follow-ups are not happening.'
+                    }
                   />
+                  {ghostOn && (
+                    <span className="cmd-ghost" aria-hidden="true">
+                      {ghost}
+                      <i className="caret" />
+                    </span>
+                  )}
                 </div>
 
                 <div className="cmd-foot">
@@ -433,23 +544,35 @@ export function StellaHero() {
                 </p>
               </div>
               <div className="nextstep-act">
-                <button className="btn btn-1" type="button" data-demo data-demo-problem={said}>
+                <button className="btn btn-1" type="button" data-demo data-cta="home-hero-result" data-demo-problem={said}>
                   Book a demo <span className="tri" aria-hidden="true" />
                 </button>
               </div>
             </div>
           )}
 
-          <div className="wforce">
+          <div className={`wforce ${preview ? 'is-preview' : ''}`}>
+            <span className="wf-run" aria-hidden="true">
+              <i />
+            </span>
             {RAIL.map((name) => (
-              <span className={`wf-n ${lit.includes(name) ? 'on' : ''}`} key={name}>
+              <span
+                className={`wf-n ${lit.includes(name) ? 'on' : ''} ${preview?.specialists.includes(name) ? 'pre' : ''}`}
+                style={{ '--d': `${(preview?.specialists.indexOf(name) ?? 0) * 110}ms` } as React.CSSProperties}
+                key={name}
+              >
                 <i aria-hidden="true" />
                 <span>{name}</span>
               </span>
             ))}
           </div>
           <div className="wf-cap">
-            <span>{caption ?? IDLE_CAPTION}</span>
+            <span key={caption ?? preview?.id ?? 'idle'}>
+              {caption ??
+                (preview
+                  ? `${preview.chip}: ${preview.specialists.join(', ')} would take this on.`
+                  : IDLE_CAPTION)}
+            </span>
           </div>
 
           <div className="chips">

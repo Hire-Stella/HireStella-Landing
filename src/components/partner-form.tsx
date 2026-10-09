@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Lock } from 'lucide-react';
-import { partnerSchema, PARTNER_TYPES, PARTNER_MARKETS, CLIENT_BANDS } from '@/lib/lead-schema';
-import { industryGroups } from '@/lib/industry-content';
+import { partnerSchema, PARTNER_TYPES, PARTNER_MARKETS } from '@/lib/lead-schema';
 import { track } from '@/lib/telemetry';
 
 export function PartnerForm({ configured }: { configured: boolean }) {
@@ -23,7 +21,7 @@ export function PartnerForm({ configured }: { configured: boolean }) {
     });
     if (!parsed.success) {
       setError(
-        'Please choose a partner type and check your name, a valid work email, your company, your country, and at least 10 characters on why you want to partner.',
+        'Please add your name, a valid work email, your company, where you operate, your partner type, and a line about who you would introduce.',
       );
       return;
     }
@@ -68,38 +66,37 @@ export function PartnerForm({ configured }: { configured: boolean }) {
       </div>
     );
 
+  /* Client review, 2026-10-09: the partner page should read like /contact, so
+     the form asks only what a first reply needs. Website, client count and
+     sectors are optional in the schema and come up in the conversation. */
   return (
     <form onSubmit={submit} className="consultation-form">
-      <fieldset className="ptype">
-        <legend className="field-legend">What kind of partner are you?</legend>
-        <div className="ptype-grid">
-          {PARTNER_TYPES.map((t, i) => (
-            <label className="ptype-opt" key={t}>
-              <input type="radio" name="partnerType" value={t} defaultChecked={i === 0} required />
-              <span>{t}</span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
       <div className="form-grid">
         <label className="field">
-          <span>Your name</span>
+          <span>
+            Your name <b className="req" aria-hidden="true">*</b>
+          </span>
           <input name="name" autoComplete="name" required minLength={2} maxLength={100} placeholder="Full name" />
         </label>
         <label className="field">
-          <span>Work email</span>
+          <span>
+            Work email <b className="req" aria-hidden="true">*</b>
+          </span>
           <input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="you@company.com" />
         </label>
       </div>
 
       <div className="form-grid">
         <label className="field">
-          <span>Company or practice</span>
+          <span>
+            Company or practice <b className="req" aria-hidden="true">*</b>
+          </span>
           <input name="company" autoComplete="organization" required minLength={2} maxLength={160} placeholder="Company name" />
         </label>
         <label className="field">
-          <span>Where you operate</span>
+          <span>
+            Where you operate <b className="req" aria-hidden="true">*</b>
+          </span>
           <select name="country" defaultValue="" required>
             <option value="" disabled>
               Choose a market
@@ -111,48 +108,31 @@ export function PartnerForm({ configured }: { configured: boolean }) {
         </label>
       </div>
 
-      <div className="form-grid">
-        <label className="field">
-          <span>
-            Website <em className="opt">Optional</em>
-          </span>
-          <input name="site" maxLength={200} placeholder="yourcompany.com" />
-        </label>
-        <label className="field">
-          <span>
-            How many clients you work with <em className="opt">Optional</em>
-          </span>
-          <select name="clients" defaultValue="">
-            <option value="">Prefer not to say</option>
-            {CLIENT_BANDS.map((c) => (
-              <option key={c}>{c}</option>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      <fieldset className="ptype">
-        <legend className="field-legend">
-          Which sectors do your clients sit in? <em className="opt">Optional</em>
-        </legend>
-        <div className="ptype-grid">
-          {industryGroups.map((g) => (
-            <label className="ptype-opt" key={g.id}>
-              <input type="checkbox" name="sectors" value={g.name} />
-              <span>{g.name}</span>
-            </label>
+      <label className="field">
+        <span>
+          What kind of partner are you? <b className="req" aria-hidden="true">*</b>
+        </span>
+        <select name="partnerType" defaultValue="" required>
+          <option value="" disabled>
+            Select an option
+          </option>
+          {PARTNER_TYPES.map((t) => (
+            <option key={t}>{t}</option>
           ))}
-        </div>
-      </fieldset>
+        </select>
+      </label>
 
       <label className="field">
-        <span>What would you bring, and who would you introduce us to?</span>
+        <span>
+          Who would you introduce us to? <b className="req" aria-hidden="true">*</b>
+        </span>
         <textarea
           name="why"
           required
           minLength={10}
           maxLength={2000}
-          placeholder="The clients you already advise, and what you would want from the partnership."
+          rows={3}
+          placeholder="The kind of businesses you advise, and what you want from the partnership."
         />
       </label>
 
@@ -163,16 +143,11 @@ export function PartnerForm({ configured }: { configured: boolean }) {
         </label>
       </div>
 
-      <p className="form-note">
-        <Lock size={13} strokeWidth={1.8} aria-hidden="true" /> We use these details only to assess
-        and respond to your application. Please do not include confidential client data.
-      </p>
-
       <label className="consent-label">
         <input type="checkbox" name="consent" required />
         <span>
           {configured
-            ? 'I agree that HireStella may use these details to respond to this application.'
+            ? 'I agree that HireStella may contact me about this application.'
             : 'I understand delivery is not connected on this preview.'}
         </span>
       </label>
