@@ -4,12 +4,14 @@ import { notFound } from 'next/navigation';
 import { industryGroups, lowerName } from '@/lib/industry-content';
 import { specialists } from '@/lib/data';
 import { canonical, breadcrumbLd, serviceLd, faqLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, HeroPanel, Faq, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul, Accent } from '@/components/system';
 import { OperationsWorkspace } from '@/components/workspace';
 import { workspaces } from '@/lib/workspace-content';
 import { MarketPanel, ReadingRoom, PagePhotograph, BusinessTypes } from '@/components/industry-parts';
 import { SECTOR_FAQS } from '@/lib/sector-faqs';
 import { Icon } from '@/components/ui';
+import { HeroLive } from '@/components/hero-live';
+import { INDUSTRY_SCENES } from '@/lib/hero-scenes';
 
 export function generateStaticParams() {
   return industryGroups.map((g) => ({ industry: g.id }));
@@ -294,7 +296,7 @@ export default async function IndustryGroupPage({
           <>
             {profile.title[0]}
             <br />
-            {profile.title[1]}
+            <Accent text={profile.title[1]} />
           </>
         }
         lede={group.intro}
@@ -309,13 +311,7 @@ export default async function IndustryGroupPage({
           </>
         }
         meta={[`${group.segments.length} segments`, profile.journey, 'Scope confirmed in discovery']}
-        aside={
-          <HeroPanel
-            kicker={`${group.name} · what changes`}
-            rows={profile.signals}
-            note={profile.signalNote}
-          />
-        }
+        aside={<HeroLive scenes={INDUSTRY_SCENES[group.id]} />}
       />
 
       <Thread shape="split" />

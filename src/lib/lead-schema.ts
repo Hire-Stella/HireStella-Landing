@@ -24,11 +24,24 @@ export const PARTNER_TYPES = [
   'Other',
 ] as const;
 
+/** A phone number with country code: 8 to 15 digits, spaces, brackets and dashes allowed. */
+export const phoneField = z
+  .string()
+  .trim()
+  .max(24)
+  .regex(/^\+?[\d\s()-]+$/)
+  .refine((v) => {
+    const digits = v.replace(/\D/g, '').length;
+    return digits >= 8 && digits <= 15;
+  });
+
+/* The booking form asks for four things; the rest is optional (client review, 2026-10-09). */
 export const leadSchema = z.object({
   name: z.string().trim().min(2).max(100),
   email: z.email().max(254),
+  phone: phoneField,
   company: z.string().trim().min(2).max(160),
-  problem: z.string().trim().min(10).max(2000),
+  problem: z.string().trim().max(2000).optional().default(''),
   consent: z.literal(true),
   website: z.string().max(0),
 });
@@ -39,8 +52,9 @@ export const demoSchema = z.object({
   kind: z.literal('demo').default('demo'),
   name: z.string().trim().min(2).max(100),
   email: z.email().max(254),
+  phone: phoneField,
   company: z.string().trim().min(2).max(160),
-  problem: z.string().trim().min(10).max(2000),
+  problem: z.string().trim().max(2000).optional().default(''),
   heardFrom: z.enum(['', ...HEARD_FROM]).optional().default(''),
   referral: z.string().trim().max(160).optional().default(''),
   consent: z.literal(true),

@@ -12,7 +12,7 @@
  *
  * Order is the order they appear in the footer.
  */
-export type SocialKey = 'instagram' | 'facebook' | 'linkedin' | 'x' | 'tiktok';
+export type SocialKey = 'instagram' | 'facebook' | 'linkedin' | 'x' | 'youtube' | 'tiktok';
 
 /* 2026-09-25: the old guessed handles did not exist, and facebook.com/hirestella
    is an unrelated person's profile, which `sameAs` was telling Google is this
@@ -25,6 +25,8 @@ export const SOCIAL: { key: SocialKey; label: string; url: string }[] = [
   { key: 'facebook', label: 'HireStella on Facebook', url: '' },
   { key: 'linkedin', label: 'HireStella on LinkedIn', url: 'https://www.linkedin.com/company/hirestellaai/' },
   { key: 'x', label: 'HireStella on X', url: 'https://x.com/hirestellaai' },
+  /* 2026-10-09: YouTube channel supplied by the client. */
+  { key: 'youtube', label: 'HireStella on YouTube', url: 'https://www.youtube.com/@Hirestella_AI' },
   { key: 'tiktok', label: 'HireStella on TikTok', url: '' },
 ];
 

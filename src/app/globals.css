@@ -235,7 +235,7 @@ p {
   color: var(--bg);
 }
 .button-primary:hover {
-  background: #ff7b29;
+  background: #f05c00;
   transform: translateY(-1px);
 }
 .button-secondary {
@@ -579,7 +579,7 @@ p {
     background var(--duration);
 }
 .command-send:hover {
-  background: #ff7b29;
+  background: #f05c00;
   transform: translateY(-2px);
 }
 .scenario-row {
@@ -1813,7 +1813,7 @@ input[type='range'] {
 .segmented button > span {
   font-size: 7px;
   background: #ff620016;
-  color: #ff9a5b;
+  color: #ff6200;
   margin-left: 8px;
   padding: 3px 5px;
   border-radius: 4px;
@@ -1854,7 +1854,7 @@ input[type='range'] {
 }
 .plan-name .micro {
   font-size: 6px;
-  color: #ffa167;
+  color: #ff6200;
 }
 .plan-card > p {
   font-size: 11px;

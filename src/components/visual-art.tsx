@@ -156,8 +156,8 @@ export function PremiumShield() {
           stroke="#c7c9e8"
           strokeOpacity=".3"
         />
-        <path d="M66 94h48M90 70v48" stroke="#ff7b29" strokeWidth="3" strokeLinecap="round" />
-        <circle cx="90" cy="94" r="34" stroke="#ff7b29" strokeOpacity=".4" />
+        <path d="M66 94h48M90 70v48" stroke="#ff6200" strokeWidth="3" strokeLinecap="round" />
+        <circle cx="90" cy="94" r="34" stroke="#ff6200" strokeOpacity=".4" />
       </svg>
       <span>HUMAN JUDGEMENT</span>
     </div>

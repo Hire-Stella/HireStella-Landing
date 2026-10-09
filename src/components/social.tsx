@@ -4,7 +4,7 @@ import { SOCIAL, type SocialKey } from '@/lib/social';
  * The brand glyphs, drawn here rather than imported.
  *
  * lucide-react removed every brand icon at v1 (trademark), and this project is
- * on 1.42.0, so Instagram, Facebook, LinkedIn, X and TikTok simply do not exist
+ * on 1.42.0, so Instagram, Facebook, LinkedIn, X, YouTube and TikTok simply do not exist
  * in the icon set the rest of the site uses. Adding a second icon package for
  * five glyphs would ship a whole dependency for five paths, so the paths are
  * inline.
@@ -37,6 +37,12 @@ const GLYPHS: Record<SocialKey, React.ReactNode> = {
     <path
       fill="currentColor"
       d="M17.53 3h3.06l-6.69 7.64L21.75 21h-6.16l-4.83-6.3L5.24 21H2.17l7.15-8.17L2.25 3h6.32l4.36 5.77L17.53 3Zm-1.07 16.17h1.7L7.6 4.74H5.78l10.68 14.43Z"
+    />
+  ),
+  youtube: (
+    <path
+      fill="currentColor"
+      d="M21.58 7.19a2.51 2.51 0 0 0-1.77-1.78C18.25 5 12 5 12 5s-6.25 0-7.81.41a2.51 2.51 0 0 0-1.77 1.78C2 8.76 2 12 2 12s0 3.24.42 4.81a2.51 2.51 0 0 0 1.77 1.78C5.75 19 12 19 12 19s6.25 0 7.81-.41a2.51 2.51 0 0 0 1.77-1.78C22 15.24 22 12 22 12s0-3.24-.42-4.81ZM10 15.02V8.98L15.2 12 10 15.02Z"
     />
   ),
   tiktok: (

@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowUpRight, Download, RotateCcw } from 'lucide-react';
+import { Download, RotateCcw } from 'lucide-react';
 import { Icon } from './ui';
-import { leadSchema } from '@/lib/lead-schema';
+import { demoSchema } from '@/lib/lead-schema';
+import { BookingFields, BOOKING_ERROR } from './booking-fields';
+import { BOOKED } from './demo-nudge';
 
 export function ConsultationForm({
   configured,
@@ -29,18 +31,17 @@ export function ConsultationForm({
     event.preventDefault();
     setError('');
     const fields = new FormData(event.currentTarget);
-    const parsed = leadSchema.safeParse({
+    /* Every booking form on the site is a demo request (client review, 2026-10-09). */
+    const parsed = demoSchema.safeParse({
       ...Object.fromEntries(fields.entries()),
       consent: fields.get('consent') === 'on',
     });
     if (!parsed.success) {
-      setError(
-        'Please check your details, describe your business in at least 10 characters, and confirm the checkbox.',
-      );
+      setError(BOOKING_ERROR);
       return;
     }
     const data = parsed.data;
-    const prepared = `HireStella consultation brief\n\nName: ${data.name}\nEmail: ${data.email}\nBusiness: ${data.company}\n\nBusiness challenge\n${data.problem}\n\nThis brief is a starting point for scoping. No booking or deployment is confirmed.`;
+    const prepared = `HireStella demo request\n\nName: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nBusiness: ${data.company}\n\nWhat is slowing the business down\n${data.problem || 'Not given'}\n\nThis preview did not send anything. No demo is booked.`;
     if (!configured) {
       setBrief(prepared);
       return;
@@ -53,6 +54,9 @@ export function ConsultationForm({
         body: JSON.stringify(data),
       });
       if (!response.ok) throw new Error('Your request could not be delivered. Please try again.');
+      try {
+        sessionStorage.setItem(BOOKED, '1');
+      } catch {}
       /* Delivered requests leave for the confirmation page, which is where the
          lead conversion is raised. The inline panel below is now only the
          unconfigured preview path, where nothing was sent and there is nothing
@@ -62,7 +66,7 @@ export function ConsultationForm({
       router.push(`/thank-you?src=${encodeURIComponent(source)}`);
     } catch {
       setError(
-        'Your request could not be delivered. Please try again; no booking has been confirmed.',
+        'Your request could not be delivered. Please try again, or email sales@hirestella.ai.',
       );
       setBusy(false);
     }
@@ -71,7 +75,7 @@ export function ConsultationForm({
     const url = URL.createObjectURL(new Blob([brief], { type: 'text/plain;charset=utf-8' }));
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'HireStella-Consultation-Brief.txt';
+    link.download = 'HireStella-Demo-Request.txt';
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
@@ -79,10 +83,10 @@ export function ConsultationForm({
     return (
       <div id={id} className="form-success pan pan--solid" role="status">
         <Icon name="records" size={30} />
-        <h2>Your brief is ready.</h2>
+        <h2>Preview only.</h2>
         <p>
-          Download your brief to keep your starting point. Nothing has been sent and no consultation
-          has been booked.
+          Delivery is not connected here, so nothing was sent and no demo is booked. Download your
+          details or email sales@hirestella.ai.
         </p>
         <pre>{brief}</pre>
         <div className="inline-actions">
@@ -99,69 +103,11 @@ export function ConsultationForm({
     );
   return (
     <form id={id} onSubmit={submit} className={`consultation-form ${compact ? 'form-compact' : ''}`}>
-      <div className="form-grid">
-        <label className="field">
-          <span>Your name</span>
-          <input
-            name="name"
-            autoComplete="name"
-            required
-            minLength={2}
-            maxLength={100}
-            placeholder="Full name"
-          />
-        </label>
-        <label className="field">
-          <span>Work email</span>
-          <input
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            maxLength={254}
-            placeholder="you@company.com"
-          />
-        </label>
-      </div>
-      <label className="field">
-        <span>Business name</span>
-        <input
-          name="company"
-          autoComplete="organization"
-          required
-          minLength={2}
-          maxLength={160}
-          placeholder="Your company or practice"
-        />
-      </label>
-      <label className="field">
-        <span>What is slowing your business down?</span>
-        <textarea
-          name="problem"
-          required
-          minLength={10}
-          maxLength={2000}
-          defaultValue={initialProblem.slice(0, 2000)}
-          placeholder="Tell us about your team, your workflows, and where you need more capacity."
-        />
-      </label>
-      <div className="form-honeypot" aria-hidden="true">
-        <label>
-          Website
-          <input name="website" tabIndex={-1} autoComplete="off" />
-        </label>
-      </div>
-      <p className="form-note">
-        {configured
-          ? 'We use these details to respond to your consultation request. Please do not include confidential customer data. Deployment-specific data handling and retention requirements are discussed during scoping.'
-          : 'Consultation delivery is not connected in this preview. Your details stay on this page while you prepare a downloadable brief. Please do not include confidential customer data.'}
-      </p>
+      <BookingFields draft={{ problem: initialProblem.slice(0, 2000) }} />
       <label className="consent-label">
         <input type="checkbox" name="consent" required />
         <span>
-          {configured
-            ? 'I agree that HireStella may use these details to respond to this consultation request.'
-            : 'I understand this prepares a local brief and does not book a consultation.'}
+          I agree that HireStella may contact me about this demo.
         </span>
       </label>
       {error && (
@@ -170,12 +116,8 @@ export function ConsultationForm({
         </p>
       )}
       <button disabled={busy} className="btn btn-1" type="submit">
-        {busy
-          ? 'Sending your request…'
-          : configured
-            ? 'Request a consultation'
-            : 'Prepare my consultation brief'}
-        <ArrowUpRight size={17} />
+        {busy ? 'Sending your request…' : 'Book my demo'}
+        <span className="tri" aria-hidden="true" />
       </button>
     </form>
   );

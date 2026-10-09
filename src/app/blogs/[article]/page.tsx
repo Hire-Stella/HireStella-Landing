@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { blogPosts } from '@/lib/blog-content';
-import { PageHero, Closer, Thread, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, Ld, Tri, Bul, Accent } from '@/components/system';
 import { SectionFigure } from '@/components/figures';
 import { canonical, breadcrumbLd, articleLd } from '@/lib/seo';
 
@@ -50,7 +50,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
       <PageHero
         eyebrow={`${post.category} · ${post.readTime}`}
         crumb={[['Home', '/'], ['Blogs', '/blogs'], [post.category]]}
-        title={post.title}
+        title={<Accent text={post.title} />}
         lede={post.summary}
         meta={[published, post.readTime]}
         aside={

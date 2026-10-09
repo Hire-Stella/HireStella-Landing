@@ -46,7 +46,7 @@ export default function AboutPage() {
           <>
             Good people deserve
             <br />
-            more room to do good work.
+            more room to do <em>good work.</em>
           </>
         }
         lede="Work is arriving faster than teams can absorb it. HireStella was built around one idea about what to do when that happens."

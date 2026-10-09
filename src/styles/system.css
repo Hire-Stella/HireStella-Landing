@@ -159,12 +159,12 @@
   --shadow: 0 20px 54px rgba(20, 27, 69, 0.1);
   --shadow-2: 0 6px 24px rgba(20, 27, 69, 0.07);
   --glow: 0 0 0 1px rgba(255, 98, 0, 0.24), 0 0 28px rgba(255, 98, 0, 0.14);
-  --sig: #d94f00; /* §8.4 — #FF6200 fails as ink on Cloud */
-  /* …and #D94F00 is only 3.81:1, which is a fail for the 11-14px type it is
-     set on. --sig-ink is the text value; --sig stays the fill. */
-  --sig-ink: #b34000;
+  /* Client review, 2026-10-09: every orange on the site is the exact logo
+     orange (#FF6200) in both themes, text included. */
+  --sig: #ff6200;
+  --sig-ink: #ff6200;
   --band-1: rgba(255, 255, 255, 0.78);
-  --band-2: rgba(217, 79, 0, 0.05);
+  --band-2: rgba(255, 98, 0, 0.05);
   --band-3: rgba(20, 27, 69, 0.035);
   --rail: rgba(20, 27, 69, 0.2);
   --tick: rgba(20, 27, 69, 0.32);
@@ -349,8 +349,7 @@ p {
   background: linear-gradient(90deg, var(--tick), transparent);
 }
 .eyebrow--sig::before {
-  background: linear-gradient(90deg, var(--orange), transparent);
-  opacity: 0.8;
+  background: var(--sig);
 }
 /* §7A.2 — the Stella Path threading the page between sections */
 .thread {
@@ -384,7 +383,7 @@ p {
   border-radius: var(--r-card);
   border: 1px solid transparent;
   background: linear-gradient(168deg, var(--pan-a), var(--pan-b)) padding-box,
-    linear-gradient(142deg, var(--edge-1), var(--edge-2) 36%, var(--edge-2) 68%, var(--edge-3)) border-box;
+    linear-gradient(170deg, var(--edge-1), var(--edge-2) 42%) border-box;
   box-shadow: var(--shadow);
 }
 .pan::after {
@@ -407,7 +406,7 @@ p {
 }
 .pan--solid {
   background: linear-gradient(168deg, var(--solid-a), var(--solid-b)) padding-box,
-    linear-gradient(142deg, var(--edge-1), var(--edge-2) 36%, var(--edge-2) 68%, var(--edge-3)) border-box;
+    linear-gradient(170deg, var(--edge-1), var(--edge-2) 42%) border-box;
 }
 /* glass is for command surfaces only — §30.3 */
 .blur {
@@ -475,15 +474,16 @@ p {
   cursor: pointer;
   transition: transform 180ms var(--e-std), box-shadow 220ms var(--e-std);
 }
+/* Client choice, 2026-10-09 (option C): a visible top-to-bottom gradient that
+   ends in the exact logo orange, with white text, as the logo pairs it. */
 .btn-1 {
-  color: #141b45;
-  border: 1px solid rgba(255, 186, 128, 0.5);
-  background: linear-gradient(178deg, #ff8b3e, #ff6200 48%, #ea5900);
-  box-shadow: 0 10px 26px rgba(255, 98, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  color: #fff;
+  border: 1px solid transparent;
+  background: linear-gradient(180deg, #ff8a3d, #ff6200) border-box;
 }
 .btn-1:hover {
   transform: translateY(-1px);
-  box-shadow: var(--glow), 0 14px 32px rgba(255, 98, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  background: linear-gradient(180deg, #ff7a26, #f05c00) border-box;
 }
 .btn-1:active {
   transform: translateY(0);
@@ -568,6 +568,11 @@ p {
 .phero-copy h1 {
   max-width: 32ch;
   text-wrap: balance;
+}
+/* The accent phrase, as on the home hero. */
+.phero-copy h1 em {
+  font-style: normal;
+  color: var(--sig);
 }
 .phero-copy .lede {
   max-width: 52ch;
@@ -1152,14 +1157,12 @@ p {
 .form-preferences > .form-grid {
   margin-top: var(--s5);
 }
+/* A quiet line, not another boxed panel inside the form card. */
 .form-note {
+  margin: 0;
   font-size: 12px;
   line-height: 1.6;
   color: var(--t3);
-  padding: var(--s4) var(--s5);
-  border-radius: var(--r-btn);
-  border: 1px solid var(--line);
-  background: rgba(199, 201, 232, 0.05);
 }
 .form-error {
   font-size: 13px;
@@ -2654,4 +2657,75 @@ a.hpanel {
   .cmap-frame {
     aspect-ratio: 4 / 3;
   }
+}
+
+/* ── Contact: the booking form lives in the hero (client review, 2026-10-09) ── */
+.contact-page .phero-in {
+  align-items: center;
+}
+.contact-card {
+  padding: var(--s8) var(--s8) var(--s8);
+  border-radius: var(--r-hero);
+}
+.contact-card-h {
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+.contact-card-p {
+  margin: 4px 0 var(--s6);
+  font-size: 14px;
+  color: var(--t3);
+}
+.contact-direct {
+  display: grid;
+  justify-items: start;
+  gap: var(--s3);
+  margin-top: var(--s6);
+  padding-top: var(--s6);
+  border-top: 1px solid var(--line);
+  max-width: 52ch;
+}
+.contact-direct-h {
+  margin: 0;
+  font-size: 13px;
+  color: var(--t3);
+}
+.contact-direct a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--t1);
+  text-decoration: none;
+}
+.contact-direct a:hover {
+  color: var(--sig-ink);
+}
+.contact-direct a svg {
+  color: var(--sig-ink);
+}
+.contact-promise {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: var(--s3) 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--t3);
+}
+.contact-promise svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--sig-ink);
+}
+@media (max-width: 760px) {
+  .contact-card {
+    padding: var(--s6) var(--s5);
+  }
+}
+
+/* The booking form's one free-text field is optional, so it stays short. */
+.consultation-form .field textarea {
+  min-height: 96px;
 }

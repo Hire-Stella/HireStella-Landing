@@ -37,10 +37,15 @@ export function Thread({ shape = 'split' }: { shape?: 'split' | 'join' }) {
   );
 }
 
-/** The standard section opening: eyebrow, headline, and a paragraph beside it. */
+/**
+ * The standard section opening: headline and a paragraph beside it.
+ *
+ * Client review, 2026-10-09: a small uppercase label above every section was
+ * the clearest "template" tell on the site, so the label is no longer drawn.
+ * `eyebrow` stays on the props so call sites keep naming their section, which
+ * is useful when reading the code, but it is not rendered.
+ */
 export function SectionHead({
-  eyebrow,
-  signal = false,
   title,
   children,
   headMax,
@@ -54,7 +59,6 @@ export function SectionHead({
   return (
     <div className="split">
       <div>
-        <p className={`eyebrow ${signal ? 'eyebrow--sig' : ''}`}>{eyebrow}</p>
         <h2 style={headMax ? { maxWidth: headMax } : undefined}>{title}</h2>
       </div>
       {children ? <p>{children}</p> : <div />}
@@ -67,7 +71,6 @@ export function SectionHead({
  * with its own space rather than sharing a band with the footer.
  */
 export function Closer({
-  eyebrow = 'Get started',
   title,
   lede,
   primary = { href: '/book-demo', label: 'Book a demo' },
@@ -83,7 +86,6 @@ export function Closer({
     <section className="closer">
       <div className="wrap closer-in">
         <span className="rail" aria-hidden="true" />
-        <p className="eyebrow eyebrow--sig">{eyebrow}</p>
         <h2 className="d-l closer-h">{title}</h2>
         <p className="lede" style={{ textAlign: 'center' }}>
           {lede}
@@ -98,7 +100,11 @@ export function Closer({
               {primary.label} <Tri />
             </Link>
           )}
-          {secondary ? (
+          {secondary?.href === '/book-demo' ? (
+            <button className="btn btn-2" type="button" data-demo>
+              {secondary.label}
+            </button>
+          ) : secondary ? (
             <Link className="btn btn-2" href={secondary.href}>
               {secondary.label}
             </Link>
@@ -135,14 +141,18 @@ export function PageHero({
   actions,
   meta,
   aside,
+  after,
 }: {
-  eyebrow: string;
+  /** Optional: a page can open on its headline alone. */
+  eyebrow?: string;
   title: ReactNode;
   lede: string;
   crumb?: [string, string?][];
   actions?: ReactNode;
   meta?: string[];
   aside?: ReactNode;
+  /** Anything that belongs under the lede in the left column. */
+  after?: ReactNode;
 }) {
   return (
     <section className="phero">
@@ -157,7 +167,7 @@ export function PageHero({
             Restoring the trail is this one line. */}
         <div className="phero-in">
           <div className="phero-copy">
-            <p className="eyebrow eyebrow--sig">{eyebrow}</p>
+            {eyebrow ? <p className="eyebrow eyebrow--sig">{eyebrow}</p> : null}
             <h1>{title}</h1>
             <p className="lede">{lede}</p>
             {actions ? <div className="btn-row">{actions}</div> : null}
@@ -171,11 +181,29 @@ export function PageHero({
                 ))}
               </div>
             ) : null}
+            {after}
           </div>
           {aside ? <div className="phero-aside">{aside}</div> : null}
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * Sets the closing words of a headline in the brand orange, the way the home
+ * hero sets "down.". Takes the last word, or the last two when the last is
+ * short, so the accent always reads as a phrase rather than a stray syllable.
+ */
+export function Accent({ text }: { text: string }) {
+  const words = text.trim().split(' ');
+  const take = words.length > 2 && words[words.length - 1].replace(/\W/g, '').length < 5 ? 2 : 1;
+  const head = words.slice(0, -take).join(' ');
+  return (
+    <>
+      {head ? `${head} ` : null}
+      <em>{words.slice(-take).join(' ')}</em>
+    </>
   );
 }
 

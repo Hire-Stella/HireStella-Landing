@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { canonical, breadcrumbLd, serviceLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, HeroPanel, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Ld, Tri, Bul } from '@/components/system';
 import { CoachWorkspace } from '@/components/coach-workspace';
 import { PracticeLoop } from '@/components/figures';
 import { Icon } from '@/components/ui';
+import { HeroLive } from '@/components/hero-live';
+import { COACH_SCENES, COACH_STAGES } from '@/lib/hero-scenes';
 
 export const metadata: Metadata = {
   ...canonical('/sales-coach'),
@@ -145,7 +147,7 @@ export default function SalesCoachPage() {
           <>
             Practise the hard call.
             <br />
-            Before it is a real one.
+            Before it is a <em>real one.</em>
           </>
         }
         lede="AI role-play helps sales teams practise real customer conversations, handle objections with confidence, and improve before the next live call."
@@ -160,18 +162,7 @@ export default function SalesCoachPage() {
           </>
         }
         meta={['Buyers who push back', 'Your own sales process', 'Scored, not just completed']}
-        aside={
-          <HeroPanel
-            kicker="The practice loop"
-            tag="Three steps"
-            rows={[
-              ['Practice', 'With an AI buyer'],
-              ['Improve', 'On what the call showed', true],
-              ['Perform', 'In the live conversation'],
-            ]}
-            note="The same loop for a new hire in week one and a senior seller working an unfamiliar objection."
-          />
-        }
+        aside={<HeroLive label="Coach" scenes={COACH_SCENES} team={COACH_STAGES} />}
       />
 
       <Thread shape="split" />

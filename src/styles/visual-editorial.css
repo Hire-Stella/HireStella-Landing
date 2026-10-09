@@ -645,7 +645,7 @@
   flex-shrink: 0;
 }
 .market-bars > div:last-child i {
-  background: linear-gradient(#ff9a57, #ff6200);
+  background: #ff6200;
 }
 .market-bars strong {
   font-size: 18px;

@@ -8,6 +8,8 @@ import { MarketPanel, ReadingRoom, PagePhotograph } from '@/components/industry-
 import { PageHero, Closer, Thread, SectionHead, Tri, Bul, Ld } from '@/components/system';
 import { Icon } from '@/components/ui';
 import { canonical, breadcrumbLd, serviceLd } from '@/lib/seo';
+import { HeroLive } from '@/components/hero-live';
+import { INDUSTRY_SCENES } from '@/lib/hero-scenes';
 
 export const metadata: Metadata = {
   title: 'AI Front Desk for Dental Clinics in Dubai',
@@ -48,7 +50,7 @@ export default function DentalPage() {
           <>
             Keep patient enquiries moving.
             <br />
-            From first call to next appointment.
+            From first call to <em>next appointment.</em>
           </>
         }
         lede="Give calls, bookings and follow-ups a coordinated next step, while your people stay focused on the patient in front of them."
@@ -63,28 +65,7 @@ export default function DentalPage() {
           </>
         }
         meta={['8 specialists, one patient journey', 'Clinical decisions stay with your team']}
-        aside={
-          <div className="route pan">
-            <p className="eyebrow eyebrow--sig">One patient journey</p>
-            <ol className="route-steps">
-              {[
-                'A consultation enquiry arrives',
-                'Routine questions answered in your voice',
-                'An appointment is coordinated',
-                'A reminder and a follow-up are scheduled',
-              ].map((s, i) => (
-                <li key={s}>
-                  <span className="route-no num">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="route-label">{s}</span>
-                </li>
-              ))}
-            </ol>
-            <p className="note">
-              Clinical questions, treatment decisions and complaints transfer to your team with the
-              full conversation attached.
-            </p>
-          </div>
-        }
+        aside={<HeroLive scenes={INDUSTRY_SCENES.healthcare} />}
       />
 
       <Thread shape="split" />

@@ -9,18 +9,20 @@ import {
   Closer,
   Thread,
   SectionHead,
-  HeroPanel,
   Related,
   Faq,
   Ld,
   Tri,
   Bul,
+  Accent,
 } from '@/components/system';
 import { OperationsWorkspace } from '@/components/workspace';
 import { workspaces } from '@/lib/workspace-content';
 import { MarketPanel, ReadingRoom, PagePhotograph } from '@/components/industry-parts';
 import { canonical, breadcrumbLd, serviceLd, faqLd } from '@/lib/seo';
 import { Icon } from '@/components/ui';
+import { HeroLive } from '@/components/hero-live';
+import { INDUSTRY_SCENES } from '@/lib/hero-scenes';
 
 export function generateStaticParams() {
   return Object.entries(segmentDetails).map(([segment, d]) => ({
@@ -141,7 +143,7 @@ export default async function SegmentPage({
           <>
             {detail.headline[0]}
             <br />
-            {detail.headline[1]}
+            <Accent text={detail.headline[1]} />
           </>
         }
         lede={detail.lede}
@@ -156,13 +158,7 @@ export default async function SegmentPage({
           </>
         }
         meta={[`${roster.length} specialists lead this workflow`, 'One connected journey', 'Scope confirmed in discovery']}
-        aside={
-          <HeroPanel
-            kicker={`${seg.name} · what changes`}
-            rows={detail.signals}
-            note="Every figure here reconciles with the journey above it."
-          />
-        }
+        aside={<HeroLive scenes={INDUSTRY_SCENES[group.id]} />}
       />
 
       <Thread shape="split" />

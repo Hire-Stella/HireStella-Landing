@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, ShieldCheck, X } from 'lucide-react';
-import { Logo } from './ui';
-import { demoSchema, HEARD_FROM } from '@/lib/lead-schema';
+import { Check, ShieldCheck, X } from 'lucide-react';
+import { demoSchema } from '@/lib/lead-schema';
+import { BookingFields, BOOKING_ERROR } from './booking-fields';
 import { track } from '@/lib/telemetry';
+import { BOOKED } from './demo-nudge';
 
 /**
  * The demo request modal.
@@ -32,9 +33,8 @@ export function DemoModal({ configured }: { configured: boolean }) {
   /* Only the unconfigured preview ends inside the modal. A delivered request
      leaves for /thank-you, so there is no longer a "sent" state to render. */
   const [done, setDone] = useState(false);
-  const [heard, setHeard] = useState('');
   const [draft, setDraft] = useState<Record<string, string>>({});
-  const [carried, setCarried] = useState(false);
+  const [, setCarried] = useState(false);
   const dialog = useRef<HTMLDivElement>(null);
   const form = useRef<HTMLFormElement>(null);
   const first = useRef<HTMLInputElement>(null);
@@ -70,8 +70,20 @@ export function DemoModal({ configured }: { configured: boolean }) {
       setError('');
       track('demo_modal_opened', { carried: Boolean(brief) });
     }
+    /* The timed invitation (demo-nudge.tsx) opens the same dialog. */
+    function onInvite() {
+      opener.current = null;
+      setOpen(true);
+      setDone(false);
+      setError('');
+      track('demo_modal_opened', { carried: false, auto: true });
+    }
     document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
+    window.addEventListener('hirestella:open-demo', onInvite);
+    return () => {
+      document.removeEventListener('click', onClick);
+      window.removeEventListener('hirestella:open-demo', onInvite);
+    };
   }, []);
 
   useEffect(() => {
@@ -115,15 +127,12 @@ export function DemoModal({ configured }: { configured: boolean }) {
       consent: fields.get('consent') === 'on',
     });
     if (!parsed.success) {
-      setError(
-        'Please check your name, a valid work email, your business name, and a description of at least 10 characters.',
-      );
+      setError(BOOKING_ERROR);
       return;
     }
     if (!configured) {
       setDone(true);
       setDraft({});
-      setHeard('');
       setCarried(false);
       track('demo_submitted', { delivered: false });
       return;
@@ -136,8 +145,10 @@ export function DemoModal({ configured }: { configured: boolean }) {
         body: JSON.stringify(parsed.data),
       });
       if (!response.ok) throw new Error('undelivered');
+      try {
+        sessionStorage.setItem(BOOKED, '1');
+      } catch {}
       setDraft({});
-      setHeard('');
       setCarried(false);
       track('demo_submitted', { delivered: true });
       /* Close before navigating: the open modal locks body scroll, and the
@@ -159,57 +170,55 @@ export function DemoModal({ configured }: { configured: boolean }) {
         className="dm pan pan--solid"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="dm-title"
+        aria-label="Book a demo"
         ref={dialog}
       >
         <button className="dm-x" type="button" aria-label="Close" onClick={close}>
           <X size={18} />
         </button>
 
-        {/* ── left: why this conversation is worth having ── */}
+        {/* ── left: show the product, not a list of promises. The scene plays
+             once each time the modal opens (it mounts on open). ── */}
         <aside className="dm-aside">
-          <span className="dm-mark">
-            <Logo symbol />
-          </span>
-          <p className="eyebrow eyebrow--sig">Book a demo</p>
-          <h2 id="dm-title" className="dm-h">
-            A workforce built
+          <h2 className="dm-h">
+            This is Stella
             <br />
-            exclusively for you.
+            at 11:04 pm<span className="dm-dot">.</span>
           </h2>
-          <p className="sm">
-            Bring one workflow. We map the specialists it needs, the systems it touches and the
-            point your people take over.
-          </p>
+          <p className="dm-lede">In your demo, she works on your business: your enquiries, your calendar, your customers.</p>
 
-          <ol className="dm-steps">
-            {[
-              ['A person reads it', 'Not an autoresponder. Someone who understands your operation.'],
-              ['We map your workflow', 'The specialists, the channels and the handoffs, specific to you.'],
-              ['You see the boundary', 'Where your team stays in control, before anything is configured.'],
-            ].map(([t, d]) => (
-              <li key={t}>
-                <b>{t}</b>
-                <span>{d}</span>
-              </li>
-            ))}
-          </ol>
+          <div className="dm-scene" aria-hidden="true">
+            <div className="dm-scene-top">
+              <i />
+              <b>Your business</b>
+              <span>WhatsApp</span>
+            </div>
+            <p className="dm-bub dm-bub--in">
+              Hi, do you have any slots this Saturday?<time>11:04 pm</time>
+            </p>
+            <p className="dm-bub dm-bub--out">
+              Yes, 11am or 2pm. Which suits you?<time>Stella, 11:04 pm</time>
+            </p>
+            <p className="dm-bub dm-bub--in">
+              11am please<time>11:05 pm</time>
+            </p>
+            <p className="dm-booked">
+              <Check size={14} strokeWidth={2.2} />
+              Booked for Saturday, 11:00 am
+            </p>
+          </div>
 
           <p className="note dm-foot">
-            <ShieldCheck size={14} strokeWidth={1.7} aria-hidden="true" />
-            No obligation. Nothing is configured or committed before a scoping conversation.
+            <ShieldCheck size={14} strokeWidth={1.7} aria-hidden="true" />A person reads every request. No obligation.
           </p>
         </aside>
 
         {/* ── right: the form ── */}
         <div className="dm-form">
           <div className="dm-mini" aria-hidden="true">
-            <span className="dm-mini-mark">
-              <Logo symbol />
-            </span>
             <span>
               <b>Book a demo</b>
-              <em>A workforce built exclusively for you.</em>
+              <em>See Stella work on your business.</em>
             </span>
           </div>
           {done ? (
@@ -230,71 +239,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
             </div>
           ) : (
             <form onSubmit={submit} className="consultation-form" ref={form}>
-              <div className="form-grid">
-                <label className="field">
-                  <span>Your name</span>
-                  <input ref={first} name="name" autoComplete="name" required minLength={2} maxLength={100} placeholder="Full name" defaultValue={draft.name ?? ''} />
-                </label>
-                <label className="field">
-                  <span>Work email</span>
-                  <input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="you@company.com" defaultValue={draft.email ?? ''} />
-                </label>
-              </div>
-
-              <label className="field">
-                <span>Business name</span>
-                <input name="company" autoComplete="organization" required minLength={2} maxLength={160} placeholder="Your company or practice" defaultValue={draft.company ?? ''} />
-              </label>
-
-              <label className="field">
-                <span>What is slowing your business down?</span>
-                <textarea
-                  name="problem"
-                  required
-                  minLength={10}
-                  maxLength={2000}
-                  rows={4}
-                  placeholder="Tell us about your team, your channels, and where work stops moving."
-                  defaultValue={draft.problem ?? ''}
-                />
-                {carried && draft.problem ? (
-                  <em className="dm-carried">Carried over from your brief to Stella. Edit it freely.</em>
-                ) : null}
-              </label>
-
-              <div className="form-grid">
-                <label className="field">
-                  <span>How did you hear about us?</span>
-                  <select name="heardFrom" value={heard} onChange={(e) => setHeard(e.target.value)}>
-                    <option value="">Select an option</option>
-                    {HEARD_FROM.map((h) => (
-                      <option key={h} value={h}>
-                        {h}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                {heard === 'Referral' && (
-                  <label className="field">
-                    <span>
-                      Who referred you? <em className="opt">Optional</em>
-                    </span>
-                    <input name="referral" maxLength={160} placeholder="Name or company" defaultValue={draft.referral ?? ''} />
-                  </label>
-                )}
-              </div>
-
-              <div className="form-honeypot" aria-hidden="true">
-                <label>
-                  Website
-                  <input name="website" tabIndex={-1} autoComplete="off" />
-                </label>
-              </div>
-
-              <p className="form-note">
-                <Lock size={13} strokeWidth={1.8} aria-hidden="true" /> We use these details only to
-                respond to this request. Please do not include confidential customer data.
-              </p>
+              <BookingFields draft={draft} firstRef={first} />
 
               {error && (
                 <p className="form-error" role="alert">
@@ -306,14 +251,12 @@ export function DemoModal({ configured }: { configured: boolean }) {
                 <label className="consent-label">
                   <input type="checkbox" name="consent" required />
                   <span>
-                    {configured
-                      ? 'I agree that HireStella may use these details to respond to this request.'
-                      : 'I understand delivery is not connected on this preview.'}
+                    I agree that HireStella may contact me about this demo.
                   </span>
                 </label>
                 <div className="dm-submit-row">
                   <button disabled={busy} className="btn btn-1" type="submit">
-                    {busy ? 'Sending your request…' : 'Request my demo'}
+                    {busy ? 'Sending your request…' : 'Book my demo'}
                     <span className="tri" aria-hidden="true" />
                   </button>
                   <span className="note">Takes under a minute.</span>

@@ -61,7 +61,7 @@ export default async function ThankYou({
           <>
             Thank you.
             <br />
-            Your request is with the team.
+            Your request is <em>with the team.</em>
           </>
         }
         lede="We have your brief. Someone will read it properly and come back to you with the questions that matter, usually within one business day."

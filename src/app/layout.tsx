@@ -11,9 +11,11 @@ import '../styles/home.css';
 import '../styles/widget.css';
 import '../styles/modal.css';
 import '../styles/workspace.css';
+import '../styles/hero-live.css';
 import { Header, Footer } from '@/components/shell';
 import { AgentLauncher } from '@/components/agent-launcher';
 import { DemoModal } from '@/components/demo-modal';
+import { DemoNudge } from '@/components/demo-nudge';
 import { SiteBehavior, themeBootstrap } from '@/components/site-behavior';
 import { Analytics } from '@/components/analytics';
 import { consentBootstrap } from '@/lib/consent';
@@ -67,7 +69,7 @@ export const metadata: Metadata = {
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <meta name="theme-color" content="#141B45" />
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
@@ -85,6 +87,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <AgentLauncher />
         <DemoModal configured={leadDeliveryConfigured()} />
+        <DemoNudge />
         <Analytics />
         <SiteBehavior />
       </body>

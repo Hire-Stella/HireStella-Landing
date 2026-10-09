@@ -26,6 +26,7 @@ type Kind = keyof typeof KIND_LABEL;
 const FIELDS: [string, string][] = [
   ['name', 'Name'],
   ['email', 'Email'],
+  ['phone', 'Phone'],
   ['company', 'Company'],
   ['partnerType', 'Partner type'],
   ['site', 'Website'],
