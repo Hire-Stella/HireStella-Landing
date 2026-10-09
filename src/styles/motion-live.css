@@ -1,0 +1,484 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   HireStella · home page motion, round 2 (client review, 2026-10-09)
+   The living background, the workforce map in flow, and the dashboard
+   with live figures and depth. Reduced motion at the bottom.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── the living background (home) ──────────────────────────────────────
+   Three slow orbs under the constellation (components/constellation.tsx).
+   Fixed behind the page, never above content. */
+/* Layer 1: above the site-wide .hs-field wash (z 0), below every section
+   (z 2). At -1 the field painted over it and the motion was invisible. */
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  --mx: 50vw;
+  --my: 40vh;
+}
+/* A soft light from above: the page reads lit, not just dark. */
+.ambient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(150, 165, 255, 0.16), transparent 70%),
+    linear-gradient(180deg, rgba(150, 165, 255, 0.05), transparent 60%);
+}
+:root[data-theme='light'] .ambient::after {
+  background: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(255, 255, 255, 0.5), transparent 70%);
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+.o1 {
+  width: 46vw;
+  height: 46vw;
+  left: -12vw;
+  top: 8vh;
+  background: radial-gradient(circle, rgba(132, 150, 255, 0.3), transparent 70%);
+  animation: orb-a 38s ease-in-out infinite alternate;
+}
+.o2 {
+  width: 38vw;
+  height: 38vw;
+  right: -10vw;
+  top: 34vh;
+  background: radial-gradient(circle, rgba(255, 150, 90, 0.13), transparent 70%);
+  animation: orb-b 46s ease-in-out infinite alternate;
+}
+.o3 {
+  width: 34vw;
+  height: 34vw;
+  left: 30vw;
+  bottom: -18vw;
+  background: radial-gradient(circle, rgba(178, 162, 255, 0.24), transparent 70%);
+  animation: orb-c 54s ease-in-out infinite alternate;
+}
+:root[data-theme='light'] .o1 {
+  background: radial-gradient(circle, rgba(120, 132, 230, 0.22), transparent 70%);
+}
+:root[data-theme='light'] .o2 {
+  background: radial-gradient(circle, rgba(255, 98, 0, 0.09), transparent 70%);
+}
+:root[data-theme='light'] .o3 {
+  background: radial-gradient(circle, rgba(160, 140, 240, 0.16), transparent 70%);
+}
+@keyframes orb-a {
+  50% {
+    transform: translate3d(18vw, 14vh, 0) scale(1.15);
+  }
+  100% {
+    transform: translate3d(6vw, 40vh, 0) scale(0.9);
+  }
+}
+@keyframes orb-b {
+  50% {
+    transform: translate3d(-22vw, -18vh, 0) scale(1.2);
+  }
+  100% {
+    transform: translate3d(-8vw, 22vh, 0) scale(0.95);
+  }
+}
+@keyframes orb-c {
+  50% {
+    transform: translate3d(-20vw, -30vh, 0) scale(1.1);
+  }
+  100% {
+    transform: translate3d(16vw, -12vh, 0) scale(1.2);
+  }
+}
+/* Strongest at the edges, quiet in the middle where the reading happens. */
+.constellation {
+  position: absolute;
+  inset: 0;
+  display: block;
+  -webkit-mask-image: radial-gradient(ellipse 46% 52% at 50% 46%, rgba(0, 0, 0, 0.18), #000 92%);
+  mask-image: radial-gradient(ellipse 46% 52% at 50% 46%, rgba(0, 0, 0, 0.18), #000 92%);
+}
+/* The constellation is the home page's texture now; two dot fields fought. */
+.home .hero-dots {
+  display: none;
+}
+.home .hero {
+  z-index: 2;
+}
+
+/* ── eight specialists: work is always flowing, the active route glows ── */
+.home .wires path:not(.on) {
+  stroke-dasharray: 2 10;
+  opacity: 0.4;
+  animation: wire-flow 1.6s linear infinite;
+}
+@keyframes wire-flow {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+.home .wires path.on {
+  filter: drop-shadow(0 0 5px rgba(255, 98, 0, 0.75));
+}
+.wire-pulse.is-back {
+  fill: #ffd3b3;
+}
+.home .core {
+  isolation: isolate;
+}
+.core > .core-orbit {
+  position: absolute;
+  z-index: 0;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--orb),
+    transparent 0 55%,
+    rgba(255, 98, 0, 0.25) 70%,
+    rgba(255, 160, 95, 1) 80%,
+    rgba(255, 98, 0, 0.2) 86%,
+    transparent 92%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: orb 5s linear infinite;
+  pointer-events: none;
+}
+.home .core::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 38%;
+  width: 200px;
+  height: 200px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 98, 0, 0.22), transparent 65%);
+  animation: core-breathe 4.5s ease-in-out infinite;
+}
+@keyframes core-breathe {
+  50% {
+    transform: scale(1.25);
+    opacity: 0.55;
+  }
+}
+.home .core .sym {
+  position: relative;
+  border-color: rgba(255, 98, 0, 0.4);
+  background: linear-gradient(178deg, rgba(255, 98, 0, 0.18), rgba(255, 98, 0, 0.04));
+}
+.home .core .sym::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 98, 0, 0.55);
+  animation: halo 3.2s ease-out infinite;
+}
+.core-route {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 98, 0, 0.32);
+  background: rgba(255, 98, 0, 0.07);
+  font-size: 12px;
+  color: var(--t2);
+}
+.core-route-k {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.core-route .tri {
+  color: var(--sig);
+}
+.core-route b {
+  color: var(--t1);
+  font-weight: 600;
+  animation: read-in 500ms var(--e-out) both;
+}
+.home .node[aria-pressed='true'] {
+  box-shadow: var(--shadow-2), 0 0 0 1px rgba(255, 98, 0, 0.28), 0 14px 40px -18px rgba(255, 98, 0, 0.55);
+}
+.home .node > svg {
+  box-sizing: content-box;
+  padding: 9px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  transition: all 500ms var(--e-out);
+}
+.home .node[aria-pressed='true'] > svg {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(180deg, #ff8a3d, #ff6200);
+  box-shadow: 0 6px 16px -6px rgba(255, 98, 0, 0.7);
+}
+/* the nodes arrive from Stella outwards */
+.rv-in .map-col .node {
+  animation: node-in 900ms var(--e-out) backwards;
+}
+.rv-in .map-col:first-of-type .node {
+  --from: 30px;
+}
+.rv-in .map-col:last-of-type .node {
+  --from: -30px;
+}
+.rv-in .map-col .node:nth-child(1) {
+  animation-delay: 150ms;
+}
+.rv-in .map-col .node:nth-child(2) {
+  animation-delay: 260ms;
+}
+.rv-in .map-col .node:nth-child(3) {
+  animation-delay: 370ms;
+}
+.rv-in .map-col .node:nth-child(4) {
+  animation-delay: 480ms;
+}
+@keyframes node-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--from, 0)) scale(0.96);
+    filter: blur(6px);
+  }
+}
+
+/* ── the dashboard: frosted glass, live figures, depth on scroll ───────── */
+.home .p-mid {
+  background: linear-gradient(168deg, rgba(30, 38, 92, 0.72), rgba(16, 22, 58, 0.62)) padding-box,
+    linear-gradient(170deg, var(--edge-1), var(--edge-2) 42%) border-box;
+}
+/* Split on purpose: the bundler drops an unprefixed backdrop-filter that
+   follows the prefixed one in the same rule. */
+.home .p-mid {
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+.home .p-mid {
+  backdrop-filter: blur(18px) saturate(140%);
+}
+:root[data-theme='light'] .home .p-mid {
+  background: linear-gradient(168deg, rgba(255, 255, 255, 0.74), rgba(246, 247, 252, 0.64)) padding-box,
+    linear-gradient(170deg, var(--edge-1), var(--edge-2) 42%) border-box;
+}
+.home .planes .p-rear {
+  translate: 0 calc(var(--sp, 0) * -40px);
+}
+.home .planes .p-mid {
+  translate: 0 calc(var(--sp, 0) * 26px);
+}
+.home .planes .p-front {
+  translate: 0 calc(var(--sp, 0) * -14px);
+}
+.planes .cc-bar i {
+  transform-origin: bottom;
+  transform: scaleY(0.04);
+  transition: transform 1400ms var(--e-out);
+  transition-delay: calc(300ms + var(--j) * 90ms);
+}
+.planes.is-live .cc-bar i {
+  transform: none;
+  animation: bar-live 5s ease-in-out infinite;
+  animation-delay: calc(2s + var(--j) * 0.45s);
+}
+@keyframes bar-live {
+  50% {
+    transform: scaleY(0.9);
+  }
+}
+.planes.is-live .cc-bar i.on {
+  box-shadow: 0 0 22px rgba(255, 98, 0, 0.45);
+  background: linear-gradient(180deg, #ff9a5a, #ff6200);
+}
+.planes .cc-spark-line {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  transition: stroke-dashoffset 1800ms var(--e-out) 600ms;
+}
+.planes.is-live .cc-spark-line {
+  stroke-dashoffset: 0;
+}
+.planes.is-live .cc-spark-dot {
+  animation: spark-dot 2.4s ease-in-out 2.4s infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes spark-dot {
+  50% {
+    transform: scale(1.7);
+  }
+}
+.planes .ev {
+  border-radius: 8px;
+  margin-inline: -8px;
+  padding: 4px 8px;
+  transition: opacity 600ms ease, transform 600ms ease, background 600ms ease;
+}
+.planes .ev.is-beat {
+  background: rgba(255, 98, 0, 0.08);
+  color: var(--t1);
+}
+.planes .ev.is-beat i {
+  background: var(--orange);
+  opacity: 1;
+  box-shadow: 0 0 0 3px rgba(255, 98, 0, 0.16), 0 0 10px rgba(255, 98, 0, 0.7);
+}
+.ev-live {
+  grid-template-columns: auto auto auto 1fr;
+  color: var(--t1);
+}
+.ev-live time {
+  color: var(--sig);
+  font-weight: 600;
+}
+.ev-live i {
+  animation: halo-dot 1.6s ease-out infinite;
+}
+@keyframes halo-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 98, 0, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgba(255, 98, 0, 0);
+  }
+}
+.ev-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+.ev-dots b {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--t2);
+  animation: typing 1.2s ease-in-out infinite;
+}
+.ev-dots b:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.ev-dots b:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes typing {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: none;
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+.cc-flag-dot {
+  animation: halo-dot 2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .home .wires path,
+  .core > .core-orbit,
+  .home .core::before,
+  .home .core .sym::after,
+  .planes.is-live .cc-bar i,
+  .ev-live i,
+  .ev-dots b,
+  .cc-flag-dot,
+  .rv-in .map-col .node {
+    animation: none !important;
+  }
+
+  .home .planes .plane {
+    translate: none;
+  }
+  .planes .cc-bar i,
+  .planes .cc-spark-line {
+    transition: none;
+  }
+}
+
+/* ── the Stella status chip sells while it waits ───────────────────────── */
+.state.is-hook {
+  color: var(--t1);
+  border-color: rgba(255, 98, 0, 0.38);
+  background: rgba(255, 98, 0, 0.07);
+}
+.state .dot {
+  position: relative;
+}
+.state.is-hook .dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 98, 0, 0.7);
+  animation: halo 2s ease-out infinite;
+}
+.state-t {
+  display: inline-block;
+  animation: hook-in 520ms var(--e-out) both;
+}
+@keyframes hook-in {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+    filter: blur(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .state.is-hook .dot::after,
+  .state-t {
+    animation: none;
+  }
+}
+
+/* ── calls to action inside each section's own layout ──────────────────── */
+.split-r > p {
+  font-size: 17px;
+  line-height: 1.7;
+}
+.split-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3) var(--s6);
+  margin-top: var(--s5);
+}
+.rv-split.rv-in .split-r {
+  animation: rv-up 1000ms var(--e-out) 180ms backwards;
+}
+.cta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s5);
+  margin-top: var(--s6);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line);
+}
+.cta-row .note {
+  margin: 0;
+}
+.home .goal {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: var(--s8);
+}
+@media (max-width: 760px) {
+  .cta-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .home .goal {
+    grid-template-columns: 1fr;
+  }
+}

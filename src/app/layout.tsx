@@ -12,6 +12,8 @@ import '../styles/widget.css';
 import '../styles/modal.css';
 import '../styles/workspace.css';
 import '../styles/hero-live.css';
+import '../styles/motion.css';
+import '../styles/motion-live.css';
 import { Header, Footer } from '@/components/shell';
 import { AgentLauncher } from '@/components/agent-launcher';
 import { DemoModal } from '@/components/demo-modal';

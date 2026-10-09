@@ -2,6 +2,8 @@ import { canonical } from '@/lib/seo';
 import Link from 'next/link';
 import { StellaHero } from '@/components/stella-hero';
 import { WorkforceMap, DashboardPlanes } from '@/components/home-parts';
+import { ScrollMotion, StepsFlow } from '@/components/home-motion';
+import { Constellation } from '@/components/constellation';
 import { Thread, SectionHead, Closer, Faq, Ld, Bul } from '@/components/system';
 import { HOME_FAQS } from '@/lib/faqs';
 import { faqLd, serviceLd } from '@/lib/seo';
@@ -42,7 +44,14 @@ const SPECIALISTS = [
 
 export default function HomePage() {
   return (
-    <main id="main">
+    <main id="main" className="home">
+      <ScrollMotion />
+      <div className="ambient" aria-hidden="true">
+        <i className="orb o1" />
+        <i className="orb o2" />
+        <i className="orb o3" />
+        <Constellation />
+      </div>
       <Ld
         data={[
           faqLd([...HOME_FAQS]),
@@ -84,6 +93,16 @@ export default function HomePage() {
         <div className="wrap">
           <SectionHead
             eyebrow="Meet your general manager"
+            action={
+              <>
+                <button className="btn btn-1" type="button" data-demo data-cta="home-steps">
+                  Book a demo <span className="tri" aria-hidden="true" />
+                </button>
+                <Link className="btn-3" href="/stella">
+                  Meet Stella <span className="tri" aria-hidden="true" />
+                </Link>
+              </>
+            }
             title={
               <>
                 Understand it first.
@@ -96,15 +115,7 @@ export default function HomePage() {
             together, and keeps the handoffs connected.
           </SectionHead>
 
-          <div className="grid-3">
-            {STEPS.map(([no, kicker, title, body]) => (
-              <div className="card pan" key={no}>
-                <div className="k">{kicker}</div>
-                <h3 className="h4">{title}</h3>
-                <p>{body}</p>
-              </div>
-            ))}
-          </div>
+          <StepsFlow steps={STEPS} />
         </div>
       </section>
 
@@ -129,9 +140,14 @@ export default function HomePage() {
 
           <WorkforceMap />
 
-          <p className="note" style={{ marginTop: 'var(--s5)' }}>
-            The full specialist workforce comes with every deployment. Capacity scales with you.
-          </p>
+          <div className="cta-row">
+            <p className="note">
+              The full specialist workforce comes with every deployment. Capacity scales with you.
+            </p>
+            <button className="btn btn-1" type="button" data-demo data-cta="home-workforce">
+              See your workforce in a demo <span className="tri" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </section>
 
@@ -190,6 +206,9 @@ export default function HomePage() {
               <br />
               <em>It is more output and capacity per person.</em>
             </h3>
+            <button className="btn btn-1 goal-act" type="button" data-demo data-cta="home-boundary">
+              Book a demo <span className="tri" aria-hidden="true" />
+            </button>
           </div>
         </div>
       </section>
@@ -198,6 +217,11 @@ export default function HomePage() {
         <div className="wrap">
           <SectionHead
             eyebrow="The view from here"
+            action={
+              <button className="btn-3" type="button" data-demo data-cta="home-dashboard">
+                See it with your own numbers <span className="tri" aria-hidden="true" />
+              </button>
+            }
             title={
               <>
                 Everything moving.
@@ -220,6 +244,16 @@ export default function HomePage() {
         <div className="wrap">
           <SectionHead
             eyebrow="Built around your reality"
+            action={
+              <>
+                <button className="btn btn-1" type="button" data-demo data-cta="home-industries">
+                  Book a demo for your industry <span className="tri" aria-hidden="true" />
+                </button>
+                <Link className="btn-3" href="/industries">
+                  All industries <span className="tri" aria-hidden="true" />
+                </Link>
+              </>
+            }
             title={
               <>
                 Different businesses.

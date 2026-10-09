@@ -1,0 +1,754 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   HireStella · home page motion (client review, 2026-10-09)
+   Hero entrance + living hero, scroll reveals, and the Analysis →
+   Configuration → Management flow. Everything here stops for
+   prefers-reduced-motion (bottom of file).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@property --orb {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+:root {
+  --e-out: cubic-bezier(0.16, 0.84, 0.24, 1);
+}
+
+/* ── hero entrance: the headline arrives a word at a time ─────────────── */
+.hero h1 .w {
+  display: inline-block;
+  animation: word-in 1000ms var(--e-out) both;
+  animation-delay: calc(120ms + var(--i, 0) * 70ms);
+}
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.42em) rotate(2deg);
+    filter: blur(12px);
+  }
+}
+/* "down." keeps its orange, and a slow light passes through it. */
+.hero h1 .w-accent {
+  background: linear-gradient(100deg, var(--sig) 0 38%, #ffd3b3 48%, var(--sig) 58% 100%);
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: word-in 1000ms var(--e-out) both, shine 7s 2.2s ease-in-out infinite;
+  animation-delay: calc(120ms + var(--i, 0) * 70ms), 2.2s;
+}
+@keyframes shine {
+  0%,
+  62% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+.hero .lede {
+  animation: rise-in 900ms var(--e-out) 760ms both;
+}
+.hero .hero-in > .btn-row {
+  animation: rise-in 900ms var(--e-out) 880ms both;
+}
+.hero .stage {
+  animation: stage-in 1200ms var(--e-out) 1000ms both;
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+}
+@keyframes stage-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.975);
+    filter: blur(8px);
+  }
+}
+
+/* ── the light behind the hero breathes and drifts ─────────────────────── */
+/* clip, not hidden: the glow may still fall below the hero, never sideways. */
+.hero {
+  overflow-x: clip;
+}
+.hero-pool {
+  animation: pool-drift 18s ease-in-out infinite alternate;
+}
+@keyframes pool-drift {
+  to {
+    transform: translate3d(1.5%, -2%, 0) scale(1.08);
+  }
+}
+.hero-aura {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  left: 50%;
+  top: 46%;
+  width: min(900px, 90vw);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 18%,
+    rgba(255, 98, 0, 0.1) 26%,
+    transparent 36% 58%,
+    rgba(92, 108, 220, 0.14) 68%,
+    transparent 80%
+  );
+  filter: blur(60px);
+  opacity: 0;
+  animation: aura-in 2s ease 600ms forwards, aura-turn 40s linear infinite;
+}
+:root[data-theme='light'] .hero-aura {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 18%,
+    rgba(255, 98, 0, 0.07) 26%,
+    transparent 36% 58%,
+    rgba(120, 130, 220, 0.12) 68%,
+    transparent 80%
+  );
+}
+@keyframes aura-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes aura-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* ── a light travels the edge of the command panel ─────────────────────── */
+.cmd > .cmd-orbit {
+  position: absolute;
+  z-index: 2;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--orb),
+    transparent 0 64%,
+    rgba(255, 98, 0, 0.18) 74%,
+    rgba(255, 150, 80, 0.95) 82%,
+    rgba(255, 98, 0, 0.2) 86%,
+    transparent 90%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: orb 7s linear infinite;
+  transition: opacity 400ms ease;
+}
+.cmd.is-focus > .cmd-orbit {
+  animation-duration: 3.2s;
+}
+@keyframes orb {
+  to {
+    --orb: 360deg;
+  }
+}
+.stella-mark::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 98, 0, 0.5);
+  animation: halo 3.2s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes halo {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+/* ── the typed example sits exactly where a visitor's own words would ──── */
+.cmd-field > label {
+  grid-row: 1;
+}
+.cmd-field > textarea {
+  grid-row: 2;
+  grid-column: 1;
+}
+.cmd-ghost {
+  grid-row: 2;
+  grid-column: 1;
+  pointer-events: none;
+  font-family: var(--font-ui);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--t2);
+  text-align: left;
+  padding: 2px 0 0 2px;
+}
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.15em;
+  margin-left: 2px;
+  vertical-align: -0.2em;
+  background: var(--sig);
+  border-radius: 1px;
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+@media (max-width: 720px) {
+  .cmd-ghost {
+    font-size: 16px;
+  }
+}
+
+/* ── the rail: a pulse runs it, and the example's specialists answer ───── */
+.wf-run {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: calc(var(--s6) + 1px);
+  height: 10px;
+  pointer-events: none;
+}
+.wf-run i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 10px;
+  translate: -100% 0;
+  background: radial-gradient(ellipse 50% 22% at 85% 50%, rgba(255, 140, 61, 0.95), transparent),
+    linear-gradient(90deg, transparent, rgba(255, 98, 0, 0.5)) center / 100% 1.5px no-repeat;
+  opacity: 0;
+  animation: run 4.6s cubic-bezier(0.45, 0, 0.3, 1) 2.4s infinite;
+}
+@keyframes run {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+.wf-n.pre i {
+  border-color: var(--orange);
+  background: rgba(255, 98, 0, 0.18);
+  transform: scale(1.12);
+  box-shadow: 0 0 0 4px rgba(255, 98, 0, 0.1), 0 0 16px rgba(255, 98, 0, 0.35);
+  transition-delay: var(--d, 0ms);
+}
+.wf-n.pre span {
+  color: var(--t1);
+  transition-delay: var(--d, 0ms);
+}
+.wf-cap span {
+  animation: rise-in 500ms var(--e-out) both;
+}
+@media (max-width: 720px) {
+  .wf-run {
+    display: none;
+  }
+}
+
+/* ── scroll reveals ────────────────────────────────────────────────────
+   `backwards` fill only: once a reveal finishes it lets go of transform,
+   so hover lifts on cards keep working. */
+.rv-armed .rv:not(.rv-in) {
+  opacity: 0;
+}
+.rv-in {
+  animation: rv-up 1000ms var(--e-out) backwards;
+  animation-delay: calc(var(--rv-i, 0) * 110ms);
+}
+@keyframes rv-up {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+    filter: blur(8px);
+  }
+}
+/* Section headings: the title lifts out of a mask, the intro follows. */
+.rv-split.rv-in {
+  animation: none;
+}
+.rv-split.rv-in h2 {
+  animation: mask-up 1100ms var(--e-out) backwards;
+}
+.rv-split.rv-in > p {
+  animation: rv-up 1000ms var(--e-out) 180ms backwards;
+}
+@keyframes mask-up {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.6em);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 -20% 0);
+  }
+}
+.raillist > .rv-in .rail {
+  transform-origin: top;
+  animation: grow-y 1200ms var(--e-out) backwards;
+  animation-delay: calc(200ms + var(--rv-i, 0) * 110ms);
+}
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+.bound.rv-in {
+  transform-origin: top;
+  animation: grow-y 1300ms var(--e-out) 200ms backwards;
+}
+/* The handoff is a moment, so a spark keeps crossing the boundary. */
+.home .bound::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 6px;
+  height: 46px;
+  translate: -50% 0;
+  border-radius: 3px;
+  background: linear-gradient(180deg, transparent, rgba(255, 140, 61, 0.95));
+  filter: drop-shadow(0 0 6px rgba(255, 98, 0, 0.8));
+  animation: handoff 3.4s cubic-bezier(0.5, 0, 0.3, 1) infinite;
+}
+@keyframes handoff {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  15%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% - 46px);
+    opacity: 0;
+  }
+}
+@media (max-width: 900px) {
+  .home .bound::after {
+    display: none;
+  }
+}
+
+/* ── Analysis → Configuration → Management ─────────────────────────────── */
+.flow {
+  position: relative;
+  padding-top: 44px;
+}
+.flow-track {
+  position: absolute;
+  top: 6px;
+  left: calc(100% / 6);
+  right: calc(100% / 6);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--line);
+}
+.flow-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255, 98, 0, 0.35), var(--orange));
+  transform-origin: left;
+  transform: scaleX(var(--p, 0));
+  box-shadow: 0 0 12px rgba(255, 98, 0, 0.45);
+}
+.flow-comet {
+  position: absolute;
+  top: -3px;
+  width: 90px;
+  height: 8px;
+  left: 0;
+  opacity: 0;
+  background: radial-gradient(ellipse 30% 50% at 88% 50%, #ffd3b3, rgba(255, 98, 0, 0.7) 40%, transparent 70%),
+    linear-gradient(90deg, transparent, rgba(255, 180, 120, 0.8)) center / 100% 2px no-repeat;
+}
+.flow.is-done .flow-comet {
+  animation: comet 6.5s cubic-bezier(0.5, 0, 0.3, 1) 900ms infinite;
+}
+@keyframes comet {
+  0% {
+    left: -90px;
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+.flow-node {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--rail);
+  transition: all 900ms var(--e-out);
+}
+.flow-node.on {
+  background: var(--orange);
+  border-color: var(--orange);
+  box-shadow: 0 0 0 5px rgba(255, 98, 0, 0.14), 0 0 18px rgba(255, 98, 0, 0.6);
+}
+.flow-node.on::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 98, 0, 0.6);
+  animation: halo 4s ease-out infinite;
+}
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s4);
+}
+.flow-c {
+  transition: transform 1100ms var(--e-out), box-shadow 1100ms var(--e-out), opacity 1100ms var(--e-out);
+  opacity: 0.55;
+}
+.flow-c.on {
+  opacity: 1;
+  transform: translateY(-4px);
+  box-shadow: var(--shadow), 0 0 0 1px rgba(255, 98, 0, 0.22), 0 18px 50px -20px rgba(255, 98, 0, 0.35);
+}
+.flow-c .k i {
+  color: var(--t3);
+  transition: color 500ms ease;
+}
+.flow-c.on .k i {
+  color: var(--sig);
+}
+
+/* each stage's scene */
+.fx {
+  position: relative;
+  height: 108px;
+  margin-bottom: var(--s3);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: radial-gradient(ellipse 80% 90% at 50% 100%, rgba(255, 98, 0, 0.06), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent);
+  overflow: hidden;
+}
+:root[data-theme='light'] .fx {
+  background: radial-gradient(ellipse 80% 90% at 50% 100%, rgba(255, 98, 0, 0.05), transparent 70%),
+    linear-gradient(180deg, rgba(10, 20, 60, 0.025), transparent);
+}
+
+/* Analysis: bars rise, a scan passes, one bar is the bottleneck */
+.fx-bars {
+  position: absolute;
+  inset: 20px 22px 14px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.fx-bars i {
+  flex: 1;
+  height: var(--h);
+  border-radius: 4px 4px 2px 2px;
+  background: linear-gradient(180deg, var(--mist), transparent 140%);
+  opacity: 0.32;
+  transform-origin: bottom;
+  transform: scaleY(0.08);
+  transition: transform 1600ms var(--e-out), opacity 1600ms ease;
+  transition-delay: calc(400ms + var(--j) * 120ms);
+}
+.on .fx-bars i {
+  transform: none;
+}
+.on .fx-bars i.hot {
+  opacity: 1;
+  background: linear-gradient(180deg, #ff8a3d, rgba(255, 98, 0, 0.25));
+  box-shadow: 0 0 18px rgba(255, 98, 0, 0.45);
+  animation: hot 4s ease-in-out 2.4s infinite;
+}
+@keyframes hot {
+  50% {
+    box-shadow: 0 0 6px rgba(255, 98, 0, 0.2);
+    filter: brightness(0.85);
+  }
+}
+.fx-beam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  background: linear-gradient(90deg, transparent, rgba(255, 140, 61, 0.16) 70%, rgba(255, 170, 110, 0.7) 98%, transparent);
+  opacity: 0;
+}
+.on .fx-beam {
+  animation: beam 6s cubic-bezier(0.45, 0, 0.35, 1) 1.6s infinite;
+}
+@keyframes beam {
+  0% {
+    left: -60px;
+    opacity: 0;
+  }
+  10%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+.fx-tag {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sig-ink, var(--sig));
+  border: 1px solid rgba(255, 98, 0, 0.35);
+  background: rgba(255, 98, 0, 0.08);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 900ms var(--e-out) 2400ms;
+}
+.on .fx-tag {
+  opacity: 1;
+  transform: none;
+}
+
+/* Configuration: the eight specialists switch on in turn, and cycle */
+.fx-cfg {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 14px 18px;
+  align-content: center;
+}
+.fx-cfg span {
+  display: grid;
+  place-items: center;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  color: var(--t3);
+  background: rgba(255, 255, 255, 0.015);
+}
+.on .fx-cfg span {
+  animation: cfg 11s var(--e-out) infinite;
+  animation-delay: calc(500ms + var(--j) * 420ms);
+}
+@keyframes cfg {
+  0% {
+    color: var(--t3);
+  }
+  6% {
+    color: #fff;
+    border-color: transparent;
+    background: linear-gradient(180deg, #ff8a3d, #ff6200);
+    box-shadow: 0 6px 16px -6px rgba(255, 98, 0, 0.6);
+    transform: translateY(-2px);
+  }
+  18%,
+  72% {
+    color: var(--sig);
+    border-color: rgba(255, 98, 0, 0.42);
+    background: rgba(255, 98, 0, 0.1);
+    box-shadow: none;
+    transform: none;
+  }
+  86%,
+  100% {
+    color: var(--t3);
+  }
+}
+
+/* Management: work keeps flowing through Stella to done */
+.fx-run {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+}
+.fx-end {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--t2);
+}
+.fx-done {
+  color: var(--sig-ink, var(--sig));
+  border-color: rgba(255, 98, 0, 0.35);
+}
+.on .fx-done {
+  animation: done 4.5s ease-in-out infinite;
+}
+@keyframes done {
+  0%,
+  60% {
+    background: transparent;
+  }
+  75% {
+    background: rgba(255, 98, 0, 0.14);
+  }
+  100% {
+    background: transparent;
+  }
+}
+.fx-hub {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  border: 1px solid rgba(255, 98, 0, 0.4);
+  background: linear-gradient(178deg, rgba(255, 98, 0, 0.18), rgba(255, 98, 0, 0.04));
+  box-shadow: 0 0 0 4px rgba(255, 98, 0, 0.06);
+}
+.fx-hub img {
+  width: 20px;
+  height: auto;
+}
+.on .fx-hub {
+  animation: hub 4.5s ease-in-out infinite;
+}
+@keyframes hub {
+  50% {
+    box-shadow: 0 0 0 7px rgba(255, 98, 0, 0.1), 0 0 22px rgba(255, 98, 0, 0.35);
+  }
+}
+.fx-lane {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 5px, transparent 5px 9px);
+}
+.fx-lane i {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 8px rgba(255, 98, 0, 0.8);
+  opacity: 0;
+}
+.on .fx-lane i {
+  animation: lane 4.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.on .fx-lane i:nth-child(2) {
+  animation-delay: 1.5s;
+}
+.on .fx-lane i:nth-child(3) {
+  animation-delay: 3s;
+}
+.on .fx-lane + .fx-hub + .fx-lane i {
+  animation-name: lane;
+}
+@keyframes lane {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .flow {
+    padding-top: 0;
+  }
+  .flow-track {
+    display: none;
+  }
+  .flow-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── reduced motion: everything rests in its finished state ────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero h1 .w,
+  .hero h1 .w-accent,
+  .hero .lede,
+  .hero .hero-in > .btn-row,
+  .hero .stage,
+  .hero-pool,
+  .hero-aura,
+  .cmd > .cmd-orbit,
+  .stella-mark::after,
+  .wf-run i,
+  .home .bound::after,
+  .flow-comet,
+  .flow-node.on::after,
+  .fx *,
+  .fx-beam {
+    animation: none !important;
+  }
+  .hero-aura {
+    opacity: 1;
+  }
+  .cmd > .cmd-orbit,
+  .wf-run,
+  .home .bound::after {
+    display: none;
+  }
+  .flow-c,
+  .fx-bars i,
+  .fx-tag {
+    transition: none;
+  }
+}

@@ -15,7 +15,11 @@ export function Bul() {
  * §7A.2 — the Stella Path threading the page together. This replaces the
  * hard section dividers: sections are separated by a route, not a rule.
  */
+/* Client review, 2026-10-09: the user asked to see the site without the
+   thread divider and the space it reserved, so it renders nothing for now.
+   Restoring it is deleting the early return. Call sites are left in place. */
 export function Thread({ shape = 'split' }: { shape?: 'split' | 'join' }) {
+  if (shape) return null;
   return (
     <div className="thread" aria-hidden="true">
       <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -49,19 +53,31 @@ export function SectionHead({
   title,
   children,
   headMax,
+  action,
 }: {
   eyebrow: string;
   signal?: boolean;
   title: ReactNode;
   children?: ReactNode;
   headMax?: string;
+  /** A call to action under the intro, in the heading's own right column. */
+  action?: ReactNode;
 }) {
   return (
     <div className="split">
       <div>
         <h2 style={headMax ? { maxWidth: headMax } : undefined}>{title}</h2>
       </div>
-      {children ? <p>{children}</p> : <div />}
+      {action ? (
+        <div className="split-r">
+          {children ? <p>{children}</p> : null}
+          <div className="split-act">{action}</div>
+        </div>
+      ) : children ? (
+        <p>{children}</p>
+      ) : (
+        <div />
+      )}
     </div>
   );
 }
