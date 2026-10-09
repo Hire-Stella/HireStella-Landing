@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Thank you | HireStella</title>
-  <meta name="description" content="Your free AI workforce plan request has reached the HireStella team.">
+  <meta name="description" content="Your demo request has reached the HireStella team.">
   <!-- Never indexed: a thank-you page that ranks counts visitors who never submitted. -->
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#F4F5FA">
@@ -70,14 +70,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="ty-card pan pan--solid">
       <span class="closer-orb" aria-hidden="true"></span>
       <div class="done-mark ty-mark"><svg><use href="#i-check"/></svg></div>
-      <p class="eyebrow eyebrow--sig ty-eyebrow">Request received</p>
+      <p class="eyebrow eyebrow--sig ty-eyebrow">Demo request received</p>
       <h1 class="ty-h" tabindex="-1">Thanks, we've got it<span class="dot">.</span></h1>
-      <p class="lede">Our team will contact you on WhatsApp to walk you through your plan.</p>
+      <p class="lede">A confirmation email is on its way. Our team will contact you shortly to confirm your demo time.</p>
 
       <ol class="ty-steps">
-        <li><span class="step-n">1</span><div><b>Tell us about your business</b><span>Your services, your channels and what you want handled first.</span></div></li>
-        <li><span class="step-n">2</span><div><b>Stella designs your team</b><span>The right specialists, workflows and integrations for how you work.</span></div></li>
-        <li><span class="step-n">3</span><div><b>Go live</b><span>Tested, launched and reporting to you from day one.</span></div></li>
+        <li><span class="step-n">1</span><div><b>Check your inbox</b><span>Your confirmation email arrives within a few minutes.</span></div></li>
+        <li><span class="step-n">2</span><div><b>We confirm your time</b><span>Our team contacts you by email or phone to arrange the demo.</span></div></li>
+        <li><span class="step-n">3</span><div><b>Meet Stella</b><span>A live walkthrough of what her team would handle for your business.</span></div></li>
       </ol>
 
       <div class="btn-row ty-actions">
@@ -115,7 +115,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   });
 
   if (CONFIG.WHATSAPP_NUMBER) {
-    const text = encodeURIComponent("Hi HireStella, I just requested my free AI workforce plan.");
+    const text = encodeURIComponent("Hi HireStella, I just booked a demo.");
     document.querySelectorAll('.wa-link').forEach((a) => { a.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${text}`; a.target = '_blank'; a.rel = 'noopener'; });
   } else root.classList.add('no-wa');
   if (CONFIG.PRIVACY_URL) document.querySelectorAll('.privacy-link').forEach((a) => { a.href = CONFIG.PRIVACY_URL; });
@@ -123,15 +123,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   /* The lead conversion. It fires only for a visitor who just submitted the form
      (the landing page leaves a marker in sessionStorage), so a bookmark, a reload
-     or a stray visit is never counted. Only the two choices are sent. */
+     or a stray visit is never counted. No personal details are sent. */
   let lead = null;
   try { lead = JSON.parse(sessionStorage.getItem('hs-lead') || 'null'); sessionStorage.removeItem('hs-lead'); } catch {}
   if (lead) {
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: 'generate_lead', lead_source: 'ads_landing', industry: lead.industry, start_with: lead.start_with });
+    window.dataLayer.push({ event: 'generate_lead', lead_source: 'ads_landing', lead_type: 'demo' });
     /* The Pixel may still be loading; wait for it briefly, then give up. */
     const pixel = (tries) => {
-      if (window.fbq) window.fbq('track', 'Lead', { content_category: lead.industry });
+      if (window.fbq) window.fbq('track', 'Lead', { content_category: 'demo' });
       else if (tries > 0) setTimeout(() => pixel(tries - 1), 100);
     };
     pixel(50);

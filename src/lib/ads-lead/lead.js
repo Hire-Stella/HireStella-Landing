@@ -12,27 +12,19 @@
  *   LEAD_WEBHOOK_TOKEN optional bearer token for the webhook
  *
  * A lead counts as delivered when at least one channel got it to the team.
- * There is no acknowledgement email to the visitor: the form asks for a
- * WhatsApp number, not an email, and the team replies on WhatsApp.
+ * The visitor then gets a short confirmation email (Resend only). That is a
+ * courtesy: if it fails, the lead still stands. The team arranges the demo time
+ * by email or phone.
  */
 
-const INDUSTRIES = [
-  'Clinics & wellness', 'Real estate', 'Automotive', 'Retail & e-commerce', 'Travel & hospitality',
-  'Restaurants & catering', 'Trading & B2B', 'Education & training', 'Financial services', 'Other',
-];
-const START_WITH = [
-  'Answering enquiries', 'Phone calls', 'Bookings & reminders', 'Lead follow-up',
-  'Social media & marketing', 'A new website', 'Not sure yet',
-];
 const TRACKING = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'];
 
 /* Field order and labels for the team email. */
 const FIELDS = [
   ['name', 'Name'],
   ['business', 'Business'],
-  ['phone', 'WhatsApp'],
-  ['industry', 'Industry'],
-  ['need', 'Start with'],
+  ['email', 'Email'],
+  ['phone', 'Phone'],
   ['utm_source', 'utm_source'],
   ['utm_medium', 'utm_medium'],
   ['utm_campaign', 'utm_campaign'],
@@ -44,6 +36,9 @@ const FIELDS = [
   ['fbclid', 'fbclid'],
   ['page', 'Page'],
 ];
+
+/* One address, no spaces, a dot in the domain. The same check the form runs. */
+const EMAIL = /^[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]{2,}$/;
 
 const env = (name) => process.env[name]?.trim() || '';
 const resendConfigured = () => Boolean(env('RESEND_API_KEY') && env('LEAD_EMAIL_TO') && env('LEAD_EMAIL_FROM'));
@@ -75,15 +70,14 @@ export function validate(body) {
   const lead = {
     name: str(body.name, 100),
     business: str(body.business, 160),
+    email: str(body.email, 254),
     phone: str(body.phone, 24),
-    industry: str(body.industry, 60),
-    need: str(body.need, 60),
     page: str(body.page, 300),
   };
   const digits = lead.phone.replace(/\D/g, '').length;
   if (lead.name.length < 2 || lead.business.length < 2) return null;
   if (!/^\+?[\d\s()-]+$/.test(lead.phone) || digits < 8 || digits > 15) return null;
-  if (!INDUSTRIES.includes(lead.industry) || !START_WITH.includes(lead.need)) return null;
+  if (!EMAIL.test(lead.email)) return null;
   for (const key of TRACKING) {
     const value = str(body[key], 200);
     if (value) lead[key] = value;
@@ -91,38 +85,61 @@ export function validate(body) {
   return lead;
 }
 
-async function sendEmail(lead, receivedAt) {
+async function resend(message) {
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${env('RESEND_API_KEY')}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: env('LEAD_EMAIL_FROM'), ...message }),
+    signal: AbortSignal.timeout(10000),
+  });
+  if (!response.ok) throw new Error(`Resend responded ${response.status}`);
+}
+
+function teamEmail(lead, receivedAt) {
   const rows = FIELDS.map(([key, label]) => [label, lead[key] || '']).filter(([, v]) => v);
-  const waDigits = lead.phone.replace(/\D/g, '');
   const text = [
-    'Free plan request from the ads landing page',
+    'Demo request from the ads landing page',
     '',
     ...rows.map(([label, value]) => `${label}: ${value}`),
     '',
     `Received: ${receivedAt}`,
-    `Reply on WhatsApp: https://wa.me/${waDigits}`,
+    'Reply to this email to answer them directly. They have been sent a confirmation email.',
   ].join('\n');
   const html = `<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.5;color:#141B45">
-<h2 style="margin:0 0 16px">Free plan request from the ads landing page</h2>
+<h2 style="margin:0 0 16px">Demo request from the ads landing page</h2>
 <table cellpadding="6" style="border-collapse:collapse">${rows
     .map(([label, value]) => `<tr><td style="vertical-align:top;color:#5b6080;white-space:nowrap"><b>${escape(label)}</b></td><td style="white-space:pre-wrap">${escape(value)}</td></tr>`)
     .join('')}</table>
-<p style="margin-top:16px"><a href="https://wa.me/${waDigits}" style="color:#F26B1D">Reply on WhatsApp</a></p>
-<p style="color:#5b6080">Received ${escape(receivedAt)}. They asked to be contacted on WhatsApp.</p>
+<p style="color:#5b6080;margin-top:16px">Received ${escape(receivedAt)}. Reply to this email to answer them directly. They have been sent a confirmation email.</p>
 </div>`;
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${env('RESEND_API_KEY')}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: env('LEAD_EMAIL_FROM'),
-      to: env('LEAD_EMAIL_TO').split(',').map((a) => a.trim()).filter(Boolean),
-      subject: oneLine(`Free plan request (ads): ${lead.name}, ${lead.business}`),
-      text,
-      html,
-    }),
-    signal: AbortSignal.timeout(10000),
-  });
-  if (!response.ok) throw new Error(`Resend responded ${response.status}`);
+  return {
+    to: env('LEAD_EMAIL_TO').split(',').map((a) => a.trim()).filter(Boolean),
+    subject: oneLine(`Demo request (ads): ${lead.name}, ${lead.business}`),
+    text,
+    html,
+    reply_to: lead.email,
+  };
+}
+
+function visitorEmail(lead) {
+  const first = lead.name.split(/\s+/)[0];
+  const body = 'Thank you for booking a demo with HireStella. We have received your request, and our team will contact you shortly by email or phone to confirm a time that suits you.';
+  const text = [`Hi ${first},`, '', body, '', 'If you want to add anything, just reply to this email.', '', 'The HireStella team', 'https://hirestella.ai'].join('\n');
+  const html = `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#141B45">
+<p>Hi ${escape(first)},</p>
+<p>${body}</p>
+<p>If you want to add anything, just reply to this email.</p>
+<p>The HireStella team<br><a href="https://hirestella.ai" style="color:#F26B1D">hirestella.ai</a></p>
+</div>`;
+  const replyTo = env('LEAD_EMAIL_TO').split(',')[0]?.trim();
+  return {
+    to: [lead.email],
+    subject: 'Your HireStella demo request',
+    text,
+    html,
+    /* Replies from the visitor reach the team, not the sending address. */
+    ...(replyTo ? { reply_to: replyTo } : {}),
+  };
 }
 
 async function postWebhook(lead, receivedAt) {
@@ -160,10 +177,13 @@ export async function POST(request) {
 
   const receivedAt = new Date().toISOString();
   const channels = [];
-  if (resendConfigured()) channels.push(sendEmail(lead, receivedAt));
+  if (resendConfigured()) channels.push(resend(teamEmail(lead, receivedAt)));
   if (webhookConfigured()) channels.push(postWebhook(lead, receivedAt));
   const results = await Promise.allSettled(channels);
   for (const r of results) if (r.status === 'rejected') console.error('Lead delivery channel failed:', r.reason);
   if (!results.some((r) => r.status === 'fulfilled')) return json(502, { error: 'Delivery unavailable. Please try again.' });
+  if (resendConfigured()) {
+    try { await resend(visitorEmail(lead)); } catch (err) { console.error('Visitor confirmation email failed:', err); }
+  }
   return json(200, { received: true });
 }
