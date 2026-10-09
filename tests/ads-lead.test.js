@@ -5,9 +5,8 @@ import { POST, validate } from '../src/lib/ads-lead/lead.js';
 const valid = {
   name: 'Sara Ahmed',
   business: 'Smile Clinic',
+  email: 'sara@smileclinic.ae',
   phone: '+971 50 123 4567',
-  industry: 'Clinics & wellness',
-  need: 'Bookings & reminders',
   website: '',
   utm_source: 'google',
   gclid: 'abc123',
@@ -42,20 +41,35 @@ test('a complete lead validates and keeps its ad tracking', () => {
 test('malformed leads are refused', () => {
   assert.equal(validate({ ...valid, phone: '12345' }), null);
   assert.equal(validate({ ...valid, phone: 'call me' }), null);
-  assert.equal(validate({ ...valid, industry: 'Mining' }), null);
-  assert.equal(validate({ ...valid, need: '' }), null);
+  assert.equal(validate({ ...valid, email: '' }), null);
+  assert.equal(validate({ ...valid, email: 'sara@clinic' }), null);
+  assert.equal(validate({ ...valid, email: 'a@b.ae, c@d.ae' }), null);
   assert.equal(validate({ ...valid, name: 'A' }), null);
 });
 
-test('a delivered lead is emailed to the team', withResend(async (sent) => {
+test('a delivered lead is emailed to the team, then confirmed to the visitor', withResend(async (sent) => {
+  const res = await POST(post(valid));
+  assert.equal(res.status, 200);
+  assert.equal(sent.length, 2);
+  const [team, visitor] = sent.map((s) => s.body);
+  assert.equal(sent[0].url, 'https://api.resend.com/emails');
+  assert.deepEqual(team.to, ['team@example.com']);
+  assert.equal(team.reply_to, 'sara@smileclinic.ae');
+  assert.match(team.subject, /Demo request \(ads\): Sara Ahmed, Smile Clinic/);
+  assert.match(team.text, /Email: sara@smileclinic\.ae/);
+  assert.match(team.text, /Phone: \+971 50 123 4567/);
+  assert.match(team.text, /gclid: abc123/);
+  assert.deepEqual(visitor.to, ['sara@smileclinic.ae']);
+  assert.equal(visitor.reply_to, 'team@example.com');
+  assert.match(visitor.text, /^Hi Sara,/);
+}));
+
+test('a failed confirmation email does not lose the lead', withResend(async (sent) => {
+  const okFetch = globalThis.fetch;
+  globalThis.fetch = async (url, init) => (sent.length ? new Response('{}', { status: 500 }) : okFetch(url, init));
   const res = await POST(post(valid));
   assert.equal(res.status, 200);
   assert.equal(sent.length, 1);
-  assert.equal(sent[0].url, 'https://api.resend.com/emails');
-  assert.deepEqual(sent[0].body.to, ['team@example.com']);
-  assert.match(sent[0].body.subject, /Sara Ahmed, Smile Clinic/);
-  assert.match(sent[0].body.text, /WhatsApp: \+971 50 123 4567/);
-  assert.match(sent[0].body.text, /gclid: abc123/);
 }));
 
 test('the honeypot is answered as success but nothing is sent', withResend(async (sent) => {

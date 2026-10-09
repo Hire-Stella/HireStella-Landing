@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Meet Stella: Your AI General Manager | HireStella</title>
-  <meta name="description" content="Stella leads a team of eight AI specialists who answer every enquiry, book appointments and follow up on every lead. Get your free AI workforce plan.">
+  <meta name="description" content="Stella leads a team of eight AI specialists who answer every enquiry, book appointments and follow up on every lead. Book a demo.">
   <!-- Ad landing page: kept out of search so it never competes with hirestella.ai. -->
   <meta name="robots" content="noindex, follow">
   <meta name="theme-color" content="#F4F5FA">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://hirestella.ai/get">
   <meta property="og:title" content="Meet Stella: Your AI General Manager">
-  <meta property="og:description" content="One manager. Eight AI specialists. Get your free AI workforce plan.">
+  <meta property="og:description" content="One manager. Eight AI specialists. Book a demo.">
   <meta property="og:image" content="https://hirestella.ai/get/assets/brand/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -53,6 +53,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <symbol id="i-social" viewBox="0 0 24 24"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
     <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></symbol>
     <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
     <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></symbol>
@@ -86,7 +87,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <svg class="t-sun" viewBox="0 0 24 24"><use href="#i-sun"/></svg>
           <svg class="t-moon" viewBox="0 0 24 24"><use href="#i-moon"/></svg>
         </button>
-        <a class="btn btn-1 btn-sm" href="#plan" data-cta="header">Get my free plan <span class="tri" aria-hidden="true"></span></a>
+        <a class="btn btn-1 btn-sm" href="#demo" data-cta="header">Book a Demo <span class="tri" aria-hidden="true"></span></a>
       </div>
     </div>
   </div>
@@ -116,15 +117,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span><svg><use href="#i-bolt"/></svg>Live in days, not months</span>
           <span><svg><use href="#i-team"/></svg>Set up by our team</span>
         </div>
+        <div class="btn-row hero-cta" data-reveal style="--d:480ms">
+          <a class="btn btn-1 cta-slot" href="#demo" data-cta="hero">Book a Demo <span class="tri" aria-hidden="true"></span></a>
+          <a class="btn btn-2" href="#how">See how it works</a>
+        </div>
       </div>
 
-      <div class="form-wrap" id="plan" data-reveal style="--d:200ms">
+      <div class="form-wrap" id="demo" data-reveal style="--d:200ms">
         <div class="core" aria-hidden="true"><span class="core-r core-r1"></span><span class="core-r core-r2"></span><span class="core-r core-r3"></span><span class="core-orb"></span></div>
         <div class="form-card pan pan--solid">
           <span class="form-glow" aria-hidden="true"></span>
           <div class="form-body">
-            <h2 class="form-h">Get your free AI workforce plan</h2>
-            <p class="form-p">Tell us about your business. We'll show you which specialists Stella would put to work first.</p>
+            <h2 class="form-h">Book a demo with Stella</h2>
+            <p class="form-p">Leave your details and we'll confirm a time that suits you. It takes less than a minute.</p>
             <form id="leadForm" novalidate>
               <div class="field">
                 <label for="f-name">Full name</label>
@@ -137,45 +142,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <span class="err">Enter your business name.</span>
               </div>
               <div class="field">
-                <label for="f-phone">WhatsApp number</label>
+                <label for="f-email">Email address</label>
+                <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" required>
+                <span class="err">Enter a valid email address.</span>
+              </div>
+              <div class="field">
+                <label for="f-phone">Phone number</label>
                 <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+971 50 123 4567" maxlength="24" required>
                 <span class="err">Enter a valid phone number with country code.</span>
               </div>
-              <div class="field-row">
-                <div class="field">
-                  <label for="f-industry">Industry</label>
-                  <select id="f-industry" name="industry" required>
-                    <option value="">Select</option>
-                    <option>Clinics &amp; wellness</option>
-                    <option>Real estate</option>
-                    <option>Automotive</option>
-                    <option>Retail &amp; e-commerce</option>
-                    <option>Travel &amp; hospitality</option>
-                    <option>Restaurants &amp; catering</option>
-                    <option>Trading &amp; B2B</option>
-                    <option>Education &amp; training</option>
-                    <option>Financial services</option>
-                    <option>Other</option>
-                  </select>
-                  <span class="err">Choose your industry.</span>
-                </div>
-                <div class="field">
-                  <label for="f-need">Start with</label>
-                  <select id="f-need" name="need" required>
-                    <option value="">Select</option>
-                    <option>Answering enquiries</option>
-                    <option>Phone calls</option>
-                    <option>Bookings &amp; reminders</option>
-                    <option>Lead follow-up</option>
-                    <option>Social media &amp; marketing</option>
-                    <option>A new website</option>
-                    <option>Not sure yet</option>
-                  </select>
-                  <span class="err">Choose where to start.</span>
-                </div>
-              </div>
               <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
-              <button class="btn btn-1 btn-block" id="submitBtn" type="submit">Get my free plan <span class="tri" aria-hidden="true"></span></button>
+              <button class="btn btn-1 btn-block" id="submitBtn" type="submit">Book a Demo <span class="tri" aria-hidden="true"></span></button>
               <p class="form-error" id="formError" role="alert" hidden></p>
               <p class="form-fine">No commitment. By submitting, you agree to be contacted about HireStella. <a class="privacy-link" href="#">Privacy policy</a></p>
             </form>
@@ -188,7 +165,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="form-done" role="status" aria-live="polite">
             <div class="done-mark"><svg><use href="#i-check"/></svg></div>
             <h2 class="form-h" tabindex="-1">Thanks, we've got it.</h2>
-            <p class="form-p">Our team will contact you on WhatsApp to walk you through your plan.</p>
+            <p class="form-p">Check your inbox for a confirmation. Our team will contact you shortly to confirm your demo time.</p>
             <a class="btn btn-2 wa-link wa-only" href="#"><svg class="btn-ico"><use href="#i-wa"/></svg>Message us now</a>
           </div>
         </div>
@@ -213,8 +190,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="wrap">
       <div class="head" data-reveal>
         <p class="eyebrow eyebrow--sig">Meet the team</p>
-        <h2>One manager. Eight specialists<span class="dot">.</span></h2>
-        <p class="head-p">You talk to one manager. Stella assigns each job to the right specialist, checks it's done and reports back to you.</p>
+        <h2>One manager.<br>Eight specialists<span class="dot">.</span></h2>
+        <div class="head-side">
+          <p class="head-p">You talk to one manager. Stella assigns each job to the right specialist, checks it's done and reports back to you.</p>
+          <a class="btn btn-1 btn-sm cta-slot" href="#demo" data-cta="team">Book a Demo <span class="tri" aria-hidden="true"></span></a>
+        </div>
       </div>
 
       <div class="team">
@@ -239,7 +219,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="mgr-t">Stella, AI General Manager</div>
               <span class="mgr-s">Assigns the work, checks it's done, reports to you.</span>
             </div>
-            <span class="live"><i></i>Live</span>
+            <span class="badge">Leading 8 specialists</span>
           </div>
           <div class="specs">
             <article class="spec pan" data-i="0" data-icon="chat" data-reveal style="--d:0ms"><span class="spec-ico"><svg><use href="#i-chat"/></svg></span><h3>Front Desk &amp; Chat</h3><p>Answers, qualifies and routes every message.</p></article>
@@ -286,6 +266,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
+        <div class="story-side">
         <ol class="timeline" id="timeline">
           <li class="tl" data-reveal><span class="tl-dot"></span><div><b>11:04 pm, Front Desk &amp; Chat</b> <em>Answered in seconds</em><span class="tl-s">A customer asks about availability on WhatsApp.</span></div></li>
           <li class="tl" data-reveal style="--d:80ms"><span class="tl-dot"></span><div><b>11:06 pm, Booking &amp; Scheduling</b> <em>Booked and confirmed</em><span class="tl-s">Saturday 11am goes into the diary.</span></div></li>
@@ -293,6 +274,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li class="tl" data-reveal style="--d:240ms"><span class="tl-dot"></span><div><b>Saturday morning, Voice</b> <em>A friendly reminder call</em><span class="tl-s">Fewer no-shows, without anyone picking up the phone.</span></div></li>
           <li class="tl" data-reveal style="--d:320ms"><span class="tl-dot"></span><div><b>Next morning, Stella</b> <em>The owner gets the report</em><span class="tl-s">What happened, and only what needs a person.</span></div></li>
         </ol>
+        <div class="tl-cta" data-reveal style="--d:400ms">
+          <a class="btn btn-1 cta-slot" href="#demo" data-cta="how-it-works">Book a Demo <span class="tri" aria-hidden="true"></span></a>
+          <span class="cta-note">See this journey set up for your customers.</span>
+        </div>
+        </div>
       </div>
     </div>
   </section>
@@ -305,6 +291,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h2>Wake up to a report,<br>not a backlog<span class="dot">.</span></h2>
         <div class="head-side">
           <p class="head-p">Stella briefs you every morning: what came in, what her team handled, and the few things that genuinely need you.</p>
+          <a class="btn btn-1 btn-sm cta-slot" href="#demo" data-cta="morning-report">Book a Demo <span class="tri" aria-hidden="true"></span></a>
         </div>
       </div>
 
@@ -312,7 +299,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="dash-bar">
           <span class="wctl" aria-hidden="true"><i class="wc-close"><svg viewBox="0 0 10 10"><path d="M2.6 2.6l4.8 4.8M7.4 2.6L2.6 7.4"/></svg></i><i class="wc-min"><svg viewBox="0 0 10 10"><path d="M2.2 5h5.6"/></svg></i><i class="wc-max"><svg viewBox="0 0 10 10"><path d="M5 2.2v5.6M2.2 5h5.6"/></svg></i></span>
           <span class="dash-title"><span class="avatar avatar--xs"><img src="/get/assets/brand/symbol.png" alt="" width="28" height="26"></span>Stella, morning report</span>
-          <span class="live"><i></i>Live</span>
+          <span class="badge">Sent 7:00 am</span>
         </div>
         <div class="dash-body">
           <div class="dash-main">
@@ -359,9 +346,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="sec sec--wash" id="stories">
     <div class="wrap">
       <div class="head" data-reveal>
-        <p class="eyebrow eyebrow--sig">Client stories</p>
-        <h2>Working for growing businesses<span class="dot">.</span></h2>
+        <p class="eyebrow eyebrow--sig">Results</p>
+        <h2>Working for<br>growing businesses<span class="dot">.</span></h2>
         <p class="head-p">From trading and travel to e-commerce and manufacturing, Stella's team adapts to the business.</p>
+      </div>
+      <div class="shift">
+        <div class="shift-item" data-reveal style="--d:0ms"><div class="micro">First reply</div><div class="shift-row"><span class="shift-from">Hours</span><svg class="shift-arrow" aria-hidden="true"><use href="#i-arrow"/></svg><span class="shift-to">Seconds</span></div><p>On WhatsApp, calls, social and your website.</p></div>
+        <div class="shift-item" data-reveal style="--d:80ms"><div class="micro">After-hours enquiries</div><div class="shift-row"><span class="shift-from">Missed</span><svg class="shift-arrow" aria-hidden="true"><use href="#i-arrow"/></svg><span class="shift-to">Answered</span></div><p>Nights, weekends and holidays included.</p></div>
+        <div class="shift-item" data-reveal style="--d:160ms"><div class="micro">Lead follow-up</div><div class="shift-row"><span class="shift-from">Sometimes</span><svg class="shift-arrow" aria-hidden="true"><use href="#i-arrow"/></svg><span class="shift-to">Every lead</span></div><p>Personal, on time and on schedule.</p></div>
+        <div class="shift-item" data-reveal style="--d:240ms"><div class="micro">Appointment reminders</div><div class="shift-row"><span class="shift-from">Manual</span><svg class="shift-arrow" aria-hidden="true"><use href="#i-arrow"/></svg><span class="shift-to">Automatic</span></div><p>Reminder calls and messages, so fewer no-shows.</p></div>
       </div>
       <div class="stories">
         <article class="story-card pan" data-reveal style="--d:0ms">
@@ -411,6 +404,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </article>
       </div>
       <p class="fine" data-reveal>Figures are projected six-month impact based on industry benchmarks, not measured results.</p>
+      <div class="cta-panel pan pan--solid" data-reveal>
+        <div>
+          <h3>What could Stella's team change for you<span class="dot">?</span></h3>
+          <p>A short demo, built around your business, your channels and your customers.</p>
+        </div>
+        <a class="btn btn-1 cta-slot" href="#demo" data-cta="results">Book a Demo <span class="tri" aria-hidden="true"></span></a>
+      </div>
     </div>
   </section>
 
@@ -425,7 +425,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="steps">
         <div class="steps-line" aria-hidden="true"><i></i></div>
         <ol>
-          <li class="step pan pan--solid" data-reveal style="--d:0ms"><span class="step-n">1</span><h3>Tell us about your business</h3><p>Your services, your channels and what you want handled first.</p></li>
+          <li class="step pan pan--solid" data-reveal style="--d:0ms"><span class="step-n">1</span><h3>Start with a demo</h3><p>See Stella at work and tell us what you want handled first.</p><a class="btn btn-1 btn-sm step-btn cta-slot" href="#demo" data-cta="getting-started">Book a Demo <span class="tri" aria-hidden="true"></span></a></li>
           <li class="step pan pan--solid" data-reveal style="--d:140ms"><span class="step-n">2</span><h3>Stella designs your team</h3><p>The right specialists, workflows and integrations for how you work.</p></li>
           <li class="step pan pan--solid" data-reveal style="--d:280ms"><span class="step-n">3</span><h3>Go live</h3><p>Tested, launched and reporting to you from day one.</p></li>
         </ol>
@@ -439,9 +439,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="closer-card pan pan--solid" data-reveal>
         <span class="closer-orb" aria-hidden="true"></span>
         <h2>Every business deserves a great general manager<span class="dot">.</span></h2>
-        <p class="lede">Now every business can have one. Get a free plan showing exactly what Stella's team would take off your plate.</p>
+        <p class="lede">Now every business can have one. Book a demo and see exactly what Stella's team would take off your plate.</p>
         <div class="btn-row">
-          <a class="btn btn-1" href="#plan" data-cta="closer">Get my free plan <span class="tri" aria-hidden="true"></span></a>
+          <a class="btn btn-1" href="#demo" data-cta="closer">Book a Demo <span class="tri" aria-hidden="true"></span></a>
           <a class="btn btn-2 wa-link wa-only" href="#"><svg class="btn-ico"><use href="#i-wa"/></svg>Chat on WhatsApp</a>
         </div>
       </div>
@@ -462,7 +462,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <div class="mbar" id="mbar">
-  <a class="btn btn-1" href="#plan" data-cta="mobile-bar">Get my free plan <span class="tri" aria-hidden="true"></span></a>
+  <a class="btn btn-1" href="#demo" data-cta="mobile-bar">Book a Demo <span class="tri" aria-hidden="true"></span></a>
   <a class="btn btn-2 btn-icon wa-link wa-only" href="#" aria-label="Chat on WhatsApp"><svg class="btn-ico"><use href="#i-wa"/></svg></a>
 </div>
 

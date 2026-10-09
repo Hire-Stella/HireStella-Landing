@@ -75,12 +75,13 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
   /* ── mobile CTA bar: shown once the form has scrolled away, hidden again
      at the closing card, which has its own button. Past the form, the
      header button steps aside so there is only ever one on screen. ── */
-  const formWrap = document.getElementById('plan');
+  const formWrap = document.getElementById('demo');
   const mbar = document.getElementById('mbar');
   let formAbove = false;
   let closerIn = false;
+  const ctasIn = new Set();
   const syncBar = () => {
-    const on = formAbove && !closerIn;
+    const on = formAbove && !closerIn && !ctasIn.size;
     mbar.classList.toggle('show', on);
     root.classList.toggle('past-form', formAbove);
   };
@@ -90,10 +91,16 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
   }, { threshold: 0.15 }).observe(formWrap);
   new IntersectionObserver(([entry]) => { closerIn = entry.isIntersecting; syncBar(); })
     .observe(document.querySelector('.closer'));
+  /* The section buttons count too: the bar steps aside while one is on screen. */
+  const ctaObs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? ctasIn.add(e.target) : ctasIn.delete(e.target)));
+    syncBar();
+  });
+  document.querySelectorAll('.cta-slot').forEach((el) => ctaObs.observe(el));
 
-  /* Every "Get my free plan" goes to the form and puts the cursor in it. */
+  /* Every "Book a Demo" goes to the form and puts the cursor in it. */
   const firstField = document.getElementById('f-name');
-  document.querySelectorAll('a[href="#plan"]').forEach((a) => {
+  document.querySelectorAll('a[href="#demo"]').forEach((a) => {
     a.addEventListener('click', (e) => {
       e.preventDefault();
       push('cta_click', { cta_location: a.dataset.cta || 'unknown' });
@@ -226,9 +233,27 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
   let storyOn = false;
   const later = (fn, ms) => timers.push(setTimeout(fn, ms));
 
+  /* The line runs dot centre to dot centre, so it lands exactly where each step lights. */
+  let dotY = [];
+  let stage = -1;
+  function measure() {
+    const top = timeline.getBoundingClientRect().top;
+    dotY = tls.map((tl) => { const r = tl.querySelector('.tl-dot').getBoundingClientRect(); return r.top + r.height / 2 - top; });
+    timeline.style.setProperty('--y0', `${dotY[0]}px`);
+    timeline.style.setProperty('--span', `${dotY[dotY.length - 1] - dotY[0]}px`);
+    timeline.style.setProperty('--fill', `${stage < 0 ? 0 : dotY[stage] - dotY[0]}px`);
+  }
+  measure();
+  new ResizeObserver(measure).observe(timeline);
+  /* Steps behind are done, one step is current, steps ahead wait. */
   function setStage(n) {
-    tls.forEach((tl, i) => tl.classList.toggle('on', i <= n));
-    timeline.style.setProperty('--p', Math.max(0, n) / (tls.length - 1));
+    stage = n;
+    timeline.style.setProperty('--fill', `${n < 0 ? 0 : dotY[n] - dotY[0]}px`);
+    tls.forEach((tl, i) => {
+      tl.classList.toggle('done', i < n);
+      tl.classList.toggle('on', i === n);
+      tl.classList.toggle('next', i > n);
+    });
   }
   function play() {
     timers.forEach(clearTimeout); timers = [];
@@ -253,7 +278,7 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
     });
     for (let s = 2; s < tls.length; s++) { t += 1000; later(() => setStage(s), t); }
     // Hold the finished conversation, clear it, and start again: it never stops.
-    later(() => chat.classList.add('clearing'), t + 2600);
+    later(() => { chat.classList.add('clearing'); setStage(-1); }, t + 2600);
     later(() => { if (storyOn) play(); }, t + 3200);
   }
   if (reduce) {
@@ -326,9 +351,8 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
   const validators = {
     name: (v) => v.trim().length > 1,
     business: (v) => v.trim().length > 1,
+    email: (v) => /^[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]{2,}$/.test(v.trim()),
     phone: (v) => /^\+?[\d\s()-]+$/.test(v.trim()) && digits(v) >= 8 && digits(v) <= 15,
-    industry: (v) => v !== '',
-    need: (v) => v !== '',
   };
   function check(el) {
     const ok = validators[el.name](el.value);
@@ -382,7 +406,7 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
       // The email function is unavailable: hand the lead over by WhatsApp so it is never lost.
       // Same tab, because phones block a new window opened after a network wait. No
       // conversion fires: the lead only arrives if the visitor sends the message.
-      const msg = `New HireStella enquiry\nName: ${lead.name}\nBusiness: ${lead.business}\nWhatsApp: ${lead.phone}\nIndustry: ${lead.industry}\nStart with: ${lead.need}`;
+      const msg = `HireStella demo request\nName: ${lead.name}\nBusiness: ${lead.business}\nEmail: ${lead.email}\nPhone: ${lead.phone}`;
       btn.disabled = false;
       btn.innerHTML = btnLabel;
       location.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
@@ -394,8 +418,8 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
     }
 
     // The conversion fires on the thank-you page, so it counts delivered leads only.
-    // Only the two choices travel there, never a name or number.
-    try { sessionStorage.setItem('hs-lead', JSON.stringify({ industry: lead.industry, start_with: lead.need })); } catch { /* optional */ }
+    // Only a marker travels there, never a name, email or number.
+    try { sessionStorage.setItem('hs-lead', JSON.stringify({ type: 'demo' })); } catch { /* optional */ }
     if (CONFIG.THANK_YOU_URL) {
       location.href = CONFIG.THANK_YOU_URL;
       return;

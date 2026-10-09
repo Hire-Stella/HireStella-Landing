@@ -48,11 +48,13 @@ Until `RESEND_API_KEY`/`LEAD_EMAIL_*` (or a webhook) are set, `/api/get-lead`
 answers 503 and the form shows an error, unless `WHATSAPP_NUMBER` is set, in
 which case the lead is handed over by WhatsApp instead so it is never lost.
 
-**What the team email contains:** name, business, WhatsApp number, industry,
-"start with", every ad parameter on the visit (`utm_*`, `gclid`, `gbraid`,
-`wbraid`, `fbclid`) and a one-tap "Reply on WhatsApp" link. There is no
-confirmation email to the visitor, because the form asks for a WhatsApp number,
-not an email. The team replies on WhatsApp.
+**The form is a demo request:** full name, business name, email and phone.
+**The team email** ("Demo request (ads): name, business") lists those four, every
+ad parameter on the visit (`utm_*`, `gclid`, `gbraid`, `wbraid`, `fbclid`) and
+the page. Its reply-to is the visitor, so replying answers them directly.
+**The visitor** then gets a short confirmation email saying the team will
+contact them to confirm a demo time (reply-to: the first `LEAD_EMAIL_TO`). If
+that email fails, the lead still counts as delivered.
 
 ## Ads tracking
 
@@ -68,8 +70,8 @@ loads them in the `<head>` of both pages; there is nothing to paste.
   bookmark or a stray visit is not counted.
 - Google Ads: either import the GA4 `generate_lead` event, or use a
   destination-URL conversion on `/get/thank-you`, counting **one per click**.
-- Only the industry and "start with" choices are sent to analytics, never a
-  name or number.
+- The conversion carries `lead_type: 'demo'` only, never a name, email or
+  number.
 - Other events in `dataLayer`: `cta_click` (with `cta_location`),
   `form_start`, `whatsapp_click`.
 
