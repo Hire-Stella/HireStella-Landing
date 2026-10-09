@@ -7,6 +7,8 @@ import { Icon, Logo } from './ui';
 
 const LEFT = specialists.slice(0, 4);
 const RIGHT = specialists.slice(4, 8);
+/** How long each specialist stays lit while the map plays on its own. */
+const CYCLE = 3600;
 
 /**
  * §12.3 — specialist nodes stay static, only the active route animates.
@@ -65,11 +67,50 @@ export function WorkforceMap() {
     };
   }, [draw]);
 
+  /* Client review, 2026-10-09: the map used to sit on Front Desk until clicked.
+     It now walks through all eight on its own while it is on screen, pauses
+     while the visitor is pointing at it, and gives a clicked role time to be
+     read before moving on. Reduced motion keeps it still. */
+  const [inView, setInView] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [holdUntil, setHoldUntil] = useState(0);
+  const [still, setStill] = useState(false);
+  useEffect(() => {
+    setStill(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const host = map.current;
+    if (!host || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.3 });
+    io.observe(host);
+    return () => io.disconnect();
+  }, []);
+  const auto = inView && !paused && !still;
+  useEffect(() => {
+    if (!auto) return;
+    const wait = Math.max(CYCLE, holdUntil - Date.now());
+    const t = setTimeout(() => {
+      setHoldUntil(0);
+      setActive((a) => (a + 1) % specialists.length);
+    }, wait);
+    return () => clearTimeout(t);
+  }, [auto, active, holdUntil]);
+  const pick = (i: number) => {
+    setActive(i);
+    setHoldUntil(Date.now() + 12000);
+  };
+
   const current = specialists[active];
 
   return (
     <>
-      <div className="map" ref={map}>
+      <div
+        className={`map${auto && !holdUntil ? ' is-auto' : ''}`}
+        ref={map}
+        style={{ ['--cycle' as string]: `${CYCLE}ms` }}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={() => setPaused(false)}
+      >
         <svg className="wires" viewBox={`0 0 ${box.w || 1000} ${box.h || 420}`} aria-hidden="true">
           {paths.map((p, i) =>
             p.d ? (
@@ -81,6 +122,20 @@ export function WorkforceMap() {
               />
             ) : null,
           )}
+          {/* Work leaving Stella for the active role. */}
+          {paths[active]?.d && !still ? (
+            <circle key={`pulse-${active}`} className="wire-pulse" r="4">
+              <animateMotion
+                dur="1.6s"
+                begin="0.6s"
+                repeatCount="indefinite"
+                path={paths[active].d}
+                keyPoints="1;0"
+                keyTimes="0;1"
+                calcMode="linear"
+              />
+            </circle>
+          ) : null}
         </svg>
 
         <div className="map-col">
@@ -93,7 +148,7 @@ export function WorkforceMap() {
               ref={(el) => {
                 nodes.current[i] = el;
               }}
-              onClick={() => setActive(i)}
+              onClick={() => pick(i)}
             >
               <Icon name={s.icon} size={20} />
               <span>
@@ -127,7 +182,7 @@ export function WorkforceMap() {
               ref={(el) => {
                 nodes.current[i + 4] = el;
               }}
-              onClick={() => setActive(i + 4)}
+              onClick={() => pick(i + 4)}
             >
               <Icon name={s.icon} size={20} />
               <span>
@@ -140,11 +195,11 @@ export function WorkforceMap() {
       </div>
 
       <div className="read">
-        <span className="micro num">
-          {String(active + 1).padStart(2, '0')} / {String(specialists.length).padStart(2, '0')}
+        <span className="read-ic" key={`ic-${active}`} aria-hidden="true">
+          <Icon name={current.icon} size={22} />
         </span>
-        <b>{current.name}</b>
-        <p>{current.detail}</p>
+        <b key={`b-${active}`}>{current.name}</b>
+        <p key={`p-${active}`}>{current.detail}</p>
         <Link className="btn-3" href="/stella#workforce">
           See the role <span className="tri" aria-hidden="true" />
         </Link>

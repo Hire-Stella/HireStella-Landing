@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { industries, specialists } from '@/lib/data';
-import { PageHero, Closer, Thread, SectionHead, Tri, Bul, Ld } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Tri, Bul, Ld, Accent } from '@/components/system';
 import { Icon } from '@/components/ui';
 import { breadcrumbLd, canonical, serviceLd } from '@/lib/seo';
 
@@ -54,7 +54,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
       <PageHero
         eyebrow={`Connected capacity for ${item.name.toLowerCase()}`}
         crumb={[['Home', '/'], ['Industries', '/industries'], [item.label]]}
-        title={item.headline}
+        title={<Accent text={item.headline} />}
         lede={item.description}
         actions={
           <>

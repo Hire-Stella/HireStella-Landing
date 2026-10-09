@@ -64,7 +64,7 @@ export default function BecomePartner() {
           <>
             Bring an AI workforce
             <br />
-            to the clients you advise.
+            to the clients <em>you advise.</em>
           </>
         }
         lede="You already know which of your clients are losing capacity to work that repeats. Partner with us to give them a coordinated workforce, without building or supporting it yourself."

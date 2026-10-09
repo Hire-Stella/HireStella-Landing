@@ -65,10 +65,11 @@ test('unknown business input uses a clearly bounded starting configuration', () 
   assert.ok(result.ids.includes('website'));
   assert.equal(result.industry, 'Your business');
 });
-test('consultation validation requires consent and rejects honeypot submissions', () => {
+test('booking validation requires the four fields and consent, and rejects honeypot submissions', () => {
   const valid = {
     name: 'Demo User',
     email: 'demo@example.com',
+    phone: '+971 50 123 4567',
     company: 'Demo Business',
     problem: 'Our clinic misses incoming calls.',
     plan: 'Starter',
@@ -79,7 +80,10 @@ test('consultation validation requires consent and rejects honeypot submissions'
   assert.equal(leadSchema.safeParse(valid).success, true);
   assert.equal(leadSchema.safeParse({ ...valid, consent: false }).success, false);
   assert.equal(leadSchema.safeParse({ ...valid, website: 'spam' }).success, false);
-  assert.equal(leadSchema.safeParse({ ...valid, problem: 'short' }).success, false);
+  assert.equal(leadSchema.safeParse({ ...valid, problem: '' }).success, true);
+  assert.equal(leadSchema.safeParse({ ...valid, phone: '' }).success, false);
+  assert.equal(leadSchema.safeParse({ ...valid, phone: '12345' }).success, false);
+  assert.equal(leadSchema.safeParse({ ...valid, phone: 'call me' }).success, false);
   assert.equal(leadSchema.safeParse({ ...valid, email: 'invalid' }).success, false);
 });
 

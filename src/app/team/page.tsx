@@ -48,7 +48,7 @@ export default function TeamPage() {
           <>
             Business first.
             <br />
-            Human-aware, always.
+            Human-aware, <em>always.</em>
           </>
         }
         lede="We understand where your team is under pressure, how work moves through your business, which systems are involved, and where human judgement needs to remain. Then we design the workforce around it."

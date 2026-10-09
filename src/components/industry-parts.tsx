@@ -115,7 +115,7 @@ export function PagePhotograph({ group, segment }: { group: string; segment?: st
   if (!photo) return null;
   return (
     <figure className="pagephoto">
-      <Image src={photo.src} alt={photo.alt} width={1536} height={1024} sizes="100vw" priority={false} />
+      <Image src={photo.src} alt={photo.alt} width={1600} height={1067} sizes="100vw" priority={false} />
       <figcaption>
         <span className="wrap">
           <span>{photo.caption}</span>

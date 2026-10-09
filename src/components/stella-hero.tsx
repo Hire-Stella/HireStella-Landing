@@ -287,9 +287,6 @@ export function StellaHero() {
       <span className="hero-dots" aria-hidden="true" />
 
       <div className="wrap hero-in">
-        <span className="badge">
-          <i className="dot" aria-hidden="true" /> AI Workforce Orchestration
-        </span>
 
         <h1 className="d-xl">
           Tell Stella what is slowing
@@ -370,7 +367,7 @@ export function StellaHero() {
                 <div className="cmd-foot">
                   <span className="sm">
                     <Lock size={13} strokeWidth={1.8} aria-hidden="true" />
-                    Preset examples, not a live AI model. No sign-up. Please do not enter confidential data.
+                    Preset examples, not a live AI model. No sign-up needed.
                   </span>
                   <button className="send" onClick={send} type="button">
                     Ask Stella <span className="tri" aria-hidden="true" />

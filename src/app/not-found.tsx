@@ -16,7 +16,7 @@ export default function NotFound() {
           <>
             Let’s get you
             <br />
-            back on track.
+            back <em>on track.</em>
           </>
         }
         lede="This page isn’t part of the site, or it has moved. Start from the homepage or see what Stella does."

@@ -5,6 +5,8 @@ import { industryGroups, lowerName } from '@/lib/industry-content';
 import { businessTypes } from '@/lib/business-types';
 import { PageHero, Closer, Thread, SectionHead, Tri, Bul, Ld } from '@/components/system';
 import { Icon } from '@/components/ui';
+import { HeroLive } from '@/components/hero-live';
+import { MIXED_SCENES } from '@/lib/hero-scenes';
 
 export const metadata: Metadata = {
   ...canonical('/industries'),
@@ -40,7 +42,7 @@ export default function IndustriesPage() {
           <>
             Built around the way
             <br />
-            your business works.
+            your business <em>works.</em>
           </>
         }
         lede="Different operations lose capacity in different places. Start with the journey your customers actually take, then configure the specialists around it."
@@ -54,23 +56,7 @@ export default function IndustriesPage() {
             </Link>
           </>
         }
-        aside={
-          <div className="route pan">
-            <p className="eyebrow eyebrow--sig">Ten sectors, one method</p>
-            <ol className="route-steps">
-              {industryGroups.map((g) => (
-                <li key={g.id}>
-                  <span className="route-no num">{businessTypes[g.id]?.length ?? 0}</span>
-                  <span className="route-label">{g.name}</span>
-                </li>
-              ))}
-            </ol>
-            <p className="note">
-              The number is how many kinds of business the sector covers. Each one loses capacity in
-              a slightly different place.
-            </p>
-          </div>
-        }
+        aside={<HeroLive scenes={MIXED_SCENES} />}
       />
 
       <Thread shape="split" />

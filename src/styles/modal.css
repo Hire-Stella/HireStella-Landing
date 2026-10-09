@@ -63,9 +63,9 @@
 /* ── left panel ── */
 .dm-aside {
   padding: var(--s10) var(--s8);
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--s5);
-  align-content: start;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -77,77 +77,123 @@
   background: radial-gradient(ellipse 80% 50% at 20% 0%, rgba(255, 98, 0, 0.06), transparent 62%),
     linear-gradient(178deg, rgba(199, 201, 232, 0.4), transparent 70%);
 }
-.dm-mark {
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 98, 0, 0.32);
-  background: linear-gradient(178deg, rgba(255, 98, 0, 0.16), rgba(255, 98, 0, 0.04));
-}
-.dm-mark img {
-  width: 24px;
-  height: auto;
-  display: block;
-}
 .dm-h {
-  font-size: clamp(24px, 2.5vw, 30px);
+  font-size: clamp(26px, 2.6vw, 32px);
   font-weight: 700;
-  line-height: 1.16;
-  letter-spacing: -0.026em;
+  line-height: 1.12;
+  letter-spacing: -0.028em;
 }
-.dm-steps {
-  margin: var(--s2) 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 0;
-  counter-reset: dm;
+.dm-dot {
+  color: var(--orange);
 }
-.dm-steps li {
-  counter-increment: dm;
-  display: grid;
-  grid-template-columns: 30px 1fr;
-  gap: var(--s3);
-  padding: var(--s4) 0;
-  border-bottom: 1px solid var(--line);
-}
-.dm-steps li:last-child {
-  border-bottom: 0;
-}
-.dm-steps li::before {
-  content: '0' counter(dm);
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--t3);
-  font-variant-numeric: tabular-nums;
-  padding-top: 2px;
-}
-.dm-steps li:first-child::before {
-  color: var(--sig-ink);
-}
-.dm-steps b,
-.dm-steps span {
-  grid-column: 2;
-}
-.dm-steps b {
+.dm-lede {
+  margin: 0;
+  max-width: 34ch;
   font-size: 15px;
+  line-height: 1.6;
+  color: var(--t2);
+}
+
+/* The scene: one enquiry, answered and booked, as it would arrive on the phone. */
+.dm-scene {
+  margin-top: var(--s3);
+  display: grid;
+  gap: 10px;
+  padding: var(--s5);
+  border-radius: var(--r-card);
+  border: 1px solid var(--line);
+  background: rgba(7, 11, 24, 0.35);
+}
+:root[data-theme='light'] .dm-scene {
+  background: rgba(255, 255, 255, 0.7);
+}
+.dm-scene-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: var(--s3);
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.dm-scene-top i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #25d366;
+}
+.dm-scene-top b {
   font-weight: 600;
   color: var(--t1);
-  line-height: 1.35;
 }
-.dm-steps span {
-  font-size: 13px;
-  line-height: 1.55;
+.dm-scene-top span {
+  margin-left: auto;
   color: var(--t3);
+  font-size: 12px;
+}
+.dm-bub {
+  max-width: 82%;
+  margin: 0;
+  padding: 9px 12px 7px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--t1);
+  animation: dm-msg 420ms var(--e-in) both;
+}
+.dm-bub time {
+  display: block;
+  margin-top: 2px;
+  font-size: 10.5px;
+  color: var(--t3);
+  text-align: right;
+}
+.dm-bub--in {
+  justify-self: start;
+  border-bottom-left-radius: 4px;
+  background: rgba(199, 201, 232, 0.1);
+}
+.dm-bub--out {
+  justify-self: end;
+  border-bottom-right-radius: 4px;
+  background: rgba(255, 98, 0, 0.14);
+  border: 1px solid rgba(255, 98, 0, 0.22);
+}
+.dm-booked {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 4px 0 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1fae63;
+  background: rgba(37, 211, 102, 0.1);
+  border: 1px solid rgba(37, 211, 102, 0.28);
+  animation: dm-msg 420ms var(--e-in) both;
+}
+:root[data-theme='light'] .dm-booked {
+  color: #127a43;
+}
+/* Played once per opening: question, reply, answer, booking. */
+.dm-scene > :nth-child(2) { animation-delay: 350ms; }
+.dm-scene > :nth-child(3) { animation-delay: 1150ms; }
+.dm-scene > :nth-child(4) { animation-delay: 1950ms; }
+.dm-scene > :nth-child(5) { animation-delay: 2600ms; }
+@keyframes dm-msg {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
 }
 .dm-foot {
   display: flex;
   align-items: flex-start;
   gap: 9px;
-  margin-top: var(--s2);
+  margin-top: auto;
+  padding-top: var(--s2);
 }
 .dm-foot svg {
   flex: 0 0 auto;
@@ -170,9 +216,6 @@
   }
   .dm-form {
     padding: var(--s6);
-  }
-  .dm-steps li {
-    padding: 10px 0;
   }
 }
 
@@ -271,14 +314,18 @@
 .dm-done .sm {
   max-width: 44ch;
 }
+/* Booking form labels: required fields carry an asterisk, the rest say "(Optional)". */
 .opt {
   font-style: normal;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 500;
   color: var(--t3);
-  margin-left: 6px;
+  margin-left: 4px;
+}
+.req {
+  margin-left: 2px;
+  font-weight: 600;
+  color: var(--sig-ink);
 }
 
 /* ── hero next-step panel ── */
@@ -411,7 +458,8 @@
     border-bottom: 1px solid var(--line);
     padding: var(--s8) var(--s6) var(--s6);
   }
-  .dm-steps {
+  .dm-scene,
+  .dm-lede {
     display: none;
   }
   .dm-aside {
@@ -437,6 +485,7 @@
   .dm-submit {
     position: sticky;
     bottom: 0;
+    background: var(--bg);
     margin: var(--s2) calc(-1 * var(--s6)) 0;
     padding: var(--s5) var(--s6);
   }
@@ -459,7 +508,10 @@
 @media (prefers-reduced-motion: reduce) {
   .dm-scrim,
   .dm,
-  .nextstep {
+  .nextstep,
+  .dm-bub,
+  .dm-booked {
     animation: none !important;
   }
 }
+

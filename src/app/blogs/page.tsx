@@ -24,7 +24,7 @@ export default function BlogsPage() {
           <>
             Practical guides for a
             <br />
-            busier front desk.
+            busier <em>front desk.</em>
           </>
         }
         lede="Short, practical pieces on operational coordination. Every claim carries its source and its date, and nothing here is a performance promise."

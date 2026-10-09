@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { editorialPages } from '@/lib/pages';
 import { canonical, breadcrumbLd, serviceLd, faqLd } from '@/lib/seo';
-import { Thread, SectionHead, Closer, PageHero, HeroPanel, Faq, Ld, Tri, Bul } from '@/components/system';
+import { Thread, SectionHead, Closer, PageHero, HeroPanel, Faq, Ld, Tri, Bul, Accent } from '@/components/system';
+import { HeroLive } from '@/components/hero-live';
+import { EDITORIAL_SCENES } from '@/lib/hero-scenes';
 import { WorkforceMap, DashboardPlanes } from '@/components/home-parts';
 import { RoiCalculator } from '@/components/roi-calculator';
 import { Icon } from '@/components/ui';
@@ -177,7 +179,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             {rest.length ? (
               <>
                 <br />
-                {rest.join(' ')}
+                <Accent text={rest.join(' ')} />
               </>
             ) : null}
           </>
@@ -194,7 +196,9 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           </>
         }
         aside={
-          editorial ? (
+          editorial && EDITORIAL_SCENES[slug] ? (
+            <HeroLive scenes={EDITORIAL_SCENES[slug]} />
+          ) : editorial ? (
             <RouteAside
               steps={editorial.blocks.map((b) => b.title)}
               caption="Each step is configured against your channels, systems and escalation rules."

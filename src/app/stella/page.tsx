@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { canonical, breadcrumbLd, serviceLd, faqLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, HeroPanel, Faq, Ld, Tri, Bul } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul } from '@/components/system';
 import { OperationsWorkspace } from '@/components/workspace';
 import { clinicWorkspace } from '@/lib/workspace-content';
 import { StellaWorkforce } from '@/components/stella-workforce';
+import { HeroLive } from '@/components/hero-live';
 import { Icon } from '@/components/ui';
 import { FAQS } from '@/lib/faqs';
 
@@ -72,7 +73,7 @@ export default function StellaPage() {
           <>
             One clear view.
             <br />
-            Every next move.
+            Every <em>next move.</em>
           </>
         }
         lede="Stella is your AI General Manager. Eight AI specialists answer your calls and messages, book appointments and follow up, while Stella decides who does what and hands anything sensitive to your people. You see all of it in one place."
@@ -87,19 +88,7 @@ export default function StellaPage() {
           </>
         }
         meta={['Eight specialists included', 'Configured, not assembled', 'Your people stay in control']}
-        aside={
-          <HeroPanel
-            kicker="What is on this page"
-            tag="In order"
-            rows={[
-              ['The workspace', 'What you look at'],
-              ['The specialists', 'Who does the work', true],
-              ['How it is built', 'Discovery to management'],
-              ['The boundary', 'Where people take over'],
-            ]}
-            note="Everything about Stella in one place, rather than four pages saying it differently."
-          />
-        }
+        aside={<HeroLive />}
       />
 
       <Thread shape="split" />

@@ -74,10 +74,7 @@
 }
 .hero h1 em {
   font-style: normal;
-  color: var(--mist);
-}
-:root[data-theme='light'] .hero h1 em {
-  color: #616a96;
+  color: var(--sig);
 }
 .hero .lede {
   text-align: center;
@@ -231,19 +228,18 @@
   height: 48px;
   padding: 0 22px;
   border-radius: var(--r-btn);
-  color: #141b45;
+  color: #fff;
   font-family: inherit;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  border: 1px solid rgba(255, 186, 128, 0.5);
-  background: linear-gradient(178deg, #ff8b3e, #ff6200 48%, #ea5900);
-  box-shadow: 0 8px 22px rgba(255, 98, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.42);
-  transition: transform 180ms var(--e-std), box-shadow 200ms var(--e-std);
+  border: 1px solid transparent;
+  background: linear-gradient(180deg, #ff8a3d, #ff6200) border-box;
+  transition: transform 180ms var(--e-std);
 }
 .send:hover {
   transform: translateY(-1px);
-  box-shadow: var(--glow), 0 12px 28px rgba(255, 98, 0, 0.3);
+  background: linear-gradient(180deg, #ff7a26, #f05c00) border-box;
 }
 .cmd-said {
   display: none;
@@ -729,7 +725,7 @@
   opacity: 0.4;
 }
 .bars i.on {
-  background: linear-gradient(180deg, #ff8b3e, #ff6200);
+  background: #ff6200;
   opacity: 1;
 }
 .pcap {
@@ -831,9 +827,8 @@
   height: 20px;
   border-radius: 50%;
   cursor: pointer;
-  background: linear-gradient(178deg, #ff8b3e, #ff6200);
+  background: #ff6200;
   border: 2px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 2px 10px rgba(255, 98, 0, 0.5);
 }
 .slider input::-moz-range-thumb {
   width: 18px;
@@ -842,7 +837,6 @@
   cursor: pointer;
   border: 2px solid rgba(255, 255, 255, 0.5);
   background: #ff6200;
-  box-shadow: 0 2px 10px rgba(255, 98, 0, 0.5);
 }
 
 /* ── industries ─────────────────────────────────────────────────────── */
@@ -1065,10 +1059,7 @@
 }
 .goal h3 em {
   font-style: normal;
-  color: var(--mist);
-}
-:root[data-theme='light'] .goal h3 em {
-  color: #616a96;
+  color: var(--sig);
 }
 .goal .note {
   max-width: 62ch;
@@ -1176,9 +1167,8 @@
   height: 20px;
   border-radius: 50%;
   cursor: pointer;
-  background: linear-gradient(178deg, #ff8b3e, #ff6200);
+  background: #ff6200;
   border: 2px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 2px 10px rgba(255, 98, 0, 0.5);
 }
 .roi-range::-moz-range-thumb {
   width: 18px;
@@ -1187,7 +1177,6 @@
   cursor: pointer;
   border: 2px solid rgba(255, 255, 255, 0.5);
   background: #ff6200;
-  box-shadow: 0 2px 10px rgba(255, 98, 0, 0.5);
 }
 .roi-scale {
   display: flex;
@@ -1596,4 +1585,70 @@
 @media (max-width: 620px) {
   .cc-tiles { grid-template-columns: 1fr 1fr; }
   .cc-lead { gap: var(--s3); }
+}
+
+/* ── workforce map in motion (client review, 2026-10-09) ── */
+.wire-pulse {
+  fill: var(--sig);
+  filter: drop-shadow(0 0 6px rgba(255, 98, 0, 0.7));
+}
+.node {
+  position: relative;
+  overflow: hidden;
+}
+.node[aria-pressed='true'] svg {
+  color: var(--sig);
+}
+/* While the map plays on its own, the lit role shows how long it has left. */
+.map.is-auto .node[aria-pressed='true']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--sig);
+  transform-origin: left;
+  animation: node-time var(--cycle, 3600ms) linear both;
+}
+@keyframes node-time {
+  from {
+    transform: scaleX(0);
+  }
+}
+.read {
+  align-items: center;
+}
+.read-ic {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  grid-row: span 2;
+  align-self: start;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(180deg, #ff8a3d, #ff6200);
+  animation: read-in 420ms var(--e-std) both;
+}
+.read b,
+.read p {
+  animation: read-in 420ms var(--e-std) both;
+}
+.read p {
+  animation-delay: 60ms;
+}
+@keyframes read-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .read-ic,
+  .read b,
+  .read p,
+  .map.is-auto .node[aria-pressed='true']::after {
+    animation: none;
+  }
 }

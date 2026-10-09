@@ -86,9 +86,9 @@ export default function HomePage() {
             eyebrow="Meet your general manager"
             title={
               <>
-                One clear view.
+                Understand it first.
                 <br />
-                Every next move.
+                Then run it every day.
               </>
             }
           >
@@ -99,10 +99,7 @@ export default function HomePage() {
           <div className="grid-3">
             {STEPS.map(([no, kicker, title, body]) => (
               <div className="card pan" key={no}>
-                <div className="k">
-                  <i>{no}</i>
-                  {kicker}
-                </div>
+                <div className="k">{kicker}</div>
                 <h3 className="h4">{title}</h3>
                 <p>{body}</p>
               </div>
@@ -188,7 +185,6 @@ export default function HomePage() {
 
           <div className="goal">
             <span className="rail rail--sig" aria-hidden="true" />
-            <p className="eyebrow">The point of all of it</p>
             <h3>
               The goal is not fewer people.
               <br />

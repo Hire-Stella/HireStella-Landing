@@ -40,7 +40,7 @@ export default async function BookDemo({
           <>
             A useful conversation.
             <br />
-            A clearer next step.
+            A clearer <em>next step.</em>
           </>
         }
         lede="Tell us what business you run and where work is slowing down. We will build a brief around the workforce, systems and operating level that may fit."

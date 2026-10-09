@@ -1,32 +1,27 @@
 import { leadDeliveryConfigured } from '@/lib/lead-delivery';
 import type { Metadata } from 'next';
 import { canonical, breadcrumbLd, localBusinessLd, SITE, BUSINESS } from '@/lib/seo';
-// import { mapsUrl } from '@/lib/seo'; // only used by the address link below, which is commented out
-import Link from 'next/link';
 import { Mail, Phone, ShieldCheck } from 'lucide-react';
-// import { MapPin } from 'lucide-react'; // only used by the address link below, which is commented out
 import { ConsultationForm } from '@/components/consultation-form';
-// import { ContactMap } from '@/components/contact-map'; // the map is commented out below
-import { PageHero, Closer, Thread, Tri, Bul, Ld } from '@/components/system';
+import { PageHero, Closer, Ld } from '@/components/system';
 
 export const metadata: Metadata = {
   ...canonical('/contact'),
   title: 'Contact Us, Business Bay Dubai',
   description:
-    'Start a conversation about your business capacity, integration requirements, or a bespoke HireStella workforce.',
+    'Tell us what you need and book a demo of Stella, your AI General Manager. A person reads every request.',
 };
 
-const EXPLORE = [
-  'The workflows creating pressure for your team.',
-  'Your channels, systems and integration needs.',
-  'Language, voice and operational capacity.',
-  'Custom requirements and human oversight.',
-];
-
+/*
+ * Client review, 2026-10-09: the form belongs in the hero, the page should ask
+ * for a demo rather than a "consultation brief", and the explore list, the
+ * second panel and the eyebrows read as template. One screen now does the job:
+ * the promise and direct contact on the left, the booking form on the right.
+ */
 export default function Contact() {
   const configured = leadDeliveryConfigured();
   return (
-    <main id="main">
+    <main id="main" className="contact-page">
       <Ld
         data={[
           breadcrumbLd([['Home', '/'], ['Contact', '/contact']]),
@@ -34,100 +29,49 @@ export default function Contact() {
         ]}
       />
       <PageHero
-        eyebrow="Let us find your starting point"
         crumb={[['Home', '/'], ['Contact']]}
         title={
           <>
-            Tell us where your team
+            Tell us what
             <br />
-            is stretched.
+            you <em>need.</em>
           </>
         }
-        lede="Discuss a workforce configuration, integration requirements, or a more complex operation. Start with a little context about what you need."
-        aside={
-          <div className="convert-aside pan">
-            <p className="eyebrow eyebrow--sig">What we can explore</p>
-            <h2 style={{ fontSize: 26 }}>Bring the problem. We will map the questions.</h2>
-            <ol>
-              {EXPLORE.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ol>
-            <p className="note">
-              All workforce configurations and commercial scope are confirmed through discovery.
+        lede="Leave your details and we will arrange a demo around your business: your enquiries, your channels and the work your team wants off its plate."
+        after={
+          <div className="contact-direct">
+            <p className="contact-direct-h">Or reach us directly</p>
+            <a href={`mailto:${SITE.email}`}>
+              <Mail size={17} strokeWidth={1.6} aria-hidden="true" />
+              {SITE.email}
+            </a>
+            {BUSINESS.phone ? (
+              <a href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`}>
+                <Phone size={17} strokeWidth={1.6} aria-hidden="true" />
+                {BUSINESS.phone}
+              </a>
+            ) : null}
+            <p className="contact-promise">
+              <ShieldCheck size={16} strokeWidth={1.7} aria-hidden="true" />
+              A person reads every request. Nothing is configured or committed before we talk.
             </p>
+          </div>
+        }
+        aside={
+          <div className="contact-card pan pan--solid">
+            <h2 className="contact-card-h">Book a demo</h2>
+            <p className="contact-card-p">Takes under a minute.</p>
+            <ConsultationForm configured={configured} id="contact-form" source="contact" />
           </div>
         }
       />
 
-      <Thread shape="split" />
-
-      <section className="sec" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div className="convert">
-            <div className="form-panel pan pan--solid">
-              <p className="eyebrow eyebrow--sig">Tell us what you need</p>
-              <h2 style={{ fontSize: 26, marginBottom: 'var(--s6)' }}>
-                Start with the work that is not moving.
-              </h2>
-              <ConsultationForm configured={configured} id="contact-form" source="contact" />
-            </div>
-
-            <aside className="convert-aside pan" style={{ position: 'sticky', top: 100 }}>
-              <p className="eyebrow">Reach us directly</p>
-              <div className="foot-contact">
-                <a href={`mailto:${SITE.email}`}>
-                  <Mail size={15} strokeWidth={1.6} aria-hidden="true" />
-                  {SITE.email}
-                </a>
-                {BUSINESS.phone ? (
-                  <a href={`tel:${BUSINESS.phone.replace(/\s/g, '')}`}>
-                    <Phone size={15} strokeWidth={1.6} aria-hidden="true" />
-                    {BUSINESS.phone}
-                  </a>
-                ) : null}
-                {/* The address is a link, not text: on a phone this is the tap
-                    that starts directions, and it is the same string the
-                    LocalBusiness markup carries. */}
-                {/* <a href={mapsUrl()} target="_blank" rel="noopener noreferrer">
-                  <MapPin size={15} strokeWidth={1.6} aria-hidden="true" />
-                  <span>
-                    {SITE.street},
-                    <br />
-                    {SITE.city}, UAE
-                  </span>
-                </a> */}
-              </div>
-              <ul className="bullets">
-                <li>
-                  <Bul />
-                  Enquiries are answered by a person, not an autoresponder.
-                </li>
-                <li>
-                  <Bul />
-                  Nothing is configured or committed before a scoping conversation.
-                </li>
-              </ul>
-              <div className="notice">
-                <ShieldCheck size={16} strokeWidth={1.7} aria-hidden="true" />
-                <span>Please do not include confidential customer data in this form.</span>
-              </div>
-              <Link className="btn-3" href="/human-boundary">
-                Where people stay in control <Tri />
-              </Link>
-            </aside>
-          </div>
-
-          {/* <ContactMap /> */}
-        </div>
-      </section>
-
       <Closer
-        eyebrow="Or start it yourself"
+        eyebrow="Not ready to talk yet?"
         title="Describe the bottleneck. See the workforce."
         lede="Explore a preset example of how Stella would coordinate work like yours."
         primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
-        secondary={{ href: '/book-demo', label: 'Book a demo' }}
+        secondary={null}
       />
     </main>
   );
