@@ -128,8 +128,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="form-card pan pan--solid">
           <span class="form-glow" aria-hidden="true"></span>
           <div class="form-body">
-            <h2 class="form-h">Book a demo with Stella</h2>
-            <p class="form-p">Leave your details and we'll confirm a time that suits you. It takes less than a minute.</p>
+            <div class="booking-invite">
+              <div class="booking-top">
+                <div class="booking-clock" aria-hidden="true"><span>30</span><small>MINUTES</small></div>
+                <div><p class="booking-label">A little time. A bigger picture.</p><h2 class="form-h">Meet your next<br>AI workforce<span class="dot">.</span></h2></div>
+              </div>
+              <p class="booking-copy">Bring your business. Let's explore what Stella could take off your team's plate.</p>
+              <button type="button" class="btn btn-1 btn-block booking-link" data-cta="calendar" aria-haspopup="dialog" aria-controls="bookingDialog"><svg class="btn-ico"><use href="#i-cal"/></svg>Choose your time <span class="tri" aria-hidden="true"></span></button>
+              <p class="booking-note">30-minute conversation <span aria-hidden="true">·</span> Choose a date &amp; time</p>
+            </div>
+            <div class="booking-alternative"><span>Prefer us to get in touch?</span></div>
+            <p class="form-p callback-intro">Leave your details and we'll arrange your demo.</p>
             <form id="leadForm" novalidate>
               <div class="field">
                 <label for="f-name">Full name</label>
@@ -152,7 +161,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <span class="err">Enter a valid phone number with country code.</span>
               </div>
               <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
-              <button class="btn btn-1 btn-block" id="submitBtn" type="submit">Book a Demo <span class="tri" aria-hidden="true"></span></button>
+              <button class="btn btn-1 btn-block" id="submitBtn" type="submit">Request a callback <span class="tri" aria-hidden="true"></span></button>
               <p class="form-error" id="formError" role="alert" hidden></p>
               <p class="form-fine">No commitment. By submitting, you agree to be contacted about HireStella. <a class="privacy-link" href="#">Privacy policy</a></p>
             </form>
@@ -466,6 +475,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="btn btn-2 btn-icon wa-link wa-only" href="#" aria-label="Chat on WhatsApp"><svg class="btn-ico"><use href="#i-wa"/></svg></a>
 </div>
 
+<dialog class="booking-dialog" id="bookingDialog" aria-labelledby="bookingTitle">
+  <div class="booking-dialog-head">
+    <div><p class="booking-label">YOUR NEXT STEP</p><h2 id="bookingTitle">Make time for what’s next<span class="dot">.</span></h2></div>
+    <button type="button" class="booking-close" aria-label="Close booking calendar" autofocus>×</button>
+  </div>
+  <div id="bookingStatus" class="booking-status" role="status">Loading available dates and times…</div>
+  <div id="bookingCalendar" class="booking-calendar"></div>
+  <button type="button" class="btn btn-2 booking-retry" hidden>Try loading again</button>
+</dialog>
 <script src="/get/assets/js/landing.js" defer></script>
 </body>
 </html>

@@ -976,3 +976,46 @@ main, .foot { position: relative; z-index: 1; }
 
 /* Status labels on the Stella card and the report window: quiet, factual, no "Live" dot. */
 .badge { margin-left: auto; flex: none; display: inline-flex; align-items: center; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--line-hi); font-size: 12px; font-weight: 600; letter-spacing: 0.01em; color: var(--t2); white-space: nowrap; }
+
+/* Direct scheduling: a compact meeting invitation, alongside the callback form. */
+.booking-invite { position: relative; }
+.booking-top { display: flex; align-items: center; gap: 20px; }
+.booking-clock { flex: 0 0 78px; height: 88px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--line-hi); border-top: 4px solid var(--orange); border-radius: 12px; background: var(--hover); transform: rotate(-4deg); transition: transform 250ms ease; }
+.booking-invite:hover .booking-clock { transform: rotate(0); }
+.booking-clock span { font: 600 36px/1.15 var(--font-display); color: var(--t1); letter-spacing: -2px; }
+.booking-clock small { font-size: 9px; font-weight: 600; letter-spacing: 1.5px; color: var(--t2); }
+.booking-label { margin: 0 0 8px; font-size: 11px; font-weight: 600; color: var(--t2); }
+.booking-copy { margin: 20px 0; font-size: 14px; line-height: 1.7; color: var(--t2); }
+.booking-note { margin: 10px 0 0; text-align: center; color: var(--t2); font-size: 11px; }
+.booking-note span { margin: 0 6px; }
+.booking-alternative { margin: 24px 0 0; display: flex; align-items: center; gap: 12px; color: var(--t1); font-size: 12px; font-weight: 600; }
+.booking-alternative::before, .booking-alternative::after { content: ''; height: 1px; flex: 1; background: var(--line-hi); }
+.callback-intro { font-size: 12px; text-align: center; margin-top: 6px; }
+#leadForm #submitBtn { background: transparent; color: var(--t1); border: 1px solid var(--line-hi); box-shadow: none; }
+#leadForm #submitBtn:hover { background: var(--hover); border-color: var(--orange); }
+.booking-link:focus-visible { outline: 3px solid var(--t1); outline-offset: 4px; }
+@media (max-width: 480px) {
+  .booking-top { gap: 16px; }
+  .booking-clock { flex-basis: 64px; height: 78px; }
+  .booking-top .form-h { font-size: 21px; }
+  .booking-label { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .booking-clock { transform: none; transition: none; } }
+
+.booking-link .btn-ico { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; color: inherit; }
+
+/* Native dialog keeps the calendar, focus and visitor on this page. */
+.booking-dialog { padding: 0; border: 1px solid var(--line-hi); border-radius: 24px; background: var(--bg); color: var(--t1); width: min(1040px, calc(100% - 40px)); max-width: none; height: min(850px, calc(100dvh - 48px)); max-height: none; margin: auto; box-shadow: 0 32px 100px #0006; overflow: hidden; }
+.booking-dialog[open] { display: flex; flex-direction: column; }
+.booking-dialog::backdrop { background: rgba(7,11,24,.72); backdrop-filter: blur(8px); }
+.booking-dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 24px; flex-shrink: 0; }
+.booking-dialog-head h2 { font: 600 clamp(18px,2.4vw,24px)/1.3 var(--font-display); letter-spacing: -.03em; }
+.booking-dialog-head .booking-label { margin-bottom: 4px; letter-spacing: .12em; }
+.booking-close { width: 44px; height: 44px; flex: 0 0 44px; border: 1px solid var(--line-hi); border-radius: 50%; background: var(--hover); color: var(--t1); font: 28px/1 var(--font-ui); cursor: pointer; }
+.booking-close:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.booking-calendar { flex: 1; min-height: 0; background: white; }
+.booking-calendar iframe { display: block; border: 0; width: 100%; height: 100%; }
+.booking-status { padding: 24px; font-size: 14px; }
+.booking-status[hidden], .booking-retry[hidden] { display: none; }
+.booking-retry { margin: 16px 24px; }
+@media (max-width: 600px) { .booking-dialog { width: calc(100% - 16px); height: calc(100dvh - 24px); border-radius: 16px; } .booking-dialog-head { padding: 16px; } }
