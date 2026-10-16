@@ -3,18 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Lock } from 'lucide-react';
 import { Logo } from './ui';
-
-/* The eight specialists, in the order they sit on the hero rail. */
-const RAIL = [
-  'Front Desk',
-  'Voice',
-  'Website',
-  'Booking',
-  'Admin',
-  'Marketing',
-  'Social',
-  'Follow-up',
-] as const;
+import { BRIEF_MAX, RAIL, type BriefAnswer } from '@/lib/stella-brief';
 
 type Scenario = {
   id: string;
@@ -27,7 +16,8 @@ type Scenario = {
   boundary: string;
 };
 
-/* Labelled local scenarios, not a live model. Every claim stays illustrative.
+/* Labelled local scenarios: the chip row, the idle demo, and the fallback when
+   the live answer (/api/stella-brief) is unavailable. Every claim stays illustrative.
    One per sector in the Industries menu, in the same order, so the chip row
    and the header never disagree about how many industries we serve. */
 const SCENARIOS: Scenario[] = [
@@ -200,6 +190,23 @@ function routeBrief(text: string): Scenario {
 
 const IDLE_CAPTION = 'Eight specialists, waiting for a brief.';
 
+/* Asks the live route for a draft. Anything short of a usable answer returns
+   null, and the caller falls back to the keyword router. */
+async function askLive(brief: string, signal: AbortSignal): Promise<BriefAnswer | null> {
+  try {
+    const res = await fetch('/api/stella-brief', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ brief }),
+      signal,
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as BriefAnswer;
+  } catch {
+    return null;
+  }
+}
+
 /* Client review, 2026-10-09: an idle "Ready" sold nothing. While the panel is
    idle its status chip turns through the three things a visitor should leave
    with. A running example still shows what Stella is doing instead. */
@@ -231,6 +238,10 @@ export function StellaHero() {
   const [caption, setCaption] = useState<string | null>(null);
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
+  const [thinking, setThinking] = useState(false);
+  /* Stella's follow-up question when a brief could not be read. */
+  const [nudge, setNudge] = useState<string | null>(null);
+  const pending = useRef<AbortController | null>(null);
   const field = useRef<HTMLTextAreaElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -242,7 +253,13 @@ export function StellaHero() {
   const [preview, setPreview] = useState<Scenario | null>(null);
   const [inView, setInView] = useState(true);
 
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+  useEffect(
+    () => () => {
+      timers.current.forEach(clearTimeout);
+      pending.current?.abort();
+    },
+    [],
+  );
 
   const [hook, setHook] = useState(0);
   const idleChip = state.label === 'Ready';
@@ -260,7 +277,7 @@ export function StellaHero() {
     return () => io.disconnect();
   }, []);
 
-  const idle = !live && !focused && !value;
+  const idle = !live && !focused && !value && !thinking && !nudge;
   useEffect(() => {
     if (!idle || !inView || matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setGhostOn(false);
@@ -315,6 +332,10 @@ export function StellaHero() {
 
   const reset = useCallback(() => {
     clearTimers();
+    pending.current?.abort();
+    pending.current = null;
+    setThinking(false);
+    setNudge(null);
     setLive(null);
     setSaid('');
     setActive(null);
@@ -324,19 +345,22 @@ export function StellaHero() {
   }, []);
 
   /* §12.3 — the hero signal: the brief lands, the relevant specialists illuminate. */
-  const run = useCallback((scenario: Scenario, spoken?: string) => {
+  const run = useCallback((scenario: Scenario, spoken?: string, isDraft = false) => {
     clearTimers();
+    setNudge(null);
     setSaid(spoken || scenario.said);
     setLive(scenario);
     setLit([]);
-    setState({ label: 'Matching an example', busy: true });
-    setCaption('Finding the closest example.');
+    setState({ label: isDraft ? 'Drafting your workforce' : 'Matching an example', busy: true });
+    setCaption(isDraft ? 'Lining up the specialists.' : 'Finding the closest example.');
     timers.current.push(setTimeout(() => setLit(scenario.specialists), 560));
     timers.current.push(
       setTimeout(() => {
-        setState({ label: 'Example workflow', busy: true });
+        setState({ label: isDraft ? 'Draft workflow' : 'Example workflow', busy: true });
         setCaption(
-          `This example uses ${scenario.specialists.length} specialists. Your own configuration is confirmed in discovery.`,
+          isDraft
+            ? `This draft uses ${scenario.specialists.length} specialists. Your own configuration is confirmed in discovery.`
+            : `This example uses ${scenario.specialists.length} specialists. Your own configuration is confirmed in discovery.`,
         );
       }, 1150),
     );
@@ -364,14 +388,42 @@ export function StellaHero() {
     return () => window.removeEventListener('hashchange', onHash);
   }, [ask]);
 
-  function send() {
-    const typed = value.trim();
-    if (typed) {
-      setActive(null);
-      run(routeBrief(typed), typed);
+  async function send() {
+    const typed = value.trim().slice(0, BRIEF_MAX);
+    if (!typed) {
+      run(SCENARIOS.find((s) => s.id === active) ?? SCENARIOS[0]);
       return;
     }
-    run(SCENARIOS.find((s) => s.id === active) ?? SCENARIOS[0]);
+    if (thinking) return;
+    setActive(null);
+    setNudge(null);
+    clearTimers();
+    pending.current?.abort();
+    const controller = new AbortController();
+    pending.current = controller;
+    setThinking(true);
+    setState({ label: 'Thinking', busy: true });
+    setCaption('Stella is reading your brief.');
+
+    const answer = await askLive(typed, controller.signal);
+    if (controller.signal.aborted) return;
+    pending.current = null;
+    setThinking(false);
+
+    if (answer && !answer.understood) {
+      /* Focus first: the field's onFocus resets the chip to Ready, and the
+         state set after it has to win. */
+      field.current?.focus({ preventScroll: true });
+      setNudge(answer.reply);
+      setState({ label: 'Tell me more', busy: false });
+      setCaption(null);
+      return;
+    }
+    if (answer) {
+      run({ ...answer, id: 'live', chip: 'Your brief', said: typed }, typed, true);
+      return;
+    }
+    run(routeBrief(typed), typed);
   }
 
   return (
@@ -431,7 +483,7 @@ export function StellaHero() {
             {live && (
               <div className="cmd-said">
                 <span className="qm" aria-hidden="true" />
-                <q>{said}</q>
+                <q dir="auto">{said}</q>
               </div>
             )}
 
@@ -443,17 +495,24 @@ export function StellaHero() {
                   </label>
                   <textarea
                     id="stella-prompt"
+                    dir="auto"
                     ref={field}
                     rows={3}
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    maxLength={BRIEF_MAX}
+                    readOnly={thinking}
+                    aria-busy={thinking}
+                    onChange={(e) => {
+                      setValue(e.target.value);
+                      if (nudge) setNudge(null);
+                    }}
                     onFocus={() => {
                       setFocused(true);
                       setState({ label: 'Ready', busy: true });
                     }}
                     onBlur={() => {
                       setFocused(false);
-                      setState({ label: 'Ready', busy: false });
+                      if (!thinking && !nudge) setState({ label: 'Ready', busy: false });
                     }}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
@@ -475,13 +534,20 @@ export function StellaHero() {
                   )}
                 </div>
 
+                {nudge && (
+                  <p className="cmd-nudge" role="status" dir="auto">
+                    {nudge}
+                  </p>
+                )}
+
                 <div className="cmd-foot">
                   <span className="sm">
                     <Lock size={13} strokeWidth={1.8} aria-hidden="true" />
-                    Preset examples, not a live AI model. No sign-up needed.
+                    AI draft, not a quote. No sign-up needed.
                   </span>
-                  <button className="send" onClick={send} type="button">
-                    Ask Stella <span className="tri" aria-hidden="true" />
+                  <button className="send" onClick={send} type="button" disabled={thinking}>
+                    {thinking ? 'Thinking…' : 'Ask Stella'}{' '}
+                    {!thinking && <span className="tri" aria-hidden="true" />}
                   </button>
                 </div>
               </>
@@ -491,15 +557,15 @@ export function StellaHero() {
               <div className="an" aria-live="polite">
                 <div className="an-row">
                   <span className="micro an-k">Business</span>
-                  <div className="an-v">{live.business}</div>
+                  <div className="an-v" dir="auto">{live.business}</div>
                 </div>
                 <div className="an-row">
                   <span className="micro an-k">Channels</span>
-                  <div className="an-v">{live.channels}</div>
+                  <div className="an-v" dir="auto">{live.channels}</div>
                 </div>
                 <div className="an-row wide">
                   <span className="micro an-k">Bottleneck</span>
-                  <div className="an-v">{live.bottleneck}</div>
+                  <div className="an-v" dir="auto">{live.bottleneck}</div>
                 </div>
                 <div className="an-row wide">
                   <span className="micro an-k">Specialists</span>
@@ -516,7 +582,7 @@ export function StellaHero() {
                 </div>
                 <div className="an-row wide">
                   <span className="micro an-k">Human boundary</span>
-                  <div className="an-v">{live.boundary}</div>
+                  <div className="an-v" dir="auto">{live.boundary}</div>
                 </div>
               </div>
             )}
@@ -584,6 +650,8 @@ export function StellaHero() {
                 className="chip"
                 aria-pressed={active === s.id}
                 onClick={() => {
+                  pending.current?.abort();
+                  setThinking(false);
                   setActive(s.id);
                   run(s);
                 }}

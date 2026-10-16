@@ -194,6 +194,19 @@
 .cmd-field textarea::placeholder {
   color: var(--t3);
 }
+.cmd-nudge {
+  margin: var(--s2) var(--s2) 0;
+  padding-left: var(--s3);
+  border-left: 2px solid var(--sig, #ff6200);
+  text-align: start;
+  color: var(--t1);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.send:disabled {
+  cursor: progress;
+  opacity: 0.8;
+}
 .cmd-foot {
   display: flex;
   align-items: center;
