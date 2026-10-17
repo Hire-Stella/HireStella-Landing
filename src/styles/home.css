@@ -1652,3 +1652,347 @@
     animation: none;
   }
 }
+
+/* ── content 2.0 sections (2026-10-17) ──────────────────────────────── */
+/* Shared: small role chips with an icon, used by the engine and journey. */
+.eng-roles,
+.lx-lang {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.eng-roles em,
+.jr-role,
+.lx-lang em {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--t3);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+.eng-roles img,
+.jr-role img {
+  width: 13px;
+  height: 13px;
+}
+
+/* The revenue engine: five stages on one line, joined by a route. */
+.eng {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--s4);
+}
+.eng::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sig) 12%, var(--sig) 88%, transparent);
+  opacity: 0.55;
+}
+.eng-s {
+  position: relative;
+  margin-top: var(--s6);
+  padding: var(--s6) var(--s5);
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: var(--s3);
+}
+.eng-dot {
+  position: absolute !important;
+  top: calc(-1 * var(--s6) - 5px);
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  margin-left: -5.5px;
+  border-radius: 50%;
+  background: var(--sig);
+  box-shadow: 0 0 0 4px rgba(255, 98, 0, 0.16);
+}
+.eng-k {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.eng-k b {
+  color: var(--sig-ink);
+  margin-right: 6px;
+}
+.eng-s .h4 {
+  font-size: 18px;
+}
+.eng-s p:not(.eng-k) {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.eng-roles {
+  /* room for two rows of chips, so every card's divider sits at one height */
+  align-content: start;
+  min-height: calc(var(--s3) + 2 * 30px + 8px);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}
+
+/* Tools: three by two, Sales Coach marked as its own product. */
+.tools {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s4);
+}
+.tool {
+  padding: var(--s6);
+  border-radius: var(--r-card);
+  display: grid;
+  align-content: start;
+  gap: var(--s3);
+  text-decoration: none;
+}
+.tool .gl {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(199, 201, 232, 0.06);
+  color: var(--t3);
+  margin-bottom: var(--s2);
+}
+.tool .h4 {
+  font-size: 19px;
+}
+.tool p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.tool--coach {
+  grid-template-columns: auto 1fr;
+  transition: transform 200ms var(--e-std);
+}
+.tool--coach:hover {
+  transform: translateY(-3px);
+}
+.tool--coach .gl {
+  color: var(--sig-ink);
+}
+.tool--coach > :not(.gl):not(.tool-tag) {
+  grid-column: 1 / -1;
+}
+.tool-tag {
+  justify-self: end;
+  align-self: start;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sig-ink);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 98, 0, 0.35);
+}
+
+/* The journey: one vertical route, time on the left, the role on the rail. */
+.jr {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+.jr::before {
+  content: '';
+  position: absolute;
+  left: 164px;
+  top: 14px;
+  bottom: 14px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--sig), var(--line) 85%);
+  opacity: 0.6;
+}
+.jr li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 130px 36px 160px minmax(0, 300px) minmax(0, 1fr);
+  column-gap: var(--s4);
+  align-items: start;
+  padding: var(--s5) 0;
+  border-bottom: 1px solid var(--line);
+}
+.jr li:last-child {
+  border-bottom: 0;
+}
+.jr time {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--t1);
+  padding-top: 3px;
+}
+.jr-dot {
+  justify-self: center;
+  margin-top: 9px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--sig);
+  box-shadow: 0 0 0 4px rgba(255, 98, 0, 0.14);
+}
+.jr-role {
+  justify-self: start;
+  margin-top: 2px;
+}
+.jr li > div {
+  display: contents;
+}
+.jr .h4 {
+  font-size: 18px;
+  padding-top: 1px;
+}
+.jr p {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.jr-out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3) var(--s6);
+  margin-top: var(--s6);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1);
+}
+.jr-out span::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--sig);
+  vertical-align: 2px;
+}
+
+/* Languages and integrations: two panels side by side. */
+.lx {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s4);
+}
+.lx-p {
+  padding: var(--s8) var(--s7, 36px);
+  display: grid;
+  align-content: start;
+  gap: var(--s4);
+}
+.lx-p .eyebrow {
+  margin-bottom: 0;
+}
+.lx-p > p:not(.eyebrow) {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.lx-lang em {
+  font-size: 13px;
+  color: var(--t2);
+  padding: 6px 13px;
+}
+.lx-sys {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--s3);
+}
+.lx-sys li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s3);
+  align-items: start;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--t2);
+}
+.lx-sys li svg {
+  margin-top: 2px;
+  color: var(--sig-ink);
+}
+.lx-sys b {
+  color: var(--t1);
+  font-weight: 600;
+}
+.lx-p .btn-3 {
+  justify-self: start;
+  margin-top: var(--s2);
+}
+
+@media (max-width: 1100px) {
+  .eng {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-left: var(--s6);
+  }
+  .eng::before {
+    left: 5px;
+    right: auto;
+    top: var(--s6);
+    bottom: var(--s6);
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, var(--sig), var(--line));
+  }
+  .eng-s {
+    margin-top: var(--s4);
+  }
+  .eng-dot {
+    top: var(--s6);
+    left: calc(-1 * var(--s6));
+    margin-left: 0;
+  }
+  .tools {
+    grid-template-columns: 1fr 1fr;
+  }
+  .lx {
+    grid-template-columns: 1fr;
+  }
+  .jr::before {
+    left: 4px;
+  }
+  .jr li {
+    grid-template-columns: 1fr;
+    gap: var(--s2);
+    padding-left: var(--s6);
+  }
+  .eng-roles {
+    min-height: 0;
+  }
+  .jr-dot {
+    position: absolute;
+    left: 0;
+    top: calc(var(--s5) + 1px);
+    margin: 0;
+  }
+}
+@media (max-width: 620px) {
+  .tools {
+    grid-template-columns: 1fr;
+  }
+  .lx-p {
+    padding: var(--s6);
+  }
+}

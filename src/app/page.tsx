@@ -4,11 +4,12 @@ import { StellaHero } from '@/components/stella-hero';
 import { WorkforceMap, DashboardPlanes } from '@/components/home-parts';
 import { ScrollMotion, StepsFlow } from '@/components/home-motion';
 import { Constellation } from '@/components/constellation';
-import { Thread, SectionHead, Closer, Faq, Ld, Bul } from '@/components/system';
+import { SectionHead, Closer, Faq, Ld, Bul } from '@/components/system';
 import { HOME_FAQS } from '@/lib/faqs';
 import { faqLd, serviceLd } from '@/lib/seo';
 import { industryGroups } from '@/lib/industry-content';
-import { Icon } from '@/components/ui';
+import { Icon, Logo } from '@/components/ui';
+import { specialists } from '@/lib/data';
 
 const TITLE = 'Meet Stella, Your AI General Manager | HireStella';
 const DESCRIPTION =
@@ -30,6 +31,48 @@ const GLANCE = [
   ['Where Stella works.', 'Connected calls, website experiences, approved messaging channels and supported business systems.', false],
   ['Done with you.', 'Workflow scoping, configuration, testing and launch, with your team approving each step.', false],
 ] as const;
+
+/* The five-stage revenue engine: stage, line, what happens, who does it. */
+const ENGINE = [
+  ['01', 'Attract', 'Give customers a reason to reach out.', 'Approved campaigns, website experiences and social content guide interested visitors towards an enquiry.', ['Marketing', 'Social', 'Website']],
+  ['02', 'Capture', 'Respond while they are ready to talk.', 'Answer approved questions across connected phone and digital channels, qualify intent and record the next step.', ['Front Desk', 'Voice']],
+  ['03', 'Convert', 'Move interest towards a booking.', 'Check availability, confirm appointments and keep follow-up timely under your business rules.', ['Booking', 'Follow-up']],
+  ['04', 'Grow', 'Keep the relationship going.', 'Approved reminders, review requests and re-engagement give existing customers a clear way back.', ['Follow-up', 'Marketing']],
+  ['05', 'Run', 'Keep the team informed.', 'Log activity, prepare summaries, update approved records and surface the decisions that need a person.', ['Admin', 'Stella']],
+] as const;
+
+/* What sits behind the team. Sales Coach is its own product, and says so. */
+const TOOLS = [
+  ['message', 'Customer conversations', 'Website chat, WhatsApp enquiries and other connected messages, in workflows your team can follow.'],
+  ['phone', 'Voice calling', 'Approved inbound calls, callbacks and reminders, with clear rules for transfers to a person.'],
+  ['calendar', 'Booking and follow-up', 'Enquiries moved towards a confirmed appointment, and reminders that do not fall through the gaps.'],
+  ['browser', 'Website and landing pages', 'Your online enquiry experience joined to the same journey, so every lead arrives with context.'],
+  ['dashboard', 'Reporting and handoffs', 'A view of customer activity, completed tasks and the few decisions waiting on a person.'],
+] as const;
+
+/* One customer, one connected journey. A simplified example, not a log. */
+const JOURNEY = [
+  ['11:04 pm', 'Front Desk', 'Customer gets in touch', 'A customer messages after hours about a service and availability. Front Desk replies from your approved business information.'],
+  ['11:06 pm', 'Booking', 'A useful next step appears', 'The enquiry is qualified and passed to Booking, which offers a suitable slot from the connected calendar and prepares the confirmation.'],
+  ['Next day', 'Follow-up', 'No lead gets forgotten', 'Follow-up sends a permitted reminder, or asks for missing details, within your contact rules.'],
+  ['Before the visit', 'Voice', 'A smoother arrival', 'A call or message reminds the customer of the visit, with an easy way to reschedule.'],
+  ['After the visit', 'Admin', 'Information stays connected', 'Admin updates the records or prepares a summary, flagging anything sensitive for your staff.'],
+  ['Later', 'Marketing', 'A reason to come back', 'An approved message asks how it went or invites a relevant next booking, subject to consent.'],
+  ['Next morning', 'Stella', 'The owner sees the picture', 'Stella summarises activity, progress and handoffs, so you can focus on the decisions that need you.'],
+] as const;
+
+const LANGUAGES = ['English', 'Arabic', 'Hindi', 'Urdu', 'Tagalog', 'French', 'Russian', 'Spanish', 'Turkish'];
+
+const SYSTEMS = [
+  ['records', 'CRM and customer records', 'Lead details, permitted updates and follow-up status.'],
+  ['calendar', 'Calendars and booking systems', 'Availability, confirmations and changes.'],
+  ['message', 'Customer channels', 'Website, supported messaging, voice and email.'],
+  ['store', 'E-commerce and operations', 'Agreed order or status data, where a compatible connection exists.'],
+  ['settings', 'Custom APIs', 'Bespoke connections, after a technical review.'],
+] as const;
+
+/* Role name to icon, for the engine and the journey. */
+const ROLE_ICON: Record<string, string> = Object.fromEntries(specialists.map((x) => [x.short, x.icon]));
 
 const STEPS = [
   ['01', 'Discovery', 'Find the first workflow worth fixing.', 'Tell us where leads, bookings or follow-ups become hard to manage. We pick a measurable first use case.'],
@@ -120,37 +163,50 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="sec">
+
+      <section className="sec" id="engine">
         <div className="wrap">
           <SectionHead
-            eyebrow="Your rollout"
+            eyebrow="The revenue engine"
             action={
-              <>
-                <button className="btn btn-1" type="button" data-demo data-cta="home-steps">
-                  Book a demo <span className="tri" aria-hidden="true" />
-                </button>
-                <Link className="btn-3" href="/stella">
-                  Meet Stella <span className="tri" aria-hidden="true" />
-                </Link>
-              </>
+              <button className="btn-3" type="button" data-demo data-cta="home-engine">
+                See how Stella could handle your enquiries <span className="tri" aria-hidden="true" />
+              </button>
             }
             title={
               <>
-                We configure it with you.
+                More demand in.
                 <br />
-                Then improve what works.
+                More opportunities converted.
               </>
             }
           >
-            You do not need to design an AI workforce on your own. We start with one real customer
-            journey, test the boundaries together, and expand by business value.
+            Growth is not one message or one booking. It is a series of connected steps, and Stella
+            makes sure the right specialist picks up each one without losing the context.
           </SectionHead>
 
-          <StepsFlow steps={STEPS} />
+          <ol className="eng">
+            {ENGINE.map(([n, stage, line, body, roles]) => (
+              <li className="eng-s pan" key={stage}>
+                <span className="eng-dot" aria-hidden="true" />
+                <p className="eng-k">
+                  <b>{n}</b> {stage}
+                </p>
+                <h3 className="h4">{line}</h3>
+                <p>{body}</p>
+                <span className="eng-roles">
+                  {roles.map((role) => (
+                    <em key={role}>
+                      {role === 'Stella' ? <Logo symbol /> : <Icon name={ROLE_ICON[role]} size={13} />}
+                      {role}
+                    </em>
+                  ))}
+                </span>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
-
-      <Thread shape="join" />
 
       <section className="sec" id="workforce">
         <div className="wrap">
@@ -180,6 +236,117 @@ export default function HomePage() {
               See your workforce in a demo <span className="tri" aria-hidden="true" />
             </button>
           </div>
+        </div>
+      </section>
+
+
+
+      <section className="sec" id="tools">
+        <div className="wrap">
+          <SectionHead
+            eyebrow="One connected way to work"
+            title={
+              <>
+                The right tools.
+                <br />
+                Connected to the next action.
+              </>
+            }
+          >
+            Not one more dashboard: your approved channels, workflows and systems working together.
+            We confirm what is available in your deployment before anything goes live.
+          </SectionHead>
+
+          <div className="tools">
+            {TOOLS.map(([icon, title, body]) => (
+              <div className="tool pan" key={title}>
+                <span className="gl">
+                  <Icon name={icon} size={19} />
+                </span>
+                <h3 className="h4">{title}</h3>
+                <p>{body}</p>
+              </div>
+            ))}
+            <Link className="tool tool--coach pan" href="/sales-coach">
+              <span className="gl">
+                <Icon name="users" size={19} />
+              </span>
+              <span className="tool-tag">Separate product</span>
+              <h3 className="h4">Stella Sales Coach</h3>
+              <p>AI role-play where your sellers practise real objections, get feedback and improve before the next live call.</p>
+              <span className="btn-3">
+                Explore Sales Coach <span className="tri" aria-hidden="true" />
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="sec" id="journey">
+        <div className="wrap">
+          <SectionHead
+            eyebrow="One customer, one connected journey"
+            title={
+              <>
+                From the first enquiry
+                <br />
+                to the next opportunity.
+              </>
+            }
+          >
+            A customer should never have to repeat themselves as the conversation moves. Here is a
+            simplified example of one journey; your own timings, channels and actions are set in
+            your configuration.
+          </SectionHead>
+
+          <ol className="jr">
+            {JOURNEY.map(([when, role, title, body]) => (
+              <li key={title}>
+                <time>{when}</time>
+                <span className="jr-dot" aria-hidden="true" />
+                <span className="jr-role">
+                  {role === 'Stella' ? <Logo symbol /> : <Icon name={ROLE_ICON[role]} size={14} />}
+                  {role}
+                </span>
+                <div>
+                  <h3 className="h4">{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <p className="jr-out">
+            <span>One connected enquiry</span>
+            <span>Coordinated next steps</span>
+            <span>Clear human oversight</span>
+          </p>
+        </div>
+      </section>
+
+      <section className="sec" id="dashboard">
+        <div className="wrap">
+          <SectionHead
+            eyebrow="Every morning"
+            action={
+              <button className="btn-3" type="button" data-demo data-cta="home-dashboard">
+                See a dashboard walkthrough <span className="tri" aria-hidden="true" />
+              </button>
+            }
+            title={
+              <>
+                Start the day knowing
+                <br />
+                what moved you forward.
+              </>
+            }
+          >
+            Enquiries, bookings and follow-ups in one view: what happened, what is in the pipeline,
+            and what still needs your judgement. Revenue figures appear where your connected
+            systems can confirm them.
+          </SectionHead>
+
+          <DashboardPlanes />
         </div>
       </section>
 
@@ -246,33 +413,95 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="sec" id="dashboard">
+      <section className="sec" id="connections">
         <div className="wrap">
           <SectionHead
-            eyebrow="Every morning"
-            action={
-              <button className="btn-3" type="button" data-demo data-cta="home-dashboard">
-                See a dashboard walkthrough <span className="tri" aria-hidden="true" />
-              </button>
-            }
+            eyebrow="Languages and integrations"
             title={
               <>
-                Start the day knowing
+                Your customers&rsquo; language.
                 <br />
-                what moved you forward.
+                Your team&rsquo;s systems.
               </>
             }
           >
-            Enquiries, bookings and follow-ups in one view: what happened, what is in the pipeline,
-            and what still needs your judgement. Revenue figures appear where your connected
-            systems can confirm them.
+            Conversations do not always happen in one language, and customer information rarely
+            lives in one place. Both are confirmed in scoping, before anything is configured.
           </SectionHead>
 
-          <DashboardPlanes />
+          <div className="lx">
+            <div className="lx-p pan">
+              <p className="eyebrow">Languages</p>
+              <h3 className="h4">Speak to customers in the language they are comfortable using.</h3>
+              <p>
+                Each channel and language is configured around your customers and your brand&rsquo;s
+                tone of voice.
+              </p>
+              <span className="lx-lang">
+                {LANGUAGES.map((l) => (
+                  <em key={l}>{l}</em>
+                ))}
+              </span>
+              <p className="note">
+                Availability and quality can vary by channel, voice and provider. We confirm the
+                languages you need before you start.
+              </p>
+            </div>
+
+            <div className="lx-p pan">
+              <p className="eyebrow eyebrow--sig">Integrations</p>
+              <h3 className="h4">Built around the systems your team already uses.</h3>
+              <p>
+                Tell us where customer information, availability and team activity live today. We
+                confirm what can connect and which actions may be automated.
+              </p>
+              <ul className="lx-sys">
+                {SYSTEMS.map(([icon, name, body]) => (
+                  <li key={name}>
+                    <Icon name={icon} size={16} />
+                    <span>
+                      <b>{name}</b> {body}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Link className="btn-3" href="/integrations">
+                Explore integration options <span className="tri" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      <Thread shape="split" />
+      <section className="sec" id="rollout">
+        <div className="wrap">
+          <SectionHead
+            eyebrow="Your rollout"
+            action={
+              <>
+                <button className="btn btn-1" type="button" data-demo data-cta="home-steps">
+                  Book a demo <span className="tri" aria-hidden="true" />
+                </button>
+                <Link className="btn-3" href="/stella">
+                  Meet Stella <span className="tri" aria-hidden="true" />
+                </Link>
+              </>
+            }
+            title={
+              <>
+                We configure it with you.
+                <br />
+                Then improve what works.
+              </>
+            }
+          >
+            You do not need to design an AI workforce on your own. We start with one real customer
+            journey, test the boundaries together, and expand by business value.
+          </SectionHead>
+
+          <StepsFlow steps={STEPS} />
+        </div>
+      </section>
 
       <section className="sec" id="industries">
         <div className="wrap">
