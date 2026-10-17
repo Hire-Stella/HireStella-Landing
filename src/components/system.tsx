@@ -120,6 +120,10 @@ export function Closer({
             <button className="btn btn-2" type="button" data-demo>
               {secondary.label}
             </button>
+          ) : secondary?.href === '#talk-to-stella' ? (
+            <button className="btn btn-2" type="button" data-talk data-cta="closer-talk">
+              {secondary.label}
+            </button>
           ) : secondary ? (
             <Link className="btn btn-2" href={secondary.href}>
               {secondary.label}

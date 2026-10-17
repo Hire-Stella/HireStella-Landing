@@ -306,45 +306,44 @@ export function CapacityPanel() {
    Three planes: the day's shape behind, what is happening beside it, and the
    figure that carries the argument in front.
 
-   2026-09-22 rebuild. The four tiles used to read 34 / 21 / 9 / 2 in identical
-   weight, which told the eye nothing, and the one number that makes the case,
-   62% of enquiries reaching a booking, was a clause in a sentence underneath.
-   Now the rate leads, the supporting figures carry a direction rather than a
-   quantity, and open handoffs reads as a state because it is an exception count
-   and not a statistic.
+   Content 2.0 (2026-10-17): it now reads as the owner's morning report on
+   yesterday. The value of bookings recorded leads (not cash received), open
+   pipeline sits beside it, and decisions waiting reads as a state because it
+   is an exception count and not a statistic.
 
-   Everything is derived from HOURS. The bars, the totals, the rate and the
-   sparkline endpoint cannot drift apart, because there is only one series. */
+   Everything is derived from HOURS. The bars, the totals and the sparkline
+   endpoints cannot drift apart, because there is only one series. */
 
 /** Enquiries by hour across the working day. The single source for the rest. */
 const HOURS = [
-  { at: '08:00', enquiries: 2, bookings: 1 },
-  { at: '10:00', enquiries: 4, bookings: 3 },
-  { at: '12:00', enquiries: 3, bookings: 2 },
-  { at: '14:00', enquiries: 6, bookings: 4 },
-  { at: '16:00', enquiries: 7, bookings: 5 },
-  { at: '18:00', enquiries: 5, bookings: 3 },
-  { at: '20:00', enquiries: 4, bookings: 2 },
-  { at: '22:00', enquiries: 3, bookings: 1 },
+  { at: '08:00', enquiries: 2, bookings: 0 },
+  { at: '10:00', enquiries: 4, bookings: 2 },
+  { at: '12:00', enquiries: 3, bookings: 1 },
+  { at: '14:00', enquiries: 6, bookings: 3 },
+  { at: '16:00', enquiries: 7, bookings: 3 },
+  { at: '18:00', enquiries: 5, bookings: 2 },
+  { at: '20:00', enquiries: 4, bookings: 1 },
+  { at: '22:00', enquiries: 3, bookings: 0 },
 ];
 
 const TOTAL = HOURS.reduce((n, h) => n + h.enquiries, 0);
 const BOOKED = HOURS.reduce((n, h) => n + h.bookings, 0);
-const RATE = Math.round((BOOKED / TOTAL) * 100);
 const PEAK = HOURS.reduce((a, b) => (b.enquiries > a.enquiries ? b : a));
 
 /** Yesterday, for the deltas. A number with nothing to compare to says little. */
-const YESTERDAY = { enquiries: 31, bookings: 18, followUps: 8 };
+const YESTERDAY = { enquiries: 31, bookings: 10, followUps: 8 };
 const FOLLOW_UPS = 9;
 const OPEN_HANDOFFS = 2;
-const RATE_BEFORE = Math.round((YESTERDAY.bookings / YESTERDAY.enquiries) * 100);
+/** The value of bookings recorded, not cash received, and the open pipeline. */
+const BOOKED_VALUE = 18400;
+const PIPELINE = 62000;
 
 type Kind = 'enquiry' | 'booking' | 'followup' | 'handoff';
 
 const TILES: { key: Kind; label: string; value: number; before: number; spark: number[] }[] = [
   { key: 'enquiry', label: 'Enquiries', value: TOTAL, before: YESTERDAY.enquiries, spark: [26, 29, 24, 31, 28, 31, TOTAL] },
-  { key: 'booking', label: 'Bookings', value: BOOKED, before: YESTERDAY.bookings, spark: [14, 17, 13, 19, 16, 18, BOOKED] },
-  { key: 'followup', label: 'Follow-ups', value: FOLLOW_UPS, before: YESTERDAY.followUps, spark: [6, 8, 5, 9, 7, 8, FOLLOW_UPS] },
+  { key: 'booking', label: 'Appointments booked', value: BOOKED, before: YESTERDAY.bookings, spark: [8, 10, 7, 11, 9, 10, BOOKED] },
+  { key: 'followup', label: 'Quotes followed up', value: FOLLOW_UPS, before: YESTERDAY.followUps, spark: [6, 8, 5, 9, 7, 8, FOLLOW_UPS] },
 ];
 
 const FEED: { time: string; label: string; kind: Kind }[] = [
@@ -408,7 +407,7 @@ function Count({ to, run, ms = 1400 }: { to: number; run: boolean; ms?: number }
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
   }, [run, to, ms]);
-  return <>{n}</>;
+  return <>{n.toLocaleString('en-US')}</>;
 }
 
 export function DashboardPlanes() {
@@ -550,21 +549,18 @@ export function DashboardPlanes() {
       {/* ── the figure that carries the argument ── */}
       <div className="plane p-front pan pan--solid">
         <div className="pcap">
-          Command centre · today
+          Morning report · yesterday
           <span className="pcap-note">{TOTAL} enquiries</span>
         </div>
 
         <div className="cc-lead">
           <div>
             <span className="cc-rate">
-              <Count to={RATE} run={settled} />%
+              AED <Count to={BOOKED_VALUE} run={settled} />
             </span>
-            <span className="cc-rate-k">of enquiries reached a booking</span>
+            <span className="cc-rate-k">value of bookings recorded</span>
           </div>
-          <span className="cc-rate-delta">
-            {RATE - RATE_BEFORE > 0 ? '+' : ''}
-            {RATE - RATE_BEFORE} points vs yesterday
-          </span>
+          <span className="cc-rate-delta">AED {PIPELINE.toLocaleString('en-US')} open pipeline</span>
         </div>
 
         <div className="cc-tiles">
@@ -595,13 +591,13 @@ export function DashboardPlanes() {
             tile with a big number beside three others. */}
         <div className={`cc-flag${focus === 'handoff' ? ' is-on' : ''}`}>
           <span className="cc-flag-dot" aria-hidden="true" />
-          <b>{OPEN_HANDOFFS} open handoffs</b>
-          <span>waiting for a person</span>
+          <b>{OPEN_HANDOFFS} decisions</b>
+          <span>waiting for you</span>
         </div>
 
         <p className="cc-read">
-          After-hours enquiries convert at a lower rate than daytime ones. Review the Voice to
-          Booking handoff.
+          A corporate quote is prepared and waiting for your approval. One customer asked for a
+          personal callback from the owner.
         </p>
       </div>
     </div>

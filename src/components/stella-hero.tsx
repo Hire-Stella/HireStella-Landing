@@ -203,7 +203,7 @@ const IDLE_CAPTION = 'Eight specialists, waiting for a brief.';
 /* Client review, 2026-10-09: an idle "Ready" sold nothing. While the panel is
    idle its status chip turns through the three things a visitor should leave
    with. A running example still shows what Stella is doing instead. */
-const HOOKS = ['On shift 24/7', 'Replies in seconds', '8 specialists on call'] as const;
+const HOOKS = ['Built around you', 'Your team in control', '8 specialists on call'] as const;
 
 /* The headline enters a word at a time. Spaces stay outside the spans so the
    line still breaks and reads as plain text to assistive technology. */
@@ -383,24 +383,30 @@ export function StellaHero() {
       <div className="wrap hero-in">
 
         <h1 className="d-xl">
-          <Words text="Tell Stella what is slowing" />
-          <br className="lb" /> <Words text="your business" from={5} />{' '}
-          <em className="w w-accent" style={{ '--i': 7 } as React.CSSProperties}>
-            down.
+          <Words text="Meet Stella." />
+          <br /> <Words text="Your AI" from={2} />{' '}
+          <em>
+            <span className="w w-accent" style={{ '--i': 4 } as React.CSSProperties}>
+              General
+            </span>{' '}
+            <span className="w w-accent" style={{ '--i': 5 } as React.CSSProperties}>
+              Manager.
+            </span>
           </em>
         </h1>
 
         <p className="lede">
-          Stella, your AI General Manager, runs eight AI specialists that answer your calls and
-          messages, book appointments and follow up. Anything sensitive goes to your team.
+          More sales, without more staff. Stella coordinates eight connected AI specialists
+          across enquiries, calls, bookings and follow-ups, while your team keeps the decisions
+          that need a person.
         </p>
 
         <div className="btn-row" style={{ justifyContent: 'center' }}>
           <button className="btn btn-1" type="button" data-demo data-cta="home-hero">
             Book a demo <span className="tri" aria-hidden="true" />
           </button>
-          <button className="btn btn-2" onClick={ask} type="button">
-            Ask Stella
+          <button className="btn btn-2" type="button" data-talk data-cta="home-hero-talk">
+            Talk to Stella now
           </button>
         </div>
 
