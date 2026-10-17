@@ -30,7 +30,7 @@ const PEOPLE = [
 const WORKFORCE = [
   'Repetitive and administrative work',
   'High-volume, structured tasks',
-  'Always-on coverage, every hour',
+  'After-hours coverage on connected channels',
   'Follow-up and coordination',
 ];
 

@@ -256,7 +256,7 @@ export default async function SegmentPage({
             title="Four roles, working in sequence."
             headMax="20ch"
           >
-            All eight specialists come with every deployment. These are the ones Stella typically
+            The eight specialists are designed to work together. These are the ones Stella typically
             activates first for {lowerName(seg.name)}.
           </SectionHead>
           <div className="grid-3">

@@ -33,7 +33,7 @@ type Scenario = {
 const SCENARIOS: Scenario[] = [
   {
     id: 'dental',
-    chip: 'Clinics',
+    chip: 'Healthcare & clinics',
     said: 'We miss calls after hours and patients book somewhere else.',
     business: 'Dental clinic · Dubai',
     channels: 'Phone · Website · WhatsApp · Instagram',
@@ -81,7 +81,7 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 'education',
-    chip: 'Education',
+    chip: 'Education & training',
     said: 'Admissions enquiries arrive long after the office closes.',
     business: 'School & training institute · UAE',
     channels: 'Website · WhatsApp · Phone · Email',
@@ -93,7 +93,7 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 'banking',
-    chip: 'Banking',
+    chip: 'Financial services',
     said: 'Routine service questions block the team from real cases.',
     business: 'Financial services firm · UAE',
     channels: 'Phone · Web chat · Email',
@@ -116,7 +116,7 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 'travel',
-    chip: 'Travel',
+    chip: 'Travel & tourism',
     said: 'Itinerary questions arrive from every time zone, all night.',
     business: 'Travel agency · Dubai',
     channels: 'Website · WhatsApp · Email · Phone',
@@ -128,7 +128,7 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 'professional-services',
-    chip: 'Professional',
+    chip: 'Professional services',
     said: 'Fee earners spend the morning qualifying enquiries.',
     business: 'Consultancy · Dubai',
     channels: 'Website · Email · Phone · LinkedIn',
@@ -140,7 +140,7 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 'retail',
-    chip: 'Retail',
+    chip: 'Retail & D2C',
     said: 'Where-is-my-order questions bury the ones ready to buy.',
     business: 'D2C brand & showroom · UAE',
     channels: 'Website · Instagram · WhatsApp · Email',

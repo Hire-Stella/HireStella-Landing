@@ -44,7 +44,7 @@ const PEOPLE = [
 const STELLA = [
   'Repetitive and administrative work',
   'High-volume tasks and data processing',
-  'Always-on coverage, every hour',
+  'After-hours coverage on connected channels',
   'Structured follow-up and coordination',
 ];
 
@@ -138,7 +138,7 @@ export default function StellaPage() {
           <StellaWorkforce />
 
           <p className="note" style={{ marginTop: 'var(--s6)' }}>
-            All eight come with every deployment. Capacity scales with you, not the headcount.
+            The eight roles are designed to work together. Which ones start first depends on your business.
           </p>
         </div>
       </section>
