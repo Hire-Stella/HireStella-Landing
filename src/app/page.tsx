@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { StellaHero } from '@/components/stella-hero';
 import { WorkforceMap, DashboardPlanes } from '@/components/home-parts';
 import { ScrollMotion, StepsFlow } from '@/components/home-motion';
+import { JourneyFlow, LanguageShowcase } from '@/components/home-stories';
 import { Constellation } from '@/components/constellation';
 import { SectionHead, Closer, Faq, Ld, Bul } from '@/components/system';
 import { HOME_FAQS } from '@/lib/faqs';
@@ -49,19 +50,6 @@ const TOOLS = [
   ['browser', 'Website and landing pages', 'Your online enquiry experience joined to the same journey, so every lead arrives with context.'],
   ['dashboard', 'Reporting and handoffs', 'A view of customer activity, completed tasks and the few decisions waiting on a person.'],
 ] as const;
-
-/* One customer, one connected journey. A simplified example, not a log. */
-const JOURNEY = [
-  ['11:04 pm', 'Front Desk', 'Customer gets in touch', 'A customer messages after hours about a service and availability. Front Desk replies from your approved business information.'],
-  ['11:06 pm', 'Booking', 'A useful next step appears', 'The enquiry is qualified and passed to Booking, which offers a suitable slot from the connected calendar and prepares the confirmation.'],
-  ['Next day', 'Follow-up', 'No lead gets forgotten', 'Follow-up sends a permitted reminder, or asks for missing details, within your contact rules.'],
-  ['Before the visit', 'Voice', 'A smoother arrival', 'A call or message reminds the customer of the visit, with an easy way to reschedule.'],
-  ['After the visit', 'Admin', 'Information stays connected', 'Admin updates the records or prepares a summary, flagging anything sensitive for your staff.'],
-  ['Later', 'Marketing', 'A reason to come back', 'An approved message asks how it went or invites a relevant next booking, subject to consent.'],
-  ['Next morning', 'Stella', 'The owner sees the picture', 'Stella summarises activity, progress and handoffs, so you can focus on the decisions that need you.'],
-] as const;
-
-const LANGUAGES = ['English', 'Arabic', 'Hindi', 'Urdu', 'Tagalog', 'French', 'Russian', 'Spanish', 'Turkish'];
 
 const SYSTEMS = [
   ['records', 'CRM and customer records', 'Lead details, permitted updates and follow-up status.'],
@@ -299,22 +287,7 @@ export default function HomePage() {
             your configuration.
           </SectionHead>
 
-          <ol className="jr">
-            {JOURNEY.map(([when, role, title, body]) => (
-              <li key={title}>
-                <time>{when}</time>
-                <span className="jr-dot" aria-hidden="true" />
-                <span className="jr-role">
-                  {role === 'Stella' ? <Logo symbol /> : <Icon name={ROLE_ICON[role]} size={14} />}
-                  {role}
-                </span>
-                <div>
-                  <h3 className="h4">{title}</h3>
-                  <p>{body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <JourneyFlow />
 
           <p className="jr-out">
             <span>One connected enquiry</span>
@@ -437,11 +410,7 @@ export default function HomePage() {
                 Each channel and language is configured around your customers and your brand&rsquo;s
                 tone of voice.
               </p>
-              <span className="lx-lang">
-                {LANGUAGES.map((l) => (
-                  <em key={l}>{l}</em>
-                ))}
-              </span>
+              <LanguageShowcase />
               <p className="note">
                 Availability and quality can vary by channel, voice and provider. We confirm the
                 languages you need before you start.
@@ -548,7 +517,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Faq title="Questions people ask first." items={[...HOME_FAQS]} />
+      <Faq
+        title="Questions people ask first."
+        items={[...HOME_FAQS]}
+        action={
+          <Link className="btn-3" href="/faq">
+            See all questions <span className="tri" aria-hidden="true" />
+          </Link>
+        }
+      />
 
       <Closer
         title={

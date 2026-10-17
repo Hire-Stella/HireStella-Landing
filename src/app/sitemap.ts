@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
        absent: it is workspace access, not content. */
     'about',
     'team',
+    'faq',
     'industries',
     'industries/healthcare/dental',
     'blogs',
