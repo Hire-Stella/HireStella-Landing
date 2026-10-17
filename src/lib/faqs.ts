@@ -8,9 +8,9 @@
  */
 export type Faq = { q: string; a: string };
 
-/** The homepage takes the objections a first-time visitor arrives with.
-    Content 2.0 (2026-10-17): the eighteen questions from the revised brief. */
-export const HOME_FAQS = [
+/** Content 2.0 (2026-10-17): the eighteen questions from the revised brief.
+    All of them live on /faq; the homepage shows the six asked first. */
+export const ALL_FAQS = [
   {
     q: 'Is Stella just another chatbot?',
     a: 'No. Stella is an AI General Manager that coordinates several specialist workflows, not a single question-and-answer chat. Depending on your setup, those workflows can span conversations, qualification, booking, follow-up and reporting. The scope of every workflow is agreed during configuration.',
@@ -84,6 +84,19 @@ export const HOME_FAQS = [
     a: 'Yes. Stella Sales Coach is a separate product for sales teams: AI role-play where sellers practise real customer conversations and objections, get feedback, and improve before the next live call.',
   },
 ] as const;
+
+const pick = (...i: number[]) => i.map((n) => ALL_FAQS[n]);
+
+/** The homepage takes the objections a first-time visitor arrives with. */
+export const HOME_FAQS = pick(0, 1, 3, 4, 8, 14);
+
+/** /faq, grouped the way buyers think about it. */
+export const FAQ_GROUPS = [
+  { id: 'stella', title: 'Stella and your team', items: pick(0, 1, 16, 17) },
+  { id: 'channels', title: 'Calls, messages and languages', items: pick(2, 3, 4, 6, 7, 10) },
+  { id: 'start', title: 'Getting started', items: pick(8, 9, 15, 5) },
+  { id: 'data', title: 'Data, reporting and cost', items: pick(12, 13, 11, 14) },
+];
 
 export const FAQS: Record<string, Faq[]> = {
   stella: [

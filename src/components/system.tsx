@@ -299,15 +299,20 @@ export function Faq({
   eyebrow = 'Common questions',
   title,
   items,
+  action,
+  id,
 }: {
   eyebrow?: string;
   title: string;
   items: { q: string; a: string }[];
+  /** Rendered beside the heading, like every other section's action. */
+  action?: ReactNode;
+  id?: string;
 }) {
   return (
-    <section className="sec" style={{ paddingTop: 0 }}>
+    <section className="sec" style={{ paddingTop: 0 }} id={id}>
       <div className="wrap">
-        <SectionHead eyebrow={eyebrow} title={title} headMax="20ch" />
+        <SectionHead eyebrow={eyebrow} title={title} headMax="20ch" action={action} />
         <div className="faq">
           {items.map(({ q, a }, i) => (
             <details className="faq-item pan" key={q} open={i === 0}>

@@ -267,6 +267,7 @@ export const navigation = [
       ['Blogs', '/blogs'],
       ['Our approach', '/team'],
       ['Become a partner', '/become-a-partner'],
+      ['FAQs', '/faq'],
       ['Contact', '/contact'],
     ],
   },
