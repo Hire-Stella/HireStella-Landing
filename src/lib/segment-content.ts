@@ -110,7 +110,7 @@ export const segmentDetails: Record<string, SegmentDetail> = {
       { title: 'Departments keep separate rules.', body: 'Outpatients, radiology and admissions each work differently, so a single script cannot serve them.' },
     ],
     journey: [
-      { step: 'Answer on first contact', detail: 'Every caller reaches something immediately instead of a queue, on phone or on your supported digital channels.' },
+      { step: 'Answer on first contact', detail: 'Callers reach a response straight away instead of a queue, on connected phone lines and supported digital channels.' },
       { step: 'Separate routine from clinical', detail: 'Approved routine questions are handled; anything matching your clinical or urgency rules goes straight to staff.' },
       { step: 'Route with the context attached', detail: 'When a transfer is needed, what the caller already said travels with them.' },
       { step: 'Update the record', detail: 'Appointment changes and confirmations are written back to the systems in scope.' },
@@ -210,7 +210,7 @@ export const segmentDetails: Record<string, SegmentDetail> = {
       { title: 'Complex cases wait behind simple ones.', body: 'The caller with a genuine problem waits in the same queue as the caller asking for opening hours.' },
     ],
     journey: [
-      { step: 'Answer and understand the request', detail: 'Every caller is answered immediately and the nature of the request is captured.' },
+      { step: 'Answer and understand the request', detail: 'Callers on connected lines are answered straight away and the nature of the request is captured.' },
       { step: 'Handle what is approved and general', detail: 'Non-account-specific questions you have approved are answered directly.' },
       { step: 'Escalate anything account-sensitive', detail: 'Anything requiring verification, advice or account access goes to authorised staff with the context attached.' },
       { step: 'Coordinate the appointment', detail: 'Where the request needs a specialist, a slot is booked rather than a callback promised.' },

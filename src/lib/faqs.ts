@@ -93,7 +93,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
     {
       q: 'Do I have to pick which specialists I want?',
-      a: 'No. All eight specialists come with every deployment. Stella recommends which ones to activate and configure first, based on your volume, channels, languages, systems and reporting needs. You are not buying them one at a time.',
+      a: 'No. The eight specialists are designed to work together, and Stella recommends which ones to activate and configure first, based on your volume, channels, languages, systems and reporting needs.',
     },
     {
       q: 'How much does Stella decide on her own?',
@@ -121,7 +121,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
     {
       q: 'How many integrations are included?',
-      a: 'Starter includes three, Pro includes five, and Enterprise supports custom APIs and integrations. What matters more than the count is whether context carries from one step to the next, which is what the configuration is designed around.',
+      a: 'That depends on your deployment and is set out in your proposal. What matters more than the count is whether context carries from one step to the next, which is what the configuration is designed around.',
     },
     {
       q: 'What happens to our data?',
@@ -159,7 +159,7 @@ export const FAQS: Record<string, Faq[]> = {
   workforce: [
     {
       q: 'Do I pay per specialist?',
-      a: 'No. All eight specialists come with every deployment. Pricing is driven by volume, voice, languages, complexity, integrations and reporting rather than by how many roles you switch on.',
+      a: 'No. Your proposal is driven by volume, voice, languages, complexity, integrations and reporting rather than by how many roles you switch on.',
     },
     {
       q: 'Can we start with just one?',
@@ -187,7 +187,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
     {
       q: 'Will our dashboard look like this?',
-      a: 'The structure will be familiar, but the views, metrics and records are scoped to your configuration and plan. Reporting depth differs between Starter, Pro and Enterprise.',
+      a: 'The structure will be familiar, but the views, metrics and records are scoped to your configuration and plan. Reporting depth is agreed in your proposal.',
     },
   ],
   about: [

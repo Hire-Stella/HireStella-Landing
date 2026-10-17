@@ -261,25 +261,25 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           {slug === 'integrations' && (
             <section className="sec">
               <div className="wrap">
-                <SectionHead eyebrow="Plan-aware connections" signal title="Scoped, then confirmed.">
+                <SectionHead eyebrow="Scoped connections" signal title="Scoped, then confirmed.">
                   Specific providers and compatibility are confirmed during scoping. A category
                   shown here is not a claim that every product in it is supported.
                 </SectionHead>
                 <div className="stats">
                   <div className="stat">
-                    <div className="k">Starter</div>
-                    <div className="v">3</div>
-                    <p className="note">integrations</p>
+                    <div className="k">Connections</div>
+                    <div className="v">Scoped</div>
+                    <p className="note">to your workflow</p>
                   </div>
                   <div className="stat">
-                    <div className="k">Pro</div>
-                    <div className="v">5</div>
-                    <p className="note">integrations</p>
+                    <div className="k">Providers</div>
+                    <div className="v">Confirmed</div>
+                    <p className="note">during scoping</p>
                   </div>
                   <div className="stat hl">
-                    <div className="k">Enterprise</div>
-                    <div className="v">Custom</div>
-                    <p className="note">APIs &amp; integrations</p>
+                    <div className="k">Custom APIs</div>
+                    <div className="v">Reviewed</div>
+                    <p className="note">for feasibility</p>
                   </div>
                   <div className="stat">
                     <div className="k">Context</div>
@@ -379,7 +379,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                   </>
                 }
               >
-                All eight specialists come with every deployment. Configuration and capacity vary
+                The eight specialists are designed to work together. Configuration and capacity vary
                 with your operation.
               </SectionHead>
               <div className="grid-3">
@@ -467,16 +467,16 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           <section className="sec">
             <div className="wrap">
               <SectionHead
-                eyebrow="A view that matches your plan"
+                eyebrow="A view that matches your setup"
                 title="The right level of visibility."
               >
                 Reporting depth is scoped to your configuration, not sold as a separate product.
               </SectionHead>
               <div className="grid-3">
                 {[
-                  ['chart', 'Performance', 'Starter brings a view of configured activity and operational output.'],
-                  ['activity', 'Growth', 'Pro adds advanced reporting to support a growing operation.'],
-                  ['dashboard', 'Command Centre', 'Enterprise supports a deeper operational view, scoped to your configuration.'],
+                  ['chart', 'Performance', 'A view of configured activity and operational output.'],
+                  ['activity', 'Growth', 'Deeper reporting to support a growing operation.'],
+                  ['dashboard', 'Command Centre', 'A full operational view for complex, multi-location operations.'],
                 ].map(([icon, title, body]) => (
                   <article className="card pan" key={title}>
                     <div className="k">

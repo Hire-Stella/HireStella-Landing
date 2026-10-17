@@ -175,7 +175,7 @@ export const industryGroups = [
   {
     id: 'hospitality',
     name: 'Hospitality',
-    seoTitle: '24/7 AI Front Desk for Hospitality',
+    seoTitle: 'AI Front Desk for Hotels and Hospitality',
     headline: 'Answer the guest who is still deciding.',
     icon: 'hotel',
     intro:
