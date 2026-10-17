@@ -8,39 +8,68 @@ import { Thread, SectionHead, Closer, Faq, Ld, Bul } from '@/components/system';
 import { HOME_FAQS } from '@/lib/faqs';
 import { faqLd, serviceLd } from '@/lib/seo';
 import { industryGroups } from '@/lib/industry-content';
-import { businessTypes } from '@/lib/business-types';
 import { Icon } from '@/components/ui';
 
-export const metadata = { ...canonical('/') };
+const TITLE = 'Meet Stella, Your AI General Manager | HireStella';
+const DESCRIPTION =
+  'Meet Stella, the AI General Manager coordinating eight AI specialists to answer enquiries, support bookings, follow up with leads and keep your team informed. Book a demo.';
+const SHARE =
+  'From first enquiry to booked opportunity: explore how Stella coordinates a connected AI workforce around your business and keeps people in control.';
 
-const PROBLEMS = [
-  ['The call you could not take.', 'A customer needs an answer while your team is already with someone else.', true],
-  ['The enquiry still waiting.', 'Another channel, another conversation, and no shared context between them.', false],
-  ['The follow-up that slipped.', 'A good opportunity disappears quietly between the next steps.', false],
+export const metadata = {
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
+  openGraph: { title: 'Meet Stella. Your AI General Manager. | HireStella', description: SHARE },
+  twitter: { card: 'summary_large_image', description: SHARE },
+  ...canonical('/'),
+};
+
+/* Content 2.0 (2026-10-17): the about block's at-a-glance facts. */
+const GLANCE = [
+  ['Based in Dubai.', 'HireStella is a Dubai-based AI company, building Stella for growing businesses.', true],
+  ['Where Stella works.', 'Connected calls, website experiences, approved messaging channels and supported business systems.', false],
+  ['Done with you.', 'Workflow scoping, configuration, testing and launch, with your team approving each step.', false],
 ] as const;
 
 const STEPS = [
-  ['01', 'Analysis', 'Understand the pressure.', 'Identify bottlenecks and the places where your team needs capacity.'],
-  ['02', 'Configuration', 'Assemble the workforce.', 'Configure specialists around your workflows, channels and systems.'],
-  ['03', 'Management', 'Keep the work connected.', 'Coordinate actions, surface handoffs, and see where to expand next.'],
+  ['01', 'Discovery', 'Find the first workflow worth fixing.', 'Tell us where leads, bookings or follow-ups become hard to manage. We pick a measurable first use case.'],
+  ['02', 'Configuration', 'Design and test it together.', 'Choose the specialists, channels and approvals, then run real examples with your team before anything goes live.'],
+  ['03', 'Go live and expand', 'Improve what works.', 'Activate the approved workflow, review the results, and add channels or workflows where they earn their place.'],
 ] as const;
 
 /* §2.2 — the Human Boundary is a first-class product concept, so it names
    what each side actually holds rather than implying one replaces the other. */
 const PEOPLE = [
-  'Strategy and future planning',
-  'Relationships and client trust',
-  'Judgement and moral decisions',
-  'Sensitive situations and empathy',
-  'Complex, unstructured decisions',
+  'Difficult conversations and empathy',
+  'Commercial and strategic judgement',
+  'Special requests, exceptions and disputes',
+  'Sensitive changes and authorisations',
+  'Relationships and personal customer care',
+  'The decisions that shape your business',
 ];
 const SPECIALISTS = [
-  'Repetitive and administrative work',
-  'High-volume tasks and data processing',
-  'Always-on 24/7 coverage',
-  'Routine workflows and automation',
-  'Structured follow-up and coordination',
+  'Answering approved routine questions',
+  'Managing supported after-hours enquiries',
+  'Booking and rescheduling within agreed rules',
+  'Preparing approved record updates',
+  'Sending permitted reminders',
+  'Summarising interactions and tasks',
 ];
+
+/* The homepage card line and three examples per industry. The industry
+   pages keep their own longer intro. */
+const INDUSTRY_CARDS: Record<string, [string, string[]]> = {
+  healthcare: ['Give every patient enquiry a clear next step.', ['Dental', 'Aesthetic', 'Dermatology']],
+  automotive: ['From the first vehicle enquiry to the appointment.', ['New cars', 'Used cars', 'Luxury & premium']],
+  'real-estate': ['Reply to the property enquiry while interest is high.', ['Residential', 'Luxury', 'Developers']],
+  hospitality: ['Answer the booking question before the guest moves on.', ['Hotels', 'Resorts', 'Serviced apartments']],
+  education: ['Make it easier to ask, enquire and visit.', ['Private schools', 'Universities', 'Colleges']],
+  'financial-services': ['Route routine requests. Protect expert time.', ['Insurance', 'Mortgage brokers', 'Banks & lenders']],
+  'home-services': ['Connect a service enquiry to the right booking.', ['Maintenance', 'Cleaning', 'Renovation']],
+  travel: ['Keep enquiries moving across time zones.', ['Travel', 'Tours', 'Visa services']],
+  'professional-services': ['Let useful enquiries reach the right expert.', ['Recruitment', 'Legal', 'Accounting']],
+  retail: ['Answer the question that stands between browsing and buying.', ['Fashion', 'Beauty', 'Electronics']],
+};
 
 export default function HomePage() {
   return (
@@ -65,20 +94,22 @@ export default function HomePage() {
       />
       <StellaHero />
 
-      <section className="sec" id="capacity-gap">
+      <section className="sec" id="about">
         <div className="wrap">
           <SectionHead
-            eyebrow="The capacity gap"
+            eyebrow="About HireStella"
             signal
-            title="Your ambition is not the problem. Your team’s bandwidth is."
+            title="More than another tool. A revenue team that works together."
             headMax="30ch"
           >
-            Calls come in. Messages pile up. Follow-ups slip. The work is not stopping. It is
-            waiting for someone who already has too much to do.
+            Instead of juggling disconnected automations, Stella coordinates specialists around
+            the customer journey, from the first enquiry through booking, follow-up and the next
+            action your team needs to take. You do not brief eight separate tools or chase every
+            handoff yourself.
           </SectionHead>
 
           <div className="raillist">
-            {PROBLEMS.map(([title, body, signal]) => (
+            {GLANCE.map(([title, body, signal]) => (
               <div key={title}>
                 <span className={`rail ${signal ? 'rail--sig' : ''}`} aria-hidden="true" />
                 <h3 className="h4">{title}</h3>
@@ -92,7 +123,7 @@ export default function HomePage() {
       <section className="sec">
         <div className="wrap">
           <SectionHead
-            eyebrow="Meet your general manager"
+            eyebrow="Your rollout"
             action={
               <>
                 <button className="btn btn-1" type="button" data-demo data-cta="home-steps">
@@ -105,14 +136,14 @@ export default function HomePage() {
             }
             title={
               <>
-                Understand it first.
+                We configure it with you.
                 <br />
-                Then run it every day.
+                Then improve what works.
               </>
             }
           >
-            Stella understands how work moves through your business, brings the right specialists
-            together, and keeps the handoffs connected.
+            You do not need to design an AI workforce on your own. We start with one real customer
+            journey, test the boundaries together, and expand by business value.
           </SectionHead>
 
           <StepsFlow steps={STEPS} />
@@ -124,25 +155,26 @@ export default function HomePage() {
       <section className="sec" id="workforce">
         <div className="wrap">
           <SectionHead
-            eyebrow="The workforce Stella coordinates"
+            eyebrow="Meet the connected workforce"
             title={
               <>
-                Eight specialists.
+                One AI General Manager.
                 <br />
-                One shared direction.
+                Eight connected specialists.
               </>
             }
           >
-            You do not hire them one by one. Stella decides which ones a piece of work needs, in
-            what order, and when it belongs to a person instead. Select any role to follow its
-            route.
+            Stella keeps the context together. As work arrives, the right specialist takes the next
+            step, passes on what the next one needs to know, and reports where a person has to
+            approve. Select any role to follow its route.
           </SectionHead>
 
           <WorkforceMap />
 
           <div className="cta-row">
             <p className="note">
-              The full specialist workforce comes with every deployment. Capacity scales with you.
+              The eight roles are designed to work together. Which ones start first depends on your
+              business.
             </p>
             <button className="btn btn-1" type="button" data-demo data-cta="home-workforce">
               See your workforce in a demo <span className="tri" aria-hidden="true" />
@@ -154,23 +186,24 @@ export default function HomePage() {
       <section className="sec" id="human-boundary">
         <div className="wrap">
           <SectionHead
-            eyebrow="Human + AI · your people, plus Stella"
+            eyebrow="Clear human oversight"
             title={
               <>
-                Human and AI,
+                Stella takes the repeats.
                 <br />
-                each doing what they are for.
+                Your people keep the rest.
               </>
             }
           >
-            Some work follows a rule. Some work needs a person who knows your business. You decide
-            where the line between them sits.
+            You set the boundary during scoping: what Stella may answer, which actions she may
+            take, and what goes to a named person. Outside those rules, the work pauses and hands
+            over with the full context instead of guessing.
           </SectionHead>
 
           <div className="hb">
             <div className="zone pan">
               <p className="eyebrow">Your people</p>
-              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work only a person can hold.</h3>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>What your people stay responsible for.</h3>
               <ul className="bullets">
                 {PEOPLE.map((line) => (
                   <li key={line}>
@@ -187,7 +220,7 @@ export default function HomePage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">Your AI Specialists</p>
-              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work that follows a rule.</h3>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>What the workforce can help with.</h3>
               <ul className="bullets">
                 {SPECIALISTS.map((line) => (
                   <li key={line}>
@@ -204,7 +237,7 @@ export default function HomePage() {
             <h3>
               The goal is not fewer people.
               <br />
-              <em>It is more output and capacity per person.</em>
+              <em>It is more opportunity from the team you already have.</em>
             </h3>
             <button className="btn btn-1 goal-act" type="button" data-demo data-cta="home-boundary">
               Book a demo <span className="tri" aria-hidden="true" />
@@ -216,22 +249,23 @@ export default function HomePage() {
       <section className="sec" id="dashboard">
         <div className="wrap">
           <SectionHead
-            eyebrow="The view from here"
+            eyebrow="Every morning"
             action={
               <button className="btn-3" type="button" data-demo data-cta="home-dashboard">
-                See it with your own numbers <span className="tri" aria-hidden="true" />
+                See a dashboard walkthrough <span className="tri" aria-hidden="true" />
               </button>
             }
             title={
               <>
-                Everything moving.
+                Start the day knowing
                 <br />
-                Everything in view.
+                what moved you forward.
               </>
             }
           >
-            See what your workforce handled, where work is going, and when your people need to step
-            in.
+            Enquiries, bookings and follow-ups in one view: what happened, what is in the pipeline,
+            and what still needs your judgement. Revenue figures appear where your connected
+            systems can confirm them.
           </SectionHead>
 
           <DashboardPlanes />
@@ -243,7 +277,7 @@ export default function HomePage() {
       <section className="sec" id="industries">
         <div className="wrap">
           <SectionHead
-            eyebrow="Built around your reality"
+            eyebrow="Built around the way you sell"
             action={
               <>
                 <button className="btn btn-1" type="button" data-demo data-cta="home-industries">
@@ -256,13 +290,14 @@ export default function HomePage() {
             }
             title={
               <>
-                Different businesses.
+                One connected workforce.
                 <br />
-                The right connections.
+                Built for different journeys.
               </>
             }
           >
-            Start with the way work actually moves in your industry. Build the workforce around it.
+            There is no single script for every business. Stella is configured around the questions
+            your customers ask, the actions your team takes, and the moments that need a person.
           </SectionHead>
 
           <div className="ind">
@@ -272,13 +307,10 @@ export default function HomePage() {
                   <Icon name={group.icon} size={19} />
                 </span>
                 <b>{group.name}</b>
-                <p>{group.intro}</p>
-                {/* business types, not segment pages: three sectors have no
-                    workflow pages yet and an empty chip row left the card
-                    stretched around nothing. */}
+                <p>{INDUSTRY_CARDS[group.id]?.[0] ?? group.intro}</p>
                 <span className="seg">
-                  {(businessTypes[group.id] ?? []).slice(0, 3).map((t) => (
-                    <em key={t.name}>{t.name.replace(/ (clinics|companies|agencies|retailers|brands)$/i, '')}</em>
+                  {(INDUSTRY_CARDS[group.id]?.[1] ?? []).map((t) => (
+                    <em key={t}>{t}</em>
                   ))}
                 </span>
               </Link>
@@ -292,12 +324,13 @@ export default function HomePage() {
       <Closer
         title={
           <>
-            You already know the problem.
-            <br className="lb" /> Tell Stella.
+            Let&rsquo;s find your next
+            <br className="lb" /> revenue opportunity.
           </>
         }
-        eyebrow="Start with one problem"
-        lede="Describe what is slowing you down. Stella shows which specialists would take it on, and where your team stays in charge."
+        eyebrow="Start with your strongest opportunity"
+        lede="Tell us which enquiries, bookings or follow-ups you want to improve. We will map the customer journey, show where Stella’s specialists can help, and explain exactly where your people stay in charge."
+        secondary={{ href: '#talk-to-stella', label: 'Talk to Stella now' }}
       />
     </main>
   );

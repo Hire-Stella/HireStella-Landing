@@ -88,6 +88,25 @@ export function AgentLauncher() {
 
   useEffect(() => () => void (leaving.current && clearTimeout(leaving.current)), []);
 
+  /* "Talk to Stella now" buttons elsewhere on the page carry data-talk. They
+     open this launcher's real call and chat options, never the preset hero
+     scenarios. With only one mode configured there is nothing to choose. */
+  useEffect(() => {
+    function talk(e: MouseEvent) {
+      if (!(e.target as Element).closest?.('[data-talk]')) return;
+      e.preventDefault();
+      track('agent_launcher_opened', { from: 'page-cta' });
+      if (OPTIONS.length === 1) {
+        setMode(OPTIONS[0].mode);
+        return;
+      }
+      openFan();
+      setTimeout(() => wrap.current?.querySelector<HTMLElement>('.al-opt')?.focus({ preventScroll: true }), 60);
+    }
+    document.addEventListener('click', talk);
+    return () => document.removeEventListener('click', talk);
+  }, [openFan]);
+
   useEffect(() => {
     if (!fan) return;
     function esc(e: KeyboardEvent) {
