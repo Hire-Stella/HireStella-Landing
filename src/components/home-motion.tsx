@@ -38,6 +38,11 @@ const REVEAL: [string, string][] = [
   ['.home .goal', 'rv'],
   ['.home #dashboard .wrap > :not(.split)', 'rv'],
   ['.home .ind > *', 'rv'],
+  ['.home .eng > li', 'rv'],
+  ['.home .tools > *', 'rv'],
+  ['.home .jr > li', 'rv'],
+  ['.home .jr-out', 'rv'],
+  ['.home .lx > *', 'rv'],
   ['.home .faq-item', 'rv'],
   ['.home .closer-in > *', 'rv'],
 ];
