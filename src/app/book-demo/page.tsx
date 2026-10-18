@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   ...canonical('/book-demo'),
   title: 'Book an AI Workforce Demo',
   description:
-    'Prepare a consultation brief around your business, your workflows, and your next step with HireStella.',
+    'Book a demo of Stella, your AI General Manager. See how she would handle your enquiries, bookings and follow-ups.',
 };
 
 const STEPS = [
