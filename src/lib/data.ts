@@ -199,27 +199,6 @@ export const industries = [
     systems: 'Supported service channels and scoped enterprise systems',
     ids: ['front-desk', 'voice', 'admin'],
   },
-  {
-    id: 'salons',
-    name: 'Salons & wellness',
-    label: 'Salons',
-    icon: 'scissors',
-    headline: 'Bookings arrive everywhere. Keep one clear schedule.',
-    problem: 'Bookings come through calls, WhatsApp and Instagram.',
-    description:
-      'Bring messages, calls, appointment changes, and rebooking into a coordinated experience.',
-    steps: [
-      'Message arrives',
-      'Service identified',
-      'Availability checked',
-      'Booking confirmed',
-      'Rebooking reminder sent',
-    ],
-    boundary:
-      'Your team handles treatment suitability, complaints and exceptions to booking policy.',
-    systems: 'Supported booking systems, calendars and social channels',
-    ids: ['front-desk', 'voice', 'booking', 'social', 'outbound-followup'],
-  },
 ] as const;
 
 export const navigation = [

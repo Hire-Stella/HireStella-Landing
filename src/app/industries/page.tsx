@@ -176,22 +176,6 @@ export default function IndustriesPage() {
         </section>
       ))}
 
-      <section className="sec" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <p className="eyebrow">Also supported</p>
-          <div className="related">
-            <Link className="rel-card pan" href="/solutions/salons">
-              <span className="micro">Salons &amp; wellness</span>
-              <b>Bookings arrive everywhere. Keep one clear schedule.</b>
-              <p>Messages, calls, appointment changes and rebooking, coordinated into one place.</p>
-              <span className="btn-3" style={{ fontSize: 14 }}>
-                Open <Tri />
-              </span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <Closer
         eyebrow="Find your starting point"
         title="Let us map the work around your business."
