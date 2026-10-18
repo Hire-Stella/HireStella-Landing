@@ -128,7 +128,7 @@ export const FAQS: Record<string, Faq[]> = {
     ALL_FAQS[5],
     ALL_FAQS[6],
     {
-      q: 'How many integrations are included?',
+      q: 'How many systems can we connect?',
       a: 'That depends on your deployment and is set out in your proposal. What matters more than the count is whether context carries from one step to the next, which is what the configuration is designed around.',
     },
     {

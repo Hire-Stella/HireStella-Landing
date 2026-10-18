@@ -157,7 +157,7 @@ export default function DentalPage() {
               <>
                 Six moments where
                 <br />
-                clinics lose capacity.
+                clinics lose patients.
               </>
             }
           >

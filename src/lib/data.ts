@@ -144,7 +144,7 @@ export const industries = [
     headline: 'Care for your patients. We’ll coordinate the rest.',
     problem: 'We miss calls while the team is with patients.',
     description:
-      'From the first late-night enquiry to the appointment reminder, give your front desk the capacity to keep up.',
+      'From the first late-night enquiry to the appointment reminder, give your front desk room to keep up.',
     steps: [
       'Enquiry received',
       'Routine question answered',

@@ -151,7 +151,7 @@ export function BusinessTypes({
     <section className="sec" style={flush ? { paddingTop: 0 } : undefined}>
       <div className="wrap">
         <SectionHead eyebrow={eyebrow} title={title} headMax="22ch">
-          Every one of these loses capacity in a slightly different place. The workflow is
+          Every one of these loses enquiries in a slightly different place. The workflow is
           configured around the one you actually run.
         </SectionHead>
         <div className="btypes">

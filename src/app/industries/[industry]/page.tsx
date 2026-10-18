@@ -343,7 +343,7 @@ export default async function IndustryGroupPage({
       <section className="sec" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <SectionHead
-            eyebrow="Where the capacity goes"
+            eyebrow="Where enquiries slip"
             signal
             title={
               <>

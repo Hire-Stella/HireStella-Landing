@@ -20,7 +20,7 @@ const additional = {
     eyebrow: 'Your industry. Your workflow.',
     title: 'Built for the problem.\nConfigured for your business.',
     intro:
-      'Different operations lose capacity in different places. Explore an industry journey and the specialist connections that could help.',
+      'Different businesses lose enquiries in different places. Explore an industry journey and the specialists that could help.',
   },
   roi: {
     label: 'ROI calculator',
@@ -398,8 +398,8 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                   </>
                 }
               >
-                The eight specialists are designed to work together. Configuration and capacity vary
-                with your operation.
+                The eight specialists are designed to work together. Which ones start first depends
+                on your operation.
               </SectionHead>
               <div className="grid-3">
                 {specialists.map((s) => (

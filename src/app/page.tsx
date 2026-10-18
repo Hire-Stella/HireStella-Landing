@@ -14,7 +14,7 @@ import { specialists, humanBoundary, revenueEngine } from '@/lib/data';
 
 const TITLE = 'Meet Stella, Your AI General Manager | HireStella';
 const DESCRIPTION =
-  'Meet Stella, the AI General Manager coordinating eight AI specialists to answer enquiries, support bookings, follow up with leads and keep your team informed. Book a demo.';
+  'Meet Stella, the AI General Manager coordinating eight AI specialists to answer enquiries, support bookings, follow up with leads and keep your team informed.';
 const SHARE =
   'From first enquiry to booked opportunity: explore how Stella coordinates a connected AI workforce around your business and keeps people in control.';
 

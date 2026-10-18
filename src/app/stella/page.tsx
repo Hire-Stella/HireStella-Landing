@@ -14,7 +14,7 @@ import { Logo } from '@/components/ui';
 
 export const metadata: Metadata = {
   ...canonical('/stella'),
-  title: 'Meet Stella, Your AI General Manager',
+  title: 'How Stella Works: Engine, Specialists and Dashboard',
   description:
     'One AI General Manager and eight connected specialists. See the workspace, the roles, how a deployment is built, and where your people stay in control.',
 };
@@ -117,7 +117,7 @@ export default function StellaPage() {
               <>
                 Five stages.
                 <br />
-                One manager on all five.
+                One manager.
               </>
             }
           >

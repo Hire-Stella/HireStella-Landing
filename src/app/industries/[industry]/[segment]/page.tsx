@@ -191,7 +191,7 @@ export default async function SegmentPage({
           <SectionHead
             eyebrow="Who this is for"
             signal
-            title="Where the capacity actually goes."
+            title="Where enquiries actually slip."
             headMax="18ch"
           >
             {detail.whoFor}
