@@ -176,6 +176,28 @@ export const FAQS: Record<string, Faq[]> = {
       a: 'You can start with one workflow, which usually draws on three or four specialists in sequence. Starting with a single role in isolation tends to move the bottleneck rather than remove it.',
     },
   ],
+  'sales-coach': [
+    {
+      q: 'Is Sales Coach part of Stella?',
+      a: 'No. Stella runs customer-facing work for your business. Sales Coach is a separate product that trains the people who sell. They work well together, but each can be scoped on its own.',
+    },
+    {
+      q: 'Do I need Stella to use Sales Coach?',
+      a: 'No. Sales Coach can be deployed for a sales team on its own. If you also run Stella, the two can be scoped together.',
+    },
+    {
+      q: 'Who builds the practice scenarios?',
+      a: 'We build them with you, from your own sales process, products and the objections your sellers actually meet. Your managers approve each scenario before the team uses it.',
+    },
+    {
+      q: 'Which languages can sellers practise in?',
+      a: 'The practice languages are confirmed during scoping, based on the markets your team sells into and what the voice providers support well.',
+    },
+    {
+      q: 'How is Sales Coach priced?',
+      a: 'Commercial terms depend on team size, scenarios and reporting, and are set out in a separate proposal.',
+    },
+  ],
   roi: [
     {
       q: 'Where do these numbers come from?',

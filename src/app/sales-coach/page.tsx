@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { canonical, breadcrumbLd, serviceLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, Ld, Tri, Bul } from '@/components/system';
+import { canonical, breadcrumbLd, serviceLd, faqLd } from '@/lib/seo';
+import { FAQS } from '@/lib/faqs';
+import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul } from '@/components/system';
 import { CoachWorkspace } from '@/components/coach-workspace';
 import { PracticeLoop } from '@/components/figures';
 import { Icon } from '@/components/ui';
@@ -137,6 +138,7 @@ export default function SalesCoachPage() {
               'An AI role-play platform for sales onboarding, coaching and continuous seller improvement, with competency scoring and team analytics.',
             path: '/sales-coach',
           }),
+          faqLd(FAQS['sales-coach']),
         ]}
       />
 
@@ -178,6 +180,21 @@ export default function SalesCoachPage() {
               A realistic AI sales practice platform for onboarding,
               <br className="lb" /> coaching and continuous seller improvement.
             </h2>
+          </div>
+
+          <div className="rel pan">
+            <p className="rel-i">
+              <b>Stella</b>
+              <span>Runs your customer-facing work: enquiries, bookings and follow-up.</span>
+            </p>
+            <span className="rel-plus" aria-hidden="true">+</span>
+            <p className="rel-i">
+              <b>Stella Sales Coach</b>
+              <span>Trains the people who sell, before the conversation is a real one.</span>
+            </p>
+            <p className="rel-note">
+              Separate products that work well together. <Link href="/stella">Meet Stella</Link>
+            </p>
           </div>
         </div>
       </section>
@@ -338,6 +355,16 @@ export default function SalesCoachPage() {
         </div>
       </section>
 
+
+      <Faq
+        title="Questions about Sales Coach."
+        items={FAQS['sales-coach']}
+        action={
+          <Link className="btn-3" href="/faq">
+            See all questions <span className="tri" aria-hidden="true" />
+          </Link>
+        }
+      />
 
       <Closer
         eyebrow="Rehearse with Stella"

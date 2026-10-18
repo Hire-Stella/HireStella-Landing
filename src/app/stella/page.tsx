@@ -8,7 +8,9 @@ import { StellaWorkforce } from '@/components/stella-workforce';
 import { HeroLive } from '@/components/hero-live';
 import { Icon } from '@/components/ui';
 import { FAQS } from '@/lib/faqs';
-import { rollout, humanBoundary } from '@/lib/data';
+import { rollout, humanBoundary, revenueEngine, specialists } from '@/lib/data';
+import { LanguageShowcase } from '@/components/home-stories';
+import { Logo } from '@/components/ui';
 
 export const metadata: Metadata = {
   ...canonical('/stella'),
@@ -31,6 +33,8 @@ export const metadata: Metadata = {
 /* The canonical rollout from lib/data, with an icon per step. */
 const HOW_ICONS = ['message', 'network', 'settings', 'check', 'activity', 'chart'];
 const HOW = rollout.map(([title, body], i) => [HOW_ICONS[i], title, body] as const);
+
+const ROLE_ICON: Record<string, string> = Object.fromEntries(specialists.map((x) => [x.short, x.icon]));
 
 const PEOPLE = humanBoundary.people;
 const STELLA = humanBoundary.workforce;
@@ -104,6 +108,52 @@ export default function StellaPage() {
         </div>
       </section>
 
+      {/* ── the revenue engine, one level deeper than the homepage ── */}
+      <section className="sec" id="engine">
+        <div className="wrap">
+          <SectionHead
+            eyebrow="How Stella runs the revenue engine"
+            title={
+              <>
+                Five stages.
+                <br />
+                One manager watching all of them.
+              </>
+            }
+          >
+            Each stage has its own specialists. Stella keeps the context moving between them,
+            checks that nothing stalls, and knows where a person has to take over.
+          </SectionHead>
+
+          <ol className="eng eng--deep">
+            {revenueEngine.map(([n, stage, line, body, roles, check, person]) => (
+              <li className="eng-s pan" key={stage}>
+                <span className="eng-dot" aria-hidden="true" />
+                <p className="eng-k">
+                  <b>{n}</b> {stage}
+                </p>
+                <h3 className="h4">{line}</h3>
+                <p>{body}</p>
+                <span className="eng-roles">
+                  {roles.map((role) => (
+                    <em key={role}>
+                      {role === 'Stella' ? <Logo symbol /> : <Icon name={ROLE_ICON[role]} size={13} />}
+                      {role}
+                    </em>
+                  ))}
+                </span>
+                <dl className="eng-more">
+                  <dt>Stella checks</dt>
+                  <dd>{check}</dd>
+                  <dt>Your people</dt>
+                  <dd>{person}</dd>
+                </dl>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       {/* ── who does the work ── */}
       <section className="sec" style={{ paddingTop: 0 }} id="workforce">
         <div className="wrap">
@@ -127,6 +177,29 @@ export default function StellaPage() {
           <p className="note" style={{ marginTop: 'var(--s6)' }}>
             The eight roles are designed to work together. Which ones start first depends on your business.
           </p>
+        </div>
+      </section>
+
+      {/* ── languages ── */}
+      <section className="sec" style={{ paddingTop: 0 }} id="languages">
+        <div className="wrap">
+          <div className="lx lx--one">
+            <div className="lx-p pan">
+              <p className="eyebrow eyebrow--sig">Languages</p>
+              <h3 className="h4">Stella speaks to customers in the language they are comfortable using.</h3>
+              <p>
+                Each channel and language is configured around your customers and your brand&rsquo;s
+                tone of voice, so the same business sounds like itself in every one of them.
+              </p>
+              <p className="note">
+                Availability and quality can vary by channel, voice and provider. We confirm the
+                languages you need before you start.
+              </p>
+            </div>
+            <div className="lx-p pan">
+              <LanguageShowcase />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -217,7 +290,15 @@ export default function StellaPage() {
         </div>
       </section>
 
-      <Faq title="Questions buyers actually ask." items={faqs} />
+      <Faq
+        title="Questions buyers actually ask."
+        items={faqs}
+        action={
+          <Link className="btn-3" href="/faq">
+            See all questions <span className="tri" aria-hidden="true" />
+          </Link>
+        }
+      />
 
 
       <Closer
