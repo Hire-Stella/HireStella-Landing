@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { industryGroups, lowerName } from '@/lib/industry-content';
-import { specialists } from '@/lib/data';
+import { specialists, revenueEngine } from '@/lib/data';
+import { industryBrief } from '@/lib/industry-brief';
 import { canonical, breadcrumbLd, serviceLd, faqLd } from '@/lib/seo';
 import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul, Accent } from '@/components/system';
 import { OperationsWorkspace } from '@/components/workspace';
@@ -275,6 +276,7 @@ export default async function IndustryGroupPage({
 
   const workspace = workspaces[group.id];
   const profile = PROFILES[group.id];
+  const brief = industryBrief[group.id];
   const core = profile.core
     .map((id) => specialists.find((s) => s.id === id))
     .filter((s): s is (typeof specialists)[number] => Boolean(s));
@@ -299,7 +301,7 @@ export default async function IndustryGroupPage({
             <Accent text={profile.title[1]} />
           </>
         }
-        lede={group.intro}
+        lede={brief?.lede ?? group.intro}
         actions={
           <>
             <button className="btn btn-1" type="button" data-demo>
@@ -395,6 +397,46 @@ export default async function IndustryGroupPage({
         </div>
       </section>
 
+      {brief ? (
+        <section className="sec" style={{ paddingTop: 0 }}>
+          <div className="wrap">
+            <div className="aim pan">
+              <div className="aim-head">
+                <p className="eyebrow eyebrow--sig">What good looks like</p>
+                <h3>{brief.aim}</h3>
+                <p className="note">
+                  An aim agreed with you and measured against your own baseline, not a promised
+                  result.
+                </p>
+              </div>
+              <ol className="eng-row" aria-label="Where these specialists sit in the revenue engine">
+                {revenueEngine.map(([n, stage, line, , roles]) => {
+                  const mine = core.filter((s) => (roles as readonly string[]).includes(s.short));
+                  return (
+                    <li className={mine.length ? 'on' : undefined} key={stage}>
+                      <span className="eng-row-k">
+                        <b>{n}</b> {stage}
+                      </span>
+                      <span className="eng-row-line">{line}</span>
+                      <span className="eng-row-who">
+                        {mine.length
+                          ? mine.map((s) => (
+                              <em key={s.id}>
+                                <Icon name={s.icon} size={13} />
+                                {s.short}
+                              </em>
+                            ))
+                          : <i>Added when it earns its place</i>}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section className="sec" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <div className="boundary-card pan">
@@ -402,6 +444,9 @@ export default async function IndustryGroupPage({
             <div>
               <p className="eyebrow">Where your people take over</p>
               <h3 style={{ fontSize: 23, maxWidth: '58ch' }}>{profile.boundary}</h3>
+              {brief ? (
+                <p style={{ marginTop: 'var(--s3)', maxWidth: '68ch' }}>{brief.keep}</p>
+              ) : null}
             </div>
             <Link className="btn-3" href="/human-boundary">
               The human boundary <Tri />

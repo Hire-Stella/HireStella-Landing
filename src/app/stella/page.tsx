@@ -117,7 +117,7 @@ export default function StellaPage() {
               <>
                 Five stages.
                 <br />
-                One manager watching all of them.
+                One manager on all five.
               </>
             }
           >
