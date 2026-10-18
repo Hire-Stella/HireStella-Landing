@@ -32,7 +32,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'contact',
     'book-demo',
     'become-a-partner',
-    ...industries.filter((i) => i.id === 'salons').map((i) => `solutions/${i.id}`),
   ].map((path) => ({
     url: `${origin}/${path}`,
     /* Only posts carry a date, because they are the only pages with a real
