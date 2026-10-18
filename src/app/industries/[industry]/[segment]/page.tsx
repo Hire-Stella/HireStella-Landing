@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { industryGroups, lowerName } from '@/lib/industry-content';
 import { segmentDetails } from '@/lib/segment-content';
 import { specialists } from '@/lib/data';
+import { industryBrief } from '@/lib/industry-brief';
 import {
   PageHero,
   Closer,
@@ -281,6 +282,11 @@ export default async function SegmentPage({
             <div>
               <p className="eyebrow">Where your people take over</p>
               <h3 style={{ fontSize: 22, maxWidth: '62ch' }}>{detail.boundary}</h3>
+              {industryBrief[group.id] ? (
+                <p className="aim-line">
+                  <b>What good looks like:</b> {industryBrief[group.id].aim}
+                </p>
+              ) : null}
             </div>
             <Link className="btn-3" href="/human-boundary">
               The human boundary <Tri />
