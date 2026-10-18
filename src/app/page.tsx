@@ -10,7 +10,7 @@ import { HOME_FAQS } from '@/lib/faqs';
 import { faqLd, serviceLd } from '@/lib/seo';
 import { industryGroups } from '@/lib/industry-content';
 import { Icon, Logo } from '@/components/ui';
-import { specialists } from '@/lib/data';
+import { specialists, humanBoundary } from '@/lib/data';
 
 const TITLE = 'Meet Stella, Your AI General Manager | HireStella';
 const DESCRIPTION =
@@ -63,29 +63,15 @@ const SYSTEMS = [
 const ROLE_ICON: Record<string, string> = Object.fromEntries(specialists.map((x) => [x.short, x.icon]));
 
 const STEPS = [
-  ['01', 'Discovery', 'Find the first workflow worth fixing.', 'Tell us where leads, bookings or follow-ups become hard to manage. We pick a measurable first use case.'],
-  ['02', 'Configuration', 'Design and test it together.', 'Choose the specialists, channels and approvals, then run real examples with your team before anything goes live.'],
+  ['01', 'Discovery and design', 'Find the first workflow worth fixing.', 'Tell us where leads, bookings or follow-ups become hard to manage. We pick a measurable first use case.'],
+  ['02', 'Configure and test', 'Design and test it together.', 'Choose the specialists, channels and approvals, then run real examples with your team before anything goes live.'],
   ['03', 'Go live and expand', 'Improve what works.', 'Activate the approved workflow, review the results, and add channels or workflows where they earn their place.'],
 ] as const;
 
 /* §2.2 — the Human Boundary is a first-class product concept, so it names
    what each side actually holds rather than implying one replaces the other. */
-const PEOPLE = [
-  'Difficult conversations and empathy',
-  'Commercial and strategic judgement',
-  'Special requests, exceptions and disputes',
-  'Sensitive changes and authorisations',
-  'Relationships and personal customer care',
-  'The decisions that shape your business',
-];
-const SPECIALISTS = [
-  'Answering approved routine questions',
-  'Managing supported after-hours enquiries',
-  'Booking and rescheduling within agreed rules',
-  'Preparing approved record updates',
-  'Sending permitted reminders',
-  'Summarising interactions and tasks',
-];
+const PEOPLE = humanBoundary.people;
+const SPECIALISTS = humanBoundary.workforce;
 
 /* The homepage card line and three examples per industry. The industry
    pages keep their own longer intro. */
@@ -118,7 +104,7 @@ export default function HomePage() {
           serviceLd({
             name: 'AI workforce orchestration',
             description:
-              'One AI General Manager and eight connected AI Specialists that coordinate enquiries, bookings and follow-ups across your channels.',
+              'One AI General Manager and eight connected AI specialists that coordinate enquiries, bookings and follow-ups across your channels.',
             path: '/',
           }),
         ]}
@@ -359,7 +345,7 @@ export default function HomePage() {
             </div>
 
             <div className="zone pan">
-              <p className="eyebrow eyebrow--sig">Your AI Specialists</p>
+              <p className="eyebrow eyebrow--sig">Your AI specialists</p>
               <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>What the workforce can help with.</h3>
               <ul className="bullets">
                 {SPECIALISTS.map((line) => (

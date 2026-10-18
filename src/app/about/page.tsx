@@ -5,6 +5,7 @@ import { canonical, breadcrumbLd } from '@/lib/seo';
 import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul } from '@/components/system';
 import { founder } from '@/lib/founder';
 import { FAQS } from '@/lib/faqs';
+import { humanBoundary } from '@/lib/data';
 
 export const metadata: Metadata = {
   ...canonical('/about'),
@@ -21,18 +22,8 @@ const SLIPS = [
   ['Admin piles up.', 'And the people responsible for growth spend their day inside it.'],
 ] as const;
 
-const PEOPLE = [
-  'Relationships and client trust',
-  'Judgement and complex decisions',
-  'Situations that need empathy',
-  'Strategy and where to go next',
-];
-const WORKFORCE = [
-  'Repetitive and administrative work',
-  'High-volume, structured tasks',
-  'After-hours coverage on connected channels',
-  'Follow-up and coordination',
-];
+const PEOPLE = humanBoundary.people;
+const WORKFORCE = humanBoundary.workforce;
 
 export default function AboutPage() {
   return (
@@ -148,7 +139,7 @@ export default function AboutPage() {
               </>
             }
           >
-            Stella, our AI General Manager, coordinates a connected workforce of AI Specialists
+            Stella, our AI General Manager, coordinates eight connected AI specialists
             around the way your business actually works. The workforce takes the repetitive,
             high-volume and structured work. Your people keep everything else.
           </SectionHead>
@@ -156,7 +147,7 @@ export default function AboutPage() {
           <div className="hb">
             <div className="zone pan">
               <p className="eyebrow">Your people</p>
-              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Responsible for the judgement.</h3>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>What your people stay responsible for.</h3>
               <ul className="bullets">
                 {PEOPLE.map((line) => (
                   <li key={line}>
@@ -173,7 +164,7 @@ export default function AboutPage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">The AI workforce</p>
-              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Responsible for the volume.</h3>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>What the workforce can help with.</h3>
               <ul className="bullets">
                 {WORKFORCE.map((line) => (
                   <li key={line}>
@@ -189,9 +180,9 @@ export default function AboutPage() {
             <span className="rail rail--sig" aria-hidden="true" />
             <p className="eyebrow">What we are actually building</p>
             <h3>
-              Not a replacement for your team.
+              {humanBoundary.goal[0]}
               <br />
-              <em>More capacity from the one you already have.</em>
+              <em>{humanBoundary.goal[1]}</em>
             </h3>
           </div>
         </div>

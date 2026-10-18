@@ -100,10 +100,7 @@ export const FAQ_GROUPS = [
 
 export const FAQS: Record<string, Faq[]> = {
   stella: [
-    {
-      q: 'Is Stella a chatbot?',
-      a: 'No. A chatbot answers a message. Stella is the manager layer above the specialists: she reads what is slowing the business down, decides which specialists a piece of work needs, in what order, and where a person has to take over. The conversation is how you brief her, not the product itself.',
-    },
+    ALL_FAQS[0],
     {
       q: 'Do I have to pick which specialists I want?',
       a: 'No. The eight specialists are designed to work together, and Stella recommends which ones to activate and configure first, based on your volume, channels, languages, systems and reporting needs.',
@@ -130,7 +127,7 @@ export const FAQS: Record<string, Faq[]> = {
   integrations: [
     {
       q: 'Which systems can HireStella connect to?',
-      a: 'Integration categories on this site describe the kinds of systems the workforce is built to work with: CRM and records, calendars, messaging channels, voice and custom APIs. A category shown here is not a claim that every product in it is supported. Specific providers and compatibility are confirmed during scoping.',
+      a: 'Integration categories on this site describe the kinds of systems the workforce is built to work with: CRM and records, calendars and booking, customer channels, e-commerce and operations tools, and custom APIs. A category shown here is not a claim that every product in it is supported. Specific providers and compatibility are confirmed during scoping.',
     },
     {
       q: 'How many integrations are included?',
@@ -178,10 +175,6 @@ export const FAQS: Record<string, Faq[]> = {
       q: 'Can we start with just one?',
       a: 'You can start with one workflow, which usually draws on three or four specialists in sequence. Starting with a single role in isolation tends to move the bottleneck rather than remove it.',
     },
-    {
-      q: 'Is there a per-message price?',
-      a: 'There is no per-message price. Capacity is part of the plan, and the operating level is recommended based on your actual volume during scoping.',
-    },
   ],
   roi: [
     {
@@ -200,13 +193,13 @@ export const FAQS: Record<string, Faq[]> = {
     },
     {
       q: 'Will our dashboard look like this?',
-      a: 'The structure will be familiar, but the views, metrics and records are scoped to your configuration and plan. Reporting depth is agreed in your proposal.',
+      a: 'The structure will be familiar, but the views, metrics and records are scoped to your configuration. Reporting depth is agreed in your proposal.',
     },
   ],
   about: [
     {
       q: 'What does HireStella actually sell?',
-      a: 'An AI workforce orchestration platform: one AI General Manager and eight connected AI Specialists, configured around the workflows where your business loses capacity. It is sold as a configured deployment, not as software you assemble yourself.',
+      a: 'An AI workforce orchestration platform: one AI General Manager and eight connected AI specialists, configured around the workflows where your business loses enquiries, bookings and follow-ups. It is sold as a configured deployment, not as software you assemble yourself.',
     },
     {
       q: 'Where is HireStella based?',
