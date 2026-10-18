@@ -125,10 +125,8 @@ export const FAQS: Record<string, Faq[]> = {
     },
   ],
   integrations: [
-    {
-      q: 'Which systems can HireStella connect to?',
-      a: 'Integration categories on this site describe the kinds of systems the workforce is built to work with: CRM and records, calendars and booking, customer channels, e-commerce and operations tools, and custom APIs. A category shown here is not a claim that every product in it is supported. Specific providers and compatibility are confirmed during scoping.',
-    },
+    ALL_FAQS[5],
+    ALL_FAQS[6],
     {
       q: 'How many integrations are included?',
       a: 'That depends on your deployment and is set out in your proposal. What matters more than the count is whether context carries from one step to the next, which is what the configuration is designed around.',
@@ -139,6 +137,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
   ],
   'human-boundary': [
+    ALL_FAQS[16],
     {
       q: 'Where exactly does automation stop?',
       a: 'At the rules you set. In practice the recurring boundaries are clinical, legal and financial decisions, complaints and sensitive conversations, negotiation and anything contractual, and any moment a customer asks for a human. Those transfer to a person with the full context attached.',
@@ -153,6 +152,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
   ],
   security: [
+    ALL_FAQS[13],
     {
       q: 'Is HireStella certified or compliant with a specific standard?',
       a: 'This website makes no certification or compliance claim. Deployment requirements, permissions, data handling and retention are defined during scoping and confirmed in writing for each deployment.',
@@ -229,6 +229,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
   ],
   team: [
+    ALL_FAQS[15],
     {
       q: 'How does an engagement start?',
       a: 'With a conversation about the work that is not moving. We map the workflows creating pressure, the channels and systems involved, and where human judgement has to stay, before anything is configured.',

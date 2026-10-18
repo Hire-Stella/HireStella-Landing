@@ -23,6 +23,11 @@ export const editorialPages = {
         text: 'Scope conversations across website, WhatsApp, Instagram, social, voice and email according to provider access and your selected configuration.',
       },
       {
+        icon: 'store',
+        title: 'E-commerce & operations',
+        text: 'Use agreed order, stock or status data in customer conversations, where a compatible connection exists.',
+      },
+      {
         icon: 'network',
         title: 'Custom APIs',
         text: 'Bespoke connections can be scoped after a technical review. Feasibility, permissions, effort and system limits are reviewed first.',

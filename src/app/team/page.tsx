@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { canonical, breadcrumbLd } from '@/lib/seo';
-import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri } from '@/components/system';
+import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul } from '@/components/system';
 import { Icon } from '@/components/ui';
 import { FAQS } from '@/lib/faqs';
+import { rollout } from '@/lib/data';
 
 export const metadata: Metadata = {
   ...canonical('/team'),
@@ -12,29 +13,18 @@ export const metadata: Metadata = {
     'We do not start with a list of AI features. We start with the work: where your team is under pressure, how work moves, and where human judgement has to stay.',
 };
 
-/** Four steps, in the order they actually happen. The numbers are real. */
-const STEPS = [
-  [
-    'Listen to the real problem',
-    'Understand the work that is not moving, where capacity is being lost, and where your team is spending its time.',
-    'message',
-  ],
-  [
-    'Design around the workflow',
-    'Give each AI Specialist a clear role, connect the right systems, and define when work should move from the workforce to a person.',
-    'network',
-  ],
-  [
-    'Build a shared view',
-    'Use the dashboard to see what the workforce is handling, where work is moving, and where your team needs to step in.',
-    'chart',
-  ],
-  [
-    'Keep improving',
-    'As your business changes, the workforce expands, adapts and takes on new workflows.',
-    'activity',
-  ],
-] as const;
+/* The one rollout (lib/data), with an icon per step. */
+const ICONS = ['message', 'network', 'settings', 'check', 'activity', 'chart'];
+const STEPS = rollout.map(([title, body], i) => [title, body, ICONS[i]] as const);
+
+const NEED = [
+  'Your product or service information',
+  'Up-to-date prices or approved answers',
+  'How the workflow runs today',
+  'Authorised access to the agreed systems',
+  'A responsible contact on your team',
+  'Time for acceptance testing',
+];
 
 export default function TeamPage() {
   return (
@@ -62,7 +52,7 @@ export default function TeamPage() {
             </Link>
           </>
         }
-        meta={['Four steps', 'No feature list', 'You draw the boundary']}
+        meta={['Six steps', 'One workflow first', 'You draw the boundary']}
         aside={
           <div className="thesis pan">
             <span className="rail rail--sig" aria-hidden="true" />
@@ -83,18 +73,19 @@ export default function TeamPage() {
       <section className="sec sec--field">
         <div className="wrap">
           <SectionHead
-            eyebrow="How we work"
+            eyebrow="Your rollout"
             signal
             title={
               <>
-                Four steps.
+                We configure it with you.
                 <br />
-                In this order.
+                Then improve what works.
               </>
             }
           >
-            Nothing is configured before the first one is done, because a workforce designed around
-            a guess is a workforce you have to rebuild.
+            You do not need to design an AI workforce on your own. We start with one concrete
+            customer journey, verify the data and system access it needs, test the boundaries
+            together and expand by business value.
           </SectionHead>
 
           <div className="steps-flow">
@@ -117,8 +108,32 @@ export default function TeamPage() {
         </div>
       </section>
 
-      <section className="sec" style={{ paddingTop: 0 }}>
+      <section className="sec" style={{ paddingTop: 0 }} id="what-we-need">
         <div className="wrap">
+          <div className="grid-2">
+            <div className="zone pan">
+              <p className="eyebrow eyebrow--sig">What we need from you</p>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Six things, and we handle the rest.</h3>
+              <ul className="bullets">
+                {NEED.map((line) => (
+                  <li key={line}>
+                    <Bul />
+                    {line}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="zone pan">
+              <p className="eyebrow">How long it takes</p>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Timing is confirmed after scoping.</h3>
+              <p>
+                Dates depend on the channels, technical access, integrations, languages, your
+                internal approvals and how complex the first workflow is. We would rather give you
+                a date we can keep than a fast one we cannot.
+              </p>
+            </div>
+          </div>
+
           <div className="goal">
             <span className="rail rail--sig" aria-hidden="true" />
             <p className="eyebrow">Our principle</p>

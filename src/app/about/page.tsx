@@ -5,7 +5,8 @@ import { canonical, breadcrumbLd } from '@/lib/seo';
 import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul } from '@/components/system';
 import { founder } from '@/lib/founder';
 import { FAQS } from '@/lib/faqs';
-import { humanBoundary } from '@/lib/data';
+import { humanBoundary, revenueEngine, specialists } from '@/lib/data';
+import { Icon, Logo } from '@/components/ui';
 
 export const metadata: Metadata = {
   ...canonical('/about'),
@@ -122,6 +123,47 @@ export default function AboutPage() {
                 the workforce and your team drawn by you and visible on the screen.
               </p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      {/* ── what we build: the same engine the homepage shows ── */}
+      <section className="sec" style={{ paddingTop: 0 }} id="what-we-build">
+        <div className="wrap">
+          <div className="aim pan">
+            <div className="aim-head">
+              <p className="eyebrow eyebrow--sig">What we build</p>
+              <h3>A revenue team that works together.</h3>
+              <p>
+                One AI General Manager and eight connected specialists, configured around the five
+                stages where a business wins or loses a customer.
+              </p>
+              <Link className="btn-3" href="/stella#engine">
+                How Stella runs it <Tri />
+              </Link>
+            </div>
+            <ol className="eng-row" aria-label="The revenue engine">
+              {revenueEngine.map(([n, stage, line, , roles]) => (
+                <li className="on" key={stage}>
+                  <span className="eng-row-k">
+                    <b>{n}</b> {stage}
+                  </span>
+                  <span className="eng-row-line">{line}</span>
+                  <span className="eng-row-who">
+                    {roles.map((role) => (
+                      <em key={role}>
+                        {role === 'Stella' ? (
+                          <Logo symbol />
+                        ) : (
+                          <Icon name={specialists.find((x) => x.short === role)?.icon ?? 'network'} size={13} />
+                        )}
+                        {role}
+                      </em>
+                    ))}
+                  </span>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>

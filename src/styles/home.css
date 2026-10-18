@@ -2490,3 +2490,9 @@ main section[id] {
     justify-content: flex-start;
   }
 }
+.eng-row-who img,
+.eng-row-who svg {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+}
