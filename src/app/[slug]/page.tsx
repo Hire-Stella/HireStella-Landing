@@ -9,7 +9,7 @@ import { EDITORIAL_SCENES } from '@/lib/hero-scenes';
 import { WorkforceMap, DashboardPlanes } from '@/components/home-parts';
 import { RoiCalculator } from '@/components/roi-calculator';
 import { Icon } from '@/components/ui';
-import { specialists } from '@/lib/data';
+import { specialists, humanBoundary } from '@/lib/data';
 import { industryGroups } from '@/lib/industry-content';
 import { FAQS } from '@/lib/faqs';
 
@@ -313,10 +313,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                     <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Work that follows a rule.</h3>
                     <ul className="bullets">
                       {[
-                        'Routine questions answered in your voice, on every channel',
-                        'Availability checked, appointments booked and rescheduled',
-                        'Records updated, documents filed, email triaged',
-                        'Follow-ups scheduled and dormant enquiries re-engaged',
+                        ...humanBoundary.workforce,
                       ].map((l) => (
                         <li key={l}>
                           <Bul />
@@ -333,10 +330,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                     <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Work that needs a person.</h3>
                     <ul className="bullets">
                       {[
-                        'Clinical, legal and financial decisions',
-                        'Complaints, sensitive conversations and exceptions',
-                        'Negotiation, pricing and anything contractual',
-                        'Any moment a customer asks for a human',
+                        ...humanBoundary.people,
                       ].map((l) => (
                         <li key={l}>
                           <Bul />

@@ -272,3 +272,36 @@ export const navigation = [
     ],
   },
 ];
+
+/* One human boundary, used on the homepage, /stella, /about and
+   /human-boundary, so every page draws the line in the same place. */
+export const humanBoundary = {
+  people: [
+    'Difficult conversations and empathy',
+    'Commercial and strategic judgement',
+    'Special requests, exceptions and disputes',
+    'Sensitive changes and authorisations',
+    'Relationships and personal customer care',
+    'The decisions that shape your business',
+  ],
+  workforce: [
+    'Answering approved routine questions',
+    'Managing supported after-hours enquiries',
+    'Booking and rescheduling within agreed rules',
+    'Preparing approved record updates',
+    'Sending permitted reminders',
+    'Summarising interactions and tasks',
+  ],
+  goal: ['The goal is not fewer people.', 'It is more opportunity from the team you already have.'],
+} as const;
+
+/* The one rollout. /team shows all six steps; the homepage shows the
+   three-step summary of it. */
+export const rollout = [
+  ['Discovery', 'Tell us where leads, bookings or follow-ups become difficult to manage. We identify a measurable first use case.'],
+  ['Workforce design', 'Identify which specialists, channels, approvals and integrations belong in that journey.'],
+  ['Configuration', 'Prepare approved business knowledge, customer contact rules, language choices, permissions and escalation paths.'],
+  ['Joint testing', 'Run real-world examples with your team. Validate unusual cases, consent, numbers, calendars, handoffs and failures.'],
+  ['Go live', 'Activate only the approved workflow and monitor outcomes against the agreed baseline.'],
+  ['Review and expand', 'Review activity, customer experience and commercial outcomes. Add channels, integrations or workflows where they are useful.'],
+] as const;

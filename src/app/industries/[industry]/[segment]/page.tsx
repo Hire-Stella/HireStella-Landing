@@ -222,7 +222,7 @@ export default async function SegmentPage({
               </>
             }
           >
-            One {lowerName(seg.name)} journey, end to end. Your configuration decides the sequence,
+            One journey for {lowerName(seg.name)}, end to end. Your configuration decides the sequence,
             the rules and the point a person takes over.
           </SectionHead>
 

@@ -36,7 +36,7 @@ export default function IndustriesPage() {
         ])}
       />
       <PageHero
-        eyebrow="Built around your reality"
+        eyebrow="Built around the way you sell"
         crumb={[['Home', '/'], ['Industries']]}
         title={
           <>

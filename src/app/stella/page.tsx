@@ -8,6 +8,7 @@ import { StellaWorkforce } from '@/components/stella-workforce';
 import { HeroLive } from '@/components/hero-live';
 import { Icon } from '@/components/ui';
 import { FAQS } from '@/lib/faqs';
+import { rollout, humanBoundary } from '@/lib/data';
 
 export const metadata: Metadata = {
   ...canonical('/stella'),
@@ -27,26 +28,12 @@ export const metadata: Metadata = {
  * the work, how it gets built. Every old URL redirects in.
  */
 
-const HOW = [
-  ['message', 'Discovery', 'Describe your business, where work slows down, and what a better outcome would look like.'],
-  ['chart', 'Analysis', 'Review channels, volume, systems, repetitive tasks, and the points where context or capacity is lost.'],
-  ['network', 'Identification', 'Map the relevant specialists to the workflow, with the business reason for each one.'],
-  ['settings', 'Construction', 'Configure supported integrations, knowledge, approved actions, and the boundaries that keep people in control.'],
-  ['activity', 'Management', 'Keep actions and context moving between specialists, and see where more capacity is worth adding.'],
-] as const;
+/* The canonical rollout from lib/data, with an icon per step. */
+const HOW_ICONS = ['message', 'network', 'settings', 'check', 'activity', 'chart'];
+const HOW = rollout.map(([title, body], i) => [HOW_ICONS[i], title, body] as const);
 
-const PEOPLE = [
-  'Strategy and future planning',
-  'Relationships and client trust',
-  'Judgement and moral decisions',
-  'Sensitive situations and empathy',
-];
-const STELLA = [
-  'Repetitive and administrative work',
-  'High-volume tasks and data processing',
-  'After-hours coverage on connected channels',
-  'Structured follow-up and coordination',
-];
+const PEOPLE = humanBoundary.people;
+const STELLA = humanBoundary.workforce;
 
 export default function StellaPage() {
   const faqs = [...(FAQS.stella ?? []), ...(FAQS.workforce ?? []), ...(FAQS.dashboard ?? [])];
@@ -59,7 +46,7 @@ export default function StellaPage() {
           serviceLd({
             name: 'HireStella AI workforce orchestration',
             description:
-              'One AI General Manager coordinating eight connected AI Specialists around a configured operation.',
+              'One AI General Manager coordinating eight connected AI specialists around a configured operation.',
             path: '/stella',
           }),
           faqLd(faqs),
@@ -87,7 +74,7 @@ export default function StellaPage() {
             </Link>
           </>
         }
-        meta={['Eight specialists included', 'Configured, not assembled', 'Your people stay in control']}
+        meta={['One manager, eight specialists', 'Configured, not assembled', 'Your people stay in control']}
         aside={<HeroLive />}
       />
 
@@ -125,9 +112,9 @@ export default function StellaPage() {
             signal
             title={
               <>
-                Eight specialists.
+                One AI General Manager.
                 <br />
-                One shared direction.
+                Eight connected specialists.
               </>
             }
           >
@@ -184,17 +171,22 @@ export default function StellaPage() {
         <div className="wrap">
           <SectionHead
             eyebrow="Where your people take over"
-            title="Each doing what they are for."
-            headMax="20ch"
+            title={
+              <>
+                Stella takes the repeats.
+                <br />
+                Your people keep the rest.
+              </>
+            }
           >
-            Some work follows a rule. Some work needs a person who knows your business. You decide
-            where the line between them sits.
+            You set the boundary during scoping: what Stella may answer, which actions she may
+            take, and what goes to a named person.
           </SectionHead>
 
           <div className="hb">
             <div className="zone pan">
               <p className="eyebrow">Your people</p>
-              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work only a person can hold.</h3>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>What your people stay responsible for.</h3>
               <ul className="bullets">
                 {PEOPLE.map((line) => (
                   <li key={line}>
@@ -211,7 +203,7 @@ export default function StellaPage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">Stella and the specialists</p>
-              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>The work that follows a rule.</h3>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>What the workforce can help with.</h3>
               <ul className="bullets">
                 {STELLA.map((line) => (
                   <li key={line}>

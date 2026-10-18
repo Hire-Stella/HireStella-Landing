@@ -38,7 +38,7 @@ export function useSequence(length: number, delay = 3200) {
 
 const sceneConfig: Record<HeroScene, { title: string; stages: string[]; icon: string; note: string }> = {
   manager: { title: 'YOUR BUSINESS, UNDERSTOOD', stages: ['Understand', 'Connect', 'Move forward'], icon: 'network', note: 'A workforce shaped around the work.' },
-  workforce: { title: 'ONE CONNECTED WORKFORCE', stages: ['A clear role', 'Shared context', 'Connected action'], icon: 'users', note: 'Eight specialists. One shared direction.' },
+  workforce: { title: 'ONE CONNECTED WORKFORCE', stages: ['A clear role', 'Shared context', 'Connected action'], icon: 'users', note: 'One AI General Manager. Eight connected specialists.' },
   voice: { title: 'A CONVERSATION THAT CONTINUES', stages: ['Answer', 'Understand', 'Coordinate'], icon: 'phone', note: 'A voice enquiry becomes a clear next step.' },
   booking: { title: 'FROM ENQUIRY TO APPOINTMENT', stages: ['Check', 'Coordinate', 'Confirm'], icon: 'calendar', note: 'Availability and confirmation, connected.' },
   website: { title: 'YOUR CONNECTED FRONT DOOR', stages: ['Discover', 'Enquire', 'Connect'], icon: 'browser', note: 'A website that leads somewhere useful.' },

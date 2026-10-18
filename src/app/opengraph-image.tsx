@@ -58,7 +58,7 @@ export default async function OgImage() {
             Tell Stella what is slowing your business down.
           </div>
           <div style={{ fontSize: 30, color: 'rgba(231,234,244,.72)' }}>
-            One AI General Manager. Eight connected AI Specialists.
+            One AI General Manager. Eight connected AI specialists.
           </div>
         </div>
 

@@ -377,8 +377,8 @@ export default async function IndustryGroupPage({
             title={profile.rosterTitle}
             headMax="20ch"
           >
-            All eight specialists are included. These are the ones Stella typically activates first
-            for {lowerName(group.name)}.
+            The eight specialists are designed to work together. These are the ones Stella usually
+            starts with for {lowerName(group.name)}.
           </SectionHead>
           <div className="grid-3">
             {core.map((s) => (
