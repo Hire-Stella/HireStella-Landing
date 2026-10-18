@@ -73,9 +73,9 @@ export default function StellaPage() {
             <button className="btn btn-1" type="button" data-demo>
               Book a demo <Tri />
             </button>
-            <Link className="btn btn-2" href="/#ask-stella">
-              Ask Stella
-            </Link>
+            <button className="btn btn-2" type="button" data-talk data-cta="stella-hero-talk">
+              Talk to Stella now
+            </button>
           </>
         }
         meta={['One manager, eight specialists', 'Configured, not assembled', 'Your people stay in control']}

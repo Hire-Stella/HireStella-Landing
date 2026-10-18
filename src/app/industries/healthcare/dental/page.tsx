@@ -59,9 +59,9 @@ export default function DentalPage() {
             <button className="btn btn-1" type="button" data-demo>
               Book a demo <Tri />
             </button>
-            <Link className="btn btn-2" href="/#ask-stella">
-              Ask Stella
-            </Link>
+            <button className="btn btn-2" type="button" data-talk data-cta="dental-hero-talk">
+              Talk to Stella now
+            </button>
           </>
         }
         meta={['8 specialists, one patient journey', 'Clinical decisions stay with your team']}

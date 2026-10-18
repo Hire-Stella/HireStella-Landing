@@ -90,7 +90,7 @@ export function Closer({
   title,
   lede,
   primary = { href: '/book-demo', label: 'Book a demo' },
-  secondary = { href: '/#ask-stella', label: 'Ask Stella' },
+  secondary = { href: '#talk-to-stella', label: 'Talk to Stella now' },
 }: {
   eyebrow?: string;
   title: ReactNode;
@@ -109,6 +109,10 @@ export function Closer({
         <div className="btn-row" style={{ justifyContent: 'center', marginTop: 'var(--s2)' }}>
           {primary.href === '/book-demo' ? (
             <button className="btn btn-1" type="button" data-demo>
+              {primary.label} <Tri />
+            </button>
+          ) : primary.href === '#talk-to-stella' ? (
+            <button className="btn btn-1" type="button" data-talk data-cta="closer-talk">
               {primary.label} <Tri />
             </button>
           ) : (

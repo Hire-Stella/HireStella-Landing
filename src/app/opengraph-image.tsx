@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'nodejs';
-export const alt = 'HireStella: Capacity, coordinated.';
+export const alt = 'HireStella: Your AI General Manager.';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -73,7 +73,7 @@ export default async function OgImage() {
         >
           <div style={{ fontSize: 34, fontWeight: 700, letterSpacing: -1 }}>HireStella</div>
           <div style={{ fontSize: 24, color: 'rgba(199,201,232,.68)' }}>
-            Capacity, coordinated.
+            Your AI General Manager.
           </div>
         </div>
       </div>

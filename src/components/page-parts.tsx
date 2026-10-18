@@ -55,7 +55,7 @@ export function ClosingCTA({ title = 'Let’s map your next move.' }: { title?: 
         <Eyebrow>YOUR NEXT STEP</Eyebrow>
         <h2>{title}</h2>
       </div>
-      <ButtonLink href="/#ask-stella">Ask Stella</ButtonLink>
+      <ButtonLink href="/book-demo">Book a demo</ButtonLink>
     </section>
   );
 }

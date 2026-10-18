@@ -191,9 +191,9 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <button className="btn btn-1" type="button" data-demo>
               Book a demo <Tri />
             </button>
-            <Link className="btn btn-2" href="/#ask-stella">
-              Ask Stella
-            </Link>
+            <button className="btn btn-2" type="button" data-talk data-cta="page-hero-talk">
+              Talk to Stella now
+            </button>
           </>
         }
         aside={

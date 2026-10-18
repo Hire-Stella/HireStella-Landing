@@ -67,10 +67,10 @@ export default function Contact() {
       />
 
       <Closer
-        eyebrow="Not ready to talk yet?"
-        title="Describe the bottleneck. See the workforce."
-        lede="Explore a preset example of how Stella would coordinate work like yours."
-        primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
+        eyebrow="Not ready to talk to the team yet?"
+        title="Talk to Stella first."
+        lede="Ask her about your business and hear how she would handle an enquiry like yours."
+        primary={{ href: '#talk-to-stella', label: 'Talk to Stella now' }}
         secondary={null}
       />
     </main>
