@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   ...canonical('/about'),
   title: 'About HireStella, Our Story',
   description:
-    'Businesses do not always need more people. They need more capacity from the people they already have. The idea HireStella was built around, and what it means in practice.',
+    'Businesses do not always need more people. They need more opportunity from the team they already have. The idea HireStella was built around.',
 };
 
 /** The four things that slip, in the order a week actually loses them. */
@@ -59,7 +59,7 @@ export default function AboutPage() {
             <p className="eyebrow">What we believe</p>
             <blockquote>
               Businesses don&rsquo;t always need more people.
-              <em> They need more capacity from the people they already have.</em>
+              <em> They need more opportunity from the team they already have.</em>
             </blockquote>
             <p className="note">
               So Stella takes the repetitive work, answering, booking and following up, and your people keep

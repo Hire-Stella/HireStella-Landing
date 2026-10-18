@@ -52,7 +52,7 @@ export const segmentDetails: Record<string, SegmentDetail> = {
   aesthetic: {
     group: 'healthcare',
     headline: ['Consultations sell the', 'treatment. Not the phone call.'],
-    lede: 'Aesthetic enquiries are high-consideration and high-competition. The clinic that answers first, with the right information and a clear next step, usually gets the consultation.',
+    lede: 'Aesthetic enquiries are high-consideration and competitive. The clinic that answers first, with the right information and a next step, usually wins the consultation.',
     whoFor: 'Aesthetic, dermatology and cosmetic clinics where the first consultation is the commercial moment.',
     problems: [
       { title: 'Enquiries arrive on social, not the phone.', body: 'Instagram and WhatsApp messages come in at night and at weekends, when the clinic is closed and the competitor is not.' },

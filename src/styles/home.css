@@ -2496,3 +2496,14 @@ main section[id] {
   height: 13px;
   flex: 0 0 auto;
 }
+/* The integrations tiles hold words, not numbers; at phone width they get
+   their own size so "Confirmed" fits half a screen. */
+@media (max-width: 620px) {
+  .stats > .stat {
+    min-width: 0;
+  }
+  .stats .stat .v {
+    font-size: clamp(20px, 6vw, 30px);
+    overflow-wrap: anywhere;
+  }
+}
