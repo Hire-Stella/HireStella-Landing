@@ -101,8 +101,8 @@ export default function BecomePartner() {
       <Closer
         eyebrow="Not ready to apply?"
         title="See the product first."
-        lede="Describe a client bottleneck and explore an example of the workforce Stella would coordinate."
-        primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
+        lede="Talk to Stella now and hear how she handles a customer enquiry before you bring her to a client."
+        primary={{ href: '#talk-to-stella', label: 'Talk to Stella now' }}
         secondary={null}
       />
     </main>

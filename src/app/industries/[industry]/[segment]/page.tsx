@@ -153,9 +153,9 @@ export default async function SegmentPage({
             <button className="btn btn-1" type="button" data-demo>
               Book a demo <Tri />
             </button>
-            <Link className="btn btn-2" href="/#ask-stella">
-              Ask Stella
-            </Link>
+            <button className="btn btn-2" type="button" data-talk data-cta="segment-hero-talk">
+              Talk to Stella now
+            </button>
           </>
         }
         meta={[`${roster.length} specialists lead this workflow`, 'One connected journey', 'Scope confirmed in discovery']}

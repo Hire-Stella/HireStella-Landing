@@ -177,9 +177,11 @@ export function Header() {
 
       <div className="hdr-act">
         <ThemeToggle />
-        <Link className="btn btn-2" href="/#ask-stella" onClick={dismiss}>
-          Ask Stella
-        </Link>
+        <button className="btn btn-2" type="button" data-talk data-cta="header-talk" onClick={dismiss}>
+          <span>
+            Talk to Stella<span className="btn-long"> now</span>
+          </span>
+        </button>
         <button className="btn btn-1" type="button" data-demo onClick={dismiss}>
           <span>
             Book<span className="btn-long"> a demo</span>
@@ -269,7 +271,7 @@ export function Footer() {
             <p className="note">
               © {new Date().getFullYear()} {CONTACT.entity}
             </p>
-            <p className="note">Capacity, coordinated.</p>
+            <p className="note">Your AI General Manager.</p>
           </div>
           <div className="lg">
             {company.links.map(([label, href]) => (

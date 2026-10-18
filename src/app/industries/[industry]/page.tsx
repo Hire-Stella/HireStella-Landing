@@ -307,9 +307,9 @@ export default async function IndustryGroupPage({
             <button className="btn btn-1" type="button" data-demo>
               Book a demo <Tri />
             </button>
-            <Link className="btn btn-2" href="/#ask-stella">
-              Ask Stella
-            </Link>
+            <button className="btn btn-2" type="button" data-talk data-cta="industry-hero-talk">
+              Talk to Stella now
+            </button>
           </>
         }
         meta={[`${group.segments.length} segments`, profile.journey, 'Scope confirmed in discovery']}

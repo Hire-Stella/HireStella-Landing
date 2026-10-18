@@ -32,7 +32,7 @@ export default function AboutPage() {
       <Ld data={breadcrumbLd([['Home', '/'], ['Our story', '/about']])} />
 
       <PageHero
-        eyebrow="Capacity, coordinated."
+        eyebrow="Your AI General Manager."
         crumb={[['Home', '/'], ['Our story']]}
         title={
           <>

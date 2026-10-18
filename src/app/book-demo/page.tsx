@@ -111,9 +111,9 @@ export default async function BookDemo({
 
       <Closer
         eyebrow="Prefer to explore first"
-        title="Try it before you talk to anyone."
-        lede="Describe your bottleneck and explore an example of the workforce Stella would coordinate."
-        primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
+        title="Try Stella before you talk to anyone."
+        lede="Talk to Stella now and hear how she would handle an enquiry like yours."
+        primary={{ href: '#talk-to-stella', label: 'Talk to Stella now' }}
         secondary={{ href: '/stella#workforce', label: 'See the workforce' }}
       />
     </main>

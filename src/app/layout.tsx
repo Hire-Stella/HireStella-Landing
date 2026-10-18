@@ -26,16 +26,16 @@ import { Ld } from '@/components/system';
 import { organizationLd, websiteLd, origin as siteOrigin } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: { default: 'HireStella | AI Front Desk and Workforce for UAE Businesses', template: '%s | HireStella' },
+  title: { default: 'HireStella | Your AI General Manager for UAE Businesses', template: '%s | HireStella' },
   description:
-    'Stella, your AI General Manager, runs eight AI specialists that answer calls and messages, book appointments and follow up, and hands sensitive work to your team.',
+    'Meet Stella, your AI General Manager. Eight connected AI specialists answer enquiries, book appointments and follow up, so you win more sales without more staff.',
   openGraph: {
     type: 'website',
     locale: 'en_AE',
     siteName: 'HireStella',
-    title: 'HireStella | Capacity, coordinated.',
+    title: 'HireStella | Your AI General Manager',
     description:
-      'One AI General Manager. A connected AI Specialist Workforce. Start with your business.',
+      'Meet Stella, your AI General Manager. Eight connected AI specialists answer enquiries, book appointments and follow up, so you win more sales without more staff.',
   },
   icons: {
     /* The dark symbol is the mark. The light one is served only to browsers
