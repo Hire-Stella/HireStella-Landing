@@ -10,7 +10,7 @@ import { HOME_FAQS } from '@/lib/faqs';
 import { faqLd, serviceLd } from '@/lib/seo';
 import { industryGroups } from '@/lib/industry-content';
 import { Icon, Logo } from '@/components/ui';
-import { specialists, humanBoundary } from '@/lib/data';
+import { specialists, humanBoundary, revenueEngine } from '@/lib/data';
 
 const TITLE = 'Meet Stella, Your AI General Manager | HireStella';
 const DESCRIPTION =
@@ -33,14 +33,7 @@ const GLANCE = [
   ['Done with you.', 'Workflow scoping, configuration, testing and launch, with your team approving each step.', false],
 ] as const;
 
-/* The five-stage revenue engine: stage, line, what happens, who does it. */
-const ENGINE = [
-  ['01', 'Attract', 'Give customers a reason to reach out.', 'Approved campaigns, website experiences and social content guide interested visitors towards an enquiry.', ['Marketing', 'Social', 'Website']],
-  ['02', 'Capture', 'Respond while they are ready to talk.', 'Answer approved questions across connected phone and digital channels, qualify intent and record the next step.', ['Front Desk', 'Voice']],
-  ['03', 'Convert', 'Move interest towards a booking.', 'Check availability, confirm appointments and keep follow-up timely under your business rules.', ['Booking', 'Follow-up']],
-  ['04', 'Grow', 'Keep the relationship going.', 'Approved reminders, review requests and re-engagement give existing customers a clear way back.', ['Follow-up', 'Marketing']],
-  ['05', 'Run', 'Keep the team informed.', 'Log activity, prepare summaries, update approved records and surface the decisions that need a person.', ['Admin', 'Stella']],
-] as const;
+const ENGINE = revenueEngine;
 
 /* What sits behind the team. Sales Coach is its own product, and says so. */
 const TOOLS = [

@@ -305,3 +305,14 @@ export const rollout = [
   ['Go live', 'Activate only the approved workflow and monitor outcomes against the agreed baseline.'],
   ['Review and expand', 'Review activity, customer experience and commercial outcomes. Add channels, integrations or workflows where they are useful.'],
 ] as const;
+
+/* The five-stage revenue engine: stage, line, what happens, who does it,
+   what Stella checks, and where a person takes over. The homepage shows the
+   first four; /stella shows all of it. */
+export const revenueEngine = [
+  ['01', 'Attract', 'Give customers a reason to reach out.', 'Approved campaigns, website experiences and social content guide interested visitors towards an enquiry.', ['Marketing', 'Social', 'Website'], 'Which campaigns and pages actually produce enquiries.', 'You approve every campaign, post and page before it goes out.'],
+  ['02', 'Capture', 'Respond while they are ready to talk.', 'Answer approved questions across connected phone and digital channels, qualify intent and record the next step.', ['Front Desk', 'Voice'], 'That no call or message waits without an owner.', 'Anything outside the approved answers goes to a named person.'],
+  ['03', 'Convert', 'Move interest towards a booking.', 'Check availability, confirm appointments and keep follow-up timely under your business rules.', ['Booking', 'Follow-up'], 'That every qualified enquiry has a booking or a next step.', 'Pricing, negotiation and exceptions stay with your team.'],
+  ['04', 'Grow', 'Keep the relationship going.', 'Approved reminders, review requests and re-engagement give existing customers a clear way back.', ['Follow-up', 'Marketing'], 'Who is due a reminder, a review request or a return visit.', 'Complaints and sensitive replies are handed over, never answered by rule.'],
+  ['05', 'Run', 'Keep the team informed.', 'Log activity, prepare summaries, update approved records and surface the decisions that need a person.', ['Admin', 'Stella'], 'That records, summaries and handoffs reconcile at the end of the day.', 'The decisions waiting for you arrive with the context attached.'],
+] as const;
