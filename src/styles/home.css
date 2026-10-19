@@ -41,6 +41,7 @@
 }
 .hero-in {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s6);
   justify-items: center;
   text-align: center;
@@ -79,6 +80,13 @@
 .hero .lede {
   text-align: center;
   max-width: none;
+  text-wrap: balance;
+}
+/* two set lines on desktop; below that the break would strand words */
+@media (max-width: 1099px) {
+  .hero .lede-br {
+    display: none;
+  }
 }
 
 /* ── the command surface · the one moment the page is built around ────
@@ -215,6 +223,12 @@
     flex-direction: column;
     align-items: stretch;
     gap: var(--s3);
+  }
+  /* the status chip is nowrap; side by side with Stella it pushed the
+     whole hero column past a 390 screen */
+  .cmd-top {
+    flex-wrap: wrap;
+    row-gap: var(--s3);
   }
 }
 .send {
@@ -455,6 +469,21 @@
   flex: 0 0 100%;
   margin-bottom: var(--s1);
   text-align: center;
+}
+/* ten scenarios as two even rows of five on desktop */
+@media (min-width: 1100px) {
+  .chips {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    max-width: 1000px;
+  }
+  .chips .micro {
+    grid-column: 1 / -1;
+  }
+  .chip {
+    justify-content: center;
+    white-space: nowrap;
+  }
 }
 .chip {
   display: inline-flex;
@@ -2158,58 +2187,343 @@
   color: var(--sig-ink);
 }
 
-/* /faq: the group index beside the hero */
-.faq-index {
-  display: grid;
-  gap: 4px;
-  padding: var(--s6);
-}
-.faq-index a {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--s4);
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-  font-weight: 600;
-  color: var(--t1);
-  text-decoration: none;
-}
-.faq-index a:last-child {
-  border-bottom: 0;
-}
-.faq-index a span {
-  color: var(--sig-ink);
-}
 main section[id] {
   scroll-margin-top: 110px;
+}
+
+/* /faq hero visual: Stella coordinating the four question groups */
+.fqv {
+  display: grid;
+  gap: var(--s5);
+  padding: var(--s6);
+}
+.fqv-map {
+  position: relative;
+  aspect-ratio: 2 / 1;
+}
+.fqv-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.fqv-lines path {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 5;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 400ms var(--e-std);
+}
+.fqv-lines path.on {
+  stroke: rgba(255, 98, 0, 0.45);
+}
+.fqv-lines path.sig {
+  stroke: var(--sig);
+  stroke-width: 2;
+  stroke-dasharray: 0.16 1;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(255, 98, 0, 0.9));
+  animation: fqv-run 1.4s var(--e-std) forwards;
+}
+@keyframes fqv-run {
+  from { stroke-dashoffset: 0.16; }
+  to { stroke-dashoffset: -0.84; }
+}
+.fqv-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+}
+.fqv-mark {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 98, 0, 0.5);
+  background: rgba(255, 98, 0, 0.1);
+  box-shadow: 0 0 34px rgba(255, 98, 0, 0.28);
+  animation: fqv-breathe 3.6s ease-in-out infinite;
+}
+.fqv-mark img,
+.fqv-mark svg {
+  width: 28px;
+  height: auto;
+}
+@keyframes fqv-breathe {
+  50% { box-shadow: 0 0 50px rgba(255, 98, 0, 0.42); }
+}
+.fqv-core b {
+  font-size: 15px;
+  color: var(--t1);
+}
+.fqv-core small {
+  font-size: 11px;
+  color: var(--t3);
+}
+.fqv-node {
+  position: absolute;
+  width: 31.67%;
+  height: 24%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--t2);
+  text-decoration: none;
+  transition: border-color 400ms var(--e-std), color 400ms var(--e-std), background 400ms var(--e-std);
+}
+.fqv-node small {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--t3);
+}
+.fqv-node.on {
+  color: var(--t1);
+  border-color: rgba(255, 98, 0, 0.5);
+  background: rgba(255, 98, 0, 0.07);
+}
+.fqv-ico {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  color: var(--sig-ink);
+}
+.fqv-q {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 64px;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--t1);
+  animation: fqv-in 600ms var(--e-out, ease-out) both;
+}
+.fqv-q small {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.fqv-qm {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--sig);
+  color: #fff;
+  font-size: 14px;
+}
+@keyframes fqv-in {
+  from { opacity: 0; transform: translateY(6px); }
+}
+:root[data-theme='light'] .fqv-node {
+  background: rgba(20, 27, 69, 0.025);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fqv-mark,
+  .fqv-q,
+  .fqv-lines path.sig {
+    animation: none;
+  }
+}
+/* narrow: the four groups stack as a list under Stella */
+@media (max-width: 620px) {
+  .fqv-map {
+    aspect-ratio: auto;
+    display: grid;
+    gap: var(--s2);
+  }
+  .fqv-lines {
+    display: none;
+  }
+  .fqv-core {
+    position: static;
+    transform: none;
+    margin-bottom: var(--s3);
+  }
+  .fqv-node {
+    position: static;
+    width: auto;
+    height: auto;
+    min-height: 56px;
+  }
+}
+/* Integrations as a small hub: Stella on the left, one bus, each system a
+   tile on it. Fills the panel to the height of the languages panel beside it. */
+.lx-hub {
+  display: grid;
+  grid-template-columns: 76px 32px 1fr;
+  align-items: center;
+  margin-top: var(--s2);
+}
+.lx-core {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--t1);
+}
+.lx-core-mark {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 98, 0, 0.45);
+  background: rgba(255, 98, 0, 0.1);
+  box-shadow: 0 0 28px rgba(255, 98, 0, 0.22);
+}
+.lx-core-mark img,
+.lx-core-mark svg {
+  width: 26px;
+  height: auto;
+}
+.lx-bus {
+  position: relative;
+  align-self: stretch;
+}
+/* the bus runs from the first tile's centre to the last one's */
+.lx-bus::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 31px;
+  bottom: 31px;
+  width: 1px;
+  background: linear-gradient(var(--line), rgba(255, 98, 0, 0.5), var(--line));
+}
+/* the stub from Stella to the bus */
+.lx-bus::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 50%;
+  top: 50%;
+  height: 1px;
+  background: rgba(255, 98, 0, 0.5);
 }
 .lx-sys {
   margin: 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: var(--s3);
+  gap: var(--s2);
 }
 .lx-sys li {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
   gap: var(--s3);
-  align-items: start;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--t2);
+  align-items: center;
+  min-height: 62px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--t3);
 }
-.lx-sys li svg {
-  margin-top: 2px;
+.lx-sys li::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  width: 16px;
+  height: 1px;
+  background: var(--line);
+}
+/* a signal travels down the tiles in turn */
+.lx-sys li::after {
+  content: '';
+  position: absolute;
+  right: calc(100% + 13px);
+  top: calc(50% - 3px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sig);
+  box-shadow: 0 0 10px rgba(255, 98, 0, 0.8);
+  opacity: 0;
+  animation: lx-ping 7.5s infinite;
+}
+.lx-sys li:nth-child(2)::after { animation-delay: 1.5s; }
+.lx-sys li:nth-child(3)::after { animation-delay: 3s; }
+.lx-sys li:nth-child(4)::after { animation-delay: 4.5s; }
+.lx-sys li:nth-child(5)::after { animation-delay: 6s; }
+@keyframes lx-ping {
+  0% { opacity: 0; transform: translateX(0); }
+  4% { opacity: 1; }
+  14% { opacity: 1; transform: translateX(14px); }
+  20%, 100% { opacity: 0; transform: translateX(14px); }
+}
+.lx-ico {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
   color: var(--sig-ink);
 }
 .lx-sys b {
+  display: block;
   color: var(--t1);
+  font-size: 14px;
   font-weight: 600;
+}
+:root[data-theme='light'] .lx-sys li {
+  background: rgba(20, 27, 69, 0.025);
 }
 .lx-p .btn-3 {
   justify-self: start;
   margin-top: var(--s2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lx-sys li::after {
+    animation: none;
+  }
+}
+@media (max-width: 620px) {
+  .lx-hub {
+    grid-template-columns: 1fr;
+  }
+  .lx-core,
+  .lx-bus,
+  .lx-sys li::before,
+  .lx-sys li::after {
+    display: none;
+  }
 }
 
 @media (max-width: 1100px) {

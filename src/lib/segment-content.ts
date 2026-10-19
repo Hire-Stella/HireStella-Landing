@@ -102,7 +102,7 @@ export const segmentDetails: Record<string, SegmentDetail> = {
   enterprise: {
     group: 'healthcare',
     headline: ['A hospital switchboard', 'is a routing problem.'],
-    lede: 'Most calls into a hospital are not clinical. They are appointments, results enquiries, visiting questions and directions, sitting in the same queue as the ones that are.',
+    lede: 'Most calls into a hospital are not clinical: appointments, results enquiries, visiting questions and directions, in the same queue as the ones that are.',
     whoFor: 'Single-site hospitals coordinating outpatient appointments, patient services and general enquiries across many departments.',
     problems: [
       { title: 'Non-clinical volume blocks clinical calls.', body: 'Directions, visiting hours and appointment changes occupy the same line as callers who need a person now.' },

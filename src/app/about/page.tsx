@@ -10,7 +10,7 @@ import { Icon, Logo } from '@/components/ui';
 
 export const metadata: Metadata = {
   ...canonical('/about'),
-  title: 'About HireStella, Our Story',
+  title: 'About Us, Our Story',
   description:
     'Businesses do not always need more people. They need more opportunity from the team they already have. The idea HireStella was built around.',
 };

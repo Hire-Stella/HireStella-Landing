@@ -93,7 +93,7 @@ const COPY: Record<Status, { text: string; sub: string; action: string }> = {
   },
   connected: {
     text: 'Stella is on the line',
-    sub: 'Speak normally — she will hear you and answer.',
+    sub: 'Speak normally. She will hear you and answer.',
     action: 'End call',
   },
   failed: {

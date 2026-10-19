@@ -3,10 +3,11 @@ import Link from 'next/link';
 import { canonical, breadcrumbLd, faqLd } from '@/lib/seo';
 import { PageHero, Closer, Faq, Ld, Tri } from '@/components/system';
 import { ALL_FAQS, FAQ_GROUPS } from '@/lib/faqs';
+import { FaqVisual } from '@/components/faq-visual';
 
 export const metadata: Metadata = {
   ...canonical('/faq'),
-  title: 'Questions About Stella and HireStella',
+  title: 'FAQs: Questions About Stella',
   description:
     'Clear answers about Stella, the AI General Manager: what she handles, where your team stays in control, channels and languages, getting started, data and cost.',
 };
@@ -39,17 +40,7 @@ export default function FaqPage() {
             </Link>
           </>
         }
-        aside={
-          <nav className="faq-index pan" aria-label="Question groups">
-            <p className="eyebrow">Jump to</p>
-            {FAQ_GROUPS.map((g) => (
-              <a href={`#${g.id}`} key={g.id}>
-                {g.title}
-                <span>{g.items.length}</span>
-              </a>
-            ))}
-          </nav>
-        }
+        aside={<FaqVisual />}
       />
 
       {FAQ_GROUPS.map((g) => (
