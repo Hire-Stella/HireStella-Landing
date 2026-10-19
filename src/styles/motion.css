@@ -36,6 +36,9 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  /* clipped text only paints inside the box; room for the g's descender */
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
   animation: word-in 1000ms var(--e-out) both, shine 7s 2.2s ease-in-out infinite;
   animation-delay: calc(120ms + var(--i, 0) * 70ms), 2.2s;
 }

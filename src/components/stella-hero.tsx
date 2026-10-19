@@ -397,8 +397,8 @@ export function StellaHero() {
 
         <p className="lede">
           More sales, without more staff. Stella coordinates eight connected AI specialists
-          across enquiries, calls, bookings and follow-ups, while your team keeps the decisions
-          that need a person.
+          across enquiries,<br className="lede-br" /> calls, bookings and follow-ups, while your
+          team keeps the decisions that need a person.
         </p>
 
         <div className="btn-row" style={{ justifyContent: 'center' }}>

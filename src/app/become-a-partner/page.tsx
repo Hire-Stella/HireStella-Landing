@@ -7,7 +7,7 @@ import { canonical, breadcrumbLd, faqLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
   ...canonical('/become-a-partner'),
-  title: 'Become a HireStella Partner in the UAE',
+  title: 'Become a Partner in the UAE',
   description:
     'Partner with HireStella to bring an AI workforce to the businesses you already advise. Apply as a consultant, agency, reseller or technology partner.',
 };

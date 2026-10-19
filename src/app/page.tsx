@@ -403,16 +403,28 @@ export default function HomePage() {
                 Tell us where customer information, availability and team activity live today. We
                 confirm what can connect and which actions may be automated.
               </p>
-              <ul className="lx-sys">
-                {SYSTEMS.map(([icon, name, body]) => (
-                  <li key={name}>
-                    <Icon name={icon} size={16} />
-                    <span>
-                      <b>{name}</b> {body}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <div className="lx-hub">
+                <div className="lx-core" aria-hidden="true">
+                  <span className="lx-core-mark">
+                    <Logo symbol />
+                  </span>
+                  <span>Stella</span>
+                </div>
+                <span className="lx-bus" aria-hidden="true" />
+                <ul className="lx-sys">
+                  {SYSTEMS.map(([icon, name, body]) => (
+                    <li key={name}>
+                      <span className="lx-ico">
+                        <Icon name={icon} size={16} />
+                      </span>
+                      <span>
+                        <b>{name}</b>
+                        {body}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <Link className="btn-3" href="/integrations">
                 Explore integration options <span className="tri" aria-hidden="true" />
               </Link>
