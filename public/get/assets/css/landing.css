@@ -1003,19 +1003,3 @@ main, .foot { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) { .booking-clock { transform: none; transition: none; } }
 
 .booking-link .btn-ico { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; color: inherit; }
-
-/* Native dialog keeps the calendar, focus and visitor on this page. */
-.booking-dialog { padding: 0; border: 1px solid var(--line-hi); border-radius: 24px; background: var(--bg); color: var(--t1); width: min(1040px, calc(100% - 40px)); max-width: none; height: min(850px, calc(100dvh - 48px)); max-height: none; margin: auto; box-shadow: 0 32px 100px #0006; overflow: hidden; }
-.booking-dialog[open] { display: flex; flex-direction: column; }
-.booking-dialog::backdrop { background: rgba(7,11,24,.72); backdrop-filter: blur(8px); }
-.booking-dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 24px; flex-shrink: 0; }
-.booking-dialog-head h2 { font: 600 clamp(18px,2.4vw,24px)/1.3 var(--font-display); letter-spacing: -.03em; }
-.booking-dialog-head .booking-label { margin-bottom: 4px; letter-spacing: .12em; }
-.booking-close { width: 44px; height: 44px; flex: 0 0 44px; border: 1px solid var(--line-hi); border-radius: 50%; background: var(--hover); color: var(--t1); font: 28px/1 var(--font-ui); cursor: pointer; }
-.booking-close:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
-.booking-calendar { flex: 1; min-height: 0; background: white; }
-.booking-calendar iframe { display: block; border: 0; width: 100%; height: 100%; }
-.booking-status { padding: 24px; font-size: 14px; }
-.booking-status[hidden], .booking-retry[hidden] { display: none; }
-.booking-retry { margin: 16px 24px; }
-@media (max-width: 600px) { .booking-dialog { width: calc(100% - 16px); height: calc(100dvh - 24px); border-radius: 16px; } .booking-dialog-head { padding: 16px; } }

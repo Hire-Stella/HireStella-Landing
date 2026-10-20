@@ -52,9 +52,8 @@ const config: NextConfig = {
        The allowlist still blocks the case that matters, which is a script
        injected from an origin we do not name here.
 
-       `frame-src` explicitly names the map, analytics and Calendly origins.
-       Calendly assets/frame access supports the /get booking dialog.
-       `frame-ancestors 'none'` is the modern form
+       `frame-src` names Google Maps only, so the click-to-load embed works and
+       nothing else can be framed. `frame-ancestors 'none'` is the modern form
        of the X-Frame-Options header kept below for older browsers.
 
        Two later features load third parties and are named here too, or the
@@ -86,12 +85,12 @@ const config: NextConfig = {
     const devOnly = process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : '';
     const csp = [
       "default-src 'self'",
-      `script-src 'self' 'unsafe-inline'${devOnly} ${voice} ${google} ${meta} https://assets.calendly.com`,
-      "style-src 'self' 'unsafe-inline' https://assets.calendly.com",
+      `script-src 'self' 'unsafe-inline'${devOnly} ${voice} ${google} ${meta}`,
+      "style-src 'self' 'unsafe-inline'",
       `img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://maps.google.com ${google} ${meta}`,
       "font-src 'self' data:",
       `connect-src 'self' ${voice} ${voiceWs} ${google} ${meta}`,
-      "frame-src https://www.google.com https://maps.google.com https://*.googletagmanager.com https://td.doubleclick.net https://calendly.com",
+      "frame-src https://www.google.com https://maps.google.com https://*.googletagmanager.com https://td.doubleclick.net",
       "form-action 'self'",
       "base-uri 'self'",
       "object-src 'none'",
