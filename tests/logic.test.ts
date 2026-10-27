@@ -4,6 +4,7 @@ import { calculateCapacity, defaultCapacity, workforcePreview } from '../src/lib
 import { plans } from '../src/lib/data';
 import { leadSchema } from '../src/lib/lead-schema';
 import { originAllowed } from '../src/lib/request-origin';
+import { deliverLead } from '../src/lib/lead-delivery';
 
 test('commercial reference remains exact across all commitments', () => {
   assert.deepEqual(
@@ -144,4 +145,44 @@ test('lead submissions are refused from any other origin', () => {
     ),
     false,
   );
+});
+
+test('a site booking is emailed, then recorded in the bookings sheet', async () => {
+  const saved = { ...process.env };
+  const realFetch = globalThis.fetch;
+  const sent: { url: string; body: Record<string, unknown> }[] = [];
+  Object.assign(process.env, {
+    RESEND_API_KEY: 're_test',
+    LEAD_EMAIL_TO: 'team@example.com',
+    LEAD_EMAIL_FROM: 'Leads <leads@example.com>',
+    BOOKINGS_SHEET_URL: 'https://script.google.com/macros/s/test/exec',
+    BOOKINGS_SHEET_TOKEN: 'sheet-secret',
+  });
+  delete process.env.LEAD_WEBHOOK_URL;
+  globalThis.fetch = (async (url: string, init: RequestInit) => {
+    sent.push({ url: String(url), body: JSON.parse(String(init.body)) });
+    return new Response(String(url).includes('script.google') ? '{"status":200}' : `{"id":"re_${sent.length}"}`);
+  }) as typeof fetch;
+  try {
+    const ok = await deliverLead('demo', {
+      name: 'Demo User',
+      email: 'demo@example.com',
+      phone: '+971 50 123 4567',
+      company: 'Demo Business',
+      problem: '',
+      heardFrom: 'Google',
+    });
+    assert.equal(ok, true);
+    assert.equal(sent.length, 3);
+    const row = sent[2].body;
+    assert.equal(row.token, 'sheet-secret');
+    assert.equal(row.form, 'Demo request');
+    assert.equal(row.teamEmail, 'Sent');
+    assert.equal(row.visitorEmail, 'Sent');
+    assert.equal(row.visitorEmailId, 're_2');
+    assert.equal(row.heardFrom, 'Google');
+  } finally {
+    globalThis.fetch = realFetch;
+    process.env = saved;
+  }
 });
