@@ -15,7 +15,12 @@
  * The visitor then gets a short confirmation email (Resend only). That is a
  * courtesy: if it fails, the lead still stands. The team arranges the demo time
  * by email or phone.
+ *
+ * Every lead is then recorded in the bookings sheet (../booking-sheet.js) with
+ * the outcome of both emails. That record never affects delivery.
  */
+
+import { logBooking, outcome } from '../booking-sheet.js';
 
 const TRACKING = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'];
 
@@ -93,6 +98,9 @@ async function resend(message) {
     signal: AbortSignal.timeout(10000),
   });
   if (!response.ok) throw new Error(`Resend responded ${response.status}`);
+  /* Resend's message ID, so the sheet row can be matched to its delivery events later. */
+  const sent = await response.json().catch(() => null);
+  return sent?.id ?? '';
 }
 
 function teamEmail(lead, receivedAt) {
@@ -176,14 +184,33 @@ export async function POST(request) {
   if (!lead) return json(400, { error: 'Please check the details.' });
 
   const receivedAt = new Date().toISOString();
+  const team = resendConfigured() ? resend(teamEmail(lead, receivedAt)) : undefined;
   const channels = [];
-  if (resendConfigured()) channels.push(resend(teamEmail(lead, receivedAt)));
+  if (team) channels.push(team);
   if (webhookConfigured()) channels.push(postWebhook(lead, receivedAt));
   const results = await Promise.allSettled(channels);
   for (const r of results) if (r.status === 'rejected') console.error('Lead delivery channel failed:', r.reason);
-  if (!results.some((r) => r.status === 'fulfilled')) return json(502, { error: 'Delivery unavailable. Please try again.' });
-  if (resendConfigured()) {
-    try { await resend(visitorEmail(lead)); } catch (err) { console.error('Visitor confirmation email failed:', err); }
+  const delivered = results.some((r) => r.status === 'fulfilled');
+  let visitor;
+  if (delivered && resendConfigured()) {
+    [visitor] = await Promise.allSettled([resend(visitorEmail(lead))]);
+    if (visitor.status === 'rejected') console.error('Visitor confirmation email failed:', visitor.reason);
   }
+  await logBooking({
+    receivedAt,
+    form: 'Ads landing (/get)',
+    name: lead.name,
+    email: lead.email,
+    phone: lead.phone,
+    company: lead.business,
+    teamEmail: team ? outcome(results[0]) : 'Not configured',
+    visitorEmail: visitor ? outcome(visitor) : delivered ? 'Not configured' : 'Not sent',
+    visitorEmailId: visitor?.status === 'fulfilled' ? visitor.value : '',
+    utm_source: lead.utm_source ?? '',
+    utm_campaign: lead.utm_campaign ?? '',
+    gclid: lead.gclid ?? '',
+    page: lead.page,
+  });
+  if (!delivered) return json(502, { error: 'Delivery unavailable. Please try again.' });
   return json(200, { received: true });
 }

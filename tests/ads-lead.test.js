@@ -27,6 +27,8 @@ function withResend(fn) {
     const sent = [];
     Object.assign(process.env, { RESEND_API_KEY: 're_test', LEAD_EMAIL_TO: 'team@example.com', LEAD_EMAIL_FROM: 'Leads <leads@example.com>' });
     delete process.env.LEAD_WEBHOOK_URL;
+    delete process.env.BOOKINGS_SHEET_URL;
+    delete process.env.BOOKINGS_SHEET_TOKEN;
     globalThis.fetch = async (url, init) => { sent.push({ url, body: JSON.parse(init.body) }); return new Response('{}', { status: 200 }); };
     try { await fn(sent); } finally { globalThis.fetch = realFetch; process.env = saved; }
   };
@@ -87,6 +89,60 @@ test('posts from another site are refused', withResend(async (sent) => {
 test('a header-breaking name cannot add email headers', withResend(async (sent) => {
   await POST(post({ ...valid, name: 'Sara\r\nBcc: x@evil.example' }));
   assert.doesNotMatch(sent[0].body.subject, /[\r\n]/);
+}));
+
+const SHEET = 'https://script.google.com/macros/s/test/exec';
+const withSheet = (fn) => withResend(async (sent) => {
+  Object.assign(process.env, { BOOKINGS_SHEET_URL: SHEET, BOOKINGS_SHEET_TOKEN: 'sheet-secret' });
+  await fn(sent);
+});
+
+test('every lead is recorded in the bookings sheet with both email outcomes', withSheet(async (sent) => {
+  const okFetch = globalThis.fetch;
+  globalThis.fetch = async (url, init) => {
+    await okFetch(url, init);
+    return url === SHEET ? new Response('{"status":200,"message":"Added"}') : new Response('{"id":"re_123"}');
+  };
+  const res = await POST(post(valid));
+  assert.equal(res.status, 200);
+  assert.equal(sent.length, 3);
+  const row = sent[2];
+  assert.equal(row.url, SHEET);
+  assert.equal(row.body.token, 'sheet-secret');
+  assert.equal(row.body.action, 'add');
+  assert.equal(row.body.form, 'Ads landing (/get)');
+  assert.equal(row.body.company, 'Smile Clinic');
+  assert.equal(row.body.phone, '+971 50 123 4567');
+  assert.equal(row.body.teamEmail, 'Sent');
+  assert.equal(row.body.visitorEmail, 'Sent');
+  assert.equal(row.body.visitorEmailId, 're_123');
+  assert.equal(row.body.gclid, 'abc123');
+}));
+
+test('a failed confirmation email is recorded as Failed in the sheet', withSheet(async (sent) => {
+  const okFetch = globalThis.fetch;
+  globalThis.fetch = async (url, init) => {
+    await okFetch(url, init);
+    if (url === SHEET) return new Response('{"status":200}');
+    return sent.length === 2 ? new Response('{}', { status: 500 }) : new Response('{"id":"re_team"}');
+  };
+  assert.equal((await POST(post(valid))).status, 200);
+  assert.equal(sent[2].body.teamEmail, 'Sent');
+  assert.equal(sent[2].body.visitorEmail, 'Failed');
+  assert.equal(sent[2].body.visitorEmailId, '');
+}));
+
+test('a sheet that refuses or is down never loses the lead', withSheet(async () => {
+  const okFetch = globalThis.fetch;
+  /* Apps Script answers 200 with the real status in the body. */
+  globalThis.fetch = async (url, init) =>
+    url === SHEET ? new Response('{"status":401,"message":"Unauthorized"}') : okFetch(url, init);
+  assert.equal((await POST(post(valid))).status, 200);
+  globalThis.fetch = async (url, init) => {
+    if (url === SHEET) throw new Error('network down');
+    return okFetch(url, init);
+  };
+  assert.equal((await POST(post(valid))).status, 200);
 }));
 
 test('without Resend or a webhook the function says so', async () => {

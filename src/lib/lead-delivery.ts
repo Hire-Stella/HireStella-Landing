@@ -11,7 +11,12 @@
  * A lead counts as delivered when at least one channel got it to the team.
  * The visitor's acknowledgement is a courtesy: if it fails, the lead still
  * stands.
+ *
+ * Every lead is then recorded in the bookings sheet (booking-sheet.js) with
+ * the outcome of both emails. That record never affects delivery.
  */
+
+import { logBooking, outcome } from './booking-sheet.js';
 
 type Details = Record<string, unknown> & { name: string; email: string; company: string };
 
@@ -93,6 +98,9 @@ async function sendEmail(message: {
     signal: AbortSignal.timeout(10000),
   });
   if (!response.ok) throw new Error(`Resend responded ${response.status}`);
+  /* Resend's message ID, so the sheet row can be matched to its delivery events later. */
+  const sent = (await response.json().catch(() => null)) as { id?: string } | null;
+  return sent?.id ?? '';
 }
 
 function teamEmail(kind: Kind, details: Details, receivedAt: string) {
@@ -182,8 +190,9 @@ async function postWebhook(details: Details, receivedAt: string) {
 /** Returns true when the lead reached the team through at least one channel. */
 export async function deliverLead(kind: Kind, details: Details) {
   const receivedAt = new Date().toISOString();
-  const channels: Promise<void>[] = [];
-  if (resendConfigured()) channels.push(sendEmail(teamEmail(kind, details, receivedAt)));
+  const team = resendConfigured() ? sendEmail(teamEmail(kind, details, receivedAt)) : undefined;
+  const channels: Promise<unknown>[] = [];
+  if (team) channels.push(team);
   if (webhookConfigured()) channels.push(postWebhook(details, receivedAt));
 
   const results = await Promise.allSettled(channels);
@@ -191,12 +200,25 @@ export async function deliverLead(kind: Kind, details: Details) {
     if (result.status === 'rejected') console.error('Lead delivery channel failed:', result.reason);
   const delivered = results.some((result) => result.status === 'fulfilled');
 
+  let visitor: PromiseSettledResult<string> | undefined;
   if (delivered && resendConfigured()) {
-    try {
-      await sendEmail(visitorEmail(kind, details));
-    } catch (error) {
-      console.error('Lead acknowledgement email failed:', error);
-    }
+    [visitor] = await Promise.allSettled([sendEmail(visitorEmail(kind, details))]);
+    if (visitor.status === 'rejected')
+      console.error('Lead acknowledgement email failed:', visitor.reason);
   }
+
+  await logBooking({
+    receivedAt,
+    form: KIND_LABEL[kind],
+    name: details.name,
+    email: details.email,
+    phone: details.phone ?? '',
+    company: details.company,
+    problem: details.problem ?? '',
+    heardFrom: details.heardFrom ?? '',
+    teamEmail: team ? outcome(results[0]) : 'Not configured',
+    visitorEmail: visitor ? outcome(visitor) : delivered ? 'Not configured' : 'Not sent',
+    visitorEmailId: visitor?.status === 'fulfilled' ? visitor.value : '',
+  });
   return delivered;
 }
