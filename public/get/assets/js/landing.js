@@ -98,14 +98,126 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
   });
   document.querySelectorAll('.cta-slot').forEach((el) => ctaObs.observe(el));
 
-  /* Every "Book a Demo" goes to the form and puts the cursor in it. */
-  const firstField = document.getElementById('f-name');
+  /* Every "Book a Demo" reveals the booking choice and focuses direct scheduling. */
+  const bookingButton = document.querySelector('.booking-link');
+  const bookingDialog = document.getElementById('bookingDialog');
+  const bookingCalendar = document.getElementById('bookingCalendar');
+  const bookingStatus = document.getElementById('bookingStatus');
+  const bookingRetry = bookingDialog.querySelector('.booking-retry');
+  let calendlyScript;
+  let bookingLoading = false;
+  let bookingTrigger;
+  let previousOverflow;
+  /* Calendly reports each screen's height. The frame takes that full height, so
+     nothing scrolls inside it, and the calendar scales down (never below 70%,
+     to stay readable) when the window is shorter, so the dialog fits without a
+     scroll bar. Only width-preserving scale is used: changing the frame's width
+     makes Calendly re-lay out and report a new height, which loops. */
+  let calendarHeight = 0;
+  let heightTimer;
+  function fitBookingCalendar() {
+    const frame = bookingCalendar.querySelector('iframe');
+    const head = bookingDialog.querySelector('.booking-dialog-head');
+    const room = window.innerHeight - (window.innerWidth <= 600 ? 24 : 48) - head.offsetHeight - 2;
+    if (!frame || !calendarHeight) { bookingCalendar.style.height = `${Math.min(650, room)}px`; return; }
+    /* A long list of time slots can't fit at a readable size; on wider screens it
+       stays full size and scrolls inside the frame, whose scroll bar the CSS
+       pushes past the clipped edge. */
+    let scale = Math.max(0.7, Math.min(1, room / calendarHeight));
+    if (room / calendarHeight < 0.7 && window.innerWidth > 600) scale = 1;
+    const frameHeight = Math.min(calendarHeight, Math.floor(room / scale));
+    const shown = Math.floor(frameHeight * scale);
+    bookingCalendar.style.height = `${shown}px`;
+    frame.style.height = `${frameHeight}px`;
+    frame.style.transform = scale < 1 ? `scale(${scale})` : '';
+    frame.style.marginBottom = scale < 1 ? `${shown - frameHeight}px` : '';
+  }
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://calendly.com' || event.data?.event !== 'calendly.page_height') return;
+    const height = parseFloat(event.data.payload?.height);
+    if (!height) return;
+    /* Calendly sends a passing height while it swaps screens; size to the one it settles on. */
+    clearTimeout(heightTimer);
+    heightTimer = setTimeout(() => {
+      if (Math.abs(height - calendarHeight) < 2) return;
+      calendarHeight = height;
+      fitBookingCalendar();
+    }, 200);
+  });
+  window.addEventListener('resize', () => { if (bookingDialog.open) fitBookingCalendar(); });
+  async function loadBookingCalendar() {
+    if (bookingLoading || bookingCalendar.querySelector('iframe')) return;
+    bookingLoading = true;
+    bookingStatus.hidden = false;
+    bookingStatus.textContent = 'Loading available dates and times…';
+    bookingRetry.hidden = true;
+    try {
+      if (!document.getElementById('calendlyStyles')) {
+        const styles = document.createElement('link');
+        styles.id = 'calendlyStyles';
+        styles.rel = 'stylesheet';
+        styles.href = 'https://assets.calendly.com/assets/external/widget.css';
+        document.head.appendChild(styles);
+      }
+      if (!window.Calendly) {
+        if (!calendlyScript) calendlyScript = new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://assets.calendly.com/assets/external/widget.js';
+          const fail = () => {
+            clearTimeout(timeout);
+            script.onload = script.onerror = null;
+            script.remove();
+            reject(new Error('Calendar unavailable'));
+          };
+          const timeout = setTimeout(fail, 15000);
+          script.onload = () => { clearTimeout(timeout); resolve(); };
+          script.onerror = fail;
+          document.head.appendChild(script);
+        });
+        await calendlyScript;
+      }
+      window.Calendly.initInlineWidget({
+        url: 'https://calendly.com/hirestella-marketing-nqfz/30min?primary_color=ff6200&hide_event_type_details=1&hide_landing_page_details=1&hide_gdpr_banner=1',
+        parentElement: bookingCalendar
+      });
+      bookingStatus.hidden = true;
+      const frame = bookingCalendar.querySelector('iframe');
+      if (frame) frame.title = 'Select a date and time for your HireStella demo';
+      fitBookingCalendar();
+    } catch {
+      calendlyScript = null;
+      bookingStatus.textContent = 'The calendar could not load. Please try again.';
+      bookingRetry.hidden = false;
+    } finally {
+      bookingLoading = false;
+    }
+  }
+  bookingButton.addEventListener('click', () => {
+    bookingTrigger = document.activeElement;
+    previousOverflow = document.body.style.overflow;
+    bookingDialog.showModal();
+    document.body.style.overflow = 'hidden';
+    fitBookingCalendar();
+    push('booking_link_clicked', { cta_location: bookingButton.dataset.cta, booking_provider: 'calendly' });
+    loadBookingCalendar();
+  });
+  bookingDialog.querySelector('.booking-close').addEventListener('click', () => bookingDialog.close());
+  bookingDialog.addEventListener('click', (event) => {
+    if (event.target !== bookingDialog) return;
+    const rect = bookingDialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) bookingDialog.close();
+  });
+  bookingDialog.addEventListener('close', () => {
+    document.body.style.overflow = previousOverflow;
+    bookingTrigger?.focus({ preventScroll: true });
+  });
+  bookingRetry.addEventListener('click', loadBookingCalendar);
   document.querySelectorAll('a[href="#demo"]').forEach((a) => {
     a.addEventListener('click', (e) => {
       e.preventDefault();
       push('cta_click', { cta_location: a.dataset.cta || 'unknown' });
-      formWrap.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
-      setTimeout(() => firstField.focus({ preventScroll: true }), reduce ? 0 : 650);
+      formWrap.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      setTimeout(() => bookingButton.focus({ preventScroll: true }), reduce ? 0 : 650);
     });
   });
 
@@ -118,7 +230,7 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
     const start = performance.now();
     const tick = (now) => {
       const t = Math.min(1, (now - start) / 1400);
-      el.textContent = prefix + Math.round(target * (1 - Math.pow(1 - t, 3))) + suffix;
+      el.textContent = prefix + Math.round(target * (1 - Math.pow(1 - t, 3))).toLocaleString('en-US') + suffix;
       if (t < 1) requestAnimationFrame(tick);
     };
     el.textContent = prefix + '0' + suffix;
