@@ -138,7 +138,23 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
       calLink: CONFIG.CAL_LINK,
       config: { layout: 'month_view', theme: root.dataset.theme === 'dark' ? 'dark' : 'light', ...metadata },
     });
-    cal('ui', { cssVarsPerTheme: { light: { 'cal-brand': '#FF6200' }, dark: { 'cal-brand': '#FF6200' } }, hideEventTypeDetails: true, layout: 'month_view' });
+    /* Cal.com in this page's palette (landing.css), so the calendar sits in the dialog
+       as part of the page: the page background, mist text, orange actions. */
+    const calTheme = {
+      dark: {
+        'cal-brand': '#FF6200', 'cal-brand-emphasis': '#E65800', 'cal-brand-text': '#FFFFFF',
+        'cal-bg': '#070B18', 'cal-bg-muted': '#070B18', 'cal-bg-subtle': '#0B1028', 'cal-bg-emphasis': '#141B45',
+        'cal-border': '#262D55', 'cal-border-subtle': '#1B2247', 'cal-border-booker': '#1B2247',
+        'cal-text': '#F5F5F9', 'cal-text-emphasis': '#FFFFFF', 'cal-text-subtle': '#B2B5CC', 'cal-text-muted': '#989DB8',
+      },
+      light: {
+        'cal-brand': '#FF6200', 'cal-brand-emphasis': '#E65800', 'cal-brand-text': '#FFFFFF',
+        'cal-bg': '#F4F5FA', 'cal-bg-muted': '#F4F5FA', 'cal-bg-subtle': '#ECEEF6', 'cal-bg-emphasis': '#FFFFFF',
+        'cal-border': '#D9DBEA', 'cal-border-subtle': '#E3E5F0', 'cal-border-booker': '#E3E5F0',
+        'cal-text': '#141B45', 'cal-text-emphasis': '#111827', 'cal-text-subtle': '#3A4368', 'cal-text-muted': '#5A6382',
+      },
+    };
+    cal('ui', { cssVarsPerTheme: calTheme, hideEventTypeDetails: true, layout: 'month_view' });
     cal('on', { action: 'linkReady', callback: () => { clearTimeout(calTimer); bookingStatus.hidden = true; } });
     cal('on', { action: 'linkFailed', callback: calFailed });
     /* A confirmed booking is a lead, like a callback request: the conversion fires

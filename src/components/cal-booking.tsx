@@ -60,6 +60,43 @@ function loadCal(): CalApi {
   return window.Cal as CalApi;
 }
 
+/* Cal.com themed with the site's palette (system.css / globals.css), so the
+   calendar reads as part of the modal: navy surfaces, mist text, orange actions. */
+export const CAL_THEME = {
+  dark: {
+    'cal-brand': '#FF6200',
+    'cal-brand-emphasis': '#E65800',
+    'cal-brand-text': '#FFFFFF',
+    'cal-bg': '#131A3E',
+    'cal-bg-muted': '#131A3E',
+    'cal-bg-subtle': '#18204B',
+    'cal-bg-emphasis': '#1E2761',
+    'cal-border': '#2B3366',
+    'cal-border-subtle': '#232B5A',
+    'cal-border-booker': '#232B5A',
+    'cal-text': '#F5F5F9',
+    'cal-text-emphasis': '#FFFFFF',
+    'cal-text-subtle': '#B2B5CC',
+    'cal-text-muted': '#989DB8',
+  },
+  light: {
+    'cal-brand': '#FF6200',
+    'cal-brand-emphasis': '#E65800',
+    'cal-brand-text': '#FFFFFF',
+    'cal-bg': '#FFFFFF',
+    'cal-bg-muted': '#F8F9FD',
+    'cal-bg-subtle': '#F5F5F9',
+    'cal-bg-emphasis': '#ECEEF8',
+    'cal-border': '#D9DBEA',
+    'cal-border-subtle': '#E8E9F2',
+    'cal-border-booker': '#E2E4F0',
+    'cal-text': '#141B45',
+    'cal-text-emphasis': '#111827',
+    'cal-text-subtle': '#5B6080',
+    'cal-text-muted': '#7A7F9C',
+  },
+};
+
 /* Listeners are registered once per page load, however often the modal opens. */
 let listening = false;
 const booked = new Set<string>();
@@ -76,11 +113,7 @@ export function CalBooking({ source }: { source: string }) {
     const cal = Cal.ns[NS];
     if (!listening) {
       listening = true;
-      cal('ui', {
-        cssVarsPerTheme: { light: { 'cal-brand': '#FF6200' }, dark: { 'cal-brand': '#FF6200' } },
-        hideEventTypeDetails: true,
-        layout: 'month_view',
-      });
+      cal('ui', { cssVarsPerTheme: CAL_THEME, hideEventTypeDetails: true, layout: 'month_view' });
       cal('on', {
         action: 'bookingSuccessfulV2',
         callback: (e: CustomEvent<{ data?: { uid?: string } }>) => {

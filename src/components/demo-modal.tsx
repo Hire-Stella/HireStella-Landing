@@ -181,7 +181,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
   return (
     <div className="dm-scrim" onMouseDown={(e) => e.target === e.currentTarget && close()}>
       <div
-        className="dm pan pan--solid"
+        className={`dm pan pan--solid${mode === 'calendar' ? ' dm--cal' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-label="Book a demo"

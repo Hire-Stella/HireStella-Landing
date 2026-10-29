@@ -563,3 +563,38 @@
   color: #ff6200;
   text-decoration: underline;
 }
+/* Calendar mode: a little wider and taller, the calendar gets most of the width,
+   tighter padding, and no visible scroll bar (a very short window still scrolls
+   with the wheel or a swipe). */
+@media (min-width: 901px) {
+  .dm--cal {
+    width: min(1120px, 100%);
+    max-height: calc(100dvh - 24px);
+    grid-template-columns: 0.72fr 1.28fr;
+  }
+  .dm--cal .dm-form {
+    padding: var(--s6) var(--s6) var(--s4);
+  }
+  .dm--cal .dm-aside {
+    padding: var(--s8) var(--s6);
+  }
+}
+.dm--cal .dm-form,
+.dm--cal {
+  scrollbar-width: none;
+}
+.dm--cal .dm-form::-webkit-scrollbar,
+.dm--cal::-webkit-scrollbar {
+  display: none;
+}
+.dm--cal .dm-tabs {
+  margin-bottom: var(--s3);
+  margin-right: var(--s8);
+}
+.dm--cal .dm-cal-note {
+  margin-bottom: var(--s3);
+}
+.dm--cal .cal-frame {
+  border-radius: var(--r-card, 20px);
+  overflow: hidden;
+}
