@@ -71,7 +71,8 @@ export function CalBooking({ source }: { source: string }) {
   useEffect(() => {
     if (!host.current) return;
     const Cal = loadCal();
-    if (!Cal.ns[NS]) Cal('init', NS, { origin: 'https://app.cal.com' });
+    /* `Cal.ns` only exists after the loader's first call, so check it with `?.`. */
+    if (!Cal.ns?.[NS]) Cal('init', NS, { origin: 'https://app.cal.com' });
     const cal = Cal.ns[NS];
     if (!listening) {
       listening = true;
