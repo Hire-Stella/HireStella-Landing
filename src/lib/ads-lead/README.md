@@ -75,6 +75,20 @@ loads them in the `<head>` of both pages; there is nothing to paste.
 - Other events in `dataLayer`: `cta_click` (with `cta_location`),
   `form_start`, `whatsapp_click`.
 
+## Demo calendar (Cal.com)
+
+"Choose your time" opens the Cal.com calendar (`CAL_LINK` in `config.js`) in a
+dialog on the page. The main site's demo modal shows the same calendar.
+
+- A confirmed booking pushes `generate_lead` with `lead_type: 'calcom'` (and the
+  Pixel `Lead`), once per booking, so it counts as a conversion like a callback
+  request (`lead_type: 'demo'`).
+- Cal.com then calls `/api/cal-webhook` (`src/lib/cal-webhook.js`, signed with
+  `CALCOM_WEBHOOK_SECRET`), which adds the booking to the bookings sheet with the
+  meeting time and Google Meet link, moves the row on a reschedule and marks it
+  cancelled on a cancellation. Bookings from a direct Cal.com link are recorded too.
+- `metadata[source]` (`ads_get` here, `site_modal` in the modal) names the form.
+
 ## Share preview
 
 `assets/brand/og-image.jpg` (1200x630) is the image shown when the link is shared on

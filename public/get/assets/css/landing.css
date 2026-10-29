@@ -1013,9 +1013,10 @@ main, .foot { position: relative; z-index: 1; }
 .booking-logo { display: block; height: 26px; width: auto; margin-bottom: 12px; }
 .booking-close { width: 44px; height: 44px; flex: 0 0 44px; border: 1px solid var(--line-hi); border-radius: 50%; background: var(--hover); color: var(--t1); font: 28px/1 var(--font-ui); cursor: pointer; }
 .booking-close:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
-.booking-calendar { flex: none; height: min(650px, calc(100dvh - 140px)); overflow: hidden; background: white; }
-/* 20px wider on each side: a scroll bar inside Calendly lands in the clipped edge. */
-.booking-calendar iframe { display: block; border: 0; width: calc(100% + 40px); margin-left: -20px; height: 100%; transform-origin: 50% 0; }
+/* Cal.com sizes its frame to its content. A window too short for it scrolls here, bar hidden. */
+.booking-calendar { flex: none; min-height: 420px; max-height: calc(100dvh - 140px); overflow-y: auto; scrollbar-width: none; background: var(--bg); }
+.booking-calendar::-webkit-scrollbar { display: none; }
+.booking-calendar iframe { display: block; border: 0; width: 100%; }
 .booking-status { padding: 24px; font-size: 14px; }
 .booking-status[hidden], .booking-retry[hidden] { display: none; }
 .booking-retry { margin: 16px 24px; }

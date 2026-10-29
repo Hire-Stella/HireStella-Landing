@@ -104,101 +104,64 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
   const bookingCalendar = document.getElementById('bookingCalendar');
   const bookingStatus = document.getElementById('bookingStatus');
   const bookingRetry = bookingDialog.querySelector('.booking-retry');
-  let calendlyScript;
-  let bookingLoading = false;
   let bookingTrigger;
   let previousOverflow;
-  /* Calendly reports each screen's height. The frame takes that full height, so
-     nothing scrolls inside it, and the calendar scales down (never below 70%,
-     to stay readable) when the window is shorter, so the dialog fits without a
-     scroll bar. Only width-preserving scale is used: changing the frame's width
-     makes Calendly re-lay out and report a new height, which loops. */
-  let calendarHeight = 0;
-  let heightTimer;
-  function fitBookingCalendar() {
-    const frame = bookingCalendar.querySelector('iframe');
-    const head = bookingDialog.querySelector('.booking-dialog-head');
-    const room = window.innerHeight - (window.innerWidth <= 600 ? 24 : 48) - head.offsetHeight - 2;
-    if (!frame || !calendarHeight) { bookingCalendar.style.height = `${Math.min(650, room)}px`; return; }
-    /* A long list of time slots can't fit at a readable size; on wider screens it
-       stays full size and scrolls inside the frame, whose scroll bar the CSS
-       pushes past the clipped edge. */
-    let scale = Math.max(0.7, Math.min(1, room / calendarHeight));
-    if (room / calendarHeight < 0.7 && window.innerWidth > 600) scale = 1;
-    const frameHeight = Math.min(calendarHeight, Math.floor(room / scale));
-    const shown = Math.floor(frameHeight * scale);
-    bookingCalendar.style.height = `${shown}px`;
-    frame.style.height = `${frameHeight}px`;
-    frame.style.transform = scale < 1 ? `scale(${scale})` : '';
-    frame.style.marginBottom = scale < 1 ? `${shown - frameHeight}px` : '';
+  let calStarted = false;
+  let calTimer;
+  /* The calendar is Cal.com's inline embed (CONFIG.CAL_LINK). It sizes itself to
+     its content; the dialog scrolls only on a window too short for it, with the
+     bar hidden. Cal.com sends the booking to /api/cal-webhook, which adds it to
+     the bookings sheet. `metadata[source]` tells that row it came from this page. */
+  function calFailed() {
+    clearTimeout(calTimer);
+    bookingStatus.hidden = false;
+    bookingStatus.textContent = 'The calendar could not load. Please try again.';
+    bookingRetry.hidden = false;
   }
-  window.addEventListener('message', (event) => {
-    if (event.origin !== 'https://calendly.com' || event.data?.event !== 'calendly.page_height') return;
-    const height = parseFloat(event.data.payload?.height);
-    if (!height) return;
-    /* Calendly sends a passing height while it swaps screens; size to the one it settles on. */
-    clearTimeout(heightTimer);
-    heightTimer = setTimeout(() => {
-      if (Math.abs(height - calendarHeight) < 2) return;
-      calendarHeight = height;
-      fitBookingCalendar();
-    }, 200);
-  });
-  window.addEventListener('resize', () => { if (bookingDialog.open) fitBookingCalendar(); });
-  async function loadBookingCalendar() {
-    if (bookingLoading || bookingCalendar.querySelector('iframe')) return;
-    bookingLoading = true;
+  function loadBookingCalendar() {
+    if (calStarted) return;
+    calStarted = true;
     bookingStatus.hidden = false;
     bookingStatus.textContent = 'Loading available dates and times…';
     bookingRetry.hidden = true;
-    try {
-      if (!document.getElementById('calendlyStyles')) {
-        const styles = document.createElement('link');
-        styles.id = 'calendlyStyles';
-        styles.rel = 'stylesheet';
-        styles.href = 'https://assets.calendly.com/assets/external/widget.css';
-        document.head.appendChild(styles);
-      }
-      if (!window.Calendly) {
-        if (!calendlyScript) calendlyScript = new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = 'https://assets.calendly.com/assets/external/widget.js';
-          const fail = () => {
-            clearTimeout(timeout);
-            script.onload = script.onerror = null;
-            script.remove();
-            reject(new Error('Calendar unavailable'));
-          };
-          const timeout = setTimeout(fail, 15000);
-          script.onload = () => { clearTimeout(timeout); resolve(); };
-          script.onerror = fail;
-          document.head.appendChild(script);
-        });
-        await calendlyScript;
-      }
-      window.Calendly.initInlineWidget({
-        url: 'https://calendly.com/hirestella-marketing-nqfz/30min?primary_color=ff6200&hide_event_type_details=1&hide_landing_page_details=1&hide_gdpr_banner=1',
-        parentElement: bookingCalendar
-      });
-      bookingStatus.hidden = true;
-      const frame = bookingCalendar.querySelector('iframe');
-      if (frame) frame.title = 'Select a date and time for your HireStella demo';
-      fitBookingCalendar();
-    } catch {
-      calendlyScript = null;
-      bookingStatus.textContent = 'The calendar could not load. Please try again.';
-      bookingRetry.hidden = false;
-    } finally {
-      bookingLoading = false;
-    }
+    /* Cal.com's loader: queues commands until embed.js arrives. */
+    (function (C, A, L) { const p = (a, ar) => a.q.push(ar); const d = C.document; C.Cal = C.Cal || function () { const cal = C.Cal; const ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; const s = d.createElement('script'); s.src = A; s.onerror = calFailed; d.head.appendChild(s); cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, 'https://app.cal.com/embed/embed.js', 'init');
+    const metadata = { 'metadata[source]': 'ads_get' };
+    const query = new URLSearchParams(location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach((k) => {
+      if (query.get(k)) metadata[`metadata[${k}]`] = query.get(k).slice(0, 200);
+    });
+    window.Cal('init', 'demo', { origin: 'https://app.cal.com' });
+    const cal = window.Cal.ns.demo;
+    cal('inline', {
+      elementOrSelector: bookingCalendar,
+      calLink: CONFIG.CAL_LINK,
+      config: { layout: 'month_view', theme: root.dataset.theme === 'dark' ? 'dark' : 'light', ...metadata },
+    });
+    cal('ui', { cssVarsPerTheme: { light: { 'cal-brand': '#FF6200' }, dark: { 'cal-brand': '#FF6200' } }, hideEventTypeDetails: true, layout: 'month_view' });
+    cal('on', { action: 'linkReady', callback: () => { clearTimeout(calTimer); bookingStatus.hidden = true; } });
+    cal('on', { action: 'linkFailed', callback: calFailed });
+    /* A confirmed booking is a lead, like a callback request: the conversion fires
+       here, once per booking, with no personal details. */
+    const booked = new Set();
+    cal('on', {
+      action: 'bookingSuccessfulV2',
+      callback: (e) => {
+        const uid = e.detail?.data?.uid || 'booked';
+        if (booked.has(uid)) return;
+        booked.add(uid);
+        push('generate_lead', { lead_source: 'ads_landing', lead_type: 'calcom' });
+        if (window.fbq) window.fbq('track', 'Lead', { content_category: 'calcom' });
+      },
+    });
+    calTimer = setTimeout(calFailed, 20000);
   }
   bookingButton.addEventListener('click', () => {
     bookingTrigger = document.activeElement;
     previousOverflow = document.body.style.overflow;
     bookingDialog.showModal();
     document.body.style.overflow = 'hidden';
-    fitBookingCalendar();
-    push('booking_link_clicked', { cta_location: bookingButton.dataset.cta, booking_provider: 'calendly' });
+    push('booking_link_clicked', { cta_location: bookingButton.dataset.cta, booking_provider: 'calcom' });
     loadBookingCalendar();
   });
   bookingDialog.querySelector('.booking-close').addEventListener('click', () => bookingDialog.close());
@@ -211,7 +174,15 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
     document.body.style.overflow = previousOverflow;
     bookingTrigger?.focus({ preventScroll: true });
   });
-  bookingRetry.addEventListener('click', loadBookingCalendar);
+  /* Start again from nothing: a failed embed.js leaves a loader that will never run. */
+  bookingRetry.addEventListener('click', () => {
+    clearTimeout(calTimer);
+    bookingCalendar.replaceChildren();
+    document.querySelectorAll('script[src="https://app.cal.com/embed/embed.js"]').forEach((s) => s.remove());
+    delete window.Cal;
+    calStarted = false;
+    loadBookingCalendar();
+  });
   document.querySelectorAll('a[href="#demo"]').forEach((a) => {
     a.addEventListener('click', (e) => {
       e.preventDefault();

@@ -1,4 +1,4 @@
-﻿/* ============ SETTINGS for the landing page and the thank-you page ============
+/* ============ SETTINGS for the landing page and the thank-you page ============
    Edit these values, save, and redeploy. See README.md. */
 window.HS_CONFIG = {
   // WhatsApp Business number, digits only, with country code, e.g. "971501234567".
@@ -11,6 +11,8 @@ window.HS_CONFIG = {
   PRIVACY_URL: '',
   // Where a delivered lead lands. The Google Ads / Meta conversion fires there.
   THANK_YOU_URL: '/get/thank-you',
+  // Cal.com booking page shown in the "Choose your time" dialog: username/event-slug.
+  CAL_LINK: 'it-team-vvnltu/hirestella-demo',
   // Leave empty: the GTM container (GTM-T7WP6PDV) is pasted directly into index.html and thank-you.html.
   GTM_ID: '',
   // Google Analytics 4 measurement ID. Loads the Google tag on both pages (page views).

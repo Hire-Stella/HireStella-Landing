@@ -7,9 +7,13 @@ import { demoSchema } from '@/lib/lead-schema';
 import { BookingFields, BOOKING_ERROR } from './booking-fields';
 import { track } from '@/lib/telemetry';
 import { BOOKED } from './demo-nudge';
+import { CalBooking } from './cal-booking';
 
 /**
  * The demo request modal.
+ *
+ * Two ways in: pick a time on the Cal.com calendar (the default, which books the
+ * meeting there and then) or request a callback with the form.
  *
  * Opening it never leaves the page, so the visitor does not lose the context
  * that convinced them. §30.3 permits glass on modals; the form itself follows
@@ -35,23 +39,26 @@ export function DemoModal({ configured }: { configured: boolean }) {
   const [done, setDone] = useState(false);
   const [draft, setDraft] = useState<Record<string, string>>({});
   const [, setCarried] = useState(false);
+  const [mode, setMode] = useState<'calendar' | 'callback'>('calendar');
   const dialog = useRef<HTMLDivElement>(null);
   const form = useRef<HTMLFormElement>(null);
   const first = useRef<HTMLInputElement>(null);
   const opener = useRef<HTMLElement | null>(null);
 
-  /* Closing must never cost the visitor what they already typed. */
+  /* Closing, or switching to the calendar, must never cost the visitor what they already typed. */
+  const keepDraft = useCallback(() => {
+    if (!form.current) return;
+    const kept: Record<string, string> = {};
+    for (const [k, v] of new FormData(form.current).entries())
+      if (typeof v === 'string') kept[k] = v;
+    setDraft(kept);
+  }, []);
   const close = useCallback(() => {
-    if (form.current) {
-      const kept: Record<string, string> = {};
-      for (const [k, v] of new FormData(form.current).entries())
-        if (typeof v === 'string') kept[k] = v;
-      setDraft(kept);
-    }
+    keepDraft();
     setOpen(false);
     setError('');
     opener.current?.focus();
-  }, []);
+  }, [keepDraft]);
 
   /* One delegated listener serves every [data-demo] trigger on the page. */
   useEffect(() => {
@@ -65,6 +72,8 @@ export function DemoModal({ configured }: { configured: boolean }) {
         setDraft((d) => (d.problem?.trim() ? d : { ...d, problem: brief }));
         setCarried(true);
       }
+      /* A brief carried from Ask Stella belongs in the form; otherwise the calendar. */
+      setMode(brief ? 'callback' : 'calendar');
       setOpen(true);
       setDone(false);
       setError('');
@@ -77,6 +86,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
     /* The timed invitation (demo-nudge.tsx) opens the same dialog. */
     function onInvite() {
       opener.current = null;
+      setMode('calendar');
       setOpen(true);
       setDone(false);
       setError('');
@@ -217,7 +227,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
           </p>
         </aside>
 
-        {/* ── right: the form ── */}
+        {/* ── right: the calendar, or the callback form ── */}
         <div className="dm-form">
           <div className="dm-mini" aria-hidden="true">
             <span>
@@ -225,7 +235,28 @@ export function DemoModal({ configured }: { configured: boolean }) {
               <em>See Stella work on your business.</em>
             </span>
           </div>
-          {done ? (
+          <div className="dm-tabs" role="tablist" aria-label="How to book">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === 'calendar'}
+              onClick={() => {
+                keepDraft();
+                setMode('calendar');
+              }}
+            >
+              Pick a time
+            </button>
+            <button type="button" role="tab" aria-selected={mode === 'callback'} onClick={() => setMode('callback')}>
+              Request a callback
+            </button>
+          </div>
+          {mode === 'calendar' ? (
+            <>
+              <p className="dm-cal-note">One hour on Google Meet. Choose a date and time that suits you.</p>
+              <CalBooking source="site_modal" />
+            </>
+          ) : done ? (
             <div className="dm-done">
               <span className="dm-tick" aria-hidden="true">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">

@@ -514,4 +514,52 @@
     animation: none !important;
   }
 }
-
+/* Pick a time (Cal.com) or request a callback. */
+.dm-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: var(--s5);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.dm-tabs button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--t2);
+  font: 600 14px/1 var(--font-ui, inherit);
+  cursor: pointer;
+}
+.dm-tabs button[aria-selected='true'] {
+  background: #ff6200;
+  color: #fff;
+}
+.dm-tabs button:focus-visible {
+  outline: 2px solid #ff6200;
+  outline-offset: 2px;
+}
+.dm-cal-note {
+  margin: 0 0 var(--s4);
+  font-size: 14px;
+  color: var(--t2);
+}
+.cal-booking {
+  min-height: 420px;
+}
+.cal-frame iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+.cal-status {
+  padding: var(--s4) 0;
+  font-size: 14px;
+  color: var(--t2);
+}
+.cal-status a {
+  color: #ff6200;
+  text-decoration: underline;
+}
