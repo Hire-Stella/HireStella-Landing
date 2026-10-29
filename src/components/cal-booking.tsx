@@ -97,13 +97,34 @@ export const CAL_THEME = {
   },
 };
 
-/* Listeners are registered once per page load, however often the modal opens. */
+/* Listeners are registered once per page load, however often the modal opens;
+   the open calendar subscribes through `showBooked`. */
 let listening = false;
 const booked = new Set<string>();
+let showBooked: ((startTime?: string) => void) | null = null;
+
+/* "Friday 30 October, 1:30 pm", in the visitor's own time zone. */
+function when(startTime?: string) {
+  const date = startTime ? new Date(startTime) : null;
+  if (!date || Number.isNaN(date.getTime())) return '';
+  return date.toLocaleString(undefined, { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' });
+}
 
 export function CalBooking({ source }: { source: string }) {
   const host = useRef<HTMLDivElement>(null);
-  const [state, setState] = useState<'loading' | 'ready' | 'failed'>('loading');
+  const [state, setState] = useState<'loading' | 'ready' | 'failed' | 'booked'>('loading');
+  const [bookedAt, setBookedAt] = useState('');
+
+  useEffect(() => {
+    /* Cal.com's own confirmation screen carries its advert; ours replaces it. */
+    showBooked = (startTime) => {
+      setBookedAt(when(startTime));
+      setState('booked');
+    };
+    return () => {
+      showBooked = null;
+    };
+  }, []);
 
   useEffect(() => {
     if (!host.current) return;
@@ -116,8 +137,9 @@ export function CalBooking({ source }: { source: string }) {
       cal('ui', { cssVarsPerTheme: CAL_THEME, hideEventTypeDetails: true, layout: 'month_view' });
       cal('on', {
         action: 'bookingSuccessfulV2',
-        callback: (e: CustomEvent<{ data?: { uid?: string } }>) => {
+        callback: (e: CustomEvent<{ data?: { uid?: string; startTime?: string } }>) => {
           const uid = e.detail?.data?.uid || 'booked';
+          showBooked?.(e.detail?.data?.startTime);
           if (booked.has(uid)) return;
           booked.add(uid);
           try {
@@ -128,7 +150,7 @@ export function CalBooking({ source }: { source: string }) {
         },
       });
     }
-    cal('on', { action: 'linkReady', callback: () => setState('ready') });
+    cal('on', { action: 'linkReady', callback: () => setState((s) => (s === 'booked' ? s : 'ready')) });
     cal('on', { action: 'linkFailed', callback: () => setState('failed') });
     const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
     cal('inline', {
@@ -156,7 +178,23 @@ export function CalBooking({ source }: { source: string }) {
           , or request a callback instead.
         </p>
       )}
-      <div ref={host} className="cal-frame" />
+      {state === 'booked' && (
+        <div className="cal-done" role="status">
+          <span className="cal-done-tick" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 12.5l5.5 5.5L20 7" />
+            </svg>
+          </span>
+          <h3>Your demo is booked.</h3>
+          {bookedAt && <p className="cal-done-when">{bookedAt}</p>}
+          <p>
+            Your Google Meet link and calendar invite are on their way to your inbox. Need a different
+            time? Use the reschedule link in that email.
+          </p>
+        </div>
+      )}
+      {/* Kept mounted (hidden) after booking, so Cal.com can finish its own work. */}
+      <div ref={host} className="cal-frame" hidden={state === 'booked'} />
     </div>
   );
 }

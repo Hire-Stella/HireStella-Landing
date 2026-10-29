@@ -598,3 +598,36 @@
   border-radius: var(--r-card, 20px);
   overflow: hidden;
 }
+/* HireStella's own booking confirmation, in place of Cal.com's (which carries its advert). */
+.cal-done {
+  display: grid;
+  justify-items: start;
+  gap: var(--s3);
+  padding: var(--s8) var(--s2);
+}
+.cal-done-tick {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255, 98, 0, 0.14);
+  color: #ff6200;
+}
+.cal-done h3 {
+  margin: var(--s2) 0 0;
+  font: 600 26px/1.2 var(--font-display, inherit);
+}
+.cal-done-when {
+  margin: 0;
+  font-weight: 600;
+  color: #ff6200;
+}
+.cal-done p {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--t2);
+}
+.cal-frame[hidden] {
+  display: none;
+}

@@ -118,6 +118,25 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
     bookingStatus.textContent = 'The calendar could not load. Please try again.';
     bookingRetry.hidden = false;
   }
+  /* Cal.com's own confirmation screen carries its advert; this page's replaces it.
+     The calendar stays mounted (hidden) so Cal.com can finish its own work. */
+  function showBooked(startTime) {
+    const date = startTime ? new Date(startTime) : null;
+    const when = date && !Number.isNaN(date.getTime())
+      ? date.toLocaleString(undefined, { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' })
+      : '';
+    let done = bookingDialog.querySelector('.booking-done');
+    if (!done) {
+      done = document.createElement('div');
+      done.className = 'booking-done';
+      done.setAttribute('role', 'status');
+      done.innerHTML = '<span class="booking-done-tick" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><h3>Your demo is booked<span class="dot">.</span></h3><p class="booking-done-when"></p><p>Your Google Meet link and calendar invite are on their way to your inbox. Need a different time? Use the reschedule link in that email.</p>';
+      bookingCalendar.after(done);
+    }
+    done.querySelector('.booking-done-when').textContent = when;
+    bookingCalendar.hidden = true;
+    bookingStatus.hidden = true;
+  }
   function loadBookingCalendar() {
     if (calStarted) return;
     calStarted = true;
@@ -164,6 +183,7 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
       action: 'bookingSuccessfulV2',
       callback: (e) => {
         const uid = e.detail?.data?.uid || 'booked';
+        showBooked(e.detail?.data?.startTime);
         if (booked.has(uid)) return;
         booked.add(uid);
         push('generate_lead', { lead_source: 'ads_landing', lead_type: 'calcom' });

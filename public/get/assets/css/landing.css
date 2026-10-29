@@ -1020,6 +1020,13 @@ main, .foot { position: relative; z-index: 1; }
 .booking-status { padding: 24px; font-size: 14px; }
 .booking-status[hidden], .booking-retry[hidden] { display: none; }
 .booking-retry { margin: 16px 24px; }
+/* This page's booking confirmation, in place of Cal.com's (which carries its advert). */
+.booking-calendar[hidden] { display: none; }
+.booking-done { display: grid; justify-items: center; gap: 12px; padding: 48px 24px 56px; text-align: center; }
+.booking-done-tick { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: rgba(255, 98, 0, 0.14); color: var(--orange); }
+.booking-done h3 { margin: 8px 0 0; font: 600 clamp(22px, 3vw, 28px)/1.2 var(--font-display); letter-spacing: -0.02em; }
+.booking-done-when { margin: 0; font-weight: 600; color: var(--orange); }
+.booking-done p { margin: 0; max-width: 46ch; color: var(--t2); font-size: 15px; line-height: 1.6; }
 @media (max-width: 600px) { .booking-dialog { width: calc(100% - 16px); border-radius: 16px; } .booking-dialog-head { padding: 16px; } }
 
 /* ── problem and revenue narrative ─────────────────────────────────── */
