@@ -514,120 +514,132 @@
     animation: none !important;
   }
 }
-/* Pick a time (Cal.com) or request a callback. */
-.dm-tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  padding: 4px;
-  margin-bottom: var(--s5);
-  border: 1px solid var(--line);
-  border-radius: 999px;
+/* The booking form scrolls inside the modal; no visible bar (wheel and swipe still work). */
+.dm-form {
+  scrollbar-width: none;
 }
-.dm-tabs button {
-  min-height: 44px;
+.dm-form::-webkit-scrollbar {
+  display: none;
+}
+
+/* Pick a demo time, inside the form. Optional: no time means a callback request. */
+.slot-picker {
+  margin: var(--s2) 0 var(--s4);
+  padding: 0;
   border: 0;
-  border-radius: 999px;
+  min-width: 0;
+}
+.slot-picker legend {
+  margin-bottom: var(--s3);
+  font-size: 14px;
+  font-weight: 600;
+}
+.slot-days {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.slot-days::-webkit-scrollbar {
+  display: none;
+}
+.slot-day {
+  flex: 0 0 64px;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 10px 4px;
+  border: 1px solid var(--line-hi);
+  border-radius: 14px;
   background: transparent;
   color: var(--t2);
-  font: 600 14px/1 var(--font-ui, inherit);
+  font-size: 12px;
   cursor: pointer;
 }
-.dm-tabs button[aria-selected='true'] {
+.slot-day b {
+  font-size: 18px;
+  line-height: 1.1;
+  color: var(--t1);
+}
+.slot-day[aria-selected='true'] {
+  border-color: #ff6200;
+  background: rgba(255, 98, 0, 0.12);
+}
+.slot-times {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: 8px;
+  margin-top: var(--s3);
+}
+.slot-time {
+  min-height: 44px;
+  border: 1px solid var(--line-hi);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--t1);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.slot-time:hover,
+.slot-day:hover {
+  border-color: rgba(255, 98, 0, 0.6);
+}
+.slot-time[aria-selected='true'] {
+  border-color: #ff6200;
   background: #ff6200;
   color: #fff;
 }
-.dm-tabs button:focus-visible {
+.slot-day:focus-visible,
+.slot-time:focus-visible {
   outline: 2px solid #ff6200;
   outline-offset: 2px;
 }
-.dm-cal-note {
-  margin: 0 0 var(--s4);
-  font-size: 14px;
+.slot-note {
+  margin: var(--s3) 0 0;
+  font-size: 13px;
   color: var(--t2);
 }
-.cal-booking {
-  min-height: 420px;
-}
-.cal-frame iframe {
-  display: block;
-  width: 100%;
+.slot-clear {
   border: 0;
-}
-.cal-status {
-  padding: var(--s4) 0;
-  font-size: 14px;
-  color: var(--t2);
-}
-.cal-status a {
+  background: none;
+  padding: 0;
   color: #ff6200;
+  font: inherit;
   text-decoration: underline;
+  cursor: pointer;
 }
-/* Calendar mode: a little wider and taller, the calendar gets most of the width,
-   tighter padding, and no visible scroll bar (a very short window still scrolls
-   with the wheel or a swipe). */
-@media (min-width: 901px) {
-  .dm--cal {
-    width: min(1120px, 100%);
-    max-height: calc(100dvh - 24px);
-    grid-template-columns: 0.72fr 1.28fr;
-  }
-  .dm--cal .dm-form {
-    padding: var(--s6) var(--s6) var(--s4);
-  }
-  .dm--cal .dm-aside {
-    padding: var(--s8) var(--s6);
-  }
-}
-.dm--cal .dm-form,
-.dm--cal {
-  scrollbar-width: none;
-}
-.dm--cal .dm-form::-webkit-scrollbar,
-.dm--cal::-webkit-scrollbar {
-  display: none;
-}
-.dm--cal .dm-tabs {
-  margin-bottom: var(--s3);
-  margin-right: var(--s8);
-}
-.dm--cal .dm-cal-note {
-  margin-bottom: var(--s3);
-}
-.dm--cal .cal-frame {
-  border-radius: var(--r-card, 20px);
-  overflow: hidden;
-}
-/* HireStella's own booking confirmation, in place of Cal.com's (which carries its advert). */
-.cal-done {
-  display: grid;
-  justify-items: start;
-  gap: var(--s3);
-  padding: var(--s8) var(--s2);
-}
-.cal-done-tick {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: rgba(255, 98, 0, 0.14);
-  color: #ff6200;
-}
-.cal-done h3 {
-  margin: var(--s2) 0 0;
-  font: 600 26px/1.2 var(--font-display, inherit);
-}
-.cal-done-when {
+.dm-booked-when {
   margin: 0;
   font-weight: 600;
   color: #ff6200;
 }
-.cal-done p {
+/* /booking/manage: the guest's booking from the email link. */
+.manage-card {
+  display: grid;
+  gap: var(--s4);
+  padding: var(--s8);
+  border-radius: var(--r-hero);
+}
+.manage-h {
   margin: 0;
-  max-width: 46ch;
+  font-size: clamp(24px, 4vw, 32px);
+  line-height: 1.25;
+}
+.manage-when {
+  color: #ff6200;
+}
+.manage-card p {
+  margin: 0;
   color: var(--t2);
 }
-.cal-frame[hidden] {
-  display: none;
+.manage-card a:not(.btn) {
+  color: #ff6200;
+}
+.manage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin-top: var(--s4);
 }

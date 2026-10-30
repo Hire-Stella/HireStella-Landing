@@ -61,7 +61,7 @@ export function leadDeliveryConfigured() {
   return resendConfigured() || webhookConfigured();
 }
 
-function escape(value: string) {
+export function escape(value: string) {
   return value
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -70,16 +70,27 @@ function escape(value: string) {
 }
 
 /* Header-safe: a name with a newline must not become a new header line. */
-function oneLine(value: string) {
+export function oneLine(value: string) {
   return value.replace(/[\r\n]+/g, ' ').slice(0, 120);
 }
 
-async function sendEmail(message: {
+/** The team's addresses (LEAD_EMAIL_TO). */
+export function teamAddresses() {
+  return env('LEAD_EMAIL_TO')
+    .split(',')
+    .map((address) => address.trim())
+    .filter(Boolean);
+}
+
+/** One email through Resend, from LEAD_EMAIL_FROM. Returns Resend's message ID. */
+export async function sendEmail(message: {
   to: string[];
   subject: string;
   text: string;
   html: string;
   replyTo?: string;
+  /** Base64 content, e.g. an .ics calendar file. */
+  attachments?: { filename: string; content: string; contentType?: string }[];
 }) {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -94,6 +105,15 @@ async function sendEmail(message: {
       text: message.text,
       html: message.html,
       ...(message.replyTo ? { reply_to: message.replyTo } : {}),
+      ...(message.attachments?.length
+        ? {
+            attachments: message.attachments.map((a) => ({
+              filename: a.filename,
+              content: a.content,
+              ...(a.contentType ? { content_type: a.contentType } : {}),
+            })),
+          }
+        : {}),
     }),
     signal: AbortSignal.timeout(10000),
   });
