@@ -7,8 +7,8 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const { configured, slots } = await offeredSlots();
-    return reply(200, { configured, slots, lengthMinutes: BOOKING.lengthMinutes, timeZone: BOOKING.timeZone });
+    const { configured, slots, booked } = await offeredSlots();
+    return reply(200, { configured, slots, booked, lengthMinutes: BOOKING.lengthMinutes, timeZone: BOOKING.timeZone });
   } catch (error) {
     return failure(error);
   }

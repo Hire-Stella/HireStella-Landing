@@ -17,8 +17,8 @@ export default async function ManageBookingPage({
   const params = await searchParams;
   const token = typeof params.t === 'string' ? params.t : '';
   return (
-    <main id="main" className="sec">
-      <div className="wrap" style={{ maxWidth: 640 }}>
+    <main id="main" className="sec manage-page">
+      <div className="wrap" style={{ maxWidth: 600 }}>
         <ManageBooking token={token} />
       </div>
     </main>

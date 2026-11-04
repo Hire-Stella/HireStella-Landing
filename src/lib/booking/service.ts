@@ -10,7 +10,7 @@ import { phoneField } from '../lead-schema';
 import { logBooking, updateBooking } from '../booking-sheet.js';
 import { resendConfigured } from '../lead-delivery';
 import { BOOKING } from './config';
-import { freeSlots, isFreeSlot, window, type Busy } from './slots';
+import { bookedSlots, freeSlots, isFreeSlot, window, type Busy } from './slots';
 import { busyTimes, calendarConfigured, cancelDemoEvent, createDemoEvent, getDemoEvent, moveDemoEvent, type DemoEvent } from './google';
 import { bookingToken, linksConfigured, readBookingToken } from './links';
 import { guestCancelled, guestConfirmation, guestMoved, sendEmail, teamChanged, teamNotice, type Booked } from './emails';
@@ -72,8 +72,9 @@ async function mail(message: Parameters<typeof sendEmail>[0] | null) {
 }
 
 export async function offeredSlots(now = new Date()) {
-  if (!bookingConfigured()) return { configured: false, slots: [] as string[] };
-  return { configured: true, slots: freeSlots(await busyNow(now), now) };
+  if (!bookingConfigured()) return { configured: false, slots: [] as string[], booked: [] as string[] };
+  const busy = await busyNow(now);
+  return { configured: true, slots: freeSlots(busy, now), booked: bookedSlots(busy, now) };
 }
 
 export async function book(input: BookingInput, origin: string, now = new Date()) {

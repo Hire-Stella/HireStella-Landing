@@ -15,13 +15,13 @@ export const BOOKING = {
   close: '18:00',
   lengthMinutes: 60,
   /** Kept free before and after every meeting already in the calendar. */
-  gapMinutes: 15,
-  /** Slots start on this grid: 30 means :00 and :30. */
-  stepMinutes: 30,
+  gapMinutes: 0,
+  /** Slots start on this grid: 60 means one-hour slots on the hour. */
+  stepMinutes: 60,
   /** The soonest a demo can be booked, from now. */
   noticeMinutes: 4 * 60,
-  /** How far ahead the calendar opens. */
-  windowDays: 30,
+  /** How far ahead the calendar opens: the rest of this month plus this many whole months. */
+  monthsAhead: 11,
   title: 'HireStella demo',
 } as const;
 

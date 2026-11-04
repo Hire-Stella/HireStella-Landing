@@ -8,6 +8,9 @@ import { BookingFields, BOOKING_ERROR } from './booking-fields';
 import { leadConversion, track } from '@/lib/telemetry';
 import { BOOKED } from './demo-nudge';
 import { SlotPicker } from './slot-picker';
+import { BOOKING } from '@/lib/booking/config';
+
+const DUBAI = BOOKING.timeZone;
 
 /**
  * The demo request modal.
@@ -291,12 +294,14 @@ export function DemoModal({ configured }: { configured: boolean }) {
               <h3>Your demo is booked.</h3>
               <p className="dm-booked-when">
                 {new Date(booked.start).toLocaleString(undefined, {
+                  timeZone: DUBAI,
                   weekday: 'long',
                   day: 'numeric',
                   month: 'long',
                   hour: 'numeric',
                   minute: '2-digit',
-                })}
+                })}{' '}
+                (UAE time)
               </p>
               <p className="sm">
                 One hour on Google Meet. The confirmation, with the Meet link and a calendar file, is on its way to

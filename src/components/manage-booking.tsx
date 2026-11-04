@@ -1,11 +1,18 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { CalendarDays, Clock, Video } from 'lucide-react';
+import { BOOKING } from '@/lib/booking/config';
+import { SlotCalendar } from './slot-calendar';
+
+const DUBAI = BOOKING.timeZone;
 
 type Details = { start: string; end: string; meetLink: string; firstName: string; past: boolean; slots: string[] };
 
 const long = (iso: string) =>
-  new Date(iso).toLocaleString(undefined, { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' });
+  new Date(iso).toLocaleString(undefined, { timeZone: DUBAI, weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' }) + ' (UAE time)';
+const dateLabel = (iso: string) => new Date(iso).toLocaleDateString(undefined, { timeZone: DUBAI, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+const clock = (iso: string) => new Date(iso).toLocaleTimeString(undefined, { timeZone: DUBAI, hour: 'numeric', minute: '2-digit' });
 
 /**
  * The guest's booking, from the signed link in their email: see it, move it to
@@ -15,7 +22,6 @@ export function ManageBooking({ token }: { token: string }) {
   const [details, setDetails] = useState<Details | null>(null);
   const [state, setState] = useState<'loading' | 'ready' | 'moving' | 'moved' | 'cancelled' | 'error'>('loading');
   const [message, setMessage] = useState('');
-  const [day, setDay] = useState('');
   const [chosen, setChosen] = useState('');
   const [busy, setBusy] = useState(false);
 
@@ -33,17 +39,6 @@ export function ManageBooking({ token }: { token: string }) {
       });
   }, [token]);
 
-  const days = useMemo(() => {
-    const map = new Map<string, string[]>();
-    for (const s of details?.slots || []) {
-      const key = new Date(s).toLocaleDateString('en-CA');
-      map.set(key, [...(map.get(key) || []), s]);
-    }
-    return [...map.entries()];
-  }, [details]);
-  useEffect(() => {
-    if (!day && days.length) setDay(days[0][0]);
-  }, [days, day]);
 
   async function act(body: Record<string, string>) {
     setBusy(true);
@@ -103,23 +98,45 @@ export function ManageBooking({ token }: { token: string }) {
       </div>
     );
 
-  const times = days.find(([d]) => d === day)?.[1] || [];
   return (
     <div className="manage-card pan pan--solid">
       <p className="eyebrow eyebrow--sig">Your HireStella demo</p>
       <h1 className="manage-h">
-        {state === 'moved' ? 'Moved. ' : details.firstName ? `Hi ${details.firstName}. ` : ''}
-        <span className="manage-when">{long(details.start)}</span>
+        {state === 'moved'
+          ? 'Your demo has moved.'
+          : details.past
+            ? 'Thanks for meeting us.'
+            : `${details.firstName ? `Hi ${details.firstName}, y` : 'Y'}ou're booked.`}
       </h1>
-      <p>
-        One hour on Google Meet.{' '}
-        {details.meetLink && (
-          <a href={details.meetLink} target="_blank" rel="noopener noreferrer">
-            Join link
-          </a>
-        )}
-        {state === 'moved' && ' We have emailed you the new time.'}
-      </p>
+      {state === 'moved' && <p>We have emailed you the new time.</p>}
+      <ul className="manage-facts">
+        <li>
+          <CalendarDays aria-hidden="true" />
+          <span>
+            <small>Date</small>
+            {dateLabel(details.start)}
+          </span>
+        </li>
+        <li>
+          <Clock aria-hidden="true" />
+          <span>
+            <small>Time</small>
+            {clock(details.start)} – {clock(details.end)} <em>UAE time (Dubai, GMT+4)</em>
+          </span>
+        </li>
+        <li>
+          <Video aria-hidden="true" />
+          <span>
+            <small>Where</small>
+            Google Meet, one hour
+          </span>
+          {details.meetLink && !details.past && (
+            <a className="manage-join" href={details.meetLink} target="_blank" rel="noopener noreferrer">
+              Join the call
+            </a>
+          )}
+        </li>
+      </ul>
 
       {details.past ? (
         <p>This demo has already taken place.</p>
@@ -137,26 +154,8 @@ export function ManageBooking({ token }: { token: string }) {
           ) : (
             <fieldset className="slot-picker">
               <legend>Pick a new time</legend>
-              {!days.length && <p className="slot-note">No other times are open right now. Reply to your confirmation email and we will find one.</p>}
-              <div className="slot-days" role="listbox" aria-label="Day">
-                {days.map(([d, list]) => {
-                  const date = new Date(list[0]);
-                  return (
-                    <button key={d} type="button" role="option" aria-selected={d === day} className="slot-day" onClick={() => setDay(d)}>
-                      <span>{date.toLocaleDateString(undefined, { weekday: 'short' })}</span>
-                      <b>{date.toLocaleDateString(undefined, { day: 'numeric' })}</b>
-                      <span>{date.toLocaleDateString(undefined, { month: 'short' })}</span>
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="slot-times" role="listbox" aria-label="Time">
-                {times.map((s) => (
-                  <button key={s} type="button" role="option" aria-selected={s === chosen} className="slot-time" onClick={() => setChosen(s)}>
-                    {new Date(s).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}
-                  </button>
-                ))}
-              </div>
+              {!details.slots.length && <p className="slot-note">No other times are open right now. Reply to your confirmation email and we will find one.</p>}
+              {!!details.slots.length && <SlotCalendar slots={details.slots} value={chosen} onChange={setChosen} />}
               <div className="manage-actions">
                 <button className="btn btn-1" type="button" onClick={move} disabled={!chosen || busy}>
                   {busy ? 'Moving…' : chosen ? `Move to ${long(chosen)}` : 'Choose a time'}

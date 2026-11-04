@@ -6,6 +6,7 @@
  *   GOOGLE_REFRESH_TOKEN                      from `node scripts/google-auth.mjs`, once
  *   BOOKING_CALENDAR_ID                       where demos are created (default: primary)
  *   BOOKING_BUSY_CALENDARS                    extra calendars whose busy times block slots, comma-separated
+ *   BOOKING_IGNORE_EVENTS                     event titles that never block a demo (a team stand-up), comma-separated
  *
  * Moving to another Google account only means new values for these settings.
  * Google sends no emails of its own (sendUpdates=none): the site sends them.
@@ -60,18 +61,59 @@ async function call<T>(path: string, init: RequestInit = {}): Promise<T> {
 }
 
 /** Busy times across the booking calendar and any extra ones. */
+/* Google refuses a freeBusy range that is too long, so a long window is asked in pieces. */
+const BUSY_CHUNK = 60 * 24 * 60 * 60_000;
+
 export async function busyTimes(timeMin: string, timeMax: string): Promise<Busy[]> {
   const ids = [calendarId(), ...env('BOOKING_BUSY_CALENDARS').split(',').map((s) => s.trim()).filter(Boolean)];
-  const data = await call<{ calendars: Record<string, { busy?: Busy[]; errors?: unknown[] }> }>('/freeBusy', {
-    method: 'POST',
-    body: JSON.stringify({ timeMin, timeMax, items: ids.map((id) => ({ id })) }),
-  });
+  const ranges: [string, string][] = [];
+  for (let from = new Date(timeMin).getTime(), end = new Date(timeMax).getTime(); from < end; from += BUSY_CHUNK)
+    ranges.push([new Date(from).toISOString(), new Date(Math.min(from + BUSY_CHUNK, end)).toISOString()]);
+  const replies = await Promise.all(
+    ranges.map(([min, max]) =>
+      call<{ calendars: Record<string, { busy?: Busy[]; errors?: unknown[] }> }>('/freeBusy', {
+        method: 'POST',
+        body: JSON.stringify({ timeMin: min, timeMax: max, items: ids.map((id) => ({ id })) }),
+      }),
+    ),
+  );
   const out: Busy[] = [];
-  for (const [id, cal] of Object.entries(data.calendars || {})) {
-    if (cal.errors?.length) throw new Error(`Google Calendar cannot read busy times of ${id}`);
-    out.push(...(cal.busy || []));
-  }
-  return out;
+  for (const data of replies)
+    for (const [id, cal] of Object.entries(data.calendars || {})) {
+      if (cal.errors?.length) throw new Error(`Google Calendar cannot read busy times of ${id}`);
+      out.push(...(cal.busy || []));
+    }
+  const ignored = await ignoredTimes(ids, timeMin, timeMax);
+  return out.filter((b) => !ignored.has(`${new Date(b.start).getTime()}/${new Date(b.end).getTime()}`));
+}
+
+/**
+ * The times of events named in BOOKING_IGNORE_EVENTS, as "start/end" keys.
+ * freeBusy gives times without titles, so a busy stretch is dropped when it
+ * matches one of these exactly. If the meeting overlaps another event, Google
+ * merges the two and the stretch stays busy, which is the safe way to fail.
+ */
+async function ignoredTimes(ids: string[], timeMin: string, timeMax: string) {
+  const titles = env('BOOKING_IGNORE_EVENTS')
+    .split(',')
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+  const keys = new Set<string>();
+  if (!titles.length) return keys;
+  type Item = { summary?: string; start?: { dateTime?: string }; end?: { dateTime?: string } };
+  for (const id of ids)
+    for (const title of titles) {
+      let page = '';
+      do {
+        const q = new URLSearchParams({ timeMin, timeMax, q: title, singleEvents: 'true', maxResults: '2500', ...(page && { pageToken: page }) });
+        const data = await call<{ items?: Item[]; nextPageToken?: string }>(`/calendars/${encodeURIComponent(id)}/events?${q}`);
+        for (const e of data.items || [])
+          if (e.summary?.trim().toLowerCase() === title && e.start?.dateTime && e.end?.dateTime)
+            keys.add(`${new Date(e.start.dateTime).getTime()}/${new Date(e.end.dateTime).getTime()}`);
+        page = data.nextPageToken || '';
+      } while (page);
+    }
+  return keys;
 }
 
 export type DemoEvent = {
