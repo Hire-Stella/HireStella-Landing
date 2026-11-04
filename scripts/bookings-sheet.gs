@@ -7,12 +7,17 @@
  * Script properties as TOKEN (the website's BOOKINGS_SHEET_TOKEN).
  * As a stand-alone project (script.google.com), also set SHEET_ID: see getSheet().
  *
- *   { token, action: 'add', ... }                  a new booking → a new row
- *   { token, action: 'status', emailId, status }   a delivery result → updates that row
+ *   { token, action: 'add', ... }                    a new booking → a new row
+ *   { token, action: 'update', bookingId, fields }   a Cal.com reschedule or cancellation → that row
+ *   { token, action: 'status', emailId, status }     an email delivery result → that row
+ *
+ * After changing the code: Deploy → Manage deployments → Edit → New version,
+ * which keeps the same URL.
  */
 
 const SHEET_NAME = 'Bookings';
 
+/* New columns only ever go at the end, so existing rows stay aligned. */
 const COLUMNS = [
   ['receivedAt', 'Received at'],
   ['form', 'Form'],
@@ -30,7 +35,18 @@ const COLUMNS = [
   ['utm_campaign', 'utm_campaign'],
   ['gclid', 'gclid'],
   ['page', 'Page'],
+  ['meetingTime', 'Meeting time'],
+  ['meetingLink', 'Meeting link'],
+  ['rescheduleUrl', 'Reschedule link'],
+  ['cancelUrl', 'Cancel link'],
+  ['bookingId', 'Booking ID'],
+  ['bookingStatus', 'Booking status'],
 ];
+
+/* Dates are saved as real dates, so the sheet shows them in its own time zone
+   (File → Settings → Time zone, e.g. (GMT+04:00) Dubai) and they sort correctly. */
+const DATE_FORMAT = 'dd/MM/yyyy HH:mm:ss';
+const DATE_KEYS = ['receivedAt', 'statusUpdatedAt', 'meetingTime'];
 
 function doPost(e) {
   let body;
@@ -49,45 +65,73 @@ function doPost(e) {
   try {
     const sheet = getSheet();
     if (body.action === 'status') return updateStatus(sheet, body);
+    if (body.action === 'update') return updateBooking(sheet, body);
     return addBooking(sheet, body);
   } finally {
     lock.releaseLock();
   }
 }
 
-/* Dates are saved as real dates, so the sheet shows them in its own time zone
-   (File → Settings → Time zone, e.g. (GMT+04:00) Dubai) and they sort correctly. */
-const DATE_FORMAT = 'dd/MM/yyyy HH:mm:ss';
-
 function addBooking(sheet, body) {
-  const row = COLUMNS.map(([key]) => safe(body[key]));
-  const at = new Date(body.receivedAt);
-  row[0] = isNaN(at.getTime()) ? new Date() : at;
+  /* A booking reported twice is recorded once. */
+  if (body.bookingId && findRow(sheet, 'bookingId', body.bookingId)) return reply(200, 'Already recorded');
+  const row = COLUMNS.map(([key]) => cell(key, body[key]));
+  if (!(row[0] instanceof Date)) row[0] = new Date();
   sheet.appendRow(row);
-  sheet.getRange(sheet.getLastRow(), 1).setNumberFormat(DATE_FORMAT);
+  const last = sheet.getLastRow();
+  DATE_KEYS.forEach((key) => sheet.getRange(last, column(key)).setNumberFormat(DATE_FORMAT));
   return reply(200, 'Added');
+}
+
+/* Cal.com reschedule or cancellation: change only the given columns of that booking's row. */
+function updateBooking(sheet, body) {
+  if (!body.bookingId || !body.fields) return reply(400, 'bookingId and fields are required');
+  const row = findRow(sheet, 'bookingId', body.bookingId);
+  if (!row) return reply(404, 'Not found');
+  Object.keys(body.fields).forEach((key) => {
+    const col = column(key);
+    if (!col) return;
+    const range = sheet.getRange(row, col).setValue(cell(key, body.fields[key]));
+    if (DATE_KEYS.includes(key)) range.setNumberFormat(DATE_FORMAT);
+  });
+  sheet.getRange(row, column('statusUpdatedAt')).setValue(new Date()).setNumberFormat(DATE_FORMAT);
+  return reply(200, 'Updated');
 }
 
 /* Resend reports Delivered / Bounced / Complained later: find the row by the email ID. */
 function updateStatus(sheet, body) {
   if (!body.emailId || !body.status) return reply(400, 'emailId and status are required');
-  const idCol = COLUMNS.findIndex(([key]) => key === 'visitorEmailId') + 1;
-  const statusCol = COLUMNS.findIndex(([key]) => key === 'visitorEmail') + 1;
-  const timeCol = COLUMNS.findIndex(([key]) => key === 'statusUpdatedAt') + 1;
-  const last = sheet.getLastRow();
-  if (last < 2) return reply(404, 'Not found');
-  const ids = sheet.getRange(2, idCol, last - 1, 1).getValues();
-  for (let i = ids.length - 1; i >= 0; i--) {
-    if (String(ids[i][0]) === String(body.emailId)) {
-      sheet.getRange(i + 2, statusCol).setValue(safe(body.status));
-      sheet.getRange(i + 2, timeCol).setValue(new Date()).setNumberFormat(DATE_FORMAT);
-      return reply(200, 'Updated');
-    }
-  }
-  return reply(404, 'Not found');
+  const row = findRow(sheet, 'visitorEmailId', body.emailId);
+  if (!row) return reply(404, 'Not found');
+  sheet.getRange(row, column('visitorEmail')).setValue(safe(body.status));
+  sheet.getRange(row, column('statusUpdatedAt')).setValue(new Date()).setNumberFormat(DATE_FORMAT);
+  return reply(200, 'Updated');
 }
 
-/* Creates the Bookings tab and its headings the first time.
+/* A date column gets a real date; everything else is safe text. */
+function cell(key, value) {
+  if (DATE_KEYS.includes(key) && value) {
+    const date = new Date(value);
+    if (!isNaN(date.getTime())) return date;
+  }
+  return safe(value);
+}
+
+function column(key) {
+  return COLUMNS.findIndex(([k]) => k === key) + 1;
+}
+
+/* The newest row whose `key` column equals `value`, or 0. */
+function findRow(sheet, key, value) {
+  const last = sheet.getLastRow();
+  if (last < 2) return 0;
+  const values = sheet.getRange(2, column(key), last - 1, 1).getValues();
+  for (let i = values.length - 1; i >= 0; i--) if (String(values[i][0]) === String(value)) return i + 2;
+  return 0;
+}
+
+/* Creates the Bookings tab and its headings, and rewrites the headings when this
+   version has columns an older one did not.
    A script attached to the sheet uses that sheet. A stand-alone script (one
    created at script.google.com, e.g. by an editor who cannot deploy the
    sheet owner's script) sets the Script property SHEET_ID to the sheet's ID. */
@@ -96,9 +140,8 @@ function getSheet() {
   const ss = id ? SpreadsheetApp.openById(id) : SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(COLUMNS.map(([, label]) => label));
-    sheet.getRange(1, 1, 1, COLUMNS.length).setFontWeight('bold');
+  if (sheet.getLastRow() === 0 || sheet.getRange(1, COLUMNS.length).getValue() !== COLUMNS[COLUMNS.length - 1][1]) {
+    sheet.getRange(1, 1, 1, COLUMNS.length).setValues([COLUMNS.map(([, label]) => label)]).setFontWeight('bold');
     sheet.setFrozenRows(1);
   }
   return sheet;
@@ -120,12 +163,17 @@ function reply(status, message) {
 /* Run this once from the editor to check the sheet works. It adds one test row. */
 function testAddRow() {
   addBooking(getSheet(), {
+    receivedAt: new Date().toISOString(),
     form: 'test',
     name: 'Test Booking',
     email: 'test@example.com',
     phone: '+971 50 000 0000',
     company: 'Test Co',
-    teamEmail: 'Sent',
-    visitorEmail: 'Sent',
+    teamEmail: 'Sent by Cal.com',
+    visitorEmail: 'Sent by Cal.com',
+    meetingTime: new Date(Date.now() + 86400000).toISOString(),
+    meetingLink: 'https://meet.google.com/test-test-tst',
+    bookingId: 'test-' + Date.now(),
+    bookingStatus: 'Booked',
   });
 }

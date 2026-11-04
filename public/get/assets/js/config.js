@@ -1,4 +1,4 @@
-﻿/* ============ SETTINGS for the landing page and the thank-you page ============
+/* ============ SETTINGS for the landing page and the thank-you page ============
    Edit these values, save, and redeploy. See README.md. */
 window.HS_CONFIG = {
   // WhatsApp Business number, digits only, with country code, e.g. "971501234567".

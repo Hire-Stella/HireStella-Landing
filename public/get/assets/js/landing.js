@@ -98,108 +98,213 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
   });
   document.querySelectorAll('.cta-slot').forEach((el) => ctaObs.observe(el));
 
-  /* Every "Book a Demo" reveals the booking choice and focuses direct scheduling. */
+  /* "Choose your time" opens the booking dialog: free times live from the
+     HireStella calendar (/api/booking/slots), shown in Dubai time, then the
+     details. /api/booking books it with a Google Meet link, emails the
+     confirmation and adds the row to the bookings sheet (source ads_get).
+     `form`, `check` and `tracking` are the lead form's, further down; they are ready
+     long before anyone can submit. */
   const bookingButton = document.querySelector('.booking-link');
   const bookingDialog = document.getElementById('bookingDialog');
   const bookingCalendar = document.getElementById('bookingCalendar');
   const bookingStatus = document.getElementById('bookingStatus');
   const bookingRetry = bookingDialog.querySelector('.booking-retry');
-  let calendlyScript;
-  let bookingLoading = false;
+  const bkDays = document.getElementById('bkDays');
+  const bkTimes = document.getElementById('bkTimes');
+  const bkMonth = document.getElementById('bkMonth');
+  const bkPrev = document.getElementById('bkPrev');
+  const bkNext = document.getElementById('bkNext');
+  const bkDayH = document.getElementById('bkDayH');
+  const bkForm = document.getElementById('bookingForm');
+  const bkWhen = document.getElementById('bkWhen');
+  const bkError = document.getElementById('bkError');
+  const bkSubmit = document.getElementById('bkSubmit');
+  const bkLabel = bkSubmit.innerHTML;
+  const DUBAI = 'Asia/Dubai';
+  const inDubai = (iso, opts) => new Date(iso).toLocaleString('en-GB', { timeZone: DUBAI, ...opts });
+  const longWhen = (iso) => `${inDubai(iso, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })} (UAE time)`;
   let bookingTrigger;
   let previousOverflow;
-  /* Calendly reports each screen's height. The frame takes that full height, so
-     nothing scrolls inside it, and the calendar scales down (never below 70%,
-     to stay readable) when the window is shorter, so the dialog fits without a
-     scroll bar. Only width-preserving scale is used: changing the frame's width
-     makes Calendly re-lay out and report a new height, which loops. */
-  let calendarHeight = 0;
-  let heightTimer;
-  function fitBookingCalendar() {
-    const frame = bookingCalendar.querySelector('iframe');
-    const head = bookingDialog.querySelector('.booking-dialog-head');
-    const room = window.innerHeight - (window.innerWidth <= 600 ? 24 : 48) - head.offsetHeight - 2;
-    if (!frame || !calendarHeight) { bookingCalendar.style.height = `${Math.min(650, room)}px`; return; }
-    /* A long list of time slots can't fit at a readable size; on wider screens it
-       stays full size and scrolls inside the frame, whose scroll bar the CSS
-       pushes past the clipped edge. */
-    let scale = Math.max(0.7, Math.min(1, room / calendarHeight));
-    if (room / calendarHeight < 0.7 && window.innerWidth > 600) scale = 1;
-    const frameHeight = Math.min(calendarHeight, Math.floor(room / scale));
-    const shown = Math.floor(frameHeight * scale);
-    bookingCalendar.style.height = `${shown}px`;
-    frame.style.height = `${frameHeight}px`;
-    frame.style.transform = scale < 1 ? `scale(${scale})` : '';
-    frame.style.marginBottom = scale < 1 ? `${shown - frameHeight}px` : '';
+  let slotsLoaded = false;
+  let chosen = '';
+  let bookedOnce = false;
+
+  function slotsFailed(message, retry = true) {
+    bookingCalendar.hidden = true;
+    bookingStatus.hidden = false;
+    bookingStatus.textContent = message;
+    bookingRetry.hidden = !retry;
   }
-  window.addEventListener('message', (event) => {
-    if (event.origin !== 'https://calendly.com' || event.data?.event !== 'calendly.page_height') return;
-    const height = parseFloat(event.data.payload?.height);
-    if (!height) return;
-    /* Calendly sends a passing height while it swaps screens; size to the one it settles on. */
-    clearTimeout(heightTimer);
-    heightTimer = setTimeout(() => {
-      if (Math.abs(height - calendarHeight) < 2) return;
-      calendarHeight = height;
-      fitBookingCalendar();
-    }, 200);
-  });
-  window.addEventListener('resize', () => { if (bookingDialog.open) fitBookingCalendar(); });
-  async function loadBookingCalendar() {
-    if (bookingLoading || bookingCalendar.querySelector('iframe')) return;
-    bookingLoading = true;
+  function option(className, selected, html, onPick) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = className;
+    b.setAttribute('role', 'option');
+    b.setAttribute('aria-selected', String(selected));
+    b.innerHTML = html;
+    b.addEventListener('click', onPick);
+    return b;
+  }
+  function pickTime(start) {
+    chosen = start;
+    bkTimes.querySelectorAll('.bk-time').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.start === start)));
+    bkWhen.textContent = longWhen(start);
+    bkForm.hidden = false;
+    /* Whatever the visitor already typed into the callback form carries over. */
+    ['name', 'business', 'email', 'phone'].forEach((n) => {
+      if (!bkForm.elements[n].value) bkForm.elements[n].value = form.elements[n].value;
+    });
+    bkForm.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+  }
+  /* A month calendar of the free Dubai days, Monday first; days without a free
+     time show but cannot be picked. Keys are "YYYY-MM-DD", Dubai days. */
+  const keyDate = (key) => new Date(`${key}T00:00:00Z`);
+  const addMonths = (m, by) => { const d = keyDate(`${m}-01`); d.setUTCMonth(d.getUTCMonth() + by); return d.toISOString().slice(0, 7); };
+  const keyLabel = (key, opts) => keyDate(key).toLocaleDateString('en-GB', { timeZone: 'UTC', ...opts });
+  let days = new Map();
+  let month = '';
+  let day = '';
+  function drawMonth() {
+    const keys = [...days.keys()];
+    bkMonth.textContent = keyLabel(`${month}-01`, { month: 'long', year: 'numeric' });
+    /* Browsable from this month to at least the next, however far the free days reach. */
+    const now = new Date().toLocaleDateString('en-CA', { timeZone: DUBAI }).slice(0, 7);
+    bkPrev.disabled = month <= now;
+    bkNext.disabled = month >= [keys[keys.length - 1].slice(0, 7), addMonths(now, 1)].sort().pop();
+    const start = keyDate(`${month}-01`);
+    const lead = (start.getUTCDay() + 6) % 7;
+    const count = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 1, 0)).getUTCDate();
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: DUBAI });
+    const cells = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((w) => {
+      const s = document.createElement('span');
+      s.className = 'bk-wd';
+      s.setAttribute('aria-hidden', 'true');
+      s.textContent = w;
+      return s;
+    });
+    for (let i = 0; i < lead; i++) cells.push(document.createElement('span'));
+    for (let d = 1; d <= count; d++) {
+      const key = `${month}-${String(d).padStart(2, '0')}`;
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = `bk-cday${key === today ? ' is-today' : ''}`;
+      b.textContent = d;
+      b.disabled = !days.has(key);
+      b.setAttribute('aria-pressed', String(key === day));
+      b.setAttribute('aria-label', keyLabel(key, { weekday: 'long', day: 'numeric', month: 'long' }) + (days.has(key) ? '' : ', no free times'));
+      b.addEventListener('click', () => showDay(key));
+      cells.push(b);
+    }
+    bkDays.replaceChildren(...cells);
+  }
+  function showDay(key) {
+    day = key;
+    month = key.slice(0, 7);
+    drawMonth();
+    bkDayH.textContent = keyLabel(key, { weekday: 'long', day: 'numeric', month: 'long' });
+    bkTimes.replaceChildren(...days.get(key).map((s) => {
+      const b = option('bk-time', s === chosen, inDubai(s, { hour: '2-digit', minute: '2-digit' }), () => pickTime(s));
+      b.dataset.start = s;
+      return b;
+    }));
+  }
+  /* The times follow the month: its first free day. */
+  function stepMonth(by) {
+    const next = addMonths(month, by);
+    const first = [...days.keys()].find((k) => k.startsWith(next));
+    if (first) return showDay(first);
+    month = next;
+    drawMonth();
+    bkDayH.textContent = `No times are open in ${keyLabel(`${next}-01`, { month: 'long' })} yet. Times open 30 days ahead.`;
+    bkTimes.replaceChildren();
+  }
+  bkPrev.addEventListener('click', () => stepMonth(-1));
+  bkNext.addEventListener('click', () => stepMonth(1));
+  async function loadSlots() {
+    if (slotsLoaded) return;
     bookingStatus.hidden = false;
     bookingStatus.textContent = 'Loading available dates and times…';
     bookingRetry.hidden = true;
+    let data = null;
     try {
-      if (!document.getElementById('calendlyStyles')) {
-        const styles = document.createElement('link');
-        styles.id = 'calendlyStyles';
-        styles.rel = 'stylesheet';
-        styles.href = 'https://assets.calendly.com/assets/external/widget.css';
-        document.head.appendChild(styles);
-      }
-      if (!window.Calendly) {
-        if (!calendlyScript) calendlyScript = new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = 'https://assets.calendly.com/assets/external/widget.js';
-          const fail = () => {
-            clearTimeout(timeout);
-            script.onload = script.onerror = null;
-            script.remove();
-            reject(new Error('Calendar unavailable'));
-          };
-          const timeout = setTimeout(fail, 15000);
-          script.onload = () => { clearTimeout(timeout); resolve(); };
-          script.onerror = fail;
-          document.head.appendChild(script);
-        });
-        await calendlyScript;
-      }
-      window.Calendly.initInlineWidget({
-        url: 'https://calendly.com/hirestella-marketing-nqfz/30min?primary_color=ff6200&hide_event_type_details=1&hide_landing_page_details=1&hide_gdpr_banner=1',
-        parentElement: bookingCalendar
-      });
-      bookingStatus.hidden = true;
-      const frame = bookingCalendar.querySelector('iframe');
-      if (frame) frame.title = 'Select a date and time for your HireStella demo';
-      fitBookingCalendar();
-    } catch {
-      calendlyScript = null;
-      bookingStatus.textContent = 'The calendar could not load. Please try again.';
-      bookingRetry.hidden = false;
-    } finally {
-      bookingLoading = false;
-    }
+      const r = await fetch('/api/booking/slots', { cache: 'no-store' });
+      data = r.ok ? await r.json() : null;
+    } catch { data = null; }
+    if (!data) return slotsFailed('The calendar could not load. Please try again.');
+    const slots = data.configured ? data.slots : [];
+    if (!slots.length) return slotsFailed('No times are open online right now. Close this and leave your details on the page: we will arrange your demo.', false);
+    days = new Map();
+    slots.forEach((s) => {
+      const key = new Date(s).toLocaleDateString('en-CA', { timeZone: DUBAI });
+      days.set(key, [...(days.get(key) || []), s]);
+    });
+    showDay(days.has(day) ? day : [...days.keys()][0]);
+    slotsLoaded = true;
+    bookingStatus.hidden = true;
+    bookingCalendar.hidden = false;
   }
+  function showBooked(start) {
+    let done = bookingDialog.querySelector('.booking-done');
+    if (!done) {
+      done = document.createElement('div');
+      done.className = 'booking-done';
+      done.setAttribute('role', 'status');
+      done.innerHTML = '<span class="booking-done-tick" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 7"/></svg></span><h3>Your demo is booked<span class="dot">.</span></h3><p class="booking-done-when"></p><p>Your Google Meet link and calendar invite are on their way to your inbox. Need a different time? Use the link in that email.</p>';
+      bookingCalendar.after(done);
+    }
+    done.querySelector('.booking-done-when').textContent = longWhen(start);
+    bookingCalendar.hidden = true;
+    bookingStatus.hidden = true;
+  }
+  bkForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    bkError.hidden = true;
+    const fields = ['name', 'business', 'email', 'phone'].map((n) => bkForm.elements[n]);
+    const bad = fields.filter((el) => !check(el));
+    if (bad.length) { bad[0].focus(); return; }
+    const v = Object.fromEntries(fields.map((el) => [el.name, el.value.trim()]));
+    bkSubmit.disabled = true;
+    bkSubmit.textContent = 'Booking…';
+    try {
+      const r = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...tracking,
+          start: chosen, name: v.name, company: v.business, email: v.email, phone: v.phone,
+          source: 'ads_get', page: location.href.split('?')[0],
+          website: bkForm.elements.website.value, // honeypot, checked by the server
+        }),
+      });
+      const data = await r.json().catch(() => null);
+      if (!r.ok) {
+        /* Taken meanwhile: fresh times, the details stay. */
+        if (r.status === 409) { slotsLoaded = false; chosen = ''; bkForm.hidden = true; await loadSlots(); }
+        throw new Error(data?.error || 'Your demo could not be booked. Please try again, or request a callback on the page.');
+      }
+      showBooked(data.start || chosen);
+      /* A booked demo is a lead, like a callback request: the conversion fires
+         here, once, with no personal details. */
+      if (!bookedOnce) {
+        bookedOnce = true;
+        push('generate_lead', { lead_source: 'ads_landing', lead_type: 'demo_booking' });
+        if (window.fbq) window.fbq('track', 'Lead', { content_category: 'demo_booking' });
+      }
+    } catch (err) {
+      bkError.textContent = err.message;
+      bkError.hidden = false;
+    } finally {
+      bkSubmit.disabled = false;
+      bkSubmit.innerHTML = bkLabel;
+    }
+  });
   bookingButton.addEventListener('click', () => {
     bookingTrigger = document.activeElement;
     previousOverflow = document.body.style.overflow;
     bookingDialog.showModal();
     document.body.style.overflow = 'hidden';
-    fitBookingCalendar();
-    push('booking_link_clicked', { cta_location: bookingButton.dataset.cta, booking_provider: 'calendly' });
-    loadBookingCalendar();
+    push('booking_link_clicked', { cta_location: bookingButton.dataset.cta, booking_provider: 'hirestella' });
+    loadSlots();
   });
   bookingDialog.querySelector('.booking-close').addEventListener('click', () => bookingDialog.close());
   bookingDialog.addEventListener('click', (event) => {
@@ -211,7 +316,7 @@ const CONFIG = window.HS_CONFIG; // settings live in assets/js/config.js
     document.body.style.overflow = previousOverflow;
     bookingTrigger?.focus({ preventScroll: true });
   });
-  bookingRetry.addEventListener('click', loadBookingCalendar);
+  bookingRetry.addEventListener('click', () => { slotsLoaded = false; loadSlots(); });
   document.querySelectorAll('a[href="#demo"]').forEach((a) => {
     a.addEventListener('click', (e) => {
       e.preventDefault();

@@ -52,8 +52,8 @@ const config: NextConfig = {
        The allowlist still blocks the case that matters, which is a script
        injected from an origin we do not name here.
 
-       `frame-src` explicitly names the map, analytics and Calendly origins.
-       Calendly assets/frame access supports the /get booking dialog.
+       `frame-src` explicitly names the map, analytics and Cal.com origins.
+       Cal.com (app.cal.com: embed script, booking frame) is the demo calendar on /get and in the demo modal.
        `frame-ancestors 'none'` is the modern form
        of the X-Frame-Options header kept below for older browsers.
 
@@ -83,15 +83,17 @@ const config: NextConfig = {
     /* React's development build calls eval() to rebuild stack frames, so
        `next dev` breaks without this. Development only: the production bundle
        never evals, so the shipped policy stays strict. */
+    /* Cal.com's embed script and booking frame (the demo calendar). */
+    const cal = 'https://app.cal.com https://cal.com';
     const devOnly = process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : '';
     const csp = [
       "default-src 'self'",
-      `script-src 'self' 'unsafe-inline'${devOnly} ${voice} ${google} ${meta} https://assets.calendly.com`,
-      "style-src 'self' 'unsafe-inline' https://assets.calendly.com",
+      `script-src 'self' 'unsafe-inline'${devOnly} ${voice} ${google} ${meta} ${cal}`,
+      "style-src 'self' 'unsafe-inline'",
       `img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://maps.google.com ${google} ${meta}`,
       "font-src 'self' data:",
-      `connect-src 'self' ${voice} ${voiceWs} ${google} ${meta}`,
-      "frame-src https://www.google.com https://maps.google.com https://*.googletagmanager.com https://td.doubleclick.net https://calendly.com",
+      `connect-src 'self' ${voice} ${voiceWs} ${google} ${meta} ${cal}`,
+      `frame-src https://www.google.com https://maps.google.com https://*.googletagmanager.com https://td.doubleclick.net ${cal}`,
       "form-action 'self'",
       "base-uri 'self'",
       "object-src 'none'",

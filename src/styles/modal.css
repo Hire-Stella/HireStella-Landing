@@ -514,4 +514,343 @@
     animation: none !important;
   }
 }
+/* The booking form scrolls inside the modal; no visible bar (wheel and swipe still work). */
+.dm-form {
+  scrollbar-width: none;
+}
+.dm-form::-webkit-scrollbar {
+  display: none;
+}
 
+/* Pick a demo time, inside the form. Optional: no time means a callback request. */
+.slot-picker {
+  margin: var(--s2) 0 var(--s4);
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.slot-picker legend {
+  margin-bottom: var(--s3);
+  font-size: 14px;
+  font-weight: 600;
+}
+/* Month calendar beside the day's times when there is room, above them when not. */
+.slot-picker,
+.manage-card {
+  container-type: inline-size;
+}
+.cal {
+  display: grid;
+  gap: var(--s4);
+}
+@container (min-width: 520px) {
+  .cal {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .cal-times {
+    max-height: 316px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .cal-times::-webkit-scrollbar {
+    display: none;
+  }
+}
+.cal-month {
+  padding: var(--s3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background: rgba(255, 255, 255, 0.02);
+}
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s2);
+}
+.cal-head b {
+  font-size: 15px;
+  font-weight: 600;
+}
+.cal-nav {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line-hi);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--t1);
+  cursor: pointer;
+}
+.cal-nav svg {
+  width: 18px;
+  height: 18px;
+}
+.cal-nav:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.cal-wd {
+  padding: 6px 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.cal-day {
+  width: 100%;
+  max-width: 40px;
+  justify-self: center;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: rgba(255, 98, 0, 0.1);
+  color: var(--t1);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cal-day:disabled {
+  background: none;
+  color: var(--t3);
+  font-weight: 400;
+  opacity: 0.55;
+  cursor: default;
+}
+.cal-day.is-today {
+  border-color: var(--line-hi);
+}
+.cal-day:not(:disabled):hover {
+  border-color: rgba(255, 98, 0, 0.6);
+}
+.cal-day[aria-pressed='true'] {
+  background: #ff6200;
+  color: #fff;
+}
+.cal-times-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  margin-bottom: var(--s2);
+}
+.cal-times-top .cal-times-h {
+  margin: 0;
+}
+.hour-toggle {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--line-hi);
+  border-radius: 999px;
+}
+.hour-toggle button {
+  min-width: 44px;
+  min-height: 30px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--t2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.hour-toggle button[aria-pressed='true'] {
+  background: #ff6200;
+  color: #fff;
+}
+.hour-toggle button:focus-visible {
+  outline: 2px solid #ff6200;
+  outline-offset: 2px;
+}
+.cal-times-h {
+  margin: 0 0 var(--s2);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1);
+}
+.slot-times {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.slot-time {
+  min-height: 44px;
+  border: 1px solid var(--line-hi);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--t1);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.slot-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 56px;
+  padding: 8px 6px;
+  border-radius: 14px;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+.slot-from {
+  font-size: 15px;
+  font-weight: 600;
+}
+.slot-time small {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--t3);
+}
+.slot-time[aria-selected='true'] small {
+  color: rgba(255, 255, 255, 0.85);
+}
+@container (max-width: 360px) {
+  .slot-times {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.slot-time.is-booked {
+  border-style: dashed;
+  border-color: var(--line);
+  color: var(--t3);
+  cursor: not-allowed;
+}
+.slot-time.is-booked .slot-from {
+  text-decoration: line-through;
+}
+.slot-time.is-booked small {
+  color: #ff8a3d;
+}
+.slot-time:not(.is-booked):hover {
+  border-color: rgba(255, 98, 0, 0.6);
+}
+.slot-time[aria-selected='true'] {
+  border-color: #ff6200;
+  background: #ff6200;
+  color: #fff;
+}
+.cal-day:focus-visible,
+.cal-nav:focus-visible,
+.slot-time:focus-visible {
+  outline: 2px solid #ff6200;
+  outline-offset: 2px;
+}
+.slot-note {
+  margin: var(--s3) 0 0;
+  font-size: 13px;
+  color: var(--t2);
+}
+.slot-clear {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #ff6200;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.dm-booked-when {
+  margin: 0;
+  font-weight: 600;
+  color: #ff6200;
+}
+/* /booking/manage: the guest's booking from the email link. */
+.manage-card {
+  display: grid;
+  gap: var(--s4);
+  padding: var(--s8);
+  border-radius: var(--r-hero);
+}
+/* Clear of the fixed header, whatever the window. */
+.manage-page {
+  padding-top: clamp(128px, 18vh, 180px);
+}
+.manage-h {
+  margin: 0;
+  font-size: clamp(24px, 3.4vw, 30px);
+  line-height: 1.25;
+}
+/* Date, time and place, one row each. */
+.manage-facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background: rgba(255, 255, 255, 0.02);
+}
+.manage-facts li {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s4) var(--s5);
+}
+.manage-facts li + li {
+  border-top: 1px solid var(--line);
+}
+.manage-facts svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: #ff6200;
+}
+.manage-facts span {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  color: var(--t1);
+  font-weight: 600;
+}
+.manage-facts small {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.manage-facts em {
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--t2);
+}
+.manage-card a.manage-join {
+  flex: none;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 98, 0, 0.45);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.manage-card a.manage-join:hover {
+  background: rgba(255, 98, 0, 0.12);
+}
+.manage-card p {
+  margin: 0;
+  color: var(--t2);
+}
+.manage-card a:not(.btn) {
+  color: #ff6200;
+}
+.manage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin-top: var(--s4);
+}

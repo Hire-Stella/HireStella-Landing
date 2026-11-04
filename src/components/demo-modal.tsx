@@ -5,11 +5,19 @@ import { useRouter } from 'next/navigation';
 import { Check, ShieldCheck, X } from 'lucide-react';
 import { demoSchema } from '@/lib/lead-schema';
 import { BookingFields, BOOKING_ERROR } from './booking-fields';
-import { track } from '@/lib/telemetry';
+import { leadConversion, track } from '@/lib/telemetry';
 import { BOOKED } from './demo-nudge';
+import { SlotPicker } from './slot-picker';
+import { BOOKING } from '@/lib/booking/config';
+
+const DUBAI = BOOKING.timeZone;
 
 /**
  * The demo request modal.
+ *
+ * One form. Pick a time and it books the demo there and then (a Google Calendar
+ * event with a Meet link, confirmed by email from HireStella); leave the time
+ * empty and it is a callback request, as before.
  *
  * Opening it never leaves the page, so the visitor does not lose the context
  * that convinced them. §30.3 permits glass on modals; the form itself follows
@@ -35,23 +43,29 @@ export function DemoModal({ configured }: { configured: boolean }) {
   const [done, setDone] = useState(false);
   const [draft, setDraft] = useState<Record<string, string>>({});
   const [, setCarried] = useState(false);
+  /* The chosen demo time (ISO), or '' for a callback request. */
+  const [slot, setSlot] = useState('');
+  /* A booked demo stays in the modal: its time and Meet link. */
+  const [booked, setBooked] = useState<{ start: string; meetLink: string } | null>(null);
   const dialog = useRef<HTMLDivElement>(null);
   const form = useRef<HTMLFormElement>(null);
   const first = useRef<HTMLInputElement>(null);
   const opener = useRef<HTMLElement | null>(null);
 
   /* Closing must never cost the visitor what they already typed. */
+  const keepDraft = useCallback(() => {
+    if (!form.current) return;
+    const kept: Record<string, string> = {};
+    for (const [k, v] of new FormData(form.current).entries())
+      if (typeof v === 'string') kept[k] = v;
+    setDraft(kept);
+  }, []);
   const close = useCallback(() => {
-    if (form.current) {
-      const kept: Record<string, string> = {};
-      for (const [k, v] of new FormData(form.current).entries())
-        if (typeof v === 'string') kept[k] = v;
-      setDraft(kept);
-    }
+    keepDraft();
     setOpen(false);
     setError('');
     opener.current?.focus();
-  }, []);
+  }, [keepDraft]);
 
   /* One delegated listener serves every [data-demo] trigger on the page. */
   useEffect(() => {
@@ -67,6 +81,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
       }
       setOpen(true);
       setDone(false);
+      setBooked(null);
       setError('');
       /* `data-cta` names the button, so GTM can tell which placement converts. */
       track('demo_modal_opened', {
@@ -79,6 +94,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
       opener.current = null;
       setOpen(true);
       setDone(false);
+      setBooked(null);
       setError('');
       track('demo_modal_opened', { carried: false, auto: true });
     }
@@ -132,6 +148,49 @@ export function DemoModal({ configured }: { configured: boolean }) {
     });
     if (!parsed.success) {
       setError(BOOKING_ERROR);
+      return;
+    }
+    /* A time was picked: book it now. The visitor stays here and sees it booked. */
+    if (slot) {
+      setBusy(true);
+      try {
+        const response = await fetch('/api/booking', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            start: slot,
+            name: parsed.data.name,
+            email: parsed.data.email,
+            phone: parsed.data.phone,
+            company: parsed.data.company,
+            problem: parsed.data.problem,
+            heardFrom: parsed.data.heardFrom,
+            source: 'site',
+            page: location.href.split('?')[0],
+            website: fields.get('website') || '',
+          }),
+        });
+        const result = await response.json().catch(() => null);
+        if (!response.ok || !result?.booked) {
+          /* 409: someone took the time a moment ago. Clear it so they pick again. */
+          if (response.status === 409) setSlot('');
+          throw new Error(result?.error || 'undelivered');
+        }
+        try {
+          sessionStorage.setItem(BOOKED, '1');
+        } catch {}
+        setDraft({});
+        setCarried(false);
+        setSlot('');
+        setBooked({ start: result.start, meetLink: result.meetLink });
+        track('demo_booked', { provider: 'site' });
+        leadConversion('demo_booking');
+      } catch (e) {
+        const message = e instanceof Error && e.message !== 'undelivered' ? e.message : '';
+        setError(message || 'Your demo could not be booked. Please try again, or leave the time empty and we will call you.');
+      } finally {
+        setBusy(false);
+      }
       return;
     }
     if (!configured) {
@@ -217,7 +276,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
           </p>
         </aside>
 
-        {/* ── right: the form ── */}
+        {/* ── right: one form: details, and a time if they want one ── */}
         <div className="dm-form">
           <div className="dm-mini" aria-hidden="true">
             <span>
@@ -225,7 +284,34 @@ export function DemoModal({ configured }: { configured: boolean }) {
               <em>See Stella work on your business.</em>
             </span>
           </div>
-          {done ? (
+          {booked ? (
+            <div className="dm-done" role="status">
+              <span className="dm-tick" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 12.5l5.5 5.5L20 7" />
+                </svg>
+              </span>
+              <h3>Your demo is booked.</h3>
+              <p className="dm-booked-when">
+                {new Date(booked.start).toLocaleString(undefined, {
+                  timeZone: DUBAI,
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  hour: 'numeric',
+                  minute: '2-digit',
+                })}{' '}
+                (UAE time)
+              </p>
+              <p className="sm">
+                One hour on Google Meet. The confirmation, with the Meet link and a calendar file, is on its way to
+                your inbox. Need a different time? Use the link in that email.
+              </p>
+              <button className="btn btn-2" type="button" onClick={close}>
+                Close
+              </button>
+            </div>
+          ) : done ? (
             <div className="dm-done">
               <span className="dm-tick" aria-hidden="true">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
@@ -244,6 +330,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
           ) : (
             <form onSubmit={submit} className="consultation-form" ref={form}>
               <BookingFields draft={draft} firstRef={first} />
+              {configured && <SlotPicker value={slot} onChange={setSlot} />}
 
               {error && (
                 <p className="form-error" role="alert">
@@ -260,7 +347,7 @@ export function DemoModal({ configured }: { configured: boolean }) {
                 </label>
                 <div className="dm-submit-row">
                   <button disabled={busy} className="btn btn-1" type="submit">
-                    {busy ? 'Sending your request…' : 'Book my demo'}
+                    {busy ? (slot ? 'Booking your demo…' : 'Sending your request…') : slot ? 'Confirm this time' : 'Book my demo'}
                     <span className="tri" aria-hidden="true" />
                   </button>
                   <span className="note">Takes under a minute.</span>
