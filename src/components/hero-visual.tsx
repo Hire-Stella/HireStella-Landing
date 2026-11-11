@@ -38,7 +38,7 @@ export function useSequence(length: number, delay = 3200) {
 
 const sceneConfig: Record<HeroScene, { title: string; stages: string[]; icon: string; note: string }> = {
   manager: { title: 'YOUR BUSINESS, UNDERSTOOD', stages: ['Understand', 'Connect', 'Move forward'], icon: 'network', note: 'A workforce shaped around the work.' },
-  workforce: { title: 'ONE CONNECTED WORKFORCE', stages: ['A clear role', 'Shared context', 'Connected action'], icon: 'users', note: 'Eight specialists. One shared direction.' },
+  workforce: { title: 'ONE CONNECTED WORKFORCE', stages: ['A clear role', 'Shared context', 'Connected action'], icon: 'users', note: 'One AI General Manager. Eight connected specialists.' },
   voice: { title: 'A CONVERSATION THAT CONTINUES', stages: ['Answer', 'Understand', 'Coordinate'], icon: 'phone', note: 'A voice enquiry becomes a clear next step.' },
   booking: { title: 'FROM ENQUIRY TO APPOINTMENT', stages: ['Check', 'Coordinate', 'Confirm'], icon: 'calendar', note: 'Availability and confirmation, connected.' },
   website: { title: 'YOUR CONNECTED FRONT DOOR', stages: ['Discover', 'Enquire', 'Connect'], icon: 'browser', note: 'A website that leads somewhere useful.' },
@@ -52,7 +52,7 @@ const sceneConfig: Record<HeroScene, { title: string; stages: string[]; icon: st
   security: { title: 'CLEAR BOUNDARIES. VISIBLE CONTROL.', stages: ['Define access', 'Agree scope', 'Keep oversight'], icon: 'shield', note: 'Controls are confirmed for your deployment.' },
   capacity: { title: 'MORE ROOM FOR MEANINGFUL WORK', stages: ['Understand time', 'Adjust assumptions', 'See capacity'], icon: 'chart', note: 'An illustration, not a promised outcome.' },
   dashboard: { title: 'THE WHOLE PICTURE', stages: ['Work arrives', 'Context moves', 'Action is visible'], icon: 'dashboard', note: 'Illustrative workspace · Demo clinic' },
-  company: { title: 'CAPACITY, COORDINATED.', stages: ['Clarity', 'Coordination', 'Human judgement'], icon: 'users', note: 'Good people. More room to do good work.' },
+  company: { title: 'YOUR AI GENERAL MANAGER.', stages: ['Clarity', 'Coordination', 'Human judgement'], icon: 'users', note: 'Good people. More room to do good work.' },
   contact: { title: 'YOUR NEXT CHAPTER STARTS HERE', stages: ['Your business', 'Your challenge', 'A clear next step'], icon: 'calendar', note: 'A useful conversation starts with context.' },
 };
 

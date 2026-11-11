@@ -10,14 +10,14 @@ export const metadata: Metadata = {
   ...canonical('/book-demo'),
   title: 'Book an AI Workforce Demo',
   description:
-    'Prepare a consultation brief around your business, your workflows, and your next step with HireStella.',
+    'Book a demo of Stella, your AI General Manager. See how she would handle your enquiries, bookings and follow-ups.',
 };
 
 const STEPS = [
   'Understand your business and the work that repeats.',
   'Map relevant specialists and connected steps.',
   'Identify supported systems and human boundaries.',
-  'Discuss capacity, plan fit, and implementation scope.',
+  'Agree the first workflow worth configuring.',
 ];
 
 export default async function BookDemo({
@@ -43,7 +43,7 @@ export default async function BookDemo({
             A clearer <em>next step.</em>
           </>
         }
-        lede="Tell us what business you run and where work is slowing down. We will build a brief around the workforce, systems and operating level that may fit."
+        lede="Tell us what business you run and where work is slowing down. We will show you how Stella would handle it, with the specialists and systems it needs."
         meta={['No obligation', 'A person reads every brief', 'Scope confirmed in discovery']}
         aside={
           <div className="convert-aside pan">
@@ -70,7 +70,7 @@ export default async function BookDemo({
             <div className="form-panel pan pan--solid">
               <p className="eyebrow eyebrow--sig">Your brief</p>
               <h2 style={{ fontSize: 26, marginBottom: 'var(--s6)' }}>
-                Tell Stella what is slowing you down.
+                Where are leads, bookings or follow-ups slipping?
               </h2>
               <ConsultationForm
                 configured={configured}
@@ -111,9 +111,9 @@ export default async function BookDemo({
 
       <Closer
         eyebrow="Prefer to explore first"
-        title="Try it before you talk to anyone."
-        lede="Describe your bottleneck and explore an example of the workforce Stella would coordinate."
-        primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
+        title="Try Stella before you talk to anyone."
+        lede="Talk to Stella now and hear how she would handle an enquiry like yours."
+        primary={{ href: '#talk-to-stella', label: 'Talk to Stella now' }}
         secondary={{ href: '/stella#workforce', label: 'See the workforce' }}
       />
     </main>

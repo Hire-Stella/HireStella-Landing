@@ -13,9 +13,9 @@ import { socialUrls } from './social';
 export const SITE = {
   name: 'HireStella',
   legalName: 'HireStella AI for Software Solutions Co LLC',
-  tagline: 'Capacity, coordinated.',
+  tagline: 'Your AI General Manager.',
   description:
-    'One AI General Manager and eight connected AI Specialists that coordinate enquiries, bookings and follow-ups across your channels.',
+    'One AI General Manager and eight connected AI specialists that coordinate enquiries, bookings and follow-ups across your channels.',
   email: 'sales@hirestella.ai',
   street: 'Lake Central Towers 1903, Business Bay',
   city: 'Dubai',

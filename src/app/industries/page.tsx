@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { canonical, breadcrumbLd } from '@/lib/seo';
 import Link from 'next/link';
 import { industryGroups, lowerName } from '@/lib/industry-content';
+import { industryBrief } from '@/lib/industry-brief';
 import { businessTypes } from '@/lib/business-types';
 import { PageHero, Closer, Thread, SectionHead, Tri, Bul, Ld } from '@/components/system';
 import { Icon } from '@/components/ui';
@@ -36,24 +37,24 @@ export default function IndustriesPage() {
         ])}
       />
       <PageHero
-        eyebrow="Built around your reality"
+        eyebrow="Built around the way you sell"
         crumb={[['Home', '/'], ['Industries']]}
         title={
           <>
-            Built around the way
+            One connected workforce.
             <br />
-            your business <em>works.</em>
+            Built for different <em>journeys.</em>
           </>
         }
-        lede="Different operations lose capacity in different places. Start with the journey your customers actually take, then configure the specialists around it."
+        lede="There is no single script that works for every business. Stella's workflows are configured around the questions your customers ask, the actions your team takes and the moments that need a human decision."
         actions={
           <>
-            <Link className="btn btn-1" href="/#ask-stella">
-              Explore my workflow <Tri />
-            </Link>
-            <Link className="btn btn-2" href="#use-cases">
-              See use cases
-            </Link>
+            <button className="btn btn-1" type="button" data-demo data-cta="industries-hero-demo">
+              Book a demo for your industry <Tri />
+            </button>
+            <button className="btn btn-2" type="button" data-talk data-cta="industries-hero-talk">
+              Talk to Stella now
+            </button>
           </>
         }
         aside={<HeroLive scenes={MIXED_SCENES} />}
@@ -90,8 +91,13 @@ export default function IndustriesPage() {
       {industryGroups.map((group, i) => (
         <section className="sec" id={group.id} key={group.id} style={{ paddingTop: 0 }}>
           <div className="wrap">
-            <SectionHead eyebrow={group.name} signal={false} title={group.name} headMax="20ch">
-              {group.intro}
+            <SectionHead
+              eyebrow={group.name}
+              signal={false}
+              title={industryBrief[group.id]?.card ?? group.name}
+              headMax="26ch"
+            >
+              {industryBrief[group.id]?.lede ?? group.intro}
             </SectionHead>
 
             {/* Sectors without a written journey show the businesses they
@@ -169,22 +175,6 @@ export default function IndustriesPage() {
           </div>
         </section>
       ))}
-
-      <section className="sec" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <p className="eyebrow">Also supported</p>
-          <div className="related">
-            <Link className="rel-card pan" href="/solutions/salons">
-              <span className="micro">Salons &amp; wellness</span>
-              <b>Bookings arrive everywhere. Keep one clear schedule.</b>
-              <p>Messages, calls, appointment changes and rebooking, coordinated into one place.</p>
-              <span className="btn-3" style={{ fontSize: 14 }}>
-                Open <Tri />
-              </span>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <Closer
         eyebrow="Find your starting point"

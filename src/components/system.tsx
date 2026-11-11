@@ -90,7 +90,7 @@ export function Closer({
   title,
   lede,
   primary = { href: '/book-demo', label: 'Book a demo' },
-  secondary = { href: '/#ask-stella', label: 'Ask Stella' },
+  secondary = { href: '#talk-to-stella', label: 'Talk to Stella now' },
 }: {
   eyebrow?: string;
   title: ReactNode;
@@ -111,6 +111,10 @@ export function Closer({
             <button className="btn btn-1" type="button" data-demo>
               {primary.label} <Tri />
             </button>
+          ) : primary.href === '#talk-to-stella' ? (
+            <button className="btn btn-1" type="button" data-talk data-cta="closer-talk">
+              {primary.label} <Tri />
+            </button>
           ) : (
             <Link className="btn btn-1" href={primary.href}>
               {primary.label} <Tri />
@@ -118,6 +122,10 @@ export function Closer({
           )}
           {secondary?.href === '/book-demo' ? (
             <button className="btn btn-2" type="button" data-demo>
+              {secondary.label}
+            </button>
+          ) : secondary?.href === '#talk-to-stella' ? (
+            <button className="btn btn-2" type="button" data-talk data-cta="closer-talk">
               {secondary.label}
             </button>
           ) : secondary ? (
@@ -295,15 +303,20 @@ export function Faq({
   eyebrow = 'Common questions',
   title,
   items,
+  action,
+  id,
 }: {
   eyebrow?: string;
   title: string;
   items: { q: string; a: string }[];
+  /** Rendered beside the heading, like every other section's action. */
+  action?: ReactNode;
+  id?: string;
 }) {
   return (
-    <section className="sec" style={{ paddingTop: 0 }}>
+    <section className="sec" style={{ paddingTop: 0 }} id={id}>
       <div className="wrap">
-        <SectionHead eyebrow={eyebrow} title={title} headMax="20ch" />
+        <SectionHead eyebrow={eyebrow} title={title} headMax="20ch" action={action} />
         <div className="faq">
           {items.map(({ q, a }, i) => (
             <details className="faq-item pan" key={q} open={i === 0}>

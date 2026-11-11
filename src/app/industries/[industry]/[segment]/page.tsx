@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { industryGroups, lowerName } from '@/lib/industry-content';
 import { segmentDetails } from '@/lib/segment-content';
 import { specialists } from '@/lib/data';
+import { industryBrief } from '@/lib/industry-brief';
 import {
   PageHero,
   Closer,
@@ -152,9 +153,9 @@ export default async function SegmentPage({
             <button className="btn btn-1" type="button" data-demo>
               Book a demo <Tri />
             </button>
-            <Link className="btn btn-2" href="/#ask-stella">
-              Ask Stella
-            </Link>
+            <button className="btn btn-2" type="button" data-talk data-cta="segment-hero-talk">
+              Talk to Stella now
+            </button>
           </>
         }
         meta={[`${roster.length} specialists lead this workflow`, 'One connected journey', 'Scope confirmed in discovery']}
@@ -190,7 +191,7 @@ export default async function SegmentPage({
           <SectionHead
             eyebrow="Who this is for"
             signal
-            title="Where the capacity actually goes."
+            title="Where enquiries actually slip."
             headMax="18ch"
           >
             {detail.whoFor}
@@ -222,7 +223,7 @@ export default async function SegmentPage({
               </>
             }
           >
-            One {lowerName(seg.name)} journey, end to end. Your configuration decides the sequence,
+            One journey for {lowerName(seg.name)}, end to end. Your configuration decides the sequence,
             the rules and the point a person takes over.
           </SectionHead>
 
@@ -256,7 +257,7 @@ export default async function SegmentPage({
             title="Four roles, working in sequence."
             headMax="20ch"
           >
-            All eight specialists come with every deployment. These are the ones Stella typically
+            The eight specialists are designed to work together. These are the ones Stella typically
             activates first for {lowerName(seg.name)}.
           </SectionHead>
           <div className="grid-3">
@@ -281,6 +282,11 @@ export default async function SegmentPage({
             <div>
               <p className="eyebrow">Where your people take over</p>
               <h3 style={{ fontSize: 22, maxWidth: '62ch' }}>{detail.boundary}</h3>
+              {industryBrief[group.id] ? (
+                <p className="aim-line">
+                  <b>What good looks like:</b> {industryBrief[group.id].aim}
+                </p>
+              ) : null}
             </div>
             <Link className="btn-3" href="/human-boundary">
               The human boundary <Tri />

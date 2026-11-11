@@ -9,9 +9,10 @@ import { EDITORIAL_SCENES } from '@/lib/hero-scenes';
 import { WorkforceMap, DashboardPlanes } from '@/components/home-parts';
 import { RoiCalculator } from '@/components/roi-calculator';
 import { Icon } from '@/components/ui';
-import { specialists } from '@/lib/data';
+import { specialists, humanBoundary } from '@/lib/data';
 import { industryGroups } from '@/lib/industry-content';
 import { FAQS } from '@/lib/faqs';
+import { LanguageShowcase } from '@/components/home-stories';
 
 const additional = {
   solutions: {
@@ -19,7 +20,7 @@ const additional = {
     eyebrow: 'Your industry. Your workflow.',
     title: 'Built for the problem.\nConfigured for your business.',
     intro:
-      'Different operations lose capacity in different places. Explore an industry journey and the specialist connections that could help.',
+      'Different businesses lose enquiries in different places. Explore an industry journey and the specialists that could help.',
   },
   roi: {
     label: 'ROI calculator',
@@ -190,9 +191,9 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <button className="btn btn-1" type="button" data-demo>
               Book a demo <Tri />
             </button>
-            <Link className="btn btn-2" href="/#ask-stella">
-              Ask Stella
-            </Link>
+            <button className="btn btn-2" type="button" data-talk data-cta="page-hero-talk">
+              Talk to Stella now
+            </button>
           </>
         }
         aside={
@@ -261,30 +262,54 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           {slug === 'integrations' && (
             <section className="sec">
               <div className="wrap">
-                <SectionHead eyebrow="Plan-aware connections" signal title="Scoped, then confirmed.">
+                <SectionHead eyebrow="Scoped connections" signal title="Scoped, then confirmed.">
                   Specific providers and compatibility are confirmed during scoping. A category
                   shown here is not a claim that every product in it is supported.
                 </SectionHead>
                 <div className="stats">
                   <div className="stat">
-                    <div className="k">Starter</div>
-                    <div className="v">3</div>
-                    <p className="note">integrations</p>
+                    <div className="k">Connections</div>
+                    <div className="v">Scoped</div>
+                    <p className="note">to your workflow</p>
                   </div>
                   <div className="stat">
-                    <div className="k">Pro</div>
-                    <div className="v">5</div>
-                    <p className="note">integrations</p>
+                    <div className="k">Providers</div>
+                    <div className="v">Confirmed</div>
+                    <p className="note">during scoping</p>
                   </div>
                   <div className="stat hl">
-                    <div className="k">Enterprise</div>
-                    <div className="v">Custom</div>
-                    <p className="note">APIs &amp; integrations</p>
+                    <div className="k">Custom APIs</div>
+                    <div className="v">Reviewed</div>
+                    <p className="note">for feasibility</p>
                   </div>
                   <div className="stat">
                     <div className="k">Context</div>
                     <div className="v">1</div>
                     <p className="note">shared journey</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {slug === 'integrations' && (
+            <section className="sec" style={{ paddingTop: 0 }} id="languages">
+              <div className="wrap">
+                <div className="lx lx--one">
+                  <div className="lx-p pan">
+                    <p className="eyebrow eyebrow--sig">Your customers&rsquo; language</p>
+                    <h3 className="h4">The systems are yours. So is the language.</h3>
+                    <p>
+                      Conversations do not always happen in one language. Each channel and language
+                      is configured around your customers and your brand&rsquo;s tone of voice.
+                    </p>
+                    <p className="note">
+                      Availability and quality can vary by channel, voice and provider. We confirm
+                      the languages you need before you start.
+                    </p>
+                  </div>
+                  <div className="lx-p pan">
+                    <LanguageShowcase />
                   </div>
                 </div>
               </div>
@@ -313,10 +338,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                     <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Work that follows a rule.</h3>
                     <ul className="bullets">
                       {[
-                        'Routine questions answered in your voice, on every channel',
-                        'Availability checked, appointments booked and rescheduled',
-                        'Records updated, documents filed, email triaged',
-                        'Follow-ups scheduled and dormant enquiries re-engaged',
+                        ...humanBoundary.workforce,
                       ].map((l) => (
                         <li key={l}>
                           <Bul />
@@ -333,10 +355,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                     <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Work that needs a person.</h3>
                     <ul className="bullets">
                       {[
-                        'Clinical, legal and financial decisions',
-                        'Complaints, sensitive conversations and exceptions',
-                        'Negotiation, pricing and anything contractual',
-                        'Any moment a customer asks for a human',
+                        ...humanBoundary.people,
                       ].map((l) => (
                         <li key={l}>
                           <Bul />
@@ -379,8 +398,8 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
                   </>
                 }
               >
-                All eight specialists come with every deployment. Configuration and capacity vary
-                with your operation.
+                The eight specialists are designed to work together. Which ones start first depends
+                on your operation.
               </SectionHead>
               <div className="grid-3">
                 {specialists.map((s) => (
@@ -467,16 +486,16 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
           <section className="sec">
             <div className="wrap">
               <SectionHead
-                eyebrow="A view that matches your plan"
+                eyebrow="A view that matches your setup"
                 title="The right level of visibility."
               >
                 Reporting depth is scoped to your configuration, not sold as a separate product.
               </SectionHead>
               <div className="grid-3">
                 {[
-                  ['chart', 'Performance', 'Starter brings a view of configured activity and operational output.'],
-                  ['activity', 'Growth', 'Pro adds advanced reporting to support a growing operation.'],
-                  ['dashboard', 'Command Centre', 'Enterprise supports a deeper operational view, scoped to your configuration.'],
+                  ['chart', 'Performance', 'A view of configured activity and operational output.'],
+                  ['activity', 'Growth', 'Deeper reporting to support a growing operation.'],
+                  ['dashboard', 'Command Centre', 'A full operational view for complex, multi-location operations.'],
                 ].map(([icon, title, body]) => (
                   <article className="card pan" key={title}>
                     <div className="k">

@@ -9,9 +9,7 @@ export function workforcePreview(problem: string) {
       ? industries[1]
       : /bank|finance|regulated/.test(text)
         ? industries[2]
-        : /salon|wellness|hair/.test(text)
-          ? industries[3]
-          : undefined;
+        : undefined;
   const ids = new Set<SpecialistId>(industry?.ids ?? ['front-desk', 'admin']);
   if (/call|phone|voice/.test(text)) ids.add('voice');
   if (/book|schedule|appointment/.test(text)) ids.add('booking');

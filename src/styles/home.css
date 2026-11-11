@@ -41,6 +41,7 @@
 }
 .hero-in {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s6);
   justify-items: center;
   text-align: center;
@@ -78,7 +79,14 @@
 }
 .hero .lede {
   text-align: center;
-  max-width: 54ch;
+  max-width: none;
+  text-wrap: balance;
+}
+/* two set lines on desktop; below that the break would strand words */
+@media (max-width: 1099px) {
+  .hero .lede-br {
+    display: none;
+  }
 }
 
 /* ── the command surface · the one moment the page is built around ────
@@ -215,6 +223,12 @@
     flex-direction: column;
     align-items: stretch;
     gap: var(--s3);
+  }
+  /* the status chip is nowrap; side by side with Stella it pushed the
+     whole hero column past a 390 screen */
+  .cmd-top {
+    flex-wrap: wrap;
+    row-gap: var(--s3);
   }
 }
 .send {
@@ -455,6 +469,21 @@
   flex: 0 0 100%;
   margin-bottom: var(--s1);
   text-align: center;
+}
+/* ten scenarios as two even rows of five on desktop */
+@media (min-width: 1100px) {
+  .chips {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    max-width: 1000px;
+  }
+  .chips .micro {
+    grid-column: 1 / -1;
+  }
+  .chip {
+    justify-content: center;
+    white-space: nowrap;
+  }
 }
 .chip {
   display: inline-flex;
@@ -1650,5 +1679,1145 @@
   .read p,
   .map.is-auto .node[aria-pressed='true']::after {
     animation: none;
+  }
+}
+
+/* ── content 2.0 sections (2026-10-17) ──────────────────────────────── */
+/* Shared: small role chips with an icon, used by the engine and journey. */
+.eng-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.eng-roles em,
+.jr-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--t3);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+.eng-roles img,
+.jr-role img {
+  width: 13px;
+  height: 13px;
+}
+
+/* The revenue engine: five stages on one line, joined by a route. */
+.eng {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--s4);
+}
+.eng::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sig) 12%, var(--sig) 88%, transparent);
+  opacity: 0.55;
+}
+.eng-s {
+  position: relative;
+  margin-top: var(--s6);
+  padding: var(--s6) var(--s5);
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: var(--s3);
+}
+.eng-dot {
+  position: absolute !important;
+  top: calc(-1 * var(--s6) - 5px);
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  margin-left: -5.5px;
+  border-radius: 50%;
+  background: var(--sig);
+  box-shadow: 0 0 0 4px rgba(255, 98, 0, 0.16);
+}
+.eng-k {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.eng-k b {
+  color: var(--sig-ink);
+  margin-right: 6px;
+}
+.eng-s .h4 {
+  font-size: 18px;
+}
+.eng-s p:not(.eng-k) {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.eng-roles {
+  /* room for two rows of chips, so every card's divider sits at one height */
+  align-content: start;
+  min-height: calc(var(--s3) + 2 * 30px + 8px);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}
+
+/* Tools: three by two, Sales Coach marked as its own product. */
+.tools {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s4);
+}
+.tool {
+  padding: var(--s6);
+  border-radius: var(--r-card);
+  display: grid;
+  align-content: start;
+  gap: var(--s3);
+  text-decoration: none;
+}
+.tool .gl {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(199, 201, 232, 0.06);
+  color: var(--t3);
+  margin-bottom: var(--s2);
+}
+.tool .h4 {
+  font-size: 19px;
+}
+.tool p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.tool--coach {
+  grid-template-columns: auto 1fr;
+  transition: transform 200ms var(--e-std);
+}
+.tool--coach:hover {
+  transform: translateY(-3px);
+}
+.tool--coach .gl {
+  color: var(--sig-ink);
+}
+.tool--coach > :not(.gl):not(.tool-tag) {
+  grid-column: 1 / -1;
+}
+.tool-tag {
+  justify-self: end;
+  align-self: start;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sig-ink);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 98, 0, 0.35);
+}
+
+/* The journey: one route that lights with the scroll. Time, the step, and
+   the small thing that actually happens beside it. */
+.jr {
+  --rail-x: 150px;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+.jr::before,
+.jr-fill {
+  content: '';
+  position: absolute;
+  left: var(--rail-x);
+  top: 30px;
+  bottom: 30px;
+  width: 1px;
+  background: var(--line);
+}
+.jr-fill {
+  background: linear-gradient(180deg, var(--sig), #ff8a3d);
+  transform-origin: top;
+  transform: scaleY(var(--p, 1));
+  box-shadow: 0 0 12px rgba(255, 98, 0, 0.45);
+}
+.jr li {
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(var(--rail-x) - 18px) 36px minmax(0, 1fr) minmax(0, 360px);
+  column-gap: var(--s5);
+  align-items: center;
+  padding: var(--s5) 0;
+  transition: opacity 500ms var(--e-std);
+}
+.jr time {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--t1);
+  text-align: right;
+}
+.jr-dot {
+  justify-self: center;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-2, rgba(199, 201, 232, 0.4));
+  background: var(--bg, #0b0f2a);
+  transition: background 400ms var(--e-std), border-color 400ms var(--e-std), box-shadow 400ms var(--e-std);
+}
+.jr li.on .jr-dot {
+  border-color: var(--sig);
+  background: var(--sig);
+  box-shadow: 0 0 0 5px rgba(255, 98, 0, 0.15);
+}
+.jr-body {
+  display: grid;
+  justify-items: start;
+  gap: var(--s2);
+}
+.jr .h4 {
+  font-size: 19px;
+}
+.jr-body p {
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: none;
+}
+.jr-art {
+  border-radius: 16px;
+  padding: var(--s4) var(--s5);
+  transition: transform 500ms var(--e-out, ease), opacity 500ms var(--e-std);
+}
+.jr.is-armed li:not(.on) {
+  opacity: 0.38;
+}
+.jr.is-armed li:not(.on) .jr-art {
+  transform: translateX(14px);
+}
+
+/* the artefacts */
+.ja {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--t2);
+}
+.ja p {
+  margin: 0;
+  font-size: 13px;
+}
+.ja-chat {
+  display: grid;
+  gap: 8px;
+}
+.ja-chat p {
+  max-width: 86%;
+  padding: 8px 12px;
+  border-radius: 14px;
+}
+.ja-in {
+  justify-self: start;
+  background: rgba(199, 201, 232, 0.1);
+  border-bottom-left-radius: 4px;
+}
+.ja-out {
+  justify-self: end;
+  color: #fff;
+  background: linear-gradient(180deg, #ff8a3d, #ff6200);
+  border-bottom-right-radius: 4px;
+}
+.ja-slots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ja-slots span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  font-weight: 600;
+  color: var(--t3);
+}
+.ja-slots span.on {
+  color: var(--sig-ink);
+  border-color: rgba(255, 98, 0, 0.5);
+  background: rgba(255, 98, 0, 0.08);
+}
+.ja-slots em {
+  flex-basis: 100%;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--t3);
+}
+.ja-list {
+  display: grid;
+  gap: 6px;
+}
+.ja-list p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--t1);
+}
+.ja-list svg {
+  color: var(--sig-ink);
+}
+.ja-list .dim {
+  color: var(--t3);
+  padding-left: 21px;
+}
+.ja-list .flag {
+  color: var(--t3);
+  padding-left: 21px;
+}
+.ja-list .flag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-left: -14px;
+  border-radius: 50%;
+  background: var(--sig);
+}
+.ja-call {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ja-ico {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(180deg, #ff8a3d, #ff6200);
+}
+.ja-call p {
+  display: grid;
+  color: var(--t1);
+}
+.ja-call b {
+  font-weight: 600;
+  color: var(--t3);
+}
+.ja-call em {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--t3);
+}
+.ja-stars {
+  display: grid;
+  gap: 6px;
+  color: var(--t1);
+}
+.ja-stars span {
+  display: flex;
+  gap: 3px;
+  color: var(--sig-ink);
+}
+.ja-stars svg {
+  fill: currentColor;
+}
+.ja-report {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  color: var(--t3);
+}
+.ja-report p {
+  flex-basis: 100%;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.ja-report b {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--t1);
+  margin-right: 3px;
+}
+.ja-report .sig b {
+  color: var(--sig-ink);
+}
+
+.jr-out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3) var(--s6);
+  margin-top: var(--s6);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1);
+}
+.jr-out span::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--sig);
+  vertical-align: 2px;
+}
+
+/* Languages and integrations: two panels side by side. */
+.lx {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s4);
+}
+.lx-p {
+  padding: var(--s8) var(--s7, 36px);
+  display: grid;
+  align-content: start;
+  gap: var(--s4);
+}
+.lx-p .eyebrow {
+  margin-bottom: 0;
+}
+.lx-p > p:not(.eyebrow) {
+  font-size: 15px;
+  line-height: 1.6;
+}
+/* Each language in its own script. Arabic and Urdu read right to left. */
+.lgx {
+  display: grid;
+  gap: var(--s4);
+}
+.lgx-say {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  min-height: 74px;
+  padding: var(--s4) var(--s5);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 98, 0, 0.28);
+  background: rgba(255, 98, 0, 0.05);
+}
+.lgx-mark {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
+.lgx-mark img {
+  width: 18px;
+  height: 18px;
+}
+.lgx-say p {
+  flex: 1;
+  margin: 0;
+  font-family: var(--font-display), 'Segoe UI', 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--t1);
+  animation: lgx-in 520ms var(--e-out, ease) both;
+}
+@keyframes lgx-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(4px);
+  }
+}
+.lgx-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.lgx-grid button {
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+  transition: border-color 260ms var(--e-std), background 260ms var(--e-std);
+}
+.lgx-grid button:hover,
+.lgx-grid button.on {
+  border-color: rgba(255, 98, 0, 0.5);
+  background: rgba(255, 98, 0, 0.06);
+}
+.lgx-grid b {
+  font-family: var(--font-display), 'Segoe UI', 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Devanagari', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--t1);
+  line-height: 1.3;
+}
+.lgx-grid span {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.lgx-grid button.on span {
+  color: var(--sig-ink);
+}
+
+main section[id] {
+  scroll-margin-top: 110px;
+}
+
+/* /faq hero visual: Stella coordinating the four question groups */
+.fqv {
+  display: grid;
+  gap: var(--s5);
+  padding: var(--s6);
+}
+.fqv-map {
+  position: relative;
+  aspect-ratio: 2 / 1;
+}
+.fqv-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.fqv-lines path {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 5;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 400ms var(--e-std);
+}
+.fqv-lines path.on {
+  stroke: rgba(255, 98, 0, 0.45);
+}
+.fqv-lines path.sig {
+  stroke: var(--sig);
+  stroke-width: 2;
+  stroke-dasharray: 0.16 1;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(255, 98, 0, 0.9));
+  animation: fqv-run 1.4s var(--e-std) forwards;
+}
+@keyframes fqv-run {
+  from { stroke-dashoffset: 0.16; }
+  to { stroke-dashoffset: -0.84; }
+}
+.fqv-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+}
+.fqv-mark {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 98, 0, 0.5);
+  background: rgba(255, 98, 0, 0.1);
+  box-shadow: 0 0 34px rgba(255, 98, 0, 0.28);
+  animation: fqv-breathe 3.6s ease-in-out infinite;
+}
+.fqv-mark img,
+.fqv-mark svg {
+  width: 28px;
+  height: auto;
+}
+@keyframes fqv-breathe {
+  50% { box-shadow: 0 0 50px rgba(255, 98, 0, 0.42); }
+}
+.fqv-core b {
+  font-size: 15px;
+  color: var(--t1);
+}
+.fqv-core small {
+  font-size: 11px;
+  color: var(--t3);
+}
+.fqv-node {
+  position: absolute;
+  width: 31.67%;
+  height: 24%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--t2);
+  text-decoration: none;
+  transition: border-color 400ms var(--e-std), color 400ms var(--e-std), background 400ms var(--e-std);
+}
+.fqv-node small {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--t3);
+}
+.fqv-node.on {
+  color: var(--t1);
+  border-color: rgba(255, 98, 0, 0.5);
+  background: rgba(255, 98, 0, 0.07);
+}
+.fqv-ico {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  color: var(--sig-ink);
+}
+.fqv-q {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 64px;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--t1);
+  animation: fqv-in 600ms var(--e-out, ease-out) both;
+}
+.fqv-q small {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.fqv-qm {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--sig);
+  color: #fff;
+  font-size: 14px;
+}
+@keyframes fqv-in {
+  from { opacity: 0; transform: translateY(6px); }
+}
+:root[data-theme='light'] .fqv-node {
+  background: rgba(20, 27, 69, 0.025);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fqv-mark,
+  .fqv-q,
+  .fqv-lines path.sig {
+    animation: none;
+  }
+}
+/* narrow: the four groups stack as a list under Stella */
+@media (max-width: 620px) {
+  .fqv-map {
+    aspect-ratio: auto;
+    display: grid;
+    gap: var(--s2);
+  }
+  .fqv-lines {
+    display: none;
+  }
+  .fqv-core {
+    position: static;
+    transform: none;
+    margin-bottom: var(--s3);
+  }
+  .fqv-node {
+    position: static;
+    width: auto;
+    height: auto;
+    min-height: 56px;
+  }
+}
+/* Integrations as a small hub: Stella on the left, one bus, each system a
+   tile on it. Fills the panel to the height of the languages panel beside it. */
+.lx-hub {
+  display: grid;
+  grid-template-columns: 76px 32px 1fr;
+  align-items: center;
+  margin-top: var(--s2);
+}
+.lx-core {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--t1);
+}
+.lx-core-mark {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 98, 0, 0.45);
+  background: rgba(255, 98, 0, 0.1);
+  box-shadow: 0 0 28px rgba(255, 98, 0, 0.22);
+}
+.lx-core-mark img,
+.lx-core-mark svg {
+  width: 26px;
+  height: auto;
+}
+.lx-bus {
+  position: relative;
+  align-self: stretch;
+}
+/* the bus runs from the first tile's centre to the last one's */
+.lx-bus::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 31px;
+  bottom: 31px;
+  width: 1px;
+  background: linear-gradient(var(--line), rgba(255, 98, 0, 0.5), var(--line));
+}
+/* the stub from Stella to the bus */
+.lx-bus::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 50%;
+  top: 50%;
+  height: 1px;
+  background: rgba(255, 98, 0, 0.5);
+}
+.lx-sys {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--s2);
+}
+.lx-sys li {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s3);
+  align-items: center;
+  min-height: 62px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--t3);
+}
+.lx-sys li::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  width: 16px;
+  height: 1px;
+  background: var(--line);
+}
+/* a signal travels down the tiles in turn */
+.lx-sys li::after {
+  content: '';
+  position: absolute;
+  right: calc(100% + 13px);
+  top: calc(50% - 3px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sig);
+  box-shadow: 0 0 10px rgba(255, 98, 0, 0.8);
+  opacity: 0;
+  animation: lx-ping 7.5s infinite;
+}
+.lx-sys li:nth-child(2)::after { animation-delay: 1.5s; }
+.lx-sys li:nth-child(3)::after { animation-delay: 3s; }
+.lx-sys li:nth-child(4)::after { animation-delay: 4.5s; }
+.lx-sys li:nth-child(5)::after { animation-delay: 6s; }
+@keyframes lx-ping {
+  0% { opacity: 0; transform: translateX(0); }
+  4% { opacity: 1; }
+  14% { opacity: 1; transform: translateX(14px); }
+  20%, 100% { opacity: 0; transform: translateX(14px); }
+}
+.lx-ico {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  color: var(--sig-ink);
+}
+.lx-sys b {
+  display: block;
+  color: var(--t1);
+  font-size: 14px;
+  font-weight: 600;
+}
+:root[data-theme='light'] .lx-sys li {
+  background: rgba(20, 27, 69, 0.025);
+}
+.lx-p .btn-3 {
+  justify-self: start;
+  margin-top: var(--s2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lx-sys li::after {
+    animation: none;
+  }
+}
+@media (max-width: 620px) {
+  .lx-hub {
+    grid-template-columns: 1fr;
+  }
+  .lx-core,
+  .lx-bus,
+  .lx-sys li::before,
+  .lx-sys li::after {
+    display: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .eng {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-left: var(--s6);
+  }
+  .eng::before {
+    left: 5px;
+    right: auto;
+    top: var(--s6);
+    bottom: var(--s6);
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, var(--sig), var(--line));
+  }
+  .eng-s {
+    margin-top: var(--s4);
+  }
+  .eng-dot {
+    top: var(--s6);
+    left: calc(-1 * var(--s6));
+    margin-left: 0;
+  }
+  .tools {
+    grid-template-columns: 1fr 1fr;
+  }
+  .lx {
+    grid-template-columns: 1fr;
+  }
+  .eng-roles {
+    min-height: 0;
+  }
+  .jr {
+    --rail-x: 5px;
+  }
+  .jr li {
+    grid-template-columns: 1fr;
+    gap: var(--s3);
+    padding-left: var(--s7, 36px);
+  }
+  .jr time {
+    text-align: left;
+  }
+  .jr-dot {
+    position: absolute;
+    left: 0;
+    top: calc(var(--s5) + 5px);
+  }
+  .jr.is-armed li:not(.on) .jr-art {
+    transform: none;
+  }
+}
+@media (max-width: 620px) {
+  .tools {
+    grid-template-columns: 1fr;
+  }
+  .lgx-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .lx-p {
+    padding: var(--s6);
+  }
+}
+
+/* /stella: the engine one level deeper. Each card adds what Stella checks
+   and where your people take over, under the roles. */
+/* subgrid so the role chips and the checks line up across all five cards */
+.eng--deep {
+  grid-auto-rows: auto;
+}
+.eng--deep .eng-s {
+  grid-row: span 5;
+  grid-template-rows: subgrid;
+  row-gap: var(--s3);
+}
+.eng-more {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}
+.eng-more dt {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sig-ink);
+}
+.eng-more dt + dd + dt {
+  margin-top: var(--s2);
+  color: var(--t3);
+}
+.eng-more dd {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--t2);
+}
+.lx--one {
+  align-items: stretch;
+}
+.lx--one > .lx-p:first-child {
+  align-content: center;
+}
+
+/* /sales-coach: how it sits beside Stella. */
+.rel {
+  margin-top: var(--s8);
+  padding: var(--s6) var(--s7, 36px);
+  border-radius: var(--r-card);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--s4) var(--s6);
+}
+.rel-i {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+.rel-i b {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--t1);
+}
+.rel-i span {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--t2);
+}
+.rel-plus {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 98, 0, 0.45);
+  color: var(--sig-ink);
+  font-weight: 600;
+}
+.rel-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--t3);
+}
+.rel-note a {
+  color: var(--sig-ink);
+  font-weight: 600;
+  margin-left: 6px;
+}
+@media (max-width: 1100px) {
+  .lx--one {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 620px) {
+  .rel {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Industry overviews: the aim, and where the first specialists sit in the
+   revenue engine. Stages they do not touch stay quiet. */
+.aim {
+  padding: var(--s8);
+  border-radius: var(--r-hero);
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--s8);
+  align-items: center;
+}
+.aim-head {
+  display: grid;
+  gap: var(--s3);
+  align-content: start;
+}
+.aim-head .eyebrow {
+  margin-bottom: 0;
+}
+.aim-head h3 {
+  font-size: clamp(22px, 2.1vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.024em;
+  line-height: 1.2;
+  text-wrap: balance;
+  hyphens: manual;
+}
+.eng-row {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0;
+}
+.eng-row li {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) auto;
+  gap: var(--s4);
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  opacity: 0.55;
+}
+.eng-row li:last-child {
+  border-bottom: 0;
+}
+.eng-row li.on {
+  opacity: 1;
+}
+.eng-row-k {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.eng-row-k b {
+  color: var(--sig-ink);
+  margin-right: 4px;
+}
+.eng-row-line {
+  font-size: 14px;
+  color: var(--t1);
+}
+.eng-row-who {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.eng-row-who em {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--t1);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 98, 0, 0.4);
+  background: rgba(255, 98, 0, 0.06);
+  white-space: nowrap;
+}
+.eng-row-who i {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--t3);
+}
+.aim-line {
+  margin-top: var(--s3);
+  font-size: 15px;
+  color: var(--t2);
+}
+.aim-line b {
+  color: var(--sig-ink);
+  font-weight: 600;
+}
+@media (max-width: 1100px) {
+  .aim {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 620px) {
+  .aim {
+    padding: var(--s6);
+  }
+  .eng-row li {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .eng-row-who {
+    justify-content: flex-start;
+  }
+}
+.eng-row-who img,
+.eng-row-who svg {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+}
+/* The integrations tiles hold words, not numbers; at phone width they get
+   their own size so "Confirmed" fits half a screen. */
+@media (max-width: 620px) {
+  .stats > .stat {
+    min-width: 0;
+  }
+  .stats .stat .v {
+    font-size: clamp(20px, 6vw, 30px);
+    overflow-wrap: anywhere;
   }
 }

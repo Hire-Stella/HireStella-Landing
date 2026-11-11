@@ -23,9 +23,14 @@ export const editorialPages = {
         text: 'Scope conversations across website, WhatsApp, Instagram, social, voice and email according to provider access and your selected configuration.',
       },
       {
+        icon: 'store',
+        title: 'E-commerce & operations',
+        text: 'Use agreed order, stock or status data in customer conversations, where a compatible connection exists.',
+      },
+      {
         icon: 'network',
         title: 'Custom APIs',
-        text: 'Enterprise and bespoke configurations can scope custom API work. Feasibility, permissions, effort and system limits are reviewed first.',
+        text: 'Bespoke connections can be scoped after a technical review. Feasibility, permissions, effort and system limits are reviewed first.',
       },
     ],
     closingEyebrow: 'Connect your systems',
@@ -35,10 +40,10 @@ export const editorialPages = {
   'human-boundary': {
     label: 'Human boundary',
     eyebrow: 'YOUR PEOPLE, PLUS STELLA',
-    title: 'More capacity.\nHuman judgement intact.',
+    title: 'Stella takes the repeats.\nYour people keep the rest.',
     intro:
       'AI handles configured, structured work. Your people own sensitive conversations, exceptions and decisions that need experience and judgement.',
-    statement: 'The goal is more output and capacity per person.',
+    statement: 'The goal is not fewer people. It is more opportunity from the team you already have.',
     blocks: [
       {
         icon: 'network',

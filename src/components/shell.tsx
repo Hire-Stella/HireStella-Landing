@@ -177,9 +177,11 @@ export function Header() {
 
       <div className="hdr-act">
         <ThemeToggle />
-        <Link className="btn btn-2" href="/#ask-stella" onClick={dismiss}>
-          Ask Stella
-        </Link>
+        <button className="btn btn-2" type="button" data-talk data-cta="header-talk" onClick={dismiss}>
+          <span>
+            Talk to Stella<span className="btn-long"> now</span>
+          </span>
+        </button>
         <button className="btn btn-1" type="button" data-demo onClick={dismiss}>
           <span>
             Book<span className="btn-long"> a demo</span>
@@ -220,23 +222,21 @@ export function Footer() {
         <div className="foot-top">
           <div className="foot-brand">
             <Logo />
-            <p>One AI General Manager. Eight connected AI Specialists. Capacity, coordinated.</p>
+            <p>One AI General Manager. Eight connected AI specialists. Coordinated around your business.</p>
             <div className="foot-contact">
               <a href={`mailto:${CONTACT.email}`}>
                 <Mail size={15} strokeWidth={1.6} aria-hidden="true" />
                 {CONTACT.email}
               </a>
-              {/* Office address hidden in the footer for now. It remains the
-                  source of truth for the contact page, the FAQ answer and the
-                  Organization schema, so uncommenting restores it as-is. */}
-              {/* <span>
+              {/* Content 2.0: the office address is back in the footer. */}
+              <span>
                 <MapPin size={15} strokeWidth={1.6} aria-hidden="true" />
                 <span>
                   {CONTACT.address[0]}
                   <br />
                   {CONTACT.address[1]}
                 </span>
-              </span> */}
+              </span>
             </div>
             <SocialLinks />
           </div>
@@ -271,7 +271,7 @@ export function Footer() {
             <p className="note">
               © {new Date().getFullYear()} {CONTACT.entity}
             </p>
-            <p className="note">Capacity, coordinated.</p>
+            <p className="note">Your AI General Manager.</p>
           </div>
           <div className="lg">
             {company.links.map(([label, href]) => (
@@ -279,9 +279,6 @@ export function Footer() {
                 {label}
               </Link>
             ))}
-            <Link href="/security" className="note">
-              Security &amp; trust
-            </Link>
           </div>
         </div>
       </div>

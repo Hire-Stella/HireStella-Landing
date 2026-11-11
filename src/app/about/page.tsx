@@ -5,12 +5,14 @@ import { canonical, breadcrumbLd } from '@/lib/seo';
 import { PageHero, Closer, Thread, SectionHead, Faq, Ld, Tri, Bul } from '@/components/system';
 import { founder } from '@/lib/founder';
 import { FAQS } from '@/lib/faqs';
+import { humanBoundary, revenueEngine, specialists } from '@/lib/data';
+import { Icon, Logo } from '@/components/ui';
 
 export const metadata: Metadata = {
   ...canonical('/about'),
-  title: 'About HireStella, Our Story',
+  title: 'About Us, Our Story',
   description:
-    'Businesses do not always need more people. They need more capacity from the people they already have. The idea HireStella was built around, and what it means in practice.',
+    'Businesses do not always need more people. They need more opportunity from the team they already have. The idea HireStella was built around.',
 };
 
 /** The four things that slip, in the order a week actually loses them. */
@@ -21,18 +23,8 @@ const SLIPS = [
   ['Admin piles up.', 'And the people responsible for growth spend their day inside it.'],
 ] as const;
 
-const PEOPLE = [
-  'Relationships and client trust',
-  'Judgement and complex decisions',
-  'Situations that need empathy',
-  'Strategy and where to go next',
-];
-const WORKFORCE = [
-  'Repetitive and administrative work',
-  'High-volume, structured tasks',
-  'Always-on coverage, every hour',
-  'Follow-up and coordination',
-];
+const PEOPLE = humanBoundary.people;
+const WORKFORCE = humanBoundary.workforce;
 
 export default function AboutPage() {
   return (
@@ -40,7 +32,7 @@ export default function AboutPage() {
       <Ld data={breadcrumbLd([['Home', '/'], ['Our story', '/about']])} />
 
       <PageHero
-        eyebrow="Capacity, coordinated."
+        eyebrow="Your AI General Manager."
         crumb={[['Home', '/'], ['Our story']]}
         title={
           <>
@@ -67,7 +59,7 @@ export default function AboutPage() {
             <p className="eyebrow">What we believe</p>
             <blockquote>
               Businesses don&rsquo;t always need more people.
-              <em> They need more capacity from the people they already have.</em>
+              <em> They need more opportunity from the team they already have.</em>
             </blockquote>
             <p className="note">
               So Stella takes the repetitive work, answering, booking and following up, and your people keep
@@ -135,6 +127,47 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── what we build: the same engine the homepage shows ── */}
+      <section className="sec" style={{ paddingTop: 0 }} id="what-we-build">
+        <div className="wrap">
+          <div className="aim pan">
+            <div className="aim-head">
+              <p className="eyebrow eyebrow--sig">What we build</p>
+              <h3>A revenue team that works together.</h3>
+              <p>
+                One AI General Manager and eight connected specialists, configured around the five
+                stages where a business wins or loses a customer.
+              </p>
+              <Link className="btn-3" href="/stella#engine">
+                How Stella runs it <Tri />
+              </Link>
+            </div>
+            <ol className="eng-row" aria-label="The revenue engine">
+              {revenueEngine.map(([n, stage, line, , roles]) => (
+                <li className="on" key={stage}>
+                  <span className="eng-row-k">
+                    <b>{n}</b> {stage}
+                  </span>
+                  <span className="eng-row-line">{line}</span>
+                  <span className="eng-row-who">
+                    {roles.map((role) => (
+                      <em key={role}>
+                        {role === 'Stella' ? (
+                          <Logo symbol />
+                        ) : (
+                          <Icon name={specialists.find((x) => x.short === role)?.icon ?? 'network'} size={13} />
+                        )}
+                        {role}
+                      </em>
+                    ))}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
       {/* ── how the work divides ── */}
       <section className="sec" style={{ paddingTop: 0 }}>
         <div className="wrap">
@@ -148,7 +181,7 @@ export default function AboutPage() {
               </>
             }
           >
-            Stella, our AI General Manager, coordinates a connected workforce of AI Specialists
+            Stella, our AI General Manager, coordinates eight connected AI specialists
             around the way your business actually works. The workforce takes the repetitive,
             high-volume and structured work. Your people keep everything else.
           </SectionHead>
@@ -156,7 +189,7 @@ export default function AboutPage() {
           <div className="hb">
             <div className="zone pan">
               <p className="eyebrow">Your people</p>
-              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Responsible for the judgement.</h3>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>What your people stay responsible for.</h3>
               <ul className="bullets">
                 {PEOPLE.map((line) => (
                   <li key={line}>
@@ -173,7 +206,7 @@ export default function AboutPage() {
 
             <div className="zone pan">
               <p className="eyebrow eyebrow--sig">The AI workforce</p>
-              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>Responsible for the volume.</h3>
+              <h3 className="h4" style={{ marginBottom: 'var(--s6)' }}>What the workforce can help with.</h3>
               <ul className="bullets">
                 {WORKFORCE.map((line) => (
                   <li key={line}>
@@ -189,9 +222,9 @@ export default function AboutPage() {
             <span className="rail rail--sig" aria-hidden="true" />
             <p className="eyebrow">What we are actually building</p>
             <h3>
-              Not a replacement for your team.
+              {humanBoundary.goal[0]}
               <br />
-              <em>More capacity from the one you already have.</em>
+              <em>{humanBoundary.goal[1]}</em>
             </h3>
           </div>
         </div>

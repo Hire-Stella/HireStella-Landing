@@ -7,7 +7,7 @@ import { canonical, breadcrumbLd, faqLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
   ...canonical('/become-a-partner'),
-  title: 'Become a HireStella Partner in the UAE',
+  title: 'Become a Partner in the UAE',
   description:
     'Partner with HireStella to bring an AI workforce to the businesses you already advise. Apply as a consultant, agency, reseller or technology partner.',
 };
@@ -101,8 +101,8 @@ export default function BecomePartner() {
       <Closer
         eyebrow="Not ready to apply?"
         title="See the product first."
-        lede="Describe a client bottleneck and explore an example of the workforce Stella would coordinate."
-        primary={{ href: '/#ask-stella', label: 'Ask Stella' }}
+        lede="Talk to Stella now and hear how she handles a customer enquiry before you bring her to a client."
+        primary={{ href: '#talk-to-stella', label: 'Talk to Stella now' }}
         secondary={null}
       />
     </main>

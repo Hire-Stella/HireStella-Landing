@@ -1,92 +1,92 @@
 export const specialists = [
   {
     id: 'front-desk',
-    name: 'AI Front Desk / Chat',
+    name: 'AI Front Desk & Chat',
     short: 'Front Desk',
     icon: 'message',
-    description: 'Every enquiry gets a thoughtful first response.',
+    description: 'Every connected enquiry answered, with nothing for the next person to guess.',
     actions: 'ANSWERS · QUALIFIES · ROUTES',
     detail:
-      'Answer routine questions, capture the right details, and route each conversation to its next step across configured digital channels.',
-    boundary: 'Sensitive questions and exceptions go to your team with the conversation history.',
+      'Respond to approved questions, capture intent and contact preferences, and route a qualified lead to booking or a person across connected WhatsApp, website and social conversations.',
+    boundary: 'Clinical, financial, legal, upset-customer or unknown requests go to your team with the conversation history.',
   },
   {
     id: 'voice',
-    name: 'AI Voice Specialist',
+    name: 'AI Voice',
     short: 'Voice',
     icon: 'phone',
-    description: 'Keep the conversation moving. Even after hours.',
-    actions: 'RESPONDS · QUALIFIES · TRANSFERS',
+    description: 'Calls in and out, without customers repeating themselves.',
+    actions: 'TAKES CALLS · CALLS BACK · TRANSFERS',
     detail:
-      'Handle configured inbound and outbound calls, understand intent, capture details, and transfer to a person when the conversation needs one.',
+      'Answer and qualify supported calls, take messages, make approved callbacks and appointment reminders, and hand complex calls to your staff.',
     boundary:
-      'Complex or sensitive calls transfer to an available human, following agreed escalation rules.',
+      'Recording consent, contact rules, number setup and languages are confirmed for your market before calls go live.',
   },
   {
     id: 'website',
     name: 'AI Website Builder',
     short: 'Website',
     icon: 'browser',
-    description: 'Your digital front door, connected to what follows.',
+    description: 'Your digital front door, with a clear path to the next step.',
     actions: 'BUILDS · CONNECTS · CONVERTS',
     detail:
-      'Create a conversion-ready website connected to enquiries, qualification, bookings and the wider workforce journey.',
-    boundary: 'Your team approves content, brand presentation, and publication.',
+      'Support website and landing-page experiences, enquiry forms and calls to action that send their context into the wider workflow.',
+    boundary: 'Site ownership, hosting, approvals and build scope are agreed with you first.',
   },
   {
     id: 'booking',
     name: 'Booking & Scheduling',
     short: 'Booking',
     icon: 'calendar',
-    description: 'From interested to in the calendar.',
+    description: 'A clear route to an available appointment, without the back-and-forth.',
     actions: 'CHECKS · BOOKS · RESCHEDULES',
     detail:
-      'Check supported availability, coordinate bookings and changes, and sync appointments with the systems agreed in your configuration.',
-    boundary: 'Exceptions, conflicting availability, and requests outside policy are escalated.',
+      'Work with connected calendars or booking systems to check availability, suggest slots, create or change bookings and send approved confirmations.',
+    boundary: 'Conflicts, special requirements and exceptions go to your staff.',
   },
   {
     id: 'admin',
-    name: 'AI Admin Specialist',
+    name: 'AI Admin',
     short: 'Admin',
     icon: 'records',
-    description: 'Less repetitive work. More room to think.',
+    description: 'Records that stay usable, not scattered across notes and inboxes.',
     actions: 'UPDATES · ORGANISES · RECORDS',
     detail:
-      'Keep supported records current, triage routine email, and move structured information into the right place.',
-    boundary: 'Ambiguous data and sensitive changes require human review.',
+      'Prepare and log structured information, support approved CRM updates, and write summaries for your team to review.',
+    boundary: 'Invoices, accounting, payments and sensitive data need supported systems and your approval.',
   },
   {
     id: 'marketing',
-    name: 'AI Marketing Specialist',
+    name: 'AI Marketing',
     short: 'Marketing',
     icon: 'chart',
-    description: 'Turn a good strategy into consistent execution.',
+    description: 'Consistent communication between the first enquiry and the decision.',
     actions: 'CREATES · NURTURES · TRACKS',
     detail:
-      'Support content, nurture sequences, campaign execution, and engagement tracking within an approved strategy.',
-    boundary: 'People own strategy, budgets, claims and final creative approval.',
+      'Support approved email and message sequences, campaign drafts and handoffs, keeping your brand rules and opt-in requirements.',
+    boundary: 'Marketing claims, targeting, paid budgets and final creative stay with your team.',
   },
   {
     id: 'social',
-    name: 'AI Social Specialist',
+    name: 'AI Social',
     short: 'Social',
     icon: 'network',
-    description: 'Keep your brand present in the conversation.',
-    actions: 'MONITORS · RESPONDS · CONNECTS',
+    description: 'Social conversations connected to the right business follow-up.',
+    actions: 'CREATES · RESPONDS · CONNECTS',
     detail:
-      'Monitor supported social channels, respond to routine enquiries in your brand voice, and connect relevant conversations to the lead journey.',
-    boundary: 'Reputation-sensitive conversations and unfamiliar requests go to a person.',
+      'Prepare content, handle routine replies on connected platforms, and pass useful enquiries into the customer journey.',
+    boundary: 'Publishing permissions, regulated claims and reputation-sensitive replies are reviewed by a person.',
   },
   {
     id: 'outbound-followup',
     name: 'Outbound & Follow-up',
     short: 'Follow-up',
     icon: 'send',
-    description: 'The next step should never be forgotten.',
-    actions: 'REACHES · FOLLOWS UP · RE-ENGAGES',
+    description: 'Quotes, missed appointments and good leads, never lost to a forgotten step.',
+    actions: 'REACHES OUT · FOLLOWS THROUGH · RE-ENGAGES',
     detail:
-      'Coordinate approved outreach, timely reminders, and re-engagement workflows so opportunities keep moving.',
-    boundary: 'Your team defines consent, contact rules, messaging and escalation.',
+      'Schedule approved reminders, quote checks, missed-appointment recovery and re-engagement, based on consent, timing and agreed messages.',
+    boundary: 'Your team defines consent and contact frequency, and keeps sensitive negotiation.',
   },
 ] as const;
 
@@ -144,7 +144,7 @@ export const industries = [
     headline: 'Care for your patients. We’ll coordinate the rest.',
     problem: 'We miss calls while the team is with patients.',
     description:
-      'From the first late-night enquiry to the appointment reminder, give your front desk the capacity to keep up.',
+      'From the first late-night enquiry to the appointment reminder, give your front desk room to keep up.',
     steps: [
       'Enquiry received',
       'Routine question answered',
@@ -199,27 +199,6 @@ export const industries = [
     systems: 'Supported service channels and scoped enterprise systems',
     ids: ['front-desk', 'voice', 'admin'],
   },
-  {
-    id: 'salons',
-    name: 'Salons & wellness',
-    label: 'Salons',
-    icon: 'scissors',
-    headline: 'Bookings arrive everywhere. Keep one clear schedule.',
-    problem: 'Bookings come through calls, WhatsApp and Instagram.',
-    description:
-      'Bring messages, calls, appointment changes, and rebooking into a coordinated experience.',
-    steps: [
-      'Message arrives',
-      'Service identified',
-      'Availability checked',
-      'Booking confirmed',
-      'Rebooking reminder sent',
-    ],
-    boundary:
-      'Your team handles treatment suitability, complaints and exceptions to booking policy.',
-    systems: 'Supported booking systems, calendars and social channels',
-    ids: ['front-desk', 'voice', 'booking', 'social', 'outbound-followup'],
-  },
 ] as const;
 
 export const navigation = [
@@ -244,9 +223,9 @@ export const navigation = [
       ['Automotive', '/industries/automotive'],
       ['Real estate', '/industries/real-estate'],
       ['Hospitality', '/industries/hospitality'],
-      ['Education', '/industries/education'],
+      ['Education & training', '/industries/education'],
       ['Financial services', '/industries/financial-services'],
-      ['Home & local services', '/industries/home-services'],
+      ['Home services', '/industries/home-services'],
       ['Travel & tourism', '/industries/travel'],
       ['Professional services', '/industries/professional-services'],
       ['Retail & D2C', '/industries/retail'],
@@ -267,7 +246,52 @@ export const navigation = [
       ['Blogs', '/blogs'],
       ['Our approach', '/team'],
       ['Become a partner', '/become-a-partner'],
+      ['FAQs', '/faq'],
       ['Contact', '/contact'],
     ],
   },
 ];
+
+/* One human boundary, used on the homepage, /stella, /about and
+   /human-boundary, so every page draws the line in the same place. */
+export const humanBoundary = {
+  people: [
+    'Difficult conversations and empathy',
+    'Commercial and strategic judgement',
+    'Special requests, exceptions and disputes',
+    'Sensitive changes and authorisations',
+    'Relationships and personal customer care',
+    'The decisions that shape your business',
+  ],
+  workforce: [
+    'Answering approved routine questions',
+    'Managing supported after-hours enquiries',
+    'Booking and rescheduling within agreed rules',
+    'Preparing approved record updates',
+    'Sending permitted reminders',
+    'Summarising interactions and tasks',
+  ],
+  goal: ['The goal is not fewer people.', 'It is more opportunity from the team you already have.'],
+} as const;
+
+/* The one rollout. /team shows all six steps; the homepage shows the
+   three-step summary of it. */
+export const rollout = [
+  ['Discovery', 'Tell us where leads, bookings or follow-ups become difficult to manage. We identify a measurable first use case.'],
+  ['Workforce design', 'Identify which specialists, channels, approvals and integrations belong in that journey.'],
+  ['Configuration', 'Prepare approved business knowledge, customer contact rules, language choices, permissions and escalation paths.'],
+  ['Joint testing', 'Run real-world examples with your team. Validate unusual cases, consent, numbers, calendars, handoffs and failures.'],
+  ['Go live', 'Activate only the approved workflow and monitor outcomes against the agreed baseline.'],
+  ['Review and expand', 'Review activity, customer experience and commercial outcomes. Add channels, integrations or workflows where they are useful.'],
+] as const;
+
+/* The five-stage revenue engine: stage, line, what happens, who does it,
+   what Stella checks, and where a person takes over. The homepage shows the
+   first four; /stella shows all of it. */
+export const revenueEngine = [
+  ['01', 'Attract', 'Give customers a reason to reach out.', 'Approved campaigns, website experiences and social content guide interested visitors towards an enquiry.', ['Marketing', 'Social', 'Website'], 'Which campaigns and pages actually produce enquiries.', 'You approve every campaign, post and page before it goes out.'],
+  ['02', 'Capture', 'Respond while they are ready to talk.', 'Answer approved questions across connected phone and digital channels, qualify intent and record the next step.', ['Front Desk', 'Voice'], 'That no call or message waits without an owner.', 'Anything outside the approved answers goes to a named person.'],
+  ['03', 'Convert', 'Move interest towards a booking.', 'Check availability, confirm appointments and keep follow-up timely under your business rules.', ['Booking', 'Follow-up'], 'That every qualified enquiry has a booking or a next step.', 'Pricing, negotiation and exceptions stay with your team.'],
+  ['04', 'Grow', 'Keep the relationship going.', 'Approved reminders, review requests and re-engagement give existing customers a clear way back.', ['Follow-up', 'Marketing'], 'Who is due a reminder, a review request or a return visit.', 'Complaints and sensitive replies are handed over, never answered by rule.'],
+  ['05', 'Run', 'Keep the team informed.', 'Log activity, prepare summaries, update approved records and surface the decisions that need a person.', ['Admin', 'Stella'], 'That records, summaries and handoffs reconcile at the end of the day.', 'The decisions waiting for you arrive with the context attached.'],
+] as const;

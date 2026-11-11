@@ -39,6 +39,8 @@ const config: NextConfig = {
       { source: '/solutions/dental', destination: '/industries/healthcare/dental', permanent: true },
       { source: '/solutions/real-estate', destination: '/industries/real-estate', permanent: true },
       { source: '/solutions/banking', destination: '/industries/financial-services', permanent: true },
+      /* 2026-10-18: the salons page was removed (outside the ten sectors). */
+      { source: '/solutions/:path*', destination: '/industries', permanent: true },
     ];
   },
   async headers() {

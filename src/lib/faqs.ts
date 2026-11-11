@@ -8,39 +8,102 @@
  */
 export type Faq = { q: string; a: string };
 
-/** The homepage takes the objections a first-time visitor arrives with. */
-export const HOME_FAQS = [
+/** Content 2.0 (2026-10-17): the eighteen questions from the revised brief.
+    All of them live on /faq; the homepage shows the six asked first. */
+export const ALL_FAQS = [
   {
-    q: 'Is this a chatbot?',
-    a: 'No. A chatbot answers a question and stops. Stella coordinates a piece of work from the first contact to a booked outcome across the channels and systems you connect, and hands it to a person at the point you decide. The conversation is the smallest part of it.',
+    q: 'Is Stella just another chatbot?',
+    a: 'No. Stella is an AI General Manager that coordinates several specialist workflows, not a single question-and-answer chat. Depending on your setup, those workflows can span conversations, qualification, booking, follow-up and reporting. The scope of every workflow is agreed during configuration.',
   },
   {
-    q: 'Does it replace my team?',
-    a: 'It is configured around the work your team does not have time for: the call that arrives while they are with someone, the enquiry at ten at night, the follow-up nobody owns. The goal is more output per person, not fewer people, and the boundary between the two is something you set and can see.',
+    q: 'Will it replace my employees?',
+    a: 'It is designed to take on repetitive, high-volume and structured work, while your employees stay responsible for relationships, exceptions and decisions that need judgement. Your team sets the escalation rules and controls what Stella is allowed to do.',
   },
   {
-    q: 'What does it connect to?',
-    a: 'The channels and systems supported for your deployment, agreed during discovery and configured rather than assumed. Where a system is not connected, the workforce captures the request and routes it to a person instead of guessing.',
+    q: 'Can Stella answer calls and make outbound calls?',
+    a: 'Inbound and outbound voice workflows can be configured where supported, including routine enquiries, callback requests and appointment reminders. Phone number setup, call recording, consent rules, permitted contact hours and languages are confirmed for your market.',
   },
   {
-    q: 'How long before it is doing anything useful?',
-    a: 'It starts with one workflow, not your whole operation. Discovery establishes where capacity is being lost, the first connected journey is configured around that, and it expands from what is working. Scope and timing are confirmed in the scoping conversation.',
+    q: 'Does Stella work on WhatsApp?',
+    a: 'WhatsApp can be part of a configured workflow, subject to approved WhatsApp Business access, provider policies and the features in your deployment. Any messaging or provider fees are made clear in your proposal.',
   },
   {
-    q: 'Is there anything for sales teams?',
+    q: 'Which languages does Stella speak?',
+    a: 'Languages are agreed when your deployment is scoped. English, Arabic, Hindi, Urdu, Tagalog, French, Russian, Spanish and Turkish are among the languages we work with, but availability can differ between chat, calls and providers. Ask us to confirm the languages you need before you start.',
+  },
+  {
+    q: 'What systems can you connect to?',
+    a: 'Common categories include CRMs, calendars, booking tools, messaging channels and other business systems. We check each provider and workflow for compatibility, permissions, security and scope before confirming what will connect. The integrations page has more detail.',
+  },
+  {
+    q: 'Can Stella use our existing phone number?',
+    a: 'That depends on your current provider, country, telephony setup and support for routing or forwarding. We review your number during scoping before confirming the arrangement.',
+  },
+  {
+    q: 'Can Stella book and reschedule appointments?',
+    a: 'Yes, where your calendar or booking system is supported and connected. We define availability rules, confirmation steps, rescheduling policies and when a conflicting or unusual request goes to a person.',
+  },
+  {
+    q: 'How fast can we go live?',
+    a: 'We recommend starting with one clearly defined workflow and expanding from there. The schedule depends on channel access, integrations, testing and approvals, and you receive a confirmed timeline after discovery and scoping.',
+  },
+  {
+    q: 'What does my team have to provide?',
+    a: 'Usually your business FAQs, services and approved prices or policies, the owners of each workflow, access to the agreed systems, your language needs, and one team contact who can test scenarios and approve the final configuration.',
+  },
+  {
+    q: 'Can Stella follow up with leads who have not replied?',
+    a: 'Yes, through approved reminder and re-engagement workflows that follow your contact preferences, consent requirements, permitted frequency and escalation rules. Stella does not message people outside those rules.',
+  },
+  {
+    q: 'Can Stella send invoices or take payments?',
+    a: 'Invoicing, payment links and other financial actions are not part of every deployment. We confirm what your connected systems allow and where staff approval is required. Payment details stay with your approved payment providers and existing controls.',
+  },
+  {
+    q: 'What will I see in the dashboard?',
+    a: 'Enquiry, booking, follow-up and handoff activity within your agreed reporting scope. Revenue and payment figures appear only where a connected system can confirm them. The figures shown on this website are examples, not customer results.',
+  },
+  {
+    q: 'Is our customer data safe?',
+    a: 'Hosting, data handling, access permissions and retention depend on your deployment and are reviewed during scoping, so you see the relevant controls and documentation before you commit. Security & trust covers how we approach it.',
+  },
+  {
+    q: 'How much does HireStella cost?',
+    a: 'Your proposal depends on volume, channels, voice needs, languages, integrations, reporting, support and setup complexity. We set out the scope and any separate provider fees before you make a decision.',
+  },
+  {
+    q: 'Can we begin with a single workflow?',
+    a: 'Yes. Starting with one meaningful customer journey lets you test the fit and measure its value before expanding. Several specialists may support that single journey behind the scenes.',
+  },
+  {
+    q: 'Does every conversation run without a person involved?',
+    a: 'No. You decide what can be handled automatically and when an authorised member of staff steps in. Sensitive questions, unclear information and requests outside policy are handed over with the context attached.',
+  },
+  {
+    q: 'Is there a product for sales training?',
     a: 'Yes. Stella Sales Coach is a separate product for sales teams: AI role-play where sellers practise real customer conversations and objections, get feedback, and improve before the next live call.',
   },
 ] as const;
 
+const pick = (...i: number[]) => i.map((n) => ALL_FAQS[n]);
+
+/** The homepage takes the objections a first-time visitor arrives with. */
+export const HOME_FAQS = pick(0, 1, 3, 4, 8, 14);
+
+/** /faq, grouped the way buyers think about it. */
+export const FAQ_GROUPS = [
+  { id: 'stella', title: 'Stella and your team', items: pick(0, 1, 16, 17) },
+  { id: 'channels', title: 'Calls, messages and languages', items: pick(2, 3, 4, 6, 7, 10) },
+  { id: 'start', title: 'Getting started', items: pick(8, 9, 15, 5) },
+  { id: 'data', title: 'Data, reporting and cost', items: pick(12, 13, 11, 14) },
+];
+
 export const FAQS: Record<string, Faq[]> = {
   stella: [
-    {
-      q: 'Is Stella a chatbot?',
-      a: 'No. A chatbot answers a message. Stella is the manager layer above the specialists: she reads what is slowing the business down, decides which specialists a piece of work needs, in what order, and where a person has to take over. The conversation is how you brief her, not the product itself.',
-    },
+    ALL_FAQS[0],
     {
       q: 'Do I have to pick which specialists I want?',
-      a: 'No. All eight specialists come with every deployment. Stella recommends which ones to activate and configure first, based on your volume, channels, languages, systems and reporting needs. You are not buying them one at a time.',
+      a: 'No. The eight specialists are designed to work together, and Stella recommends which ones to activate and configure first, based on your volume, channels, languages, systems and reporting needs.',
     },
     {
       q: 'How much does Stella decide on her own?',
@@ -62,13 +125,11 @@ export const FAQS: Record<string, Faq[]> = {
     },
   ],
   integrations: [
+    ALL_FAQS[5],
+    ALL_FAQS[6],
     {
-      q: 'Which systems can HireStella connect to?',
-      a: 'Integration categories on this site describe the kinds of systems the workforce is built to work with: CRM and records, calendars, messaging channels, voice and custom APIs. A category shown here is not a claim that every product in it is supported. Specific providers and compatibility are confirmed during scoping.',
-    },
-    {
-      q: 'How many integrations are included?',
-      a: 'Starter includes three, Pro includes five, and Enterprise supports custom APIs and integrations. What matters more than the count is whether context carries from one step to the next, which is what the configuration is designed around.',
+      q: 'How many systems can we connect?',
+      a: 'That depends on your deployment and is set out in your proposal. What matters more than the count is whether context carries from one step to the next, which is what the configuration is designed around.',
     },
     {
       q: 'What happens to our data?',
@@ -76,6 +137,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
   ],
   'human-boundary': [
+    ALL_FAQS[16],
     {
       q: 'Where exactly does automation stop?',
       a: 'At the rules you set. In practice the recurring boundaries are clinical, legal and financial decisions, complaints and sensitive conversations, negotiation and anything contractual, and any moment a customer asks for a human. Those transfer to a person with the full context attached.',
@@ -90,6 +152,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
   ],
   security: [
+    ALL_FAQS[13],
     {
       q: 'Is HireStella certified or compliant with a specific standard?',
       a: 'This website makes no certification or compliance claim. Deployment requirements, permissions, data handling and retention are defined during scoping and confirmed in writing for each deployment.',
@@ -106,15 +169,33 @@ export const FAQS: Record<string, Faq[]> = {
   workforce: [
     {
       q: 'Do I pay per specialist?',
-      a: 'No. All eight specialists come with every deployment. Pricing is driven by volume, voice, languages, complexity, integrations and reporting rather than by how many roles you switch on.',
+      a: 'No. Your proposal is driven by volume, voice, languages, complexity, integrations and reporting rather than by how many roles you switch on.',
     },
     {
       q: 'Can we start with just one?',
       a: 'You can start with one workflow, which usually draws on three or four specialists in sequence. Starting with a single role in isolation tends to move the bottleneck rather than remove it.',
     },
+  ],
+  'sales-coach': [
     {
-      q: 'Is there a per-message price?',
-      a: 'There is no per-message price. Capacity is part of the plan, and the operating level is recommended based on your actual volume during scoping.',
+      q: 'Is Sales Coach part of Stella?',
+      a: 'No. Stella runs customer-facing work for your business. Sales Coach is a separate product that trains the people who sell. They work well together, but each can be scoped on its own.',
+    },
+    {
+      q: 'Do I need Stella to use Sales Coach?',
+      a: 'No. Sales Coach can be deployed for a sales team on its own. If you also run Stella, the two can be scoped together.',
+    },
+    {
+      q: 'Who builds the practice scenarios?',
+      a: 'We build them with you, from your own sales process, products and the objections your sellers actually meet. Your managers approve each scenario before the team uses it.',
+    },
+    {
+      q: 'Which languages can sellers practise in?',
+      a: 'The practice languages are confirmed during scoping, based on the markets your team sells into and what the voice providers support well.',
+    },
+    {
+      q: 'How is Sales Coach priced?',
+      a: 'Commercial terms depend on team size, scenarios and reporting, and are set out in a separate proposal.',
     },
   ],
   roi: [
@@ -134,13 +215,13 @@ export const FAQS: Record<string, Faq[]> = {
     },
     {
       q: 'Will our dashboard look like this?',
-      a: 'The structure will be familiar, but the views, metrics and records are scoped to your configuration and plan. Reporting depth differs between Starter, Pro and Enterprise.',
+      a: 'The structure will be familiar, but the views, metrics and records are scoped to your configuration. Reporting depth is agreed in your proposal.',
     },
   ],
   about: [
     {
       q: 'What does HireStella actually sell?',
-      a: 'An AI workforce orchestration platform: one AI General Manager and eight connected AI Specialists, configured around the workflows where your business loses capacity. It is sold as a configured deployment, not as software you assemble yourself.',
+      a: 'An AI workforce orchestration platform: one AI General Manager and eight connected AI specialists, configured around the workflows where your business loses enquiries, bookings and follow-ups. It is sold as a configured deployment, not as software you assemble yourself.',
     },
     {
       q: 'Where is HireStella based?',
@@ -148,6 +229,7 @@ export const FAQS: Record<string, Faq[]> = {
     },
   ],
   team: [
+    ALL_FAQS[15],
     {
       q: 'How does an engagement start?',
       a: 'With a conversation about the work that is not moving. We map the workflows creating pressure, the channels and systems involved, and where human judgement has to stay, before anything is configured.',
